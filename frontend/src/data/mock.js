@@ -209,17 +209,17 @@ Citrat → izocitrat → α-cetoglutarat → succinil-CoA → succinat → fumar
 const withSubject = (key) =>
   Object.entries(content).flatMap(([subjectId, c]) => (c[key] ?? []).map((x) => ({ ...x, subjectId })))
 
-// Voturi demo stabile pentru rezumatele de încredere (aceeași valoare la fiecare încărcare).
-const demoVotes = (id) => [...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 997, 7) % 48 + 6
+// Voturi demo pentru rezumatele de încredere: ~3 pe materie trec pragul de „Recomandat".
+const DEMO_VOTES = [34, 12, 27, 8, 19, 41, 15, 22]
 
 const trustedMaterials = Object.entries(trusted).flatMap(([subjectId, list]) =>
-  list.map((t) => ({
+  list.map((t, i) => ({
     ...t,
     subjectId,
     type: 'summary',
     source: 'trusted',
     author: 'Echipa StudentMed',
-    upvotes: demoVotes(t.id),
+    upvotes: DEMO_VOTES[i % DEMO_VOTES.length],
     recommended: false,
     createdAt: '2026-10-01',
   })),

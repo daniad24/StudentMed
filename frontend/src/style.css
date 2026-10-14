@@ -145,7 +145,7 @@ body {
   .prose-med ol { @apply my-2 list-decimal pl-6 space-y-1; }
   .prose-med strong { @apply font-extrabold; }
   .prose-med blockquote { @apply my-3 rounded-2xl border-l-4 border-amber-400 bg-amber-50 px-4 py-2; }
-  .prose-med table { @apply my-3 w-full text-sm; }
+  .prose-med table { @apply my-3 block w-full max-w-full overflow-x-auto text-sm; }
   .prose-med th { @apply border-b-2 border-gray-200 p-2 text-left font-extrabold; }
   .prose-med td { @apply border-b border-gray-100 p-2; }
   .prose-med code { @apply rounded bg-gray-100 px-1 text-sm; }

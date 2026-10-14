@@ -4,7 +4,7 @@ export default [
     id: 'ana-t1',
     title: 'Osteologia craniului: oase, suturi, fose și orificii',
     topic: 'Capul și gâtul',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Organizare generală
 Craniul are două componente:
 - **Neurocraniul** (cutia craniană) – 8 oase: **frontal**, **occipital**, **sfenoid**, **etmoid** (nepereche) și **parietale**, **temporale** (pereche).
@@ -120,7 +120,7 @@ Vertebre speciale:
     id: 'ana-t3',
     title: 'Membrul superior: mușchi pe compartimente, vase și leziuni de nervi',
     topic: 'Membrul superior',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Mușchii pe compartimente și inervația lor
 Regula de bază: **fiecare compartiment are un nerv principal**.
 
@@ -174,7 +174,7 @@ Delimitat de oasele carpiene și **retinaculul flexorilor**. Conține **nervul m
     id: 'ana-t4',
     title: 'Membrul inferior: plexul lombosacrat, mușchi și vase',
     topic: 'Membrul inferior',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Plexul lombar (rădăcini L1–L4, cu contribuție din T12)
 Se formează în grosimea mușchiului psoas mare. Ramuri principale:
 - **Iliohipogastric** și **ilioinghinal** – peretele abdominal inferior și regiunea inghinală.
@@ -230,7 +230,7 @@ Fesierul mare este principalul extensor al șoldului; fesierii **mijlociu și mi
     id: 'ana-t5',
     title: 'Nervii cranieni I–XII: tabel complet și leziuni',
     topic: 'Neuroanatomie',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Originea aparentă
 - **I și II** – nu sunt nervi propriu-ziși, ci prelungiri ale prosencefalului.
 - **III și IV** – mezencefal (IV este singurul care iese pe **fața dorsală** a trunchiului și se încrucișează).
@@ -287,7 +287,7 @@ Nervii cu fibre **parasimpatice**: **III, VII, IX, X**.
     id: 'ana-t6',
     title: 'Mediastinul și vasele mari',
     topic: 'Toracele',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Limite și diviziuni
 Mediastinul este spațiul median al toracelui, între cele două pleure, de la apertura toracică superioară până la diafragm, între stern și coloana toracală.
 
@@ -343,7 +343,7 @@ Un plan orizontal care trece prin **unghiul sternal (Louis)** și discul **T4–
     id: 'ana-t7',
     title: 'Peritoneul și etajul supramezocolic',
     topic: 'Abdomenul',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Peritoneul – noțiuni de bază
 - **Peritoneul parietal** căptușește pereții; are inervație somatică, deci durerea este bine localizată.
 - **Peritoneul visceral** acoperă organele; durerea este vagă, slab localizată.
