@@ -28,10 +28,10 @@ function optionClass(opt, i) {
 <template>
   <div>
     <span
-      class="chip mb-2"
+      class="chip mb-2 whitespace-normal"
       :class="isMulti(question) ? 'bg-violet-100 text-violet-700' : 'bg-gray-100 text-muted'"
     >
-      {{ isMulti(question) ? 'Complement multiplu · bifează toate variantele corecte' : 'Complement simplu · un singur răspuns' }}
+      {{ isMulti(question) ? 'Complement multiplu · bifează toate răspunsurile corecte' : 'Complement simplu · un singur răspuns' }}
     </span>
     <h1 :key="question.id" class="text-xl font-black leading-snug sm:text-2xl slide-up">{{ question.text }}</h1>
 
