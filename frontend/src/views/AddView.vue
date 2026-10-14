@@ -73,7 +73,7 @@ function submit() {
         <label class="label" for="subject">Materie</label>
         <select id="subject" v-model="subjectId" class="input">
           <optgroup v-for="y in years" :key="y.id" :label="y.name">
-            <option v-for="s in subjects.filter((x) => x.year === y.id)" :key="s.id" :value="s.id">{{ s.emoji }} {{ s.name }}</option>
+            <option v-for="s in subjects.filter((x) => x.years[0] === y.id)" :key="s.id" :value="s.id">{{ s.emoji }} {{ s.name }}</option>
           </optgroup>
         </select>
       </div>

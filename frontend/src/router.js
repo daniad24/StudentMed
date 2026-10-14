@@ -11,6 +11,7 @@ const routes = [
   { path: '/pauza', name: 'quiz-pick', component: () => import('./views/QuizPickView.vue') },
   { path: '/pauza/:subjectId', name: 'quiz', component: () => import('./views/QuizView.vue'), meta: { focus: true } },
   { path: '/simulare', name: 'exam', component: () => import('./views/ExamView.vue'), meta: { focus: true } },
+  { path: '/rezidentiat', name: 'rezidentiat', component: () => import('./views/RezidentiatView.vue') },
   { path: '/cauta', name: 'search', component: () => import('./views/SearchView.vue') },
   { path: '/clasament', name: 'leaderboard', component: () => import('./views/LeaderboardView.vue') },
   { path: '/statistici', name: 'stats', component: () => import('./views/StatsView.vue') },

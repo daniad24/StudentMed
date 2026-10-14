@@ -5,7 +5,9 @@ import { subjects } from '../data/mock'
 import AppIcon from '../components/AppIcon.vue'
 
 const store = useAppStore()
-const list = computed(() => subjects.map((s) => ({ ...s, count: store.questionsFor(s.id).length })))
+const list = computed(() =>
+  subjects.map((s) => ({ ...s, count: store.questionsFor(s.id).length })).filter((s) => s.count > 0),
+)
 </script>
 
 <template>

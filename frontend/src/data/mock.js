@@ -1,36 +1,84 @@
 // Date de test pentru mock. Vor fi înlocuite de API-ul Go + PostgreSQL.
-import anatomie from './content/anatomie'
-import biochimie from './content/biochimie'
-import histologie from './content/histologie'
-import fiziologie from './content/fiziologie'
-import microbiologie from './content/microbiologie'
-import farmacologie from './content/farmacologie'
-import semiologie from './content/semiologie'
+// Conținut pe materii: data/content/<materie>.js (grile, cartonașe, materiale ale comunității).
+const loadDir = (modules) =>
+  Object.fromEntries(Object.entries(modules).map(([path, mod]) => [path.match(/([\w-]+)\.js$/)[1], mod]))
 
-const content = { anatomie, biochimie, histologie, fiziologie, microbiologie, farmacologie, semiologie }
+const content = loadDir(import.meta.glob('./content/*.js', { eager: true, import: 'default' }))
 
 // Rezumate scrise și verificate de echipa aplicației („Surse de încredere"): data/trusted/<materie>.js
-const trusted = Object.fromEntries(
-  Object.entries(import.meta.glob('./trusted/*.js', { eager: true, import: 'default' })).map(([path, list]) => [
-    path.match(/([\w-]+)\.js$/)[1],
-    list,
-  ]),
-)
+const trusted = loadDir(import.meta.glob('./trusted/*.js', { eager: true, import: 'default' }))
 
 export const years = [
   { id: 1, name: 'Anul I' },
   { id: 2, name: 'Anul II' },
   { id: 3, name: 'Anul III' },
+  { id: 4, name: 'Anul IV' },
+  { id: 5, name: 'Anul V' },
+  { id: 6, name: 'Anul VI' },
 ]
 
+// Ordinea pe ani după planul de învățământ UMF „Carol Davila” București (2025–2026).
+// `years` = anii în care se studiază; `rez` = capitol de rezidențiat (carte + pondere orientativă).
+const C = {
+  rose: 'bg-rose-100 text-rose-700 border-rose-200',
+  violet: 'bg-violet-100 text-violet-700 border-violet-200',
+  sky: 'bg-sky-100 text-sky-700 border-sky-200',
+  red: 'bg-red-100 text-red-700 border-red-200',
+  lime: 'bg-lime-100 text-lime-700 border-lime-200',
+  amber: 'bg-amber-100 text-amber-700 border-amber-200',
+  teal: 'bg-teal-100 text-teal-700 border-teal-200',
+  orange: 'bg-orange-100 text-orange-700 border-orange-200',
+  gray: 'bg-gray-100 text-muted border-gray-200',
+}
+
 export const subjects = [
-  { id: 'anatomie', name: 'Anatomie', year: 1, emoji: '🦴', color: 'bg-rose-100 text-rose-700 border-rose-200' },
-  { id: 'biochimie', name: 'Biochimie', year: 1, emoji: '🧪', color: 'bg-violet-100 text-violet-700 border-violet-200' },
-  { id: 'histologie', name: 'Histologie', year: 1, emoji: '🔬', color: 'bg-sky-100 text-sky-700 border-sky-200' },
-  { id: 'fiziologie', name: 'Fiziologie', year: 2, emoji: '❤️', color: 'bg-red-100 text-red-700 border-red-200' },
-  { id: 'microbiologie', name: 'Microbiologie', year: 2, emoji: '🦠', color: 'bg-lime-100 text-lime-700 border-lime-200' },
-  { id: 'farmacologie', name: 'Farmacologie', year: 3, emoji: '💊', color: 'bg-amber-100 text-amber-700 border-amber-200' },
-  { id: 'semiologie', name: 'Semiologie', year: 3, emoji: '🩺', color: 'bg-teal-100 text-teal-700 border-teal-200' },
+  // Anul I
+  { id: 'anatomie', name: 'Anatomie și embriologie', years: [1, 2], emoji: '🦴', color: C.rose },
+  { id: 'biochimie', name: 'Biochimie', years: [1], emoji: '🧪', color: C.violet },
+  { id: 'fiziologie', name: 'Fiziologie', years: [1, 2], emoji: '❤️', color: C.red },
+  { id: 'biologie-celulara', name: 'Biologie celulară și moleculară', years: [1], emoji: '🧬', color: C.teal },
+  { id: 'biofizica', name: 'Biofizică', years: [1], emoji: '⚡', color: C.amber },
+  { id: 'genetica', name: 'Genetică medicală', years: [1], emoji: '🧬', color: C.violet },
+  { id: 'psihologie-medicala', name: 'Psihologie medicală și comunicare', years: [1], emoji: '💬', color: C.sky },
+  // Anul II
+  { id: 'histologie', name: 'Histologie', years: [2], emoji: '🔬', color: C.sky },
+  { id: 'biochimie-clinica', name: 'Biochimie clinică', years: [2], emoji: '🧫', color: C.violet },
+  // Anul III
+  { id: 'semiologie', name: 'Semiologie medicală', years: [3], emoji: '🩺', color: C.teal },
+  { id: 'fiziopatologie', name: 'Fiziopatologie', years: [3], emoji: '🌡️', color: C.orange },
+  { id: 'farmacologie', name: 'Farmacologie', years: [3], emoji: '💊', color: C.amber },
+  { id: 'microbiologie', name: 'Microbiologie', years: [3], emoji: '🦠', color: C.lime },
+  { id: 'imunologie', name: 'Imunologie', years: [3], emoji: '🛡️', color: C.sky },
+  { id: 'anatomie-patologica', name: 'Anatomie patologică', years: [3], emoji: '🔎', color: C.rose },
+  { id: 'igiena', name: 'Igienă', years: [3], emoji: '🧼', color: C.lime },
+  // Anul IV
+  { id: 'cardiologie', name: 'Cardiologie', years: [4], emoji: '🫀', color: C.red, rez: { book: 'Kumar & Clark', weight: 'cel mai mare capitol' } },
+  { id: 'pneumologie', name: 'Pneumologie', years: [4], emoji: '🫁', color: C.sky, rez: { book: 'Kumar & Clark', weight: 'frecvent' } },
+  { id: 'gastroenterologie', name: 'Gastroenterologie și hepatologie', years: [4], emoji: '🍽️', color: C.orange, rez: { book: 'Kumar & Clark', weight: 'frecvent' } },
+  { id: 'chirurgie', name: 'Chirurgie generală și semiologie chirurgicală', years: [4, 5], emoji: '🔪', color: C.gray, rez: { book: 'Lawrence', weight: 'frecvent' } },
+  { id: 'ortopedie', name: 'Ortopedie și traumatologie', years: [4], emoji: '🦿', color: C.amber, rez: { book: 'Lawrence', weight: 'cel mai mare capitol din Lawrence' } },
+  { id: 'oncologie', name: 'Oncologie medicală', years: [4], emoji: '🎗️', color: C.violet },
+  { id: 'radiologie', name: 'Radiologie și imagistică', years: [4], emoji: '🩻', color: C.gray },
+  { id: 'farmacologie-clinica', name: 'Farmacologie clinică', years: [4], emoji: '💉', color: C.amber },
+  // Anul V
+  { id: 'nefrologie', name: 'Nefrologie', years: [5], emoji: '🫘', color: C.rose, rez: { book: 'Kumar & Clark', weight: 'frecvent' } },
+  { id: 'neurologie', name: 'Neurologie', years: [5], emoji: '🧠', color: C.violet, rez: { book: 'Kumar & Clark', weight: 'frecvent' } },
+  { id: 'endocrinologie-si-diabet', name: 'Endocrinologie, diabet și nutriție', years: [5], emoji: '🩸', color: C.orange, rez: { book: 'Kumar & Clark', weight: 'frecvent' } },
+  { id: 'reumatologie', name: 'Reumatologie', years: [5], emoji: '🦴', color: C.teal, rez: { book: 'Kumar & Clark', weight: 'mediu' } },
+  { id: 'pediatrie', name: 'Pediatrie și puericultură', years: [5], emoji: '🧸', color: C.sky },
+  { id: 'urologie', name: 'Urologie', years: [5], emoji: '💧', color: C.lime, rez: { book: 'Lawrence', weight: 'frecvent' } },
+  { id: 'sanatate-publica', name: 'Sănătate publică și management', years: [5], emoji: '🏥', color: C.gray },
+  // Anul VI
+  { id: 'obstetrica-ginecologie', name: 'Obstetrică-ginecologie', years: [6], emoji: '🤰', color: C.rose },
+  { id: 'boli-infectioase', name: 'Boli infecțioase', years: [6], emoji: '🦠', color: C.lime, rez: { book: 'Kumar & Clark', weight: 'mediu' } },
+  { id: 'hematologie', name: 'Hematologie', years: [6], emoji: '🩸', color: C.red, rez: { book: 'Kumar & Clark', weight: 'mediu' } },
+  { id: 'psihiatrie', name: 'Psihiatrie', years: [6], emoji: '🧠', color: C.sky },
+  { id: 'orl', name: 'ORL', years: [6], emoji: '👂', color: C.amber, rez: { book: 'Lawrence', weight: 'frecvent' } },
+  { id: 'oftalmologie', name: 'Oftalmologie', years: [6], emoji: '👁️', color: C.teal },
+  { id: 'dermatologie', name: 'Dermatovenerologie', years: [6], emoji: '🧴', color: C.orange },
+  { id: 'medicina-legala', name: 'Medicină legală', years: [6], emoji: '⚖️', color: C.gray },
+  { id: 'medicina-de-familie', name: 'Medicină de familie', years: [6], emoji: '👨‍⚕️', color: C.teal },
+  { id: 'ati-urgente', name: 'ATI și medicină de urgență', years: [6], emoji: '🚑', color: C.red },
 ]
 
 const baseMaterials = [

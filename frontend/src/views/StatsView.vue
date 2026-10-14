@@ -43,6 +43,7 @@ const perSubject = computed(() =>
         totalCards: cards.total,
       }
     })
+    .filter((s) => s.answered || s.totalCards)
     .sort((a, b) => (a.pct ?? 101) - (b.pct ?? 101)),
 )
 

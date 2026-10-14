@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onUnmounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAppStore, XP } from '../stores/app'
 import { subjects } from '../data/mock'
 import { correctTexts, formatTime, isCorrectSelection, prepareQuestion, shuffle } from '../lib/quiz'
@@ -8,15 +8,18 @@ import BackButton from '../components/BackButton.vue'
 import AppIcon from '../components/AppIcon.vue'
 import QuestionCard from '../components/QuestionCard.vue'
 
+const route = useRoute()
 const router = useRouter()
 const store = useAppStore()
 
 // --- Configurare ---
+// ?mod=rezidentiat preselectează capitolele de rezidențiat.
+const rezMode = route.query.mod === 'rezidentiat'
 const available = subjects
   .map((s) => ({ ...s, count: store.questionsFor(s.id).length }))
-  .filter((s) => s.count > 0)
+  .filter((s) => s.count > 0 && (!rezMode || s.rez))
 const picked = ref(available.map((s) => s.id))
-const size = ref(30)
+const size = ref(rezMode ? 50 : 30)
 const pool = computed(() => picked.value.flatMap((id) => store.questionsFor(id)))
 
 function togglePick(id) {
@@ -90,8 +93,8 @@ const wrong = computed(() => results.value.filter((r) => !r.correct))
     <!-- Configurare -->
     <div v-if="phase === 'setup'" class="space-y-5">
       <header class="flex items-center gap-3 slide-up">
-        <BackButton to="/" />
-        <h1 class="text-2xl font-black">🎓 Simulare examen</h1>
+        <BackButton :to="rezMode ? '/rezidentiat' : '/'" />
+        <h1 class="text-2xl font-black">{{ rezMode ? '🎯 Simulare rezidențiat' : '🎓 Simulare examen' }}</h1>
       </header>
       <p class="font-semibold text-muted">
         Grile amestecate din materiile alese, fără feedback pe parcurs. Ai 1 minut pe grilă. Rezultatele le vezi la final.
@@ -113,7 +116,7 @@ const wrong = computed(() => results.value.filter((r) => !r.correct))
 
         <h2 class="pt-2 font-black">Număr de grile</h2>
         <div class="grid grid-cols-3 gap-2">
-          <button v-for="n in [20, 30, 50]" :key="n" class="btn py-2" :class="size === n ? 'btn-primary' : 'btn-white'" @click="size = n">
+          <button v-for="n in rezMode ? [50, 100, 200] : [20, 30, 50]" :key="n" class="btn py-2" :class="size === n ? 'btn-primary' : 'btn-white'" @click="size = n">
             {{ n }}
           </button>
         </div>
