@@ -4,7 +4,7 @@ export default [
     id: 'pne-t1',
     title: 'Astmul bronșic vs BPOC',
     topic: 'Bolile obstructive ale căilor aeriene',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Două boli obstructive, două mecanisme
 
 **Astmul bronșic** este o boală inflamatorie cronică a căilor aeriene, cu **hiperreactivitate bronșică** și **obstrucție variabilă, reversibilă** spontan sau sub tratament. Inflamația este predominant **eozinofilică**, adesea pe fond atopic.
@@ -67,7 +67,7 @@ export default [
     id: 'pne-t2',
     title: 'Pneumoniile comunitare',
     topic: 'Infecțiile tractului respirator inferior',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Definiție și clasificare
 
 **Pneumonia** este inflamația acută a parenchimului pulmonar, de regulă infecțioasă, cu opacitate nouă pe radiografie. Clasificarea practică se face după locul dobândirii:
@@ -137,7 +137,7 @@ Scorul **CURB-65** însumează: **C**onfuzie, **U**ree crescută, frecvență **
     id: 'pne-t3',
     title: 'Tuberculoza pulmonară',
     topic: 'Infecțiile tractului respirator inferior',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Agent și transmitere
 
 **Mycobacterium tuberculosis** este un bacil **acido-alcoolo-rezistent (BAAR)**, colorat **Ziehl-Neelsen**, cu creștere foarte lentă pe medii speciale (Löwenstein-Jensen, medii lichide). Se transmite **aerogen**, prin picături eliminate de bolnavii cu leziuni pulmonare deschise (bacilifere).
@@ -209,7 +209,7 @@ Factori de risc: infecția HIV, malnutriția, alcoolismul, diabetul, corticotera
     id: 'pne-t4',
     title: 'Cancerul bronhopulmonar',
     topic: 'Oncologie toracică',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Epidemiologie și factori de risc
 
 Cancerul bronhopulmonar este una dintre principalele cauze de deces prin cancer. **Fumatul** (activ și pasiv) este factorul de risc dominant. Alți factori: **azbestul** (sinergic cu fumatul), radonul, expunerile profesionale (arsen, crom, nichel), fibroza pulmonară.
