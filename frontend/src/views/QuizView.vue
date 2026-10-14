@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects } from '../data/mock'
 import { correctTexts, formatTime, isCorrectSelection, prepareQuestion, shuffle } from '../lib/quiz'
+import BackButton from '../components/BackButton.vue'
 import QuestionCard from '../components/QuestionCard.vue'
 import ReportDialog from '../components/ReportDialog.vue'
 
@@ -86,7 +87,7 @@ function onReport(reason) {
 <template>
   <div class="flex min-h-[92dvh] flex-col">
     <header class="flex items-center gap-3">
-      <button class="btn btn-white px-3 py-2" aria-label="Închide" @click="router.push('/pauza')">✕</button>
+      <BackButton icon="close" to="/pauza" />
       <div class="h-4 flex-1 overflow-hidden rounded-full bg-gray-200">
         <div
           class="h-full rounded-full bg-sky-500 transition-all duration-500"

@@ -1,14 +1,14 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 import { useAppStore } from '../stores/app'
 import { subjects } from '../data/mock'
+import BackButton from '../components/BackButton.vue'
 import ReportDialog from '../components/ReportDialog.vue'
 
 const route = useRoute()
-const router = useRouter()
 const store = useAppStore()
 
 const material = computed(() => store.allMaterials.find((m) => m.id === route.params.id))
@@ -34,7 +34,7 @@ function onReport(reason) {
 <template>
   <div v-if="material" class="space-y-4">
     <header class="flex items-center gap-3 slide-up">
-      <button class="btn btn-white px-3 py-2" aria-label="Înapoi" @click="router.back()">‹</button>
+      <BackButton :to="`/materie/${material.subjectId}`" history />
       <p class="font-extrabold text-muted">{{ subject?.emoji }} {{ subject?.name }}</p>
     </header>
 

@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router'
 import { useAppStore, XP } from '../stores/app'
 import { subjects } from '../data/mock'
 import { correctTexts, formatTime, isCorrectSelection, prepareQuestion, shuffle } from '../lib/quiz'
+import BackButton from '../components/BackButton.vue'
+import AppIcon from '../components/AppIcon.vue'
 import QuestionCard from '../components/QuestionCard.vue'
 
 const router = useRouter()
@@ -88,7 +90,7 @@ const wrong = computed(() => results.value.filter((r) => !r.correct))
     <!-- Configurare -->
     <div v-if="phase === 'setup'" class="space-y-5">
       <header class="flex items-center gap-3 slide-up">
-        <button class="btn btn-white px-3 py-2" aria-label="Înapoi" @click="router.push('/')">‹</button>
+        <BackButton to="/" />
         <h1 class="text-2xl font-black">🎓 Simulare examen</h1>
       </header>
       <p class="font-semibold text-muted">
@@ -157,8 +159,8 @@ const wrong = computed(() => results.value.filter((r) => !r.correct))
 
       <div class="flex-1"></div>
       <div class="mt-6 grid grid-cols-2 gap-2">
-        <button class="btn btn-white" :disabled="index === 0" @click="index--">‹ Înapoi</button>
-        <button v-if="index < questions.length - 1" class="btn btn-blue" @click="index++">Următoarea ›</button>
+        <button class="btn btn-white" :disabled="index === 0" @click="index--"><AppIcon name="back" :size="18" /> Înapoi</button>
+        <button v-if="index < questions.length - 1" class="btn btn-blue" @click="index++">Următoarea <AppIcon name="forward" :size="18" /></button>
         <button v-else class="btn btn-primary" @click="confirmFinish = true">Predă</button>
       </div>
 

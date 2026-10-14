@@ -5,6 +5,7 @@ import { useAppStore } from '../stores/app'
 import { questions, subjects } from '../data/mock'
 import { normalize, snippet } from '../lib/text'
 import { correctTexts } from '../lib/quiz'
+import BackButton from '../components/BackButton.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -39,7 +40,7 @@ const suggestions = ['nervul frenic', 'glicoliza', 'surfactant', 'Gram', 'beta-b
 <template>
   <div class="space-y-5">
     <header class="flex items-center gap-3 slide-up">
-      <button class="btn btn-white px-3 py-2" aria-label="Înapoi" @click="router.back()">‹</button>
+      <BackButton to="/" history />
       <div class="relative flex-1">
         <span class="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-lg">🔍</span>
         <input

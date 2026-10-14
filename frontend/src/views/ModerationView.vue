@@ -1,15 +1,14 @@
 <script setup>
-import { useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
+import BackButton from '../components/BackButton.vue'
 
 const store = useAppStore()
-const router = useRouter()
 </script>
 
 <template>
   <div class="space-y-5">
     <header class="flex items-center gap-3 slide-up">
-      <button class="btn btn-white px-3 py-2" aria-label="Înapoi" @click="router.push('/profil')">‹</button>
+      <BackButton to="/profil" />
       <h1 class="text-2xl font-black">🛡️ Moderare</h1>
     </header>
 

@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects } from '../data/mock'
+import BackButton from '../components/BackButton.vue'
 import ReportDialog from '../components/ReportDialog.vue'
 
 const route = useRoute()
@@ -60,7 +61,7 @@ function onReport(reason) {
 <template>
   <div class="flex min-h-[92dvh] flex-col">
     <header class="flex items-center gap-3">
-      <button class="btn btn-white px-3 py-2" aria-label="Închide" @click="router.push(`/materie/${subject.id}?tab=flashcards`)">✕</button>
+      <BackButton icon="close" :to="`/materie/${subject.id}?tab=flashcards`" />
       <div class="h-4 flex-1 overflow-hidden rounded-full bg-gray-200">
         <div class="h-full rounded-full bg-brand-500 transition-all duration-500" :style="{ width: `${progress}%` }"></div>
       </div>
@@ -107,7 +108,7 @@ function onReport(reason) {
       </div>
       <button v-else class="btn btn-primary w-full" @click="flipped = true">Arată răspunsul</button>
 
-      <button class="mt-3 text-sm font-bold text-muted" @click="reporting = true">🚩 Raportează cartonașul</button>
+      <button class="mt-2 py-2.5 text-sm font-bold text-muted" @click="reporting = true">🚩 Raportează cartonașul</button>
       <p v-if="reported" class="mt-2 text-center text-sm font-bold text-brand-700 pop-in">Mulțumim, am trimis raportarea!</p>
     </template>
 

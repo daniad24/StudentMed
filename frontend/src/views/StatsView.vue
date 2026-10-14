@@ -1,10 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { useAppStore, today, addDays } from '../stores/app'
 import { subjects } from '../data/mock'
+import BackButton from '../components/BackButton.vue'
 
-const router = useRouter()
 const store = useAppStore()
 
 const DAYS = 14
@@ -59,7 +58,7 @@ function level(pct) {
 <template>
   <div class="space-y-5">
     <header class="flex items-center gap-3 slide-up">
-      <button class="btn btn-white px-3 py-2" aria-label="Înapoi" @click="router.push('/profil')">‹</button>
+      <BackButton to="/profil" history />
       <h1 class="text-2xl font-black">📊 Statistici</h1>
     </header>
 

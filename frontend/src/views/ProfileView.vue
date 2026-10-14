@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
+import AppIcon from '../components/AppIcon.vue'
 
 const store = useAppStore()
 const router = useRouter()
@@ -58,7 +59,7 @@ function logout() {
         <span class="block font-black">Statistici</span>
         <span class="block text-sm font-semibold text-muted">Activitate pe zile și unde greșești cel mai des</span>
       </span>
-      <span class="text-2xl font-black text-muted">›</span>
+      <AppIcon name="forward" class="text-muted" />
     </RouterLink>
 
     <section class="card p-5">

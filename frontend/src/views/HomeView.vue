@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useAppStore, today, addDays } from '../stores/app'
 import { subjects } from '../data/mock'
+import AppIcon from '../components/AppIcon.vue'
 
 const store = useAppStore()
 
@@ -11,6 +12,8 @@ const greeting = computed(() => {
   if (h < 18) return 'Salut'
   return 'Bună seara'
 })
+
+const firstName = computed(() => (store.user?.name ?? '').split(/\s+/)[0])
 
 const dayLetters = ['D', 'L', 'Ma', 'Mi', 'J', 'V', 'S']
 const week = computed(() => {
@@ -41,10 +44,10 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
 
 <template>
   <div class="space-y-5">
-    <header class="flex items-center justify-between slide-up">
-      <div>
+    <header class="flex items-center justify-between gap-3 slide-up">
+      <div class="min-w-0">
         <p class="font-bold text-muted">{{ greeting }},</p>
-        <h1 class="text-2xl font-black">{{ store.user?.name }} 👋</h1>
+        <h1 class="truncate text-2xl font-black">{{ firstName }} 👋</h1>
       </div>
       <div class="flex items-center gap-2">
         <RouterLink to="/cauta" class="btn btn-white px-3 py-2" aria-label="Caută">🔍</RouterLink>
@@ -91,7 +94,7 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
           <p class="text-xl font-black">Pauza de gardă</p>
           <p class="text-sm font-semibold text-white/90">10 grile rapide în 3 minute. Ideal la stagiu sau în tramvai.</p>
         </div>
-        <div class="text-3xl font-black">›</div>
+        <AppIcon name="forward" :size="28" />
       </div>
     </RouterLink>
 
@@ -102,7 +105,7 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
         <p class="font-black">Simulare de examen</p>
         <p class="text-sm font-semibold text-muted">20–50 de grile amestecate, ca la colocviu</p>
       </div>
-      <span class="text-2xl font-black text-violet-700">›</span>
+      <AppIcon name="forward" class="text-violet-700" />
     </RouterLink>
 
     <!-- De repetat -->

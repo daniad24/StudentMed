@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects } from '../data/mock'
+import BackButton from '../components/BackButton.vue'
 import MaterialItem from '../components/MaterialItem.vue'
 
 const route = useRoute()
@@ -37,7 +38,7 @@ const multiCount = computed(() => store.questionsFor(route.params.id).filter((q)
 <template>
   <div v-if="subject" class="space-y-5">
     <header class="flex items-center gap-3 slide-up">
-      <button class="btn btn-white px-3 py-2" aria-label="Înapoi" @click="router.push('/materii')">‹</button>
+      <BackButton to="/materii" />
       <span class="flex h-12 w-12 items-center justify-center rounded-2xl border-2 text-2xl" :class="subject.color">{{ subject.emoji }}</span>
       <h1 class="text-2xl font-black">{{ subject.name }}</h1>
     </header>

@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useAppStore } from '../stores/app'
 import { subjects } from '../data/mock'
+import AppIcon from '../components/AppIcon.vue'
 
 const store = useAppStore()
 const list = computed(() => subjects.map((s) => ({ ...s, count: store.questionsFor(s.id).length })))
@@ -30,7 +31,7 @@ const list = computed(() => subjects.map((s) => ({ ...s, count: store.questionsF
           <p class="font-extrabold">{{ s.name }}</p>
           <p class="text-xs font-bold text-muted">{{ s.count ? `${s.count} grile` : 'în curând' }}</p>
         </div>
-        <span v-if="s.count" class="text-2xl font-black text-sky-500">›</span>
+        <AppIcon v-if="s.count" name="forward" class="text-sky-500" />
       </component>
     </div>
   </div>

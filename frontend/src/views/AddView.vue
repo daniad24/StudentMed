@@ -98,7 +98,7 @@ function submit() {
         <div v-if="kind === 'summary'">
           <div class="mb-1 flex items-center justify-between">
             <label class="label mb-0" for="content">Rezumat</label>
-            <button type="button" class="chip bg-gray-100 text-muted" @click="preview = !preview">
+            <button type="button" class="chip bg-gray-100 px-4 py-2 text-muted" @click="preview = !preview">
               {{ preview ? '✏️ Editează' : '👁️ Previzualizare' }}
             </button>
           </div>
