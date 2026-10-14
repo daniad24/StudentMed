@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
-import { useAppStore } from '../stores/app'
+import { useAppStore, RECOMMEND_VOTES } from '../stores/app'
 import { subjects, years } from '../data/mock'
 
 const route = useRoute()
@@ -137,7 +137,8 @@ function submit() {
     </form>
 
     <p class="text-center text-xs font-semibold text-muted">
-      Materialele noi apar cu eticheta 👥 Comunitate. Cele mai bune primesc ⭐ Recomandat.
+      Materialele tale apar la 👥 Comunitate și în filtrul 👤 Ale mele. Devin ⭐ Recomandate când strâng
+      {{ RECOMMEND_VOTES }} de voturi sau când le alege adminul.
     </p>
   </div>
 </template>

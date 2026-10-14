@@ -9,6 +9,14 @@ import semiologie from './content/semiologie'
 
 const content = { anatomie, biochimie, histologie, fiziologie, microbiologie, farmacologie, semiologie }
 
+// Rezumate scrise și verificate de echipa aplicației („Surse de încredere"): data/trusted/<materie>.js
+const trusted = Object.fromEntries(
+  Object.entries(import.meta.glob('./trusted/*.js', { eager: true, import: 'default' })).map(([path, list]) => [
+    path.match(/([\w-]+)\.js$/)[1],
+    list,
+  ]),
+)
+
 export const years = [
   { id: 1, name: 'Anul I' },
   { id: 2, name: 'Anul II' },
@@ -201,7 +209,27 @@ Citrat → izocitrat → α-cetoglutarat → succinil-CoA → succinat → fumar
 const withSubject = (key) =>
   Object.entries(content).flatMap(([subjectId, c]) => (c[key] ?? []).map((x) => ({ ...x, subjectId })))
 
-export const materials = [...baseMaterials, ...withSubject('materials')]
+// Voturi demo stabile pentru rezumatele de încredere (aceeași valoare la fiecare încărcare).
+const demoVotes = (id) => [...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 997, 7) % 48 + 6
+
+const trustedMaterials = Object.entries(trusted).flatMap(([subjectId, list]) =>
+  list.map((t) => ({
+    ...t,
+    subjectId,
+    type: 'summary',
+    source: 'trusted',
+    author: 'Echipa StudentMed',
+    upvotes: demoVotes(t.id),
+    recommended: false,
+    createdAt: '2026-10-01',
+  })),
+)
+
+// `recommended` din date = marcat de admin; recomandarea prin voturi se calculează în store.
+export const materials = [
+  ...trustedMaterials,
+  ...[...baseMaterials, ...withSubject('materials')].map((m) => ({ source: 'community', ...m })),
+]
 export const flashcards = withSubject('flashcards')
 
 // Grile: `type` 'single' (complement simplu) sau 'multi' (complement multiplu); `answer` = indicii corecți.

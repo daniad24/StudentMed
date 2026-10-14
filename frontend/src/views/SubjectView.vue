@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useAppStore } from '../stores/app'
+import { useAppStore, RECOMMEND_VOTES } from '../stores/app'
 import { subjects } from '../data/mock'
 import BackButton from '../components/BackButton.vue'
 import MaterialItem from '../components/MaterialItem.vue'
@@ -17,17 +17,22 @@ const setTab = (t) => router.replace({ query: { tab: t } })
 const filter = ref('all')
 const filters = [
   { id: 'all', label: 'Toate' },
+  { id: 'trusted', label: '✅ De încredere' },
   { id: 'recommended', label: '⭐ Recomandate' },
-  { id: 'summary', label: '📝 Rezumate' },
-  { id: 'link', label: '🔗 Linkuri' },
+  { id: 'community', label: '👥 Comunitate' },
+  { id: 'mine', label: '👤 Ale mele' },
 ]
 
-const materials = computed(() => {
-  const list = store.materialsFor(route.params.id)
-  if (filter.value === 'recommended') return list.filter((m) => m.recommended)
-  if (filter.value === 'summary' || filter.value === 'link') return list.filter((m) => m.type === filter.value)
-  return list
-})
+const allMaterials = computed(() => store.materialsFor(route.params.id))
+const filterTests = {
+  all: () => true,
+  trusted: (m) => m.source === 'trusted',
+  recommended: (m) => m.recommended,
+  community: (m) => m.source !== 'trusted' && !m.mine,
+  mine: (m) => m.mine,
+}
+const countFor = (id) => allMaterials.value.filter(filterTests[id]).length
+const materials = computed(() => allMaterials.value.filter(filterTests[filter.value]))
 
 const stats = computed(() => store.cardStats(route.params.id))
 const cards = computed(() => store.cardsFor(route.params.id))
@@ -65,18 +70,18 @@ const multiCount = computed(() => store.questionsFor(route.params.id).filter((q)
           :class="filter === f.id ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-gray-200 bg-surface text-muted'"
           @click="filter = f.id"
         >
-          {{ f.label }}
+          {{ f.label }} <span class="opacity-60">{{ countFor(f.id) }}</span>
         </button>
       </div>
       <p v-if="store.isAdmin" class="rounded-2xl bg-amber-50 px-4 py-2 text-sm font-bold text-amber-800">
-        Mod admin: apasă ⭐ ca să marchezi un material ca Recomandat.
+        Mod admin: apasă ⭐ ca să recomanzi un material. Materialele cu peste {{ RECOMMEND_VOTES }} de voturi devin recomandate automat.
       </p>
       <TransitionGroup name="fade" tag="div" class="space-y-2">
         <MaterialItem v-for="m in materials" :key="m.id" :material="m" />
       </TransitionGroup>
       <div v-if="!materials.length" class="card p-6 text-center">
         <p class="text-3xl">📭</p>
-        <p class="font-extrabold">Niciun material încă</p>
+        <p class="font-extrabold">{{ filter === 'mine' ? 'Nu ai adăugat încă nimic aici' : 'Niciun material în această categorie' }}</p>
         <p class="text-sm font-semibold text-muted">Fii primul care adaugă ceva util!</p>
       </div>
       <RouterLink :to="`/adauga?materie=${subject.id}&tip=material`" class="btn btn-white w-full">➕ Adaugă material</RouterLink>

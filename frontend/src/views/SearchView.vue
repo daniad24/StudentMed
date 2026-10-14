@@ -5,6 +5,7 @@ import { useAppStore } from '../stores/app'
 import { questions, subjects } from '../data/mock'
 import { normalize, snippet } from '../lib/text'
 import { correctTexts } from '../lib/quiz'
+import MaterialBadges from '../components/MaterialBadges.vue'
 import BackButton from '../components/BackButton.vue'
 
 const route = useRoute()
@@ -75,6 +76,7 @@ const suggestions = ['nervul frenic', 'glicoliza', 'surfactant', 'Gram', 'beta-b
         <div class="space-y-2">
           <RouterLink v-for="m in results.materials.slice(0, LIMIT)" :key="m.id" :to="`/material/${m.id}`" class="card block p-4">
             <p class="text-xs font-bold text-muted">{{ subjectById(m.subjectId)?.emoji }} {{ subjectById(m.subjectId)?.name }} · ▲ {{ m.votes }}</p>
+            <MaterialBadges :material="m" class="my-1" />
             <p class="font-extrabold">{{ m.title }}</p>
             <p v-if="m.content" class="mt-1 text-sm font-semibold text-muted">{{ snippet(m.content, query.trim()) }}</p>
           </RouterLink>

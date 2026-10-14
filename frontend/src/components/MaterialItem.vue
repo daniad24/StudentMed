@@ -1,5 +1,6 @@
 <script setup>
 import { useAppStore } from '../stores/app'
+import MaterialBadges from './MaterialBadges.vue'
 
 const props = defineProps({ material: { type: Object, required: true } })
 const store = useAppStore()
@@ -18,22 +19,18 @@ const store = useAppStore()
     </button>
 
     <RouterLink :to="`/material/${props.material.id}`" class="min-w-0 flex-1 py-1">
-      <div class="mb-1 flex flex-wrap gap-1">
-        <span v-if="props.material.recommended" class="chip bg-amber-100 text-amber-700">⭐ Recomandat</span>
-        <span v-else class="chip bg-gray-100 text-muted">👥 Comunitate</span>
-        <span class="chip" :class="props.material.type === 'link' ? 'bg-sky-100 text-sky-700' : 'bg-violet-100 text-violet-700'">
-          {{ props.material.type === 'link' ? '🔗 Link' : '📝 Rezumat' }}
-        </span>
-      </div>
+      <MaterialBadges :material="props.material" class="mb-1" />
       <p class="font-extrabold leading-snug">{{ props.material.title }}</p>
-      <p class="text-xs font-bold text-muted">de {{ props.material.author }}</p>
+      <p class="text-xs font-bold text-muted">
+        <template v-if="props.material.topic">{{ props.material.topic }} · </template>{{ props.material.author }}
+      </p>
     </RouterLink>
 
     <button
       v-if="store.isAdmin"
       class="self-center rounded-xl border-2 px-2 py-1 text-xl transition-transform active:scale-90"
-      :class="props.material.recommended ? 'border-amber-300 bg-amber-50' : 'border-gray-200 grayscale'"
-      :title="props.material.recommended ? 'Scoate badge-ul Recomandat' : 'Marchează ca Recomandat'"
+      :class="props.material.adminPick ? 'border-amber-300 bg-amber-50' : 'border-gray-200 grayscale'"
+      :title="props.material.adminPick ? 'Scoate recomandarea de admin' : 'Recomandă ca admin'"
       @click="store.toggleRecommended(props.material.id)"
     >
       ⭐

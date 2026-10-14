@@ -6,6 +6,7 @@ import DOMPurify from 'dompurify'
 import { useAppStore } from '../stores/app'
 import { subjects } from '../data/mock'
 import BackButton from '../components/BackButton.vue'
+import MaterialBadges from '../components/MaterialBadges.vue'
 import ReportDialog from '../components/ReportDialog.vue'
 
 const route = useRoute()
@@ -39,14 +40,23 @@ function onReport(reason) {
     </header>
 
     <article class="card p-5 slide-up">
-      <div class="mb-2 flex flex-wrap gap-1">
-        <span v-if="material.recommended" class="chip bg-amber-100 text-amber-700">⭐ Recomandat</span>
-        <span v-else class="chip bg-gray-100 text-muted">👥 Comunitate</span>
-      </div>
+      <MaterialBadges :material="material" detailed class="mb-2" />
       <h1 class="text-2xl font-black leading-tight">{{ material.title }}</h1>
-      <p class="mt-1 text-sm font-bold text-muted">de {{ material.author }} · {{ material.createdAt }}</p>
+      <p class="mt-1 text-sm font-bold text-muted">
+        <template v-if="material.topic">{{ material.topic }} · </template>de {{ material.author }}
+      </p>
 
       <div v-if="material.type === 'summary'" class="prose-med mt-4" v-html="html"></div>
+
+      <div v-if="material.references?.length" class="mt-6 rounded-2xl bg-gray-50 p-4">
+        <p class="text-sm font-black">📚 Bibliografie</p>
+        <ul class="mt-1 list-disc space-y-0.5 pl-5 text-sm font-semibold text-muted">
+          <li v-for="r in material.references" :key="r">{{ r }}</li>
+        </ul>
+        <p class="mt-2 text-xs font-semibold text-muted">
+          Sinteză scrisă de echipa StudentMed după manualele de mai sus. Ai găsit o greșeală? Folosește 🚩 Raportează.
+        </p>
+      </div>
 
       <a
         v-else
@@ -73,10 +83,10 @@ function onReport(reason) {
     <button
       v-if="store.isAdmin"
       class="btn w-full"
-      :class="material.recommended ? 'btn-white' : 'btn-yellow'"
+      :class="material.adminPick ? 'btn-white' : 'btn-yellow'"
       @click="store.toggleRecommended(material.id)"
     >
-      ⭐ {{ material.recommended ? 'Scoate Recomandat' : 'Marchează Recomandat' }}
+      ⭐ {{ material.adminPick ? 'Scoate recomandarea de admin' : 'Recomandă ca admin' }}
     </button>
 
     <p v-if="thanks" class="rounded-2xl bg-brand-50 px-4 py-3 text-center font-bold text-brand-700 pop-in">

@@ -42,6 +42,9 @@ export function weekStart() {
 // Leitner simplificat: Roșu → mâine, Galben → peste 3 zile, Verde → 7, 14, 30, 60 de zile.
 const GREEN_INTERVALS = [7, 14, 30, 60]
 
+// De la câte voturi un material devine automat „Recomandat".
+export const RECOMMEND_VOTES = 25
+
 export const XP = { card: 2, correct: 5, wrong: 1, exam: 20 }
 
 // Colegi fictivi pentru clasamentul demo (XP pe o săptămână întreagă).
@@ -139,13 +142,20 @@ export const useAppStore = defineStore('app', () => {
 
   // --- Materiale ---
   const allMaterials = computed(() =>
-    [...mock.materials, ...myMaterials.value].map((m) => ({
-      ...m,
-      recommended: recommendedOverrides.value[m.id] ?? m.recommended,
-      votes: m.upvotes + (votes.value[m.id] ? 1 : 0),
-      voted: !!votes.value[m.id],
-      mine: myMaterials.value.some((x) => x.id === m.id),
-    })),
+    [...mock.materials, ...myMaterials.value].map((m) => {
+      const adminPick = recommendedOverrides.value[m.id] ?? m.recommended
+      const count = m.upvotes + (votes.value[m.id] ? 1 : 0)
+      const byVotes = count >= RECOMMEND_VOTES
+      return {
+        ...m,
+        adminPick,
+        recommended: adminPick || byVotes,
+        recommendedBy: adminPick ? 'admin' : byVotes ? 'votes' : null,
+        votes: count,
+        voted: !!votes.value[m.id],
+        mine: myMaterials.value.some((x) => x.id === m.id),
+      }
+    }),
   )
 
   function materialsFor(subjectId) {
@@ -160,7 +170,7 @@ export const useAppStore = defineStore('app', () => {
 
   function toggleRecommended(id) {
     const m = allMaterials.value.find((x) => x.id === id)
-    recommendedOverrides.value = { ...recommendedOverrides.value, [id]: !m.recommended }
+    recommendedOverrides.value = { ...recommendedOverrides.value, [id]: !m.adminPick }
   }
 
   function addMaterial(data) {
@@ -169,6 +179,7 @@ export const useAppStore = defineStore('app', () => {
       author: user.value?.name ?? 'Tu',
       upvotes: 0,
       recommended: false,
+      source: 'community',
       createdAt: today(),
       ...data,
     }
