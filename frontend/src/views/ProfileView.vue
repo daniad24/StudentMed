@@ -47,8 +47,32 @@ function logout() {
         <p class="text-xs font-bold text-muted">cartonașe știute</p>
       </div>
       <div class="card p-3 text-center">
-        <p class="text-2xl font-black text-sky-600">{{ store.quizHistory.length }}</p>
-        <p class="text-xs font-bold text-muted">quiz-uri</p>
+        <p class="text-2xl font-black text-sky-600">{{ store.totalXp }}</p>
+        <p class="text-xs font-bold text-muted">XP total</p>
+      </div>
+    </section>
+
+    <RouterLink to="/statistici" class="card flex items-center gap-3 p-4 transition-transform active:translate-y-[2px]">
+      <span class="text-3xl">📊</span>
+      <span class="flex-1">
+        <span class="block font-black">Statistici</span>
+        <span class="block text-sm font-semibold text-muted">Activitate pe zile și unde greșești cel mai des</span>
+      </span>
+      <span class="text-2xl font-black text-muted">›</span>
+    </RouterLink>
+
+    <section class="card p-5">
+      <h2 class="mb-3 font-black">🌓 Temă</h2>
+      <div class="grid grid-cols-3 gap-2">
+        <button
+          v-for="t in [{ id: 'auto', label: '📱 Auto' }, { id: 'light', label: '☀️ Luminos' }, { id: 'dark', label: '🌙 Întunecat' }]"
+          :key="t.id"
+          class="btn px-2 py-2 text-xs"
+          :class="store.theme === t.id ? 'btn-primary' : 'btn-white'"
+          @click="store.theme = t.id"
+        >
+          {{ t.label }}
+        </button>
       </div>
     </section>
 

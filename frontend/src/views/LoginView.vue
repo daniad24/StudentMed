@@ -35,14 +35,14 @@ function submit() {
       <div class="mb-5 grid grid-cols-2 rounded-2xl bg-gray-100 p-1 font-extrabold">
         <button
           class="rounded-xl py-2 transition-colors"
-          :class="mode === 'login' ? 'bg-white shadow text-brand-700' : 'text-muted'"
+          :class="mode === 'login' ? 'bg-surface shadow text-brand-700' : 'text-muted'"
           @click="mode = 'login'"
         >
           Intră în cont
         </button>
         <button
           class="rounded-xl py-2 transition-colors"
-          :class="mode === 'register' ? 'bg-white shadow text-brand-700' : 'text-muted'"
+          :class="mode === 'register' ? 'bg-surface shadow text-brand-700' : 'text-muted'"
           @click="mode = 'register'"
         >
           Cont nou

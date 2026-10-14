@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 import * as mock from '../data/mock'
+import { correctTexts } from '../lib/quiz'
 
 // În mock totul se salvează local, pe dispozitiv. Backend-ul Go va înlocui asta.
 const STORAGE_KEY = 'studentmed-mock-v1'
@@ -32,14 +33,40 @@ export function addDays(date, days) {
   return d.toISOString().slice(0, 10)
 }
 
+// Luni din săptămâna curentă.
+export function weekStart() {
+  const day = new Date(today() + 'T00:00:00Z').getUTCDay()
+  return addDays(today(), -((day + 6) % 7))
+}
+
 // Leitner simplificat: Roșu → mâine, Galben → peste 3 zile, Verde → 7, 14, 30, 60 de zile.
 const GREEN_INTERVALS = [7, 14, 30, 60]
+
+export const XP = { card: 2, correct: 5, wrong: 1, exam: 20 }
+
+// Colegi fictivi pentru clasamentul demo (XP pe o săptămână întreagă).
+const DEMO_RIVALS = [
+  { name: 'Ana M.', weekXp: 640 },
+  { name: 'Mihai P.', weekXp: 455 },
+  { name: 'Ioana R.', weekXp: 380 },
+  { name: 'Andrei C.', weekXp: 290 },
+  { name: 'Bianca T.', weekXp: 210 },
+  { name: 'Radu S.', weekXp: 150 },
+  { name: 'Elena V.', weekXp: 95 },
+  { name: 'Vlad D.', weekXp: 40 },
+]
+
+const KEYS = [
+  'user', 'isAdmin', 'theme', 'streak', 'cardState', 'votes', 'recommendedOverrides', 'reports',
+  'myMaterials', 'myCards', 'quizCards', 'quizHistory', 'examHistory', 'answerLog', 'activity', 'leaderboardOptIn',
+]
 
 export const useAppStore = defineStore('app', () => {
   const saved = load()
 
   const user = ref(saved.user ?? null)
   const isAdmin = ref(saved.isAdmin ?? false)
+  const theme = ref(saved.theme ?? 'auto')
   const streak = ref(saved.streak ?? { count: 0, lastDate: null })
   const cardState = ref(saved.cardState ?? {})
   const votes = ref(saved.votes ?? {})
@@ -47,23 +74,20 @@ export const useAppStore = defineStore('app', () => {
   const reports = ref(saved.reports ?? [])
   const myMaterials = ref(saved.myMaterials ?? [])
   const myCards = ref(saved.myCards ?? [])
+  const quizCards = ref(saved.quizCards ?? [])
   const quizHistory = ref(saved.quizHistory ?? [])
+  const examHistory = ref(saved.examHistory ?? [])
+  const answerLog = ref(saved.answerLog ?? [])
+  const activity = ref(saved.activity ?? {})
+  const leaderboardOptIn = ref(saved.leaderboardOptIn ?? true)
 
+  const refs = {
+    user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
+    myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
+  }
   watch(
-    [user, isAdmin, streak, cardState, votes, recommendedOverrides, reports, myMaterials, myCards, quizHistory],
-    () =>
-      save({
-        user: user.value,
-        isAdmin: isAdmin.value,
-        streak: streak.value,
-        cardState: cardState.value,
-        votes: votes.value,
-        recommendedOverrides: recommendedOverrides.value,
-        reports: reports.value,
-        myMaterials: myMaterials.value,
-        myCards: myCards.value,
-        quizHistory: quizHistory.value,
-      }),
+    KEYS.map((k) => refs[k]),
+    () => save(Object.fromEntries(KEYS.map((k) => [k, refs[k].value]))),
     { deep: true },
   )
 
@@ -76,7 +100,7 @@ export const useAppStore = defineStore('app', () => {
     isAdmin.value = false
   }
 
-  // --- Streak ---
+  // --- Streak și XP ---
   const currentStreak = computed(() => {
     const { count, lastDate } = streak.value
     if (!lastDate) return 0
@@ -90,6 +114,28 @@ export const useAppStore = defineStore('app', () => {
     if (lastDate === t) return
     streak.value = { count: lastDate === addDays(t, -1) ? count + 1 : 1, lastDate: t }
   }
+
+  function addXp(n) {
+    const t = today()
+    activity.value = { ...activity.value, [t]: (activity.value[t] ?? 0) + n }
+    markStudied()
+  }
+
+  const totalXp = computed(() => Object.values(activity.value).reduce((a, b) => a + b, 0))
+  const weekXp = computed(() => {
+    const start = weekStart()
+    return Object.entries(activity.value)
+      .filter(([d]) => d >= start)
+      .reduce((a, [, xp]) => a + xp, 0)
+  })
+
+  const leaderboard = computed(() => {
+    // Colegii demo „acumulează" XP pe parcursul săptămânii, ca să pară vii.
+    const dayIndex = (new Date(today() + 'T00:00:00Z').getUTCDay() + 6) % 7
+    const rows = DEMO_RIVALS.map((r) => ({ name: r.name, xp: Math.round((r.weekXp * (dayIndex + 1)) / 7), me: false }))
+    if (leaderboardOptIn.value) rows.push({ name: user.value?.name ?? 'Tu', xp: weekXp.value, me: true })
+    return rows.sort((a, b) => b.xp - a.xp)
+  })
 
   // --- Materiale ---
   const allMaterials = computed(() =>
@@ -131,7 +177,7 @@ export const useAppStore = defineStore('app', () => {
   }
 
   // --- Flashcards ---
-  const allCards = computed(() => [...mock.flashcards, ...myCards.value])
+  const allCards = computed(() => [...mock.flashcards, ...myCards.value, ...quizCards.value])
 
   function cardsFor(subjectId) {
     return allCards.value.filter((c) => c.subjectId === subjectId)
@@ -167,7 +213,7 @@ export const useAppStore = defineStore('app', () => {
       days = GREEN_INTERVALS[box - 3]
     }
     cardState.value = { ...cardState.value, [cardId]: { box, due: addDays(today(), days) } }
-    markStudied()
+    addXp(XP.card)
     return days
   }
 
@@ -182,9 +228,48 @@ export const useAppStore = defineStore('app', () => {
     return mock.questions.filter((q) => q.subjectId === subjectId)
   }
 
+  // O grilă greșită devine cartonaș de repetat (o singură dată per grilă).
+  // Întoarce true dacă s-a creat un cartonaș nou.
+  function addQuizCard(q) {
+    const id = 'qc-' + q.id
+    if (quizCards.value.some((c) => c.id === id)) {
+      // deja există: îl readucem la repetare de azi
+      cardState.value = { ...cardState.value, [id]: { box: 1, due: today() } }
+      return false
+    }
+    quizCards.value.push({
+      id,
+      subjectId: q.subjectId,
+      front: q.text,
+      back: correctTexts(q).join(' · '),
+      note: q.explanation,
+      fromQuiz: true,
+    })
+    return true
+  }
+
+  function recordAnswer(q, correct) {
+    answerLog.value.push({ qid: q.id, subjectId: q.subjectId, correct, date: today() })
+    if (answerLog.value.length > 2000) answerLog.value.splice(0, answerLog.value.length - 2000)
+    addXp(correct ? XP.correct : XP.wrong)
+    if (!correct) addQuizCard(q)
+  }
+
   function recordQuiz(subjectId, score, total) {
     quizHistory.value.push({ subjectId, score, total, date: today() })
     markStudied()
+  }
+
+  function recordExam(subjectIds, score, total, seconds) {
+    examHistory.value.push({ subjectIds, score, total, seconds, date: today() })
+    addXp(XP.exam)
+  }
+
+  // --- Statistici ---
+  function accuracyFor(subjectId) {
+    const log = answerLog.value.filter((a) => a.subjectId === subjectId)
+    if (!log.length) return null
+    return { answered: log.length, correct: log.filter((a) => a.correct).length }
   }
 
   // --- Raportări ---
@@ -212,6 +297,7 @@ export const useAppStore = defineStore('app', () => {
     { id: 'streak3', emoji: '🔥', name: 'În formă', desc: '3 zile de studiu la rând', earned: streak.value.count >= 3 },
     { id: 'firstQuiz', emoji: '⏱️', name: 'De gardă', desc: 'Primul quiz rapid terminat', earned: quizHistory.value.length > 0 },
     { id: 'perfect', emoji: '🎯', name: 'Fără greșeală', desc: '10/10 la un quiz', earned: quizHistory.value.some((q) => q.score === q.total && q.total >= 10) },
+    { id: 'exam', emoji: '🎓', name: 'Gata de colocviu', desc: 'Prima simulare de examen', earned: examHistory.value.length > 0 },
     { id: 'helper', emoji: '🚩', name: 'Ochi de vultur', desc: 'Ai raportat o greșeală', earned: reports.value.some((r) => r.by === user.value?.name) },
   ])
 
@@ -225,12 +311,13 @@ export const useAppStore = defineStore('app', () => {
   }
 
   return {
-    user, isAdmin, streak, cardState, reports, myMaterials, myCards, quizHistory,
+    user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
+    quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     login, logout,
-    currentStreak, studiedToday, markStudied,
+    currentStreak, studiedToday, markStudied, totalXp, weekXp, leaderboard,
     allMaterials, materialsFor, toggleVote, toggleRecommended, addMaterial,
     allCards, cardsFor, dueCardsFor, addCard, rateCard, cardStats,
-    questionsFor, recordQuiz,
+    questionsFor, recordAnswer, recordQuiz, recordExam, accuracyFor,
     report, resolveReport,
     contributions, badges, resetDemo,
   }

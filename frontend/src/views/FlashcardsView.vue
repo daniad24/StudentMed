@@ -82,12 +82,14 @@ function onReport(reason) {
         >
           <div class="flip-face card flex flex-col items-center justify-center p-6 text-center">
             <p class="text-xs font-black tracking-widest text-muted uppercase">Întrebare</p>
-            <p class="mt-3 text-2xl font-black leading-snug">{{ current.front }}</p>
+            <span v-if="current.fromQuiz" class="chip mt-2 bg-violet-100 text-violet-700">din grilele greșite</span>
+            <p class="mt-3 font-black leading-snug" :class="current.front.length > 90 ? 'text-lg' : 'text-2xl'">{{ current.front }}</p>
             <p class="mt-6 text-sm font-bold text-muted">Atinge ca să vezi răspunsul</p>
           </div>
           <div class="flip-face flip-back card flex flex-col items-center justify-center border-brand-200 bg-brand-50 p-6 text-center">
             <p class="text-xs font-black tracking-widest text-brand-700 uppercase">Răspuns</p>
-            <p class="mt-3 text-2xl font-black leading-snug text-brand-800">{{ current.back }}</p>
+            <p class="mt-3 font-black leading-snug text-brand-800" :class="current.back.length > 60 ? 'text-lg' : 'text-2xl'">{{ current.back }}</p>
+            <p v-if="current.note" class="mt-3 text-sm font-semibold text-muted">💡 {{ current.note }}</p>
           </div>
         </div>
       </div>

@@ -3,6 +3,8 @@ import { computed, onUnmounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects } from '../data/mock'
+import { correctTexts, formatTime, isCorrectSelection, prepareQuestion, shuffle } from '../lib/quiz'
+import QuestionCard from '../components/QuestionCard.vue'
 import ReportDialog from '../components/ReportDialog.vue'
 
 const QUIZ_SIZE = 10
@@ -13,29 +15,20 @@ const router = useRouter()
 const store = useAppStore()
 
 const subject = subjects.find((s) => s.id === route.params.subjectId)
-const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5)
-
-const questions = shuffle(store.questionsFor(subject.id))
-  .slice(0, QUIZ_SIZE)
-  .map((q) => ({ ...q, shuffled: shuffle(q.options.map((text, i) => ({ text, correct: i === q.answer }))) }))
+const questions = shuffle(store.questionsFor(subject.id)).slice(0, QUIZ_SIZE).map(prepareQuestion)
 
 const index = ref(0)
-const selected = ref(null)
+const selected = ref([])
 const checked = ref(false)
 const answers = ref([])
 const finished = ref(false)
 const secondsLeft = ref(QUIZ_SECONDS)
+const streakBefore = store.currentStreak
 
 const current = computed(() => questions[index.value])
 const score = computed(() => answers.value.filter((a) => a.correct).length)
-const isCorrect = computed(() => checked.value && current.value.shuffled[selected.value]?.correct)
-const correctText = computed(() => current.value.shuffled.find((o) => o.correct)?.text)
-const timeLabel = computed(() => `${Math.floor(secondsLeft.value / 60)}:${String(secondsLeft.value % 60).padStart(2, '0')}`)
-const elapsedLabel = computed(() => {
-  const s = QUIZ_SECONDS - secondsLeft.value
-  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
-})
-const streakBefore = store.currentStreak
+const lastAnswer = computed(() => answers.value[answers.value.length - 1])
+const elapsed = computed(() => formatTime(QUIZ_SECONDS - secondsLeft.value))
 
 const timer = setInterval(() => {
   if (finished.value) return
@@ -45,15 +38,18 @@ const timer = setInterval(() => {
 onUnmounted(() => clearInterval(timer))
 
 function check() {
-  if (selected.value === null) return
+  if (!selected.value.length) return
   checked.value = true
-  answers.value.push({ question: current.value, chosen: current.value.shuffled[selected.value].text, correct: isCorrect.value })
+  const q = current.value
+  const correct = isCorrectSelection(q, selected.value)
+  answers.value.push({ question: q, chosen: selected.value.map((i) => q.shuffled[i].text), correct })
+  store.recordAnswer(q, correct)
 }
 
 function next() {
   if (index.value + 1 >= questions.length) return finish()
   index.value++
-  selected.value = null
+  selected.value = []
   checked.value = false
   reported.value = false
 }
@@ -97,35 +93,17 @@ function onReport(reason) {
           :style="{ width: `${((index + (checked || finished ? 1 : 0)) / questions.length) * 100}%` }"
         ></div>
       </div>
-      <span class="chip text-sm" :class="secondsLeft <= 30 ? 'bg-red-100 text-red-600' : 'bg-sky-100 text-sky-700'">⏱ {{ timeLabel }}</span>
+      <span class="chip text-sm" :class="secondsLeft <= 30 ? 'bg-red-100 text-red-600' : 'bg-sky-100 text-sky-700'">
+        ⏱ {{ formatTime(Math.max(secondsLeft, 0)) }}
+      </span>
     </header>
 
     <!-- Întrebare -->
     <template v-if="!finished">
-      <p class="mt-5 text-sm font-extrabold text-muted">{{ subject.emoji }} {{ subject.name }} · Întrebarea {{ index + 1 }} din {{ questions.length }}</p>
-      <h1 :key="current.id" class="mt-2 text-2xl font-black leading-snug slide-up">{{ current.text }}</h1>
-
-      <div class="mt-6 space-y-3">
-        <button
-          v-for="(opt, i) in current.shuffled"
-          :key="current.id + i"
-          class="flex w-full items-center gap-3 rounded-2xl border-2 border-b-4 bg-white p-4 text-left font-bold transition-all active:translate-y-[2px]"
-          :class="[
-            !checked && selected === i && 'border-sky-400 bg-sky-50 text-sky-800',
-            !checked && selected !== i && 'border-gray-200',
-            checked && opt.correct && 'border-brand-500 bg-brand-50 text-brand-800',
-            checked && !opt.correct && selected === i && 'border-red-400 bg-red-50 text-red-700 shake',
-            checked && !opt.correct && selected !== i && 'border-gray-200 opacity-50',
-          ]"
-          :disabled="checked"
-          @click="selected = i"
-        >
-          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border-2 border-current text-sm font-black">
-            {{ 'ABCD'[i] }}
-          </span>
-          {{ opt.text }}
-        </button>
-      </div>
+      <p class="mt-5 mb-2 text-sm font-extrabold text-muted">
+        {{ subject.emoji }} {{ subject.name }} · Întrebarea {{ index + 1 }} din {{ questions.length }}
+      </p>
+      <QuestionCard v-model:selected="selected" :question="current" :checked="checked" />
 
       <div class="flex-1"></div>
 
@@ -133,43 +111,49 @@ function onReport(reason) {
       <div
         v-if="checked"
         class="-mx-4 mt-6 rounded-t-3xl px-4 pt-4 pb-2 slide-up"
-        :class="isCorrect ? 'bg-brand-100' : 'bg-red-100'"
+        :class="lastAnswer.correct ? 'bg-brand-100' : 'bg-red-100'"
       >
-        <p class="text-xl font-black" :class="isCorrect ? 'text-brand-700' : 'text-red-600'">
-          {{ isCorrect ? '✅ Corect!' : '❌ Greșit' }}
+        <p class="text-xl font-black" :class="lastAnswer.correct ? 'text-brand-700' : 'text-red-600'">
+          {{ lastAnswer.correct ? '✅ Corect!' : '❌ Greșit' }}
         </p>
-        <p v-if="!isCorrect" class="font-bold text-red-700">Răspuns corect: {{ correctText }}</p>
-        <button class="btn mt-3 w-full" :class="isCorrect ? 'btn-green' : 'btn-red'" @click="next">Continuă</button>
-        <button class="mt-2 w-full text-sm font-bold text-muted" @click="reporting = true">
+        <p v-if="!lastAnswer.correct" class="font-bold text-red-700">
+          Corect: {{ correctTexts(current).join(' · ') }}
+        </p>
+        <p v-if="current.explanation" class="mt-2 text-sm font-semibold leading-relaxed">💡 {{ current.explanation }}</p>
+        <p v-if="!lastAnswer.correct" class="mt-2 text-xs font-bold text-muted">🃏 Am pus grila la repetare în cartonașe.</p>
+        <button class="btn mt-3 w-full" :class="lastAnswer.correct ? 'btn-green' : 'btn-red'" @click="next">Continuă</button>
+        <button class="mt-2 w-full text-sm font-bold text-muted" :disabled="reported" @click="reporting = true">
           {{ reported ? 'Raportare trimisă ✓' : '🚩 Grila are o greșeală?' }}
         </button>
       </div>
-      <button v-else class="btn btn-blue mt-6 w-full" :disabled="selected === null" @click="check">Verifică</button>
+      <button v-else class="btn btn-blue mt-6 w-full" :disabled="!selected.length" @click="check">Verifică</button>
     </template>
 
     <!-- Rezultat -->
     <div v-else class="mt-6 flex flex-1 flex-col items-center text-center">
       <p class="text-7xl pop-in">{{ resultEmoji }}</p>
       <h1 class="mt-3 text-3xl font-black">{{ score }} / {{ questions.length }}</h1>
-      <p class="font-semibold text-muted">
-        {{ secondsLeft <= 0 ? 'Timpul a expirat!' : `Terminat în ${elapsedLabel}` }}
-      </p>
+      <p class="font-semibold text-muted">{{ secondsLeft <= 0 ? 'Timpul a expirat!' : `Terminat în ${elapsed}` }}</p>
 
       <div v-if="store.currentStreak > streakBefore" class="mt-4 w-full rounded-3xl bg-orange-100 p-4 pop-in">
-        <p class="font-black text-orange-600"><span class="flame">🔥</span> Seria ta a crescut la {{ store.currentStreak }} {{ store.currentStreak === 1 ? 'zi' : 'zile' }}!</p>
+        <p class="font-black text-orange-600">
+          <span class="flame">🔥</span> Seria ta a crescut la {{ store.currentStreak }} {{ store.currentStreak === 1 ? 'zi' : 'zile' }}!
+        </p>
       </div>
 
       <div v-if="wrong.length" class="mt-6 w-full space-y-2 text-left">
-        <h2 class="font-black">De recitit:</h2>
+        <h2 class="font-black">De recitit <span class="text-sm font-bold text-muted">(adăugate la cartonașe)</span></h2>
         <div v-for="a in wrong" :key="a.question.id" class="card p-4">
           <p class="font-extrabold">{{ a.question.text }}</p>
-          <p class="text-sm font-bold text-red-600">✗ {{ a.chosen }}</p>
-          <p class="text-sm font-bold text-brand-700">✓ {{ a.question.options[a.question.answer] }}</p>
+          <p class="text-sm font-bold text-red-600">✗ {{ a.chosen.join(' · ') }}</p>
+          <p class="text-sm font-bold text-brand-700">✓ {{ correctTexts(a.question).join(' · ') }}</p>
+          <p v-if="a.question.explanation" class="mt-1 text-sm font-semibold text-muted">💡 {{ a.question.explanation }}</p>
         </div>
       </div>
 
       <div class="mt-8 grid w-full gap-2">
         <button class="btn btn-blue w-full" @click="restart">Încă un quiz</button>
+        <RouterLink v-if="wrong.length" :to="`/flashcards/${subject.id}`" class="btn btn-white w-full">🃏 Repetă greșelile</RouterLink>
         <button class="btn btn-white w-full" @click="router.push('/')">Acasă</button>
       </div>
     </div>

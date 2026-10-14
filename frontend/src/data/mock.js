@@ -1,4 +1,13 @@
 // Date de test pentru mock. Vor fi înlocuite de API-ul Go + PostgreSQL.
+import anatomie from './content/anatomie'
+import biochimie from './content/biochimie'
+import histologie from './content/histologie'
+import fiziologie from './content/fiziologie'
+import microbiologie from './content/microbiologie'
+import farmacologie from './content/farmacologie'
+import semiologie from './content/semiologie'
+
+const content = { anatomie, biochimie, histologie, fiziologie, microbiologie, farmacologie, semiologie }
 
 export const years = [
   { id: 1, name: 'Anul I' },
@@ -16,7 +25,7 @@ export const subjects = [
   { id: 'semiologie', name: 'Semiologie', year: 3, emoji: '🩺', color: 'bg-teal-100 text-teal-700 border-teal-200' },
 ]
 
-export const materials = [
+const baseMaterials = [
   {
     id: 'm1',
     subjectId: 'anatomie',
@@ -188,66 +197,12 @@ Citrat → izocitrat → α-cetoglutarat → succinil-CoA → succinat → fumar
   },
 ]
 
-export const flashcards = [
-  // Anatomie
-  { id: 'f1', subjectId: 'anatomie', front: 'Câte vertebre cervicale are omul?', back: '7 vertebre cervicale (C1–C7)' },
-  { id: 'f2', subjectId: 'anatomie', front: 'Ce nerv inervează diafragmul?', back: 'Nervul frenic (rădăcinile C3–C5)' },
-  { id: 'f3', subjectId: 'anatomie', front: 'Care este cel mai lung os din corp?', back: 'Femurul' },
-  { id: 'f4', subjectId: 'anatomie', front: 'Ce valvă separă atriul stâng de ventriculul stâng?', back: 'Valva mitrală (bicuspidă)' },
-  { id: 'f5', subjectId: 'anatomie', front: 'Câte perechi de nervi cranieni există?', back: '12 perechi' },
-  { id: 'f6', subjectId: 'anatomie', front: 'Ce nerv cranian inervează mușchiul oblic superior al ochiului?', back: 'Nervul trohlear (IV)' },
-  { id: 'f7', subjectId: 'anatomie', front: 'Ce nerv inervează mușchiul deltoid?', back: 'Nervul axilar' },
-  { id: 'f8', subjectId: 'anatomie', front: 'Din ce porțiune a aortei pornesc arterele coronare?', back: 'Din aorta ascendentă' },
-  // Biochimie
-  { id: 'f9', subjectId: 'biochimie', front: 'Enzima limitantă de viteză a glicolizei?', back: 'Fosfofructokinaza-1 (PFK-1)' },
-  { id: 'f10', subjectId: 'biochimie', front: 'Câte ATP produce net glicoliza per moleculă de glucoză?', back: '2 ATP' },
-  { id: 'f11', subjectId: 'biochimie', front: 'Unde are loc ciclul Krebs?', back: 'În matricea mitocondrială' },
-  { id: 'f12', subjectId: 'biochimie', front: 'Enzima limitantă a sintezei colesterolului?', back: 'HMG-CoA reductaza (ținta statinelor)' },
-  { id: 'f13', subjectId: 'biochimie', front: 'Acceptorul final de electroni din lanțul respirator?', back: 'Oxigenul (O₂)' },
-  { id: 'f14', subjectId: 'biochimie', front: 'Din ce aminoacid se sintetizează serotonina?', back: 'Triptofan' },
-  // Fiziologie
-  { id: 'f15', subjectId: 'fiziologie', front: 'Valoarea normală a pH-ului sângelui arterial?', back: '7,35 – 7,45' },
-  { id: 'f16', subjectId: 'fiziologie', front: 'Unde este generat în mod normal impulsul cardiac?', back: 'În nodul sinoatrial' },
-  { id: 'f17', subjectId: 'fiziologie', front: 'Formula debitului cardiac?', back: 'Frecvența cardiacă × volumul bătaie' },
-  { id: 'f18', subjectId: 'fiziologie', front: 'Ce celule produc surfactantul pulmonar?', back: 'Pneumocitele de tip II' },
-  { id: 'f19', subjectId: 'fiziologie', front: 'Ce hormon secretă celulele alfa pancreatice?', back: 'Glucagonul' },
-]
+// Conținutul pe materii, cu `subjectId` completat automat.
+const withSubject = (key) =>
+  Object.entries(content).flatMap(([subjectId, c]) => (c[key] ?? []).map((x) => ({ ...x, subjectId })))
 
-// Grile cu un singur răspuns corect (indexul din `options`).
-export const questions = [
-  // Anatomie
-  { id: 'q1', subjectId: 'anatomie', text: 'Nervul frenic provine din rădăcinile:', options: ['C3–C5', 'C5–C8', 'T1–T2', 'C1–C2'], answer: 0 },
-  { id: 'q2', subjectId: 'anatomie', text: 'Valva tricuspidă se află între:', options: ['Atriul drept și ventriculul drept', 'Atriul stâng și ventriculul stâng', 'Ventriculul drept și trunchiul pulmonar', 'Ventriculul stâng și aortă'], answer: 0 },
-  { id: 'q3', subjectId: 'anatomie', text: 'Nervul cranian VII este nervul:', options: ['Trigemen', 'Facial', 'Vag', 'Vestibulocohlear'], answer: 1 },
-  { id: 'q4', subjectId: 'anatomie', text: 'Câte oase are, în medie, scheletul unui adult?', options: ['186', '226', '206', '256'], answer: 2 },
-  { id: 'q5', subjectId: 'anatomie', text: 'Principalul mușchi al inspirației este:', options: ['Sternocleidomastoidianul', 'Diafragmul', 'Intercostalii interni', 'Dreptul abdominal'], answer: 1 },
-  { id: 'q6', subjectId: 'anatomie', text: 'Artera femurală continuă artera:', options: ['Iliacă internă', 'Poplitee', 'Iliacă externă', 'Mezenterică inferioară'], answer: 2 },
-  { id: 'q7', subjectId: 'anatomie', text: 'Ficatul este situat predominant în:', options: ['Hipocondrul drept', 'Hipocondrul stâng', 'Fosa iliacă dreaptă', 'Flancul stâng'], answer: 0 },
-  { id: 'q8', subjectId: 'anatomie', text: 'Mușchiul deltoid este inervat de nervul:', options: ['Radial', 'Musculocutanat', 'Median', 'Axilar'], answer: 3 },
-  { id: 'q9', subjectId: 'anatomie', text: 'Nervul trohlear inervează mușchiul:', options: ['Drept lateral', 'Oblic superior', 'Oblic inferior', 'Drept medial'], answer: 1 },
-  { id: 'q10', subjectId: 'anatomie', text: 'Ventriculul stâng pompează sângele în:', options: ['Trunchiul pulmonar', 'Vena cavă superioară', 'Aortă', 'Venele pulmonare'], answer: 2 },
-  { id: 'q11', subjectId: 'anatomie', text: 'Ce os carpian este cel mai frecvent fracturat?', options: ['Scafoidul', 'Pisiformul', 'Osul cu cârlig', 'Trapezul'], answer: 0 },
-  { id: 'q12', subjectId: 'anatomie', text: 'Leziunea Erb–Duchenne afectează rădăcinile:', options: ['C8–T1', 'C5–C6', 'C7', 'T1–T2'], answer: 1 },
-  // Biochimie
-  { id: 'q13', subjectId: 'biochimie', text: 'Enzima limitantă de viteză a glicolizei este:', options: ['Hexokinaza', 'Piruvat kinaza', 'Fosfofructokinaza-1', 'Aldolaza'], answer: 2 },
-  { id: 'q14', subjectId: 'biochimie', text: 'Statinele inhibă:', options: ['HMG-CoA reductaza', 'Acetil-CoA carboxilaza', 'Lipoprotein lipaza', 'Carnitin palmitoiltransferaza'], answer: 0 },
-  { id: 'q15', subjectId: 'biochimie', text: 'Ciclul ureei are loc în principal în:', options: ['Rinichi', 'Ficat', 'Mușchi', 'Creier'], answer: 1 },
-  { id: 'q16', subjectId: 'biochimie', text: 'Acceptorul final de electroni din lanțul respirator este:', options: ['NAD⁺', 'FAD', 'Coenzima Q', 'O₂'], answer: 3 },
-  { id: 'q17', subjectId: 'biochimie', text: 'Deficitul de tiamină (vit. B1) afectează în primul rând:', options: ['Lactat dehidrogenaza', 'Piruvat dehidrogenaza', 'Hexokinaza', 'Glucozo-6-fosfataza'], answer: 1 },
-  { id: 'q18', subjectId: 'biochimie', text: 'Eritrocitele își obțin ATP-ul prin:', options: ['Glicoliză anaerobă', 'Ciclul Krebs', 'Beta-oxidare', 'Fosforilare oxidativă'], answer: 0 },
-  { id: 'q19', subjectId: 'biochimie', text: 'Precursorul catecolaminelor este:', options: ['Triptofanul', 'Histidina', 'Tirozina', 'Glicina'], answer: 2 },
-  { id: 'q20', subjectId: 'biochimie', text: 'Gluconeogeneza are loc în principal în:', options: ['Ficat', 'Mușchiul scheletic', 'Creier', 'Eritrocite'], answer: 0 },
-  { id: 'q21', subjectId: 'biochimie', text: 'Câte NADH rezultă dintr-o tură a ciclului Krebs?', options: ['1', '2', '3', '4'], answer: 2 },
-  { id: 'q22', subjectId: 'biochimie', text: 'Oxigenul se leagă în hemoglobină de:', options: ['Fe³⁺ din hem', 'Fe²⁺ din hem', 'Lanțurile de globină', '2,3-BPG'], answer: 1 },
-  // Fiziologie
-  { id: 'q23', subjectId: 'fiziologie', text: 'Pacemakerul normal al inimii este:', options: ['Nodul atrioventricular', 'Fasciculul His', 'Nodul sinoatrial', 'Fibrele Purkinje'], answer: 2 },
-  { id: 'q24', subjectId: 'fiziologie', text: 'pH-ul normal al sângelui arterial este:', options: ['7,00–7,20', '7,35–7,45', '7,50–7,70', '6,80–7,00'], answer: 1 },
-  { id: 'q25', subjectId: 'fiziologie', text: 'ADH acționează în principal la nivelul:', options: ['Tubului colector', 'Glomerulului', 'Tubului contort proximal', 'Capsulei Bowman'], answer: 0 },
-  { id: 'q26', subjectId: 'fiziologie', text: 'Surfactantul pulmonar este produs de:', options: ['Pneumocitele de tip I', 'Macrofagele alveolare', 'Celulele caliciforme', 'Pneumocitele de tip II'], answer: 3 },
-  { id: 'q27', subjectId: 'fiziologie', text: 'Celulele alfa pancreatice secretă:', options: ['Glucagon', 'Insulină', 'Somatostatină', 'Polipeptid pancreatic'], answer: 0 },
-  { id: 'q28', subjectId: 'fiziologie', text: 'Potențialul de repaus al neuronului este de aproximativ:', options: ['+30 mV', '0 mV', '−20 mV', '−70 mV'], answer: 3 },
-  { id: 'q29', subjectId: 'fiziologie', text: 'Aldosteronul determină la nivel renal:', options: ['Reabsorbție de Na⁺ și secreție de K⁺', 'Secreție de Na⁺ și reabsorbție de K⁺', 'Reabsorbție de glucoză', 'Filtrare glomerulară crescută'], answer: 0 },
-  { id: 'q30', subjectId: 'fiziologie', text: 'Volumul curent la un adult în repaus este de aproximativ:', options: ['150 mL', '500 mL', '1500 mL', '3000 mL'], answer: 1 },
-  { id: 'q31', subjectId: 'fiziologie', text: 'Faza 0 a potențialului de acțiune al cardiomiocitului ventricular se datorează influxului de:', options: ['Ca²⁺', 'K⁺', 'Na⁺', 'Cl⁻'], answer: 2 },
-  { id: 'q32', subjectId: 'fiziologie', text: 'Zgomotul cardiac I corespunde închiderii valvelor:', options: ['Semilunare', 'Atrioventriculare', 'Aortice și mitrale', 'Pulmonare și tricuspide'], answer: 1 },
-]
+export const materials = [...baseMaterials, ...withSubject('materials')]
+export const flashcards = withSubject('flashcards')
+
+// Grile: `type` 'single' (complement simplu) sau 'multi' (complement multiplu); `answer` = indicii corecți.
+export const questions = withSubject('questions')

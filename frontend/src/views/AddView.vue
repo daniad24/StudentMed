@@ -61,7 +61,7 @@ function submit() {
         v-for="k in [{ id: 'summary', label: '📝 Rezumat' }, { id: 'link', label: '🔗 Link' }, { id: 'flashcard', label: '🃏 Cartonaș' }]"
         :key="k.id"
         class="rounded-xl py-2 transition-colors"
-        :class="kind === k.id ? 'bg-white shadow text-brand-700' : 'text-muted'"
+        :class="kind === k.id ? 'bg-surface shadow text-brand-700' : 'text-muted'"
         @click="kind = k.id; error = ''"
       >
         {{ k.label }}

@@ -1,10 +1,25 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+import { useAppStore } from './stores/app'
 import BottomNav from './components/BottomNav.vue'
 
 const route = useRoute()
+const store = useAppStore()
 const showNav = computed(() => route.name && !route.meta.public && !route.meta.focus)
+
+// Tema: 'auto' urmează setarea telefonului.
+const media = window.matchMedia('(prefers-color-scheme: dark)')
+const systemDark = ref(media.matches)
+const onChange = (e) => (systemDark.value = e.matches)
+onMounted(() => media.addEventListener('change', onChange))
+onUnmounted(() => media.removeEventListener('change', onChange))
+
+watchEffect(() => {
+  const dark = store.theme === 'dark' || (store.theme === 'auto' && systemDark.value)
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0f1720' : '#16a34a')
+})
 </script>
 
 <template>

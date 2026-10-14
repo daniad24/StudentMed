@@ -46,9 +46,12 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
         <p class="font-bold text-muted">{{ greeting }},</p>
         <h1 class="text-2xl font-black">{{ store.user?.name }} 👋</h1>
       </div>
-      <RouterLink to="/profil" class="chip bg-orange-100 text-orange-600 text-base px-4 py-2">
-        <span class="flame">🔥</span> {{ store.currentStreak }}
-      </RouterLink>
+      <div class="flex items-center gap-2">
+        <RouterLink to="/cauta" class="btn btn-white px-3 py-2" aria-label="Caută">🔍</RouterLink>
+        <RouterLink to="/statistici" class="chip bg-orange-100 text-orange-600 text-base px-4 py-2">
+          <span class="flame">🔥</span> {{ store.currentStreak }}
+        </RouterLink>
+      </div>
     </header>
 
     <!-- Streak -->
@@ -80,16 +83,26 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
     <!-- Pauza de gardă -->
     <RouterLink
       to="/pauza"
-      class="block rounded-3xl border-b-4 border-sky-700 bg-gradient-to-br from-sky-400 to-sky-600 p-5 text-white transition-transform active:translate-y-[2px] slide-up"
+      class="block rounded-3xl border-b-4 border-[#0369a1] bg-gradient-to-br from-sky-400 to-sky-600 p-5 text-white transition-transform active:translate-y-[2px] slide-up"
     >
       <div class="flex items-center gap-4">
         <div class="text-5xl">⏱️</div>
         <div class="flex-1">
           <p class="text-xl font-black">Pauza de gardă</p>
-          <p class="text-sm font-semibold text-sky-50">10 grile rapide în 3 minute. Ideal la stagiu sau în tramvai.</p>
+          <p class="text-sm font-semibold text-white/90">10 grile rapide în 3 minute. Ideal la stagiu sau în tramvai.</p>
         </div>
         <div class="text-3xl font-black">›</div>
       </div>
+    </RouterLink>
+
+    <!-- Simulare examen -->
+    <RouterLink to="/simulare" class="card flex items-center gap-4 p-4 transition-transform active:translate-y-[2px] slide-up">
+      <span class="flex h-12 w-12 items-center justify-center rounded-2xl border-2 border-violet-200 bg-violet-100 text-2xl">🎓</span>
+      <div class="flex-1">
+        <p class="font-black">Simulare de examen</p>
+        <p class="text-sm font-semibold text-muted">20–50 de grile amestecate, ca la colocviu</p>
+      </div>
+      <span class="text-2xl font-black text-violet-700">›</span>
     </RouterLink>
 
     <!-- De repetat -->

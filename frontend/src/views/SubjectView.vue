@@ -31,6 +31,7 @@ const materials = computed(() => {
 const stats = computed(() => store.cardStats(route.params.id))
 const cards = computed(() => store.cardsFor(route.params.id))
 const questionCount = computed(() => store.questionsFor(route.params.id).length)
+const multiCount = computed(() => store.questionsFor(route.params.id).filter((q) => q.type === 'multi').length)
 </script>
 
 <template>
@@ -46,7 +47,7 @@ const questionCount = computed(() => store.questionsFor(route.params.id).length)
         v-for="t in [{ id: 'materiale', label: '📚 Materiale' }, { id: 'flashcards', label: '🃏 Cartonașe' }, { id: 'grile', label: '✅ Grile' }]"
         :key="t.id"
         class="rounded-xl py-2 transition-colors"
-        :class="tab === t.id ? 'bg-white shadow text-brand-700' : 'text-muted'"
+        :class="tab === t.id ? 'bg-surface shadow text-brand-700' : 'text-muted'"
         @click="setTab(t.id)"
       >
         {{ t.label }}
@@ -60,7 +61,7 @@ const questionCount = computed(() => store.questionsFor(route.params.id).length)
           v-for="f in filters"
           :key="f.id"
           class="chip border-2 py-1.5 text-sm"
-          :class="filter === f.id ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-gray-200 bg-white text-muted'"
+          :class="filter === f.id ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-gray-200 bg-surface text-muted'"
           @click="filter = f.id"
         >
           {{ f.label }}
@@ -95,6 +96,7 @@ const questionCount = computed(() => store.questionsFor(route.params.id).length)
       </div>
       <div v-if="cards.length" class="space-y-2">
         <div v-for="c in cards" :key="c.id" class="card p-3">
+          <span v-if="c.fromQuiz" class="chip mb-1 bg-violet-100 text-violet-700">din grilele greșite</span>
           <p class="font-extrabold">{{ c.front }}</p>
           <p class="text-sm font-semibold text-muted">{{ c.back }}</p>
         </div>
@@ -111,8 +113,11 @@ const questionCount = computed(() => store.questionsFor(route.params.id).length)
       <div class="card p-6 text-center">
         <p class="text-5xl">✅</p>
         <p class="mt-2 text-xl font-black">{{ questionCount }} grile disponibile</p>
-        <p class="text-sm font-semibold text-muted">Primești 10 întrebări aleatorii, ai 3 minute.</p>
+        <p class="text-sm font-semibold text-muted">
+          {{ multiCount }} cu complement multiplu · primești 10 aleatorii, ai 3 minute.
+        </p>
         <RouterLink v-if="questionCount" :to="`/pauza/${subject.id}`" class="btn btn-blue mt-4 w-full">⏱️ Începe quiz-ul</RouterLink>
+        <RouterLink v-if="questionCount" to="/simulare" class="btn btn-white mt-2 w-full">🎓 Simulare de examen</RouterLink>
         <p v-else class="mt-3 text-sm font-bold text-muted">Grilele pentru această materie vin în curând.</p>
       </div>
     </section>
