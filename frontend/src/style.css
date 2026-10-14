@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-50: #effcf3;
+  --color-brand-100: #d7f7e1;
+  --color-brand-200: #b0eec5;
+  --color-brand-400: #4ade80;
+  --color-brand-500: #22c55e;
+  --color-brand-600: #16a34a;
+  --color-brand-700: #15803d;
+  --color-brand-800: #166534;
+
+  --color-ink: #1f2a37;
+  --color-muted: #6b7280;
+  --color-canvas: #f6fbf7;
+}
+
+html,
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100dvh;
+  overscroll-behavior-y: none;
+}
+
+@layer components {
+  /* Butoane „3D" în stil Duolingo: margine de jos groasă care dispare la apăsare. */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-extrabold tracking-wide
+      uppercase text-sm border-b-4 transition-all duration-100 select-none
+      active:translate-y-[2px] active:border-b-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-primary {
+    @apply bg-brand-500 text-white border-brand-700 hover:bg-brand-400;
+  }
+  .btn-white {
+    @apply bg-white text-ink border-2 border-b-4 border-gray-200 hover:bg-gray-50;
+  }
+  .btn-red {
+    @apply bg-red-500 text-white border-red-700 hover:bg-red-400;
+  }
+  .btn-yellow {
+    @apply bg-amber-400 text-amber-950 border-amber-600 hover:bg-amber-300;
+  }
+  .btn-green {
+    @apply bg-brand-500 text-white border-brand-700 hover:bg-brand-400;
+  }
+  .btn-blue {
+    @apply bg-sky-500 text-white border-sky-700 hover:bg-sky-400;
+  }
+
+  .card {
+    @apply bg-white rounded-3xl border-2 border-gray-200 border-b-4;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold whitespace-nowrap;
+  }
+
+  .input {
+    @apply w-full rounded-2xl border-2 border-gray-200 bg-gray-50 px-4 py-3 font-semibold
+      outline-none focus:border-brand-500 focus:bg-white transition-colors;
+  }
+
+  .label {
+    @apply mb-1 block text-sm font-bold text-muted;
+  }
+
+  /* Text Markdown din rezumate */
+  .prose-med h1 { @apply mt-4 mb-2 text-2xl font-black; }
+  .prose-med h2 { @apply mt-5 mb-2 text-xl font-extrabold text-brand-800; }
+  .prose-med h3 { @apply mt-4 mb-1 text-lg font-extrabold; }
+  .prose-med p { @apply my-2 leading-relaxed; }
+  .prose-med ul { @apply my-2 list-disc pl-6 space-y-1; }
+  .prose-med ol { @apply my-2 list-decimal pl-6 space-y-1; }
+  .prose-med strong { @apply font-extrabold; }
+  .prose-med blockquote { @apply my-3 rounded-2xl border-l-4 border-amber-400 bg-amber-50 px-4 py-2; }
+  .prose-med table { @apply my-3 w-full text-sm; }
+  .prose-med th { @apply border-b-2 border-gray-200 p-2 text-left font-extrabold; }
+  .prose-med td { @apply border-b border-gray-100 p-2; }
+  .prose-med code { @apply rounded bg-gray-100 px-1 text-sm; }
+  .prose-med a { @apply font-bold text-sky-600 underline; }
+}
+
+/* Animații */
+@keyframes pop-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  70% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.pop-in { animation: pop-in 0.35s ease-out both; }
+
+@keyframes slide-up {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.slide-up { animation: slide-up 0.3s ease-out both; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+.shake { animation: shake 0.35s ease-in-out; }
+
+@keyframes flame {
+  0%, 100% { transform: scale(1) rotate(-3deg); }
+  50% { transform: scale(1.12) rotate(3deg); }
+}
+.flame { display: inline-block; animation: flame 1.2s ease-in-out infinite; }
+
+@keyframes float-up {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-140px) scale(1.2); opacity: 0; }
+}
+.float-up { animation: float-up 1.6s ease-out forwards; }
+
+.flip-scene { perspective: 1200px; }
+.flip-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+.flip-card.flipped { transform: rotateY(180deg); }
+.flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-back { transform: rotateY(180deg); }
+
+.fade-enter-active,
+.fade-leave-active { transition: opacity 0.15s ease; }
+.fade-enter-from,
+.fade-leave-to { opacity: 0; }
+
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.safe-top { padding-top: env(safe-area-inset-top); }
