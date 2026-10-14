@@ -4,7 +4,7 @@ export default [
     id: 'bio-t1',
     title: 'Enzimele: cinetică, inhibiție și reglare',
     topic: 'Enzimologie',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Ce face o enzimă
 Enzimele sunt catalizatori biologici, aproape toate de natură proteică. Ele **scad energia de activare** a unei reacții, accelerând atingerea echilibrului, dar **nu modifică echilibrul** reacției și nici variația de energie liberă (ΔG). Substratul se leagă în **situsul activ**, formând complexul enzimă–substrat.
 
@@ -53,7 +53,7 @@ Forme diferite ale aceleiași enzime, care catalizează aceeași reacție dar di
     id: 'bio-t2',
     title: 'Lanțul respirator și fosforilarea oxidativă',
     topic: 'Bioenergetică',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Localizare și rol
 Lanțul respirator (lanțul de transport al electronilor) se află în **membrana mitocondrială internă**. El preia electronii de la **NADH** și **FADH2**, generați în glicoliză, ciclul Krebs și beta-oxidare, și îi transferă treptat până la **oxigen**, acceptorul final, cu formare de apă. Energia eliberată este folosită pentru a pompa protoni din matrice în spațiul intermembranar.
 
@@ -104,7 +104,7 @@ Inhibitorii opresc atât transportul de electroni, cât și sinteza ATP. Decupla
     id: 'bio-t3',
     title: 'Gluconeogeneza',
     topic: 'Metabolismul glucidelor',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Definiție și rol
 Gluconeogeneza este **sinteza de glucoză din precursori neglucidici**. Devine esențială în **post prelungit**, după epuizarea glicogenului hepatic, pentru a asigura glucoza necesară creierului, eritrocitelor și medularei renale.
 
@@ -159,7 +159,7 @@ Gluconeogeneza consumă energie (ATP și GTP), mai mult decât produce glicoliza
     id: 'bio-t4',
     title: 'Metabolismul glicogenului și glicogenozele',
     topic: 'Metabolismul glucidelor',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Structură și depozite
 Glicogenul este forma de depozit a glucozei la animale: un polimer ramificat cu legături **α-1,4** pe lanțuri și **α-1,6** la ramificații. Ramificarea crește solubilitatea și numărul de capete de pe care se poate elibera rapid glucoza.
 
@@ -211,7 +211,7 @@ Glicogenul este forma de depozit a glucozei la animale: un polimer ramificat cu 
     id: 'bio-t5',
     title: 'Beta-oxidarea acizilor grași și corpii cetonici',
     topic: 'Metabolismul lipidelor',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Activarea și transportul acizilor grași
 1. **Activarea** are loc în citosol: acidul gras devine **acil-CoA** (acil-CoA sintetaza), cu consum de ATP.
 2. Acizii grași cu lanț lung nu traversează membrana mitocondrială internă ca atare. Ei folosesc **sistemul carnitinei**:
@@ -267,7 +267,7 @@ Acizii grași cu număr **impar** de atomi de carbon dau în final **propionil-C
     id: 'bio-t6',
     title: 'Metabolismul colesterolului și lipoproteinele',
     topic: 'Metabolismul lipidelor',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Rolurile colesterolului
 - Component al **membranelor celulare**.
 - Precursor pentru **acizii biliari**, **hormonii steroizi** (cortizol, aldosteron, hormoni sexuali) și **vitamina D**.
@@ -319,7 +319,7 @@ Lipidele insolubile sunt transportate în plasmă în lipoproteine: un miez de t
     id: 'bio-t7',
     title: 'Metabolismul aminoacizilor și ciclul ureei',
     topic: 'Metabolismul proteinelor',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Îndepărtarea grupării amino
 Degradarea aminoacizilor începe cu eliminarea azotului, care va fi excretat sub formă de uree.
 
@@ -375,7 +375,7 @@ Amoniacul în exces este **toxic pentru sistemul nervos**: produce letargie, vă
     id: 'bio-t8',
     title: 'Metabolismul hemului și al bilirubinei',
     topic: 'Metabolismul porfirinelor',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Sinteza hemului
 Hemul este o protoporfirină care leagă **Fe2+**. Este sintetizat mai ales în **măduva hematogenă** (pentru hemoglobină) și în **ficat** (pentru citocromi). Sinteza începe și se termină în **mitocondrie**, cu etapele intermediare în citosol.
 

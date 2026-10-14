@@ -121,7 +121,7 @@ Sinapsă chimică specializată între motoneuronul α și fibra musculară sche
     id: 'fiz-t3',
     title: 'Electrofiziologia cardiacă și ECG de bază',
     topic: 'Fiziologia aparatului cardiovascular',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Țesutul excitoconductor
 
 Ordinea normală a activării: **nodul sinoatrial** → atrii → **nodul atrioventricular** → **fasciculul His** → ramurile dreaptă și stângă → **rețeaua Purkinje** → miocardul ventricular.
@@ -248,7 +248,7 @@ Platoul prelungește **perioada refractară**, astfel încât miocardul **nu poa
     id: 'fiz-t5',
     title: 'Mecanica respirației și schimbul de gaze',
     topic: 'Fiziologia respirației',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Mecanica ventilației
 
 - **Inspirul** este un proces **activ**: contracția **diafragmului** (principalul mușchi inspirator) și a intercostalilor externi mărește volumul toracic → presiunea intrapleurală devine mai negativă → presiunea alveolară scade sub cea atmosferică → aerul intră.
@@ -313,7 +313,7 @@ Platoul prelungește **perioada refractară**, astfel încât miocardul **nu poa
     id: 'fiz-t6',
     title: 'Filtrarea glomerulară și funcțiile tubulare',
     topic: 'Fiziologia renală',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Filtrarea glomerulară
 
 Filtratul se formează prin **bariera de filtrare**: endoteliu fenestrat, **membrana bazală** glomerulară și **podocite** cu diafragme de filtrare. Bariera reține celulele și proteinele mari; sarcinile negative ale membranei rețin preferențial proteinele anionice (albumina).
@@ -381,7 +381,7 @@ Glucoza este reabsorbită în tubul proximal prin transportori saturabili (SGLT)
     id: 'fiz-t7',
     title: 'Echilibrul acido-bazic',
     topic: 'Fiziologia renală',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Principii
 
 Concentrația H⁺ din lichidul extracelular este menținută în limite foarte strânse, deoarece multe proteine și enzime sunt sensibile la pH. Apărarea are trei linii, cu viteze diferite:
@@ -449,7 +449,7 @@ Compensarea **nu corectează complet** pH-ul și nu îl „depășește”; comp
     id: 'fiz-t8',
     title: 'Axul hipotalamo-hipofizar și glanda tiroidă',
     topic: 'Fiziologie endocrină',
-    readMinutes: 4,
+    readMinutes: 3,
     content: `## Organizarea axului
 
 - **Hipotalamusul** controlează **adenohipofiza** prin hormoni eliberatori și inhibitori transportați prin **sistemul port hipotalamo-hipofizar**.
