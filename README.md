@@ -20,7 +20,7 @@ npm run dev
 ## Deploy pe Vercel
 
 1. Pe [vercel.com](https://vercel.com) → **Add New → Project** → importă repo-ul `StudentMed`.
-2. Nu schimba nimic la setări: `vercel.json` din rădăcină spune deja cum se construiește (`frontend/`).
+2. La **Root Directory** alege `frontend` (Vercel detectează automat Vite; restul setărilor rămân implicite).
 3. **Deploy.** La fiecare push pe `main`, Vercel publică automat noua versiune.
 4. Domeniu propriu: în proiectul Vercel → **Settings → Domains** → adaugă domeniul și setează înregistrările DNS indicate acolo.
 
