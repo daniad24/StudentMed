@@ -4,7 +4,7 @@ export default {
   flashcards: [
     { id: "car-f1", front: "Triada Beck?", back: "Hipotensiune, turgescență jugulară, zgomote asurzite – tamponadă cardiacă" },
     { id: "car-f2", front: "PR scurt + undă delta?", back: "Sindrom Wolff-Parkinson-White (preexcitație pe cale accesorie)" },
-    { id: "car-f3", front: "Unde „în dinți de fierăstrău” în DII, DIII, aVF?", back: "Flutter atrial tipic" },
+    { id: "car-f3", front: "Ce aritmie dau undele F „în dinți de fierăstrău” în DII, DIII, aVF?", back: "Flutter atrial tipic" },
     { id: "car-f4", front: "Noduli Osler, leziuni Janeway, pete Roth?", back: "Endocardită infecțioasă" },
     { id: "car-f5", front: "Endocardită cu Streptococcus gallolyticus – ce investigație suplimentară?", back: "Colonoscopie – asociere cu neoplasmul colorectal" },
     { id: "car-f6", front: "Supradenivelare ST difuză concavă + subdenivelare PR?", back: "Pericardită acută" },
