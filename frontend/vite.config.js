@@ -3,7 +3,11 @@ import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+// Versiunea (hash-ul commit-ului) vine de la Vercel la build; local apare „dev".
+const appVersion = (process.env.VERCEL_GIT_COMMIT_SHA || 'dev').slice(0, 7)
+
 export default defineConfig({
+  define: { __APP_VERSION__: JSON.stringify(appVersion) },
   plugins: [
     vue(),
     tailwindcss(),

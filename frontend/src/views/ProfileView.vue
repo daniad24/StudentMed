@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import AppIcon from '../components/AppIcon.vue'
@@ -17,6 +17,22 @@ const initials = computed(() =>
 )
 const known = computed(() => Object.values(store.cardState).filter((s) => s.box >= 3).length)
 const isContributor = computed(() => store.contributions > 0)
+
+const version = __APP_VERSION__
+const updating = ref(false)
+
+// Șterge service worker-ul și cache-ul, apoi reîncarcă: aplicația ia versiunea de pe server.
+async function updateApp() {
+  updating.value = true
+  try {
+    const regs = (await navigator.serviceWorker?.getRegistrations()) ?? []
+    await Promise.all(regs.map((r) => r.unregister()))
+    await Promise.all((await caches.keys()).map((k) => caches.delete(k)))
+  } catch {
+    // dacă nu merge, reîncărcarea de mai jos tot ajută
+  }
+  location.reload()
+}
 
 function logout() {
   store.logout()
@@ -101,6 +117,17 @@ function logout() {
         </RouterLink>
         <div v-if="store.myCards.length" class="card p-3 font-extrabold">🃏 {{ store.myCards.length }} cartonașe adăugate</div>
       </div>
+    </section>
+
+    <section class="card space-y-3 p-5">
+      <h2 class="font-black">🔄 Versiunea aplicației</h2>
+      <p class="text-sm font-semibold text-muted">
+        Ai versiunea <code class="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-xs">{{ version }}</code>.
+        Dacă lipsește ceva ce ți-am spus că e nou, apasă butonul de mai jos. Progresul și cartonașele tale rămân salvate.
+      </p>
+      <button class="btn btn-white w-full" :disabled="updating" @click="updateApp">
+        {{ updating ? 'Se actualizează…' : '🔄 Actualizează aplicația' }}
+      </button>
     </section>
 
     <!-- Doar pentru demo -->
