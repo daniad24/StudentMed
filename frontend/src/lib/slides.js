@@ -8,11 +8,19 @@ const PPTX_NS = {
 
 const clean = (s) => s.replace(/\s+/g, ' ').trim()
 
+export class ImportError extends Error {}
+
 export async function extractSlides(file) {
   const name = file.name.toLowerCase()
-  if (name.endsWith('.pptx')) return extractPptx(file)
-  if (name.endsWith('.pdf')) return extractPdf(file)
-  throw new Error('Format nesuportat. Încarcă un fișier .pptx sau .pdf.')
+  try {
+    if (name.endsWith('.pptx')) return await extractPptx(file)
+    if (name.endsWith('.pdf')) return await extractPdf(file)
+  } catch (err) {
+    if (err instanceof ImportError) throw err
+    console.error(err)
+    throw new ImportError(`Nu am putut citi fișierul. Detalii tehnice: ${err?.message ?? err}`)
+  }
+  throw new ImportError('Format nesuportat. Încarcă un fișier .pptx sau .pdf.')
 }
 
 async function extractPptx(file) {
@@ -21,7 +29,7 @@ async function extractPptx(file) {
   try {
     zip = await JSZip.loadAsync(file)
   } catch {
-    throw new Error('Fișierul nu pare a fi o prezentare PowerPoint validă (.pptx).')
+    throw new ImportError('Fișierul nu pare a fi o prezentare PowerPoint validă (.pptx).')
   }
 
   const slideFiles = Object.keys(zip.files)
@@ -65,6 +73,19 @@ async function extractPptx(file) {
   return slides
 }
 
+// Citim textul paginii cu reader-ul stream-ului. `page.getTextContent()` folosește `for await`
+// pe ReadableStream, care lipsește din Safari (iPhone/iPad) și dă „undefined is not a function".
+async function pageTextItems(page) {
+  const reader = page.streamTextContent().getReader()
+  const items = []
+  for (;;) {
+    const { done, value } = await reader.read()
+    if (done) break
+    for (const item of value.items) items.push(item)
+  }
+  return items
+}
+
 async function extractPdf(file) {
   const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs')
   const { default: workerUrl } = await import('pdfjs-dist/legacy/build/pdf.worker.min.mjs?url')
@@ -74,13 +95,13 @@ async function extractPdf(file) {
   try {
     pdf = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise
   } catch {
-    throw new Error('PDF-ul nu a putut fi deschis (poate e protejat cu parolă sau deteriorat).')
+    throw new ImportError('PDF-ul nu a putut fi deschis (poate e protejat cu parolă sau deteriorat).')
   }
 
   const slides = []
   for (let n = 1; n <= pdf.numPages; n++) {
     const page = await pdf.getPage(n)
-    const { items } = await page.getTextContent()
+    const items = await pageTextItems(page)
 
     // Grupăm fragmentele de text pe rânduri, după poziția verticală.
     const rows = []
