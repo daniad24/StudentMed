@@ -79,6 +79,22 @@ function logout() {
     </RouterLink>
 
     <section class="card p-5">
+      <h2 class="font-black">🎓 Anul de studiu</h2>
+      <p class="mb-3 text-sm font-semibold text-muted">Acasă și Materii îți arată mai întâi materiile anului tău.</p>
+      <div class="grid grid-cols-6 gap-1.5">
+        <button
+          v-for="y in 6"
+          :key="y"
+          class="rounded-xl border-2 border-b-4 py-2 font-black transition-colors"
+          :class="store.studyYear === y ? 'border-[#15803d] bg-brand-500 text-white' : 'border-gray-200 bg-surface text-muted'"
+          @click="store.setStudyYear(y)"
+        >
+          {{ ['I', 'II', 'III', 'IV', 'V', 'VI'][y - 1] }}
+        </button>
+      </div>
+    </section>
+
+    <section class="card p-5">
       <h2 class="mb-3 font-black">🌓 Temă</h2>
       <div class="grid grid-cols-3 gap-2">
         <button

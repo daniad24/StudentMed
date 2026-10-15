@@ -282,3 +282,14 @@ export const flashcards = withSubject('flashcards')
 
 // Grile: `type` 'single' (complement simplu) sau 'multi' (complement multiplu); `answer` = indicii corecți.
 export const questions = withSubject('questions')
+
+// Stagiu: cazuri clinice și abilități practice, din data/clinical/<materie>.js
+export const clinical = Object.fromEntries(
+  Object.entries(loadDir(import.meta.glob('./clinical/*.js', { eager: true, import: 'default' }))).map(([subjectId, c]) => [
+    subjectId,
+    {
+      cases: (c.cases ?? []).map((x) => ({ ...x, subjectId })),
+      skills: (c.skills ?? []).map((x) => ({ ...x, subjectId })),
+    },
+  ]),
+)

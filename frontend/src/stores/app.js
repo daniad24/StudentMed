@@ -45,7 +45,7 @@ const GREEN_INTERVALS = [7, 14, 30, 60]
 // De la câte voturi un material devine automat „Recomandat".
 export const RECOMMEND_VOTES = 25
 
-export const XP = { card: 2, correct: 5, wrong: 1, exam: 20 }
+export const XP = { card: 2, correct: 5, wrong: 1, exam: 20, case: 10 }
 
 // Colegi fictivi pentru clasamentul demo (XP pe o săptămână întreagă).
 const DEMO_RIVALS = [
@@ -62,6 +62,15 @@ const DEMO_RIVALS = [
 const KEYS = [
   'user', 'isAdmin', 'theme', 'streak', 'cardState', 'votes', 'recommendedOverrides', 'reports',
   'myMaterials', 'myCards', 'quizCards', 'quizHistory', 'examHistory', 'answerLog', 'activity', 'leaderboardOptIn',
+  'examDates', 'caseProgress', 'skillStatus',
+]
+
+// Carnetul de abilități practice: nivelul atins pentru fiecare manevră/examinare.
+export const SKILL_LEVELS = [
+  { id: 0, label: 'Neînceput', short: '–' },
+  { id: 1, label: 'Am văzut', short: '👀' },
+  { id: 2, label: 'Am făcut sub supraveghere', short: '🧑‍⚕️' },
+  { id: 3, label: 'Fac singur(ă)', short: '✅' },
 ]
 
 export const useAppStore = defineStore('app', () => {
@@ -83,10 +92,14 @@ export const useAppStore = defineStore('app', () => {
   const answerLog = ref(saved.answerLog ?? [])
   const activity = ref(saved.activity ?? {})
   const leaderboardOptIn = ref(saved.leaderboardOptIn ?? true)
+  const examDates = ref(saved.examDates ?? {}) // { subjectId: 'YYYY-MM-DD' }
+  const caseProgress = ref(saved.caseProgress ?? {}) // { caseId: { date, ratings: ['yes'|'partial'|'no'] } }
+  const skillStatus = ref(saved.skillStatus ?? {}) // { skillId: 0..3 }
 
   const refs = {
     user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
     myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
+    examDates, caseProgress, skillStatus,
   }
   watch(
     KEYS.map((k) => refs[k]),
@@ -95,8 +108,14 @@ export const useAppStore = defineStore('app', () => {
   )
 
   // --- Cont ---
-  function login(name, email) {
-    user.value = { name, email }
+  function login(name, email, year = null) {
+    user.value = { name, email, year: year ?? user.value?.year ?? null }
+  }
+
+  // Anul de studiu (1–6) al studentului; null până îl alege.
+  const studyYear = computed(() => user.value?.year ?? null)
+  function setStudyYear(year) {
+    if (user.value) user.value = { ...user.value, year }
   }
   function logout() {
     user.value = null
@@ -318,8 +337,67 @@ export const useAppStore = defineStore('app', () => {
     { id: 'firstQuiz', emoji: '⏱️', name: 'De gardă', desc: 'Primul quiz rapid terminat', earned: quizHistory.value.length > 0 },
     { id: 'perfect', emoji: '🎯', name: 'Fără greșeală', desc: '10/10 la un quiz', earned: quizHistory.value.some((q) => q.score === q.total && q.total >= 10) },
     { id: 'exam', emoji: '🎓', name: 'Gata de colocviu', desc: 'Prima simulare de examen', earned: examHistory.value.length > 0 },
+    { id: 'case', emoji: '🧩', name: 'Clinician', desc: 'Primul caz clinic rezolvat', earned: Object.keys(caseProgress.value).length > 0 },
+    { id: 'skills', emoji: '📋', name: 'Mâini sigure', desc: '5 abilități practice făcute singur(ă)', earned: Object.values(skillStatus.value).filter((l) => l >= 3).length >= 5 },
     { id: 'helper', emoji: '🚩', name: 'Ochi de vultur', desc: 'Ai raportat o greșeală', earned: reports.value.some((r) => r.by === user.value?.name) },
   ])
+
+  // --- Colocvii ---
+  function setExamDate(subjectId, date) {
+    const next = { ...examDates.value }
+    if (date) next[subjectId] = date
+    else delete next[subjectId]
+    examDates.value = next
+  }
+
+  // Câte zile mai sunt și câte grile pe zi ar trebui rezolvate ca să le treci pe toate o dată.
+  function examPlan(subjectId) {
+    const date = examDates.value[subjectId]
+    if (!date) return null
+    const daysLeft = Math.round((new Date(date + 'T00:00:00') - new Date(today() + 'T00:00:00')) / 864e5)
+    const qs = questionsFor(subjectId)
+    const solved = new Set(answerLog.value.filter((a) => a.subjectId === subjectId && a.correct).map((a) => a.qid))
+    const remaining = qs.filter((q) => !solved.has(q.id)).length
+    return {
+      date,
+      daysLeft,
+      total: qs.length,
+      remaining,
+      perDay: daysLeft > 0 ? Math.ceil(remaining / daysLeft) : remaining,
+      dueCards: dueCardsFor(subjectId).length,
+    }
+  }
+
+  const upcomingExams = computed(() =>
+    Object.keys(examDates.value)
+      .map((id) => ({ subjectId: id, ...examPlan(id) }))
+      .filter((e) => e.daysLeft >= 0)
+      .sort((a, b) => a.daysLeft - b.daysLeft),
+  )
+
+  // --- Stagiu: cazuri clinice și abilități practice ---
+  function clinicalFor(subjectId) {
+    return mock.clinical[subjectId] ?? { cases: [], skills: [] }
+  }
+
+  function finishCase(caseId, ratings) {
+    caseProgress.value = { ...caseProgress.value, [caseId]: { date: today(), ratings } }
+    addXp(XP.case)
+  }
+
+  function setSkillLevel(skillId, level) {
+    skillStatus.value = { ...skillStatus.value, [skillId]: level }
+  }
+
+  function stagiuStats(subjectId) {
+    const { cases, skills } = clinicalFor(subjectId)
+    return {
+      cases: cases.length,
+      casesDone: cases.filter((c) => caseProgress.value[c.id]).length,
+      skills: skills.length,
+      skillsDone: skills.filter((sk) => (skillStatus.value[sk.id] ?? 0) >= 3).length,
+    }
+  }
 
   function resetDemo() {
     try {
@@ -333,7 +411,9 @@ export const useAppStore = defineStore('app', () => {
   return {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    login, logout,
+    examDates, caseProgress, skillStatus,
+    login, logout, studyYear, setStudyYear,
+    setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,
     currentStreak, studiedToday, markStudied, totalXp, weekXp, leaderboard,
     allMaterials, materialsFor, toggleVote, toggleRecommended, addMaterial,
     allCards, cardsFor, dueCardsFor, addCard, addCards, rateCard, cardStats,

@@ -26,18 +26,32 @@ const week = computed(() => {
   })
 })
 
+const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI']
+
+// Materiile anului studentului care au deja conținut.
+const mySubjects = computed(() =>
+  store.studyYear
+    ? subjects.filter((s) => s.years.includes(store.studyYear) && (store.questionsFor(s.id).length || store.cardsFor(s.id).length))
+    : [],
+)
+
+// De repetat: materiile anului tău + cele la care ai început deja cartonașe.
 const dueSubjects = computed(() =>
   subjects
+    .filter((s) => !store.studyYear || s.years.includes(store.studyYear) || store.cardsFor(s.id).some((c) => store.cardState[c.id]))
     .map((s) => ({ ...s, ...store.cardStats(s.id) }))
     .filter((s) => s.due > 0),
 )
 
-const recommended = computed(() =>
-  store.allMaterials
-    .filter((m) => m.recommended)
+const exams = computed(() => store.upcomingExams.map((e) => ({ ...e, subject: subjects.find((s) => s.id === e.subjectId) })))
+
+const recommended = computed(() => {
+  const inMyYear = (m) => !store.studyYear || subjectById(m.subjectId)?.years.includes(store.studyYear)
+  return store.allMaterials
+    .filter((m) => m.recommended && inMyYear(m))
     .sort((a, b) => b.votes - a.votes)
-    .slice(0, 3),
-)
+    .slice(0, 3)
+})
 
 const subjectById = (id) => subjects.find((s) => s.id === id)
 </script>
@@ -80,6 +94,65 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
             {{ d.studied ? '✓' : '·' }}
           </span>
         </div>
+      </div>
+    </section>
+
+    <!-- Anul de studiu -->
+    <RouterLink
+      v-if="!store.studyYear"
+      to="/profil"
+      class="card flex items-center gap-3 border-amber-300 bg-amber-50 p-4 slide-up"
+    >
+      <span class="text-3xl">🎓</span>
+      <span class="flex-1">
+        <span class="block font-black">În ce an ești?</span>
+        <span class="block text-sm font-semibold text-muted">Alege-l în Profil și îți arătăm materiile tale.</span>
+      </span>
+      <AppIcon name="forward" class="text-muted" />
+    </RouterLink>
+
+    <section v-else-if="mySubjects.length" class="slide-up">
+      <div class="mb-2 flex items-baseline justify-between">
+        <h2 class="text-lg font-black">Anul {{ ROMAN[store.studyYear - 1] }}</h2>
+        <RouterLink to="/materii" class="text-sm font-bold text-brand-600">Toate materiile</RouterLink>
+      </div>
+      <div class="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
+        <RouterLink
+          v-for="s in mySubjects"
+          :key="s.id"
+          :to="`/materie/${s.id}`"
+          class="card flex w-28 shrink-0 flex-col items-center gap-1 p-3 text-center transition-transform active:translate-y-[2px]"
+        >
+          <span class="flex h-11 w-11 items-center justify-center rounded-xl border-2 text-2xl" :class="s.color">{{ s.emoji }}</span>
+          <span class="text-xs font-extrabold leading-tight">{{ s.name }}</span>
+        </RouterLink>
+      </div>
+    </section>
+
+    <!-- Colocvii -->
+    <section v-if="exams.length" class="slide-up">
+      <h2 class="mb-2 text-lg font-black">📅 Colocvii</h2>
+      <div class="space-y-2">
+        <RouterLink
+          v-for="e in exams"
+          :key="e.subjectId"
+          :to="`/materie/${e.subjectId}?tab=grile`"
+          class="card flex items-center gap-3 p-4 transition-transform active:translate-y-[2px]"
+        >
+          <span class="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-2xl bg-violet-100 leading-none text-violet-700">
+            <span class="text-lg font-black">{{ e.daysLeft }}</span>
+            <span class="text-[10px] font-bold">{{ e.daysLeft === 1 ? 'zi' : 'zile' }}</span>
+          </span>
+          <span class="min-w-0 flex-1">
+            <span class="block truncate font-extrabold">{{ e.subject?.emoji }} {{ e.subject?.name }}</span>
+            <span class="block text-sm font-semibold text-muted">
+              <template v-if="e.daysLeft === 0">E azi! Mult succes 🍀</template>
+              <template v-else-if="e.remaining">~{{ e.perDay }} grile/zi · {{ e.remaining }} din {{ e.total }} rămase</template>
+              <template v-else>Ai rezolvat corect toate grilele 💪</template>
+            </span>
+          </span>
+          <AppIcon name="forward" class="text-muted" />
+        </RouterLink>
       </div>
     </section>
 

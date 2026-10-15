@@ -1,28 +1,13 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useAppStore } from '../stores/app'
 import { subjects, years } from '../data/mock'
 import AppIcon from '../components/AppIcon.vue'
 
 const store = useAppStore()
 
-// Anul ales rămâne salvat pe dispozitiv.
-const YEAR_KEY = 'studentmed-year'
-const readYear = () => {
-  try {
-    return Number(localStorage.getItem(YEAR_KEY)) || 1
-  } catch {
-    return 1
-  }
-}
-const year = ref(readYear())
-watch(year, (y) => {
-  try {
-    localStorage.setItem(YEAR_KEY, String(y))
-  } catch {
-    // ignorat
-  }
-})
+// Se deschide pe anul studentului (din Profil); schimbarea tab-ului e doar pentru vizita curentă.
+const year = ref(store.studyYear ?? 1)
 
 const list = computed(() =>
   subjects
@@ -52,7 +37,7 @@ const list = computed(() =>
         :class="year === y.id ? 'btn-primary' : 'btn-white'"
         @click="year = y.id"
       >
-        {{ y.name }}
+        {{ y.name }}<span v-if="y.id === store.studyYear" class="ml-1 opacity-80">· al tău</span>
       </button>
     </div>
 

@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useAppStore, RECOMMEND_VOTES } from '../stores/app'
+import { useAppStore, RECOMMEND_VOTES, SKILL_LEVELS, today } from '../stores/app'
 import { subjects } from '../data/mock'
 import BackButton from '../components/BackButton.vue'
 import MaterialItem from '../components/MaterialItem.vue'
@@ -38,6 +38,32 @@ const stats = computed(() => store.cardStats(route.params.id))
 const cards = computed(() => store.cardsFor(route.params.id))
 const questionCount = computed(() => store.questionsFor(route.params.id).length)
 const multiCount = computed(() => store.questionsFor(route.params.id).filter((q) => q.type === 'multi').length)
+
+// --- Colocviu ---
+const plan = computed(() => store.examPlan(route.params.id))
+const editingDate = ref(false)
+const dateInput = ref('')
+function openDate() {
+  dateInput.value = plan.value?.date ?? ''
+  editingDate.value = true
+}
+function saveDate() {
+  store.setExamDate(route.params.id, dateInput.value || null)
+  editingDate.value = false
+}
+const fmtDate = (d) => new Date(d + 'T00:00:00').toLocaleDateString('ro-RO', { day: 'numeric', month: 'long' })
+
+// --- Stagiu ---
+const clinical = computed(() => store.clinicalFor(route.params.id))
+const hasStagiu = computed(() => clinical.value.cases.length > 0 || clinical.value.skills.length > 0)
+const stagiu = computed(() => store.stagiuStats(route.params.id))
+const tabs = computed(() => [
+  { id: 'materiale', icon: '📚', label: 'Materiale' },
+  { id: 'flashcards', icon: '🃏', label: 'Cartonașe' },
+  { id: 'grile', icon: '✅', label: 'Grile' },
+  ...(hasStagiu.value ? [{ id: 'stagiu', icon: '🩺', label: 'Stagiu' }] : []),
+])
+const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
 </script>
 
 <template>
@@ -45,18 +71,53 @@ const multiCount = computed(() => store.questionsFor(route.params.id).filter((q)
     <header class="flex items-center gap-3 slide-up">
       <BackButton to="/materii" />
       <span class="flex h-12 w-12 items-center justify-center rounded-2xl border-2 text-2xl" :class="subject.color">{{ subject.emoji }}</span>
-      <h1 class="text-2xl font-black">{{ subject.name }}</h1>
+      <h1 class="text-2xl font-black leading-tight">{{ subject.name }}</h1>
     </header>
 
-    <div class="grid grid-cols-3 rounded-2xl bg-gray-100 p-1 text-sm font-extrabold">
+    <!-- Colocviu -->
+    <section class="card p-3">
+      <div v-if="!editingDate" class="flex items-center gap-3">
+        <span class="text-2xl">📅</span>
+        <button class="min-w-0 flex-1 text-left" @click="openDate">
+          <template v-if="plan">
+            <span class="block font-extrabold">
+              Colocviu {{ plan.daysLeft === 0 ? 'azi' : plan.daysLeft > 0 ? `în ${plan.daysLeft} ${plan.daysLeft === 1 ? 'zi' : 'zile'}` : 'trecut' }}
+              <span class="font-semibold text-muted">· {{ fmtDate(plan.date) }}</span>
+            </span>
+            <span v-if="plan.daysLeft > 0 && plan.remaining" class="block text-sm font-semibold text-muted">
+              Plan: ~{{ plan.perDay }} grile/zi ({{ plan.remaining }} nerezolvate) + cartonașele de azi
+            </span>
+            <span v-else-if="plan.daysLeft >= 0" class="block text-sm font-semibold text-muted">Ai rezolvat corect toate grilele 💪</span>
+          </template>
+          <template v-else>
+            <span class="block font-extrabold">Când ai colocviul?</span>
+            <span class="block text-sm font-semibold text-muted">Setează data și îți facem un plan pe zile.</span>
+          </template>
+        </button>
+        <button
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-2 border-gray-200 bg-surface"
+          :aria-label="plan ? 'Schimbă data colocviului' : 'Setează data colocviului'"
+          @click="openDate"
+        >
+          ✏️
+        </button>
+      </div>
+      <div v-else class="flex flex-wrap items-center gap-2">
+        <input v-model="dateInput" type="date" :min="today()" class="input flex-1 py-2" aria-label="Data colocviului" />
+        <button class="btn btn-primary px-4 py-2" @click="saveDate">Salvează</button>
+        <button v-if="plan" class="btn btn-white px-3 py-2" @click="dateInput = ''; saveDate()">Șterge</button>
+      </div>
+    </section>
+
+    <div class="grid rounded-2xl bg-gray-100 p-1 font-extrabold" :class="tabs.length === 4 ? 'grid-cols-4' : 'grid-cols-3'">
       <button
-        v-for="t in [{ id: 'materiale', label: '📚 Materiale' }, { id: 'flashcards', label: '🃏 Cartonașe' }, { id: 'grile', label: '✅ Grile' }]"
+        v-for="t in tabs"
         :key="t.id"
-        class="rounded-xl py-2 transition-colors"
+        class="flex flex-col items-center rounded-xl py-1.5 text-xs leading-tight transition-colors sm:flex-row sm:justify-center sm:gap-1 sm:py-2 sm:text-sm"
         :class="tab === t.id ? 'bg-surface shadow text-brand-700' : 'text-muted'"
         @click="setTab(t.id)"
       >
-        {{ t.label }}
+        <span class="text-base sm:text-sm">{{ t.icon }}</span>{{ t.label }}
       </button>
     </div>
 
@@ -117,6 +178,70 @@ const multiCount = computed(() => store.questionsFor(route.params.id).filter((q)
       </div>
     </section>
 
+    <!-- Stagiu: cazuri clinice + carnet de abilități -->
+    <section v-else-if="tab === 'stagiu'" class="space-y-5">
+      <div class="grid grid-cols-2 gap-2">
+        <div class="card p-3 text-center">
+          <p class="text-2xl font-black text-sky-600">{{ stagiu.casesDone }}/{{ stagiu.cases }}</p>
+          <p class="text-xs font-bold text-muted">cazuri rezolvate</p>
+        </div>
+        <div class="card p-3 text-center">
+          <p class="text-2xl font-black text-brand-600">{{ stagiu.skillsDone }}/{{ stagiu.skills }}</p>
+          <p class="text-xs font-bold text-muted">abilități stăpânite</p>
+        </div>
+      </div>
+
+      <div v-if="clinical.cases.length">
+        <h2 class="mb-2 font-black">🧩 Cazuri clinice</h2>
+        <p class="mb-2 text-sm font-semibold text-muted">Ca la colocviu: pornești de la pacient și ajungi la diagnostic și tratament, pas cu pas.</p>
+        <div class="space-y-2">
+          <RouterLink
+            v-for="c in clinical.cases"
+            :key="c.id"
+            :to="`/caz/${c.id}`"
+            class="card flex items-center gap-3 p-4 transition-transform active:translate-y-[2px]"
+          >
+            <span class="text-2xl">{{ store.caseProgress[c.id] ? '✅' : '🧑‍⚕️' }}</span>
+            <span class="min-w-0 flex-1">
+              <span class="block font-extrabold">{{ c.title }}</span>
+              <span class="block text-xs font-bold text-muted">{{ c.setting }}{{ store.caseProgress[c.id] ? ' · rezolvat' : '' }}</span>
+            </span>
+          </RouterLink>
+        </div>
+      </div>
+
+      <div v-if="clinical.skills.length">
+        <h2 class="mb-2 font-black">📋 Carnet de abilități practice</h2>
+        <p class="mb-2 text-sm font-semibold text-muted">Bifează ce ai văzut și ce ai făcut la stagiu. Deschide o abilitate ca să vezi pașii.</p>
+        <div class="space-y-2">
+          <details v-for="sk in clinical.skills" :key="sk.id" class="card p-4">
+            <summary class="flex cursor-pointer list-none items-center gap-3">
+              <span class="text-xl" :title="SKILL_LEVELS[levelOf(sk.id)].label">{{ SKILL_LEVELS[levelOf(sk.id)].short }}</span>
+              <span class="min-w-0 flex-1">
+                <span class="block font-extrabold">{{ sk.name }}</span>
+                <span class="block text-xs font-bold text-muted">{{ sk.category }} · {{ SKILL_LEVELS[levelOf(sk.id)].label }}</span>
+              </span>
+            </summary>
+            <ol class="mt-3 list-decimal space-y-1 pl-5 text-sm font-semibold">
+              <li v-for="(step, i) in sk.steps" :key="i">{{ step }}</li>
+            </ol>
+            <p v-if="sk.tips" class="mt-3 rounded-xl bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-800">💡 {{ sk.tips }}</p>
+            <div class="mt-3 grid grid-cols-2 gap-1.5">
+              <button
+                v-for="lvl in SKILL_LEVELS"
+                :key="lvl.id"
+                class="rounded-xl border-2 px-2 py-1.5 text-xs font-bold transition-colors"
+                :class="levelOf(sk.id) === lvl.id ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-gray-200 text-muted'"
+                @click="store.setSkillLevel(sk.id, lvl.id)"
+              >
+                {{ lvl.short }} {{ lvl.label }}
+              </button>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
     <!-- Grile -->
     <section v-else class="space-y-3">
       <div class="card p-6 text-center">
@@ -126,7 +251,7 @@ const multiCount = computed(() => store.questionsFor(route.params.id).filter((q)
           {{ multiCount }} cu complement multiplu · primești 10 aleatorii, ai 3 minute.
         </p>
         <RouterLink v-if="questionCount" :to="`/pauza/${subject.id}`" class="btn btn-blue mt-4 w-full">⏱️ Începe quiz-ul</RouterLink>
-        <RouterLink v-if="questionCount" to="/simulare" class="btn btn-white mt-2 w-full">🎓 Simulare de examen</RouterLink>
+        <RouterLink v-if="questionCount" :to="`/simulare?materie=${subject.id}`" class="btn btn-white mt-2 w-full">🎓 Simulare de colocviu</RouterLink>
         <p v-else class="mt-3 text-sm font-bold text-muted">Grilele pentru această materie vin în curând.</p>
       </div>
     </section>

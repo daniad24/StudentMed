@@ -18,7 +18,9 @@ const rezMode = route.query.mod === 'rezidentiat'
 const available = subjects
   .map((s) => ({ ...s, count: store.questionsFor(s.id).length }))
   .filter((s) => s.count > 0 && (!rezMode || s.rez))
-const picked = ref(available.map((s) => s.id))
+// ?materie=<id> = simulare de colocviu doar din materia respectivă.
+const onlySubject = available.find((s) => s.id === route.query.materie)?.id
+const picked = ref(onlySubject ? [onlySubject] : available.map((s) => s.id))
 const size = ref(rezMode ? 50 : 30)
 const pool = computed(() => picked.value.flatMap((id) => store.questionsFor(id)))
 

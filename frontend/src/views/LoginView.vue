@@ -8,6 +8,7 @@ const router = useRouter()
 
 const mode = ref('login')
 const name = ref('')
+const year = ref(null)
 const email = ref('')
 const password = ref('')
 const error = ref('')
@@ -17,8 +18,9 @@ function submit() {
   if (!/^\S+@\S+\.\S+$/.test(email.value)) return (error.value = 'Introdu o adresă de email validă.')
   if (password.value.length < 6) return (error.value = 'Parola trebuie să aibă minim 6 caractere.')
   if (mode.value === 'register' && !name.value.trim()) return (error.value = 'Spune-ne cum te cheamă.')
+  if (mode.value === 'register' && !year.value) return (error.value = 'Alege anul de studiu.')
   const displayName = name.value.trim() || email.value.split('@')[0]
-  store.login(displayName, email.value)
+  store.login(displayName, email.value, year.value)
   router.push('/')
 }
 </script>
@@ -53,6 +55,21 @@ function submit() {
         <div v-if="mode === 'register'">
           <label class="label" for="name">Nume</label>
           <input id="name" v-model="name" class="input" autocomplete="name" placeholder="ex. Ana Popescu" />
+        </div>
+        <div v-if="mode === 'register'">
+          <span class="label">În ce an ești?</span>
+          <div class="grid grid-cols-6 gap-1.5">
+            <button
+              v-for="y in 6"
+              :key="y"
+              type="button"
+              class="rounded-xl border-2 border-b-4 py-2 font-black transition-colors"
+              :class="year === y ? 'border-[#15803d] bg-brand-500 text-white' : 'border-gray-200 bg-surface text-muted'"
+              @click="year = y"
+            >
+              {{ ['I', 'II', 'III', 'IV', 'V', 'VI'][y - 1] }}
+            </button>
+          </div>
         </div>
         <div>
           <label class="label" for="email">Email</label>
