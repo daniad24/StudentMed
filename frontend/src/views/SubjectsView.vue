@@ -39,19 +39,10 @@ const list = computed(() =>
 
 <template>
   <div class="space-y-5">
-    <h1 class="text-2xl font-black slide-up">Materii</h1>
-
-    <RouterLink
-      to="/rezidentiat"
-      class="flex items-center gap-3 rounded-3xl border-b-4 border-[#6d28d9] bg-gradient-to-br from-violet-500 to-violet-700 p-4 text-white transition-transform active:translate-y-[2px] slide-up"
-    >
-      <span class="text-4xl">🎯</span>
-      <span class="flex-1">
-        <span class="block text-lg font-black">Pregătire rezidențiat</span>
-        <span class="block text-sm font-semibold text-white/90">Grile pe capitolele din Kumar & Clark și Lawrence</span>
-      </span>
-      <AppIcon name="forward" :size="26" />
-    </RouterLink>
+    <header class="slide-up">
+      <h1 class="text-2xl font-black">Materii</h1>
+      <p class="text-sm font-semibold text-muted">Disciplinele pe ani, după planul de învățământ UMF „Carol Davila”.</p>
+    </header>
 
     <div class="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
       <button
@@ -83,7 +74,6 @@ const list = computed(() =>
             <p v-else class="mt-1 text-xs font-bold text-muted">
               {{ s.materials }} materiale · {{ s.total }} cartonașe · {{ s.questions }} grile
             </p>
-            <span v-if="s.rez" class="chip mt-1 bg-violet-100 text-violet-700">🎯 Rezidențiat</span>
           </div>
         </div>
         <div v-if="s.total" class="mt-3">
@@ -96,7 +86,19 @@ const list = computed(() =>
     </div>
 
     <p class="text-center text-xs font-semibold text-muted">
-      Ordinea pe ani urmează planul de învățământ UMF „Carol Davila” București. La alte facultăți unele materii se fac în alt an.
+      La alte facultăți unele materii se fac în alt an.
     </p>
+
+    <RouterLink
+      to="/rezidentiat"
+      class="card flex items-center gap-3 p-4 transition-transform active:translate-y-[2px]"
+    >
+      <span class="flex h-11 w-11 items-center justify-center rounded-xl border-2 border-violet-200 bg-violet-100 text-xl">🎯</span>
+      <span class="flex-1">
+        <span class="block font-black">După facultate: rezidențiat</span>
+        <span class="block text-xs font-semibold text-muted">Grile în formatul concursului, pe capitolele din bibliografie</span>
+      </span>
+      <AppIcon name="forward" class="text-muted" />
+    </RouterLink>
   </div>
 </template>
