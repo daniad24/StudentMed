@@ -127,7 +127,7 @@ const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
         <button
           v-for="f in filters"
           :key="f.id"
-          class="chip border-2 py-1.5 text-sm"
+          class="chip max-w-full whitespace-normal border-2 py-1.5 text-left text-sm"
           :class="filter === f.id ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-gray-200 bg-surface text-muted'"
           @click="filter = f.id"
         >

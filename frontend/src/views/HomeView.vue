@@ -114,7 +114,7 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
     <section v-else-if="mySubjects.length" class="slide-up">
       <div class="mb-2 flex items-baseline justify-between">
         <h2 class="text-lg font-black">Anul {{ ROMAN[store.studyYear - 1] }}</h2>
-        <RouterLink to="/materii" class="text-sm font-bold text-brand-600">Toate materiile</RouterLink>
+        <RouterLink to="/materii" class="px-1 py-2 text-sm font-bold text-brand-600">Toate materiile</RouterLink>
       </div>
       <div class="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
         <RouterLink

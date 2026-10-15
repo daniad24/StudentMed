@@ -108,7 +108,7 @@ const wrong = computed(() => results.value.filter((r) => !r.correct))
           <button
             v-for="s in available"
             :key="s.id"
-            class="chip border-2 py-1.5 text-sm"
+            class="chip max-w-full whitespace-normal border-2 py-1.5 text-left text-sm"
             :class="picked.includes(s.id) ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-gray-200 bg-surface text-muted'"
             @click="togglePick(s.id)"
           >
