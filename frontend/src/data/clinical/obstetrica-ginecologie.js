@@ -1,0 +1,203 @@
+// Obstetrică-ginecologie – cazuri clinice și abilități practice (stagiu)
+export default {
+  cases: [
+    {
+      id: 'obg-c1',
+      title: 'Durere pelvină și sângerare după o întârziere a menstruației',
+      setting: 'Camera de gardă',
+      presentation: 'Femeie de 29 de ani se prezintă pentru durere în fosa iliacă stângă, apărută de câteva ore, și sângerare vaginală redusă, închisă la culoare. Menstruația a întârziat aproximativ trei săptămâni. În antecedente are o infecție pelvină tratată acum câțiva ani. Nu folosește contracepție.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebări de anamneză sunt esențiale?',
+          answer: '• Data ultimei menstruații și regularitatea ciclurilor\n• Caracterul durerii: debut, localizare, intensitate, iradiere în umăr\n• Cantitatea și aspectul sângerării, eliminare de țesut\n• Amețeli, lipotimie (semne de sângerare internă)\n• Antecedente: infecții pelvine, sarcini ectopice, intervenții pe trompe, reproducere asistată, DIU\n• Simptome digestive și urinare (diagnostic diferențial)',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?',
+          answer: '• Semne vitale: puls, tensiune arterială – evaluezi stabilitatea hemodinamică\n• Abdomen: sensibilitate în fosa iliacă stângă, fără apărare generalizată\n• Examen cu valve: sângerare redusă din orificiul cervical, col închis\n• Tușeu vaginal blând: uter ușor mărit, sensibilitate anexială stângă, durere la mobilizarea colului\n• Douglas nebombat (în forma neruptă)',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce investigații ceri și ce rezultate te aștepți?',
+          answer: '• Test de sarcină urinar și hCG seric cantitativ: pozitiv\n• Ecografie transvaginală: cavitate uterină goală, formațiune anexială stângă, eventual lichid în Douglas\n• hCG repetat la interval, dacă diagnosticul nu este clar (creștere mai lentă decât în sarcina normală)\n• Hemoleucogramă, grup sanguin și Rh, coagulare\n• Pregătirea pentru intervenție dacă apare instabilitate',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?',
+          answer: 'Sarcină ectopică tubară stângă, neruptă.\nDiferențial:\n• Iminență de avort sau avort incomplet (sarcină intrauterină vizibilă)\n• Chist de corp galben hemoragic\n• Torsiune de anexă\n• Boală inflamatorie pelvină\n• Cauze nonginecologice: colică renală, patologie intestinală',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Care sunt principiile de tratament și de monitorizare?',
+          answer: '• Pacientă instabilă: chirurgie de urgență, reechilibrare volemică, transfuzie\n• Pacientă stabilă: chirurgie laparoscopică (salpingostomie sau salpingectomie) sau tratament medical cu metotrexat în cazuri selectate\n• Tratamentul medical impune urmărirea hCG până la negativare și pacientă compliantă\n• Imunoglobulină anti-D dacă este Rh negativă\n• Consiliere privind fertilitatea și riscul de recurență; ecografie precoce la sarcina următoare',
+        },
+      ],
+      takeaways: [
+        'Orice femeie de vârstă fertilă cu durere abdominală face test de sarcină.',
+        'Test pozitiv + uter gol la ecografie = ectopică până la proba contrarie.',
+        'Stabilitatea hemodinamică decide conduita.',
+        'Nu uita imunoglobulina anti-D la pacienta Rh negativă.',
+      ],
+    },
+    {
+      id: 'obg-c2',
+      title: 'Gravidă cu cefalee în trimestrul III',
+      setting: 'Secția de obstetrică',
+      presentation: 'Primigestă de 31 de ani, la 34 de săptămâni de sarcină, se prezintă pentru cefalee persistentă de o zi, „puncte luminoase” în fața ochilor și durere în epigastru. Sarcina a evoluat normal până acum, cu tensiune normală la consultațiile anterioare. Nu are boli cunoscute.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebări de anamneză sunt esențiale?',
+          answer: '• Caracterul cefaleei, tulburări de vedere, durere epigastrică sau în hipocondrul drept\n• Greață, vărsături, dispnee, scăderea diurezei\n• Mișcările fetale\n• Sângerare vaginală, contracții, pierdere de lichid amniotic\n• Valorile tensionale anterioare și antecedente de HTA, boli renale, diabet\n• Istoric familial de preeclampsie',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?',
+          answer: '• Tensiune arterială măsurată corect, repetat: valori crescute\n• Edeme (nespecifice, dar frecvente)\n• Sensibilitate în epigastru și hipocondrul drept\n• Reflexe osteotendinoase vii\n• Examen obstetrical: înălțimea fundului uterin (posibil mai mică decât vârsta gestațională), tonusul uterin, bătăile cordului fetal\n• Starea de conștiență',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce investigații ceri și ce rezultate te aștepți?',
+          answer: '• Proteinurie (bandeletă, apoi cantitativ): prezentă\n• Hemoleucogramă: trombocite posibil scăzute\n• Transaminaze, LDH, bilirubină (hemoliză, afectare hepatică – HELLP)\n• Creatinină, acid uric, coagulare\n• Cardiotocografie și ecografie fetală: creșterea fătului, lichidul amniotic, Doppler',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?',
+          answer: 'Preeclampsie cu semne de severitate (cefalee, tulburări vizuale, durere epigastrică), cu risc iminent de eclampsie.\nDiferențial:\n• Hipertensiune gestațională (fără proteinurie sau afectare de organ)\n• Sindrom HELLP\n• Dezlipire de placentă (durere, uter hiperton)\n• Alte cauze de cefalee sau durere epigastrică: migrenă, colecistită, ficat gras acut de sarcină',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Care sunt principiile de tratament și de monitorizare?',
+          answer: '• Internare și monitorizare maternă și fetală continuă\n• Sulfat de magneziu pentru prevenirea convulsiilor, cu urmărirea reflexelor, respirației și diurezei\n• Antihipertensive compatibile cu sarcina pentru valorile severe\n• Corticoterapie pentru maturarea pulmonară fetală, nașterea fiind prematură\n• Tratamentul definitiv: nașterea, după stabilizarea mamei\n• Supraveghere continuă postpartum (boala se poate agrava după naștere)',
+        },
+      ],
+      takeaways: [
+        'Cefaleea, tulburările vizuale și durerea epigastrică la o gravidă = preeclampsie severă până la proba contrarie.',
+        'Sulfatul de magneziu previne eclampsia.',
+        'Nașterea este singurul tratament definitiv.',
+        'Caută HELLP: trombocite, transaminaze, hemoliză.',
+      ],
+    },
+    {
+      id: 'obg-c3',
+      title: 'Sângerare după contactul sexual',
+      setting: 'Cabinet de ginecologie (ambulatoriu)',
+      presentation: 'Femeie de 41 de ani se prezintă pentru sângerări vaginale reduse apărute după contactul sexual, de câteva luni, și o leucoree sero-sanguinolentă. Nu a mai făcut niciun control ginecologic de mulți ani. Fumează de la adolescență. Are trei copii, născuți pe cale vaginală.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebări de anamneză sunt esențiale?',
+          answer: '• Caracterul sângerării: postcoitală, intermenstruală, cantitate, durată\n• Ciclurile menstruale și data ultimei menstruații\n• Leucoree: aspect, miros\n• Durere pelvină, simptome urinare sau digestive, edeme ale membrelor\n• Rezultatele screeningurilor anterioare, vaccinarea anti-HPV\n• Factori de risc: fumat, istoric de infecții cu transmitere sexuală, contracepție, imunodepresie\n• Scădere ponderală, astenie',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?',
+          answer: '• Examenul cu valve: col cu o leziune exofitică, friabilă, care sângerează la atingere\n• Tușeu vaginal: dimensiunea și consistența leziunii, mobilitatea colului, extensia spre vagin\n• Tușeu rectal: extensia spre parametre\n• Palparea ganglionilor inghinali\n• Examen general: paloare, edeme ale membrelor inferioare',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce investigații ceri și ce rezultate te aștepți?',
+          answer: '• În fața unei leziuni vizibile se face biopsie direct – citologia nu este suficientă\n• Colposcopie pentru delimitarea leziunii\n• Examen histopatologic: confirmă tipul (cel mai frecvent carcinom scuamos)\n• Bilanț de extensie: imagistică pelvină (RMN), evaluarea ureterelor și ganglionilor, radiografie sau CT toracic\n• Hemoleucogramă (anemie), funcție renală',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?',
+          answer: 'Cancer de col uterin invaziv (se confirmă histopatologic și se stadializează FIGO).\nDiferențial:\n• Ectropion (ectopie) cervical\n• Cervicită (infecție cu Chlamydia, gonococ)\n• Polip endocervical\n• Patologie endometrială cu sângerare anormală',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Care sunt principiile de tratament și de monitorizare?',
+          answer: '• Tratament stabilit de echipa multidisciplinară, după stadiul FIGO\n• Stadiile incipiente: tratament chirurgical\n• Stadiile local avansate: radiochimioterapie\n• Sprijin psihologic, tratamentul anemiei, renunțarea la fumat\n• Urmărire periodică după tratament\n• Mesaj de sănătate publică: screening regulat și vaccinare anti-HPV pentru prevenție',
+        },
+      ],
+      takeaways: [
+        'Sângerarea postcoitală impune examinarea colului cu valve.',
+        'Leziune vizibilă → biopsie, nu doar citologie.',
+        'Infecția persistentă cu HPV oncogen este cauza necesară.',
+        'Lipsa screeningului este principalul factor de risc evitabil.',
+      ],
+    },
+  ],
+  skills: [
+    {
+      id: 'obg-s1',
+      name: 'Anamneza obstetricală',
+      category: 'Comunicare',
+      steps: [
+        'Te prezinți, explici scopul discuției și asiguri confidențialitatea',
+        'Date generale: vârsta, ocupația, condițiile de viață',
+        'Data ultimei menstruații, regularitatea ciclurilor, metoda de contracepție anterioară',
+        'Calculezi vârsta gestațională și data probabilă a nașterii',
+        'Antecedente obstetricale: numărul de sarcini și nașteri, avorturi, sarcini ectopice, modul nașterilor, complicații, greutatea copiilor',
+        'Antecedente ginecologice: infecții, intervenții, rezultatul ultimului screening de col',
+        'Antecedente personale: HTA, diabet, boli tiroidiene, renale, cardiace, tromboze; medicamente, alergii',
+        'Antecedente familiale: boli genetice, gemelaritate, diabet, HTA',
+        'Evoluția sarcinii actuale: simptome, sângerări, mișcări fetale, investigații efectuate',
+        'Comportamente: fumat, alcool, droguri, suplimente (acid folic)',
+      ],
+      tips: 'Folosește corect termenii gestă (numărul de sarcini) și pară (numărul de nașteri). Asistentul urmărește dacă întrebi de cicatricile uterine anterioare și de complicațiile sarcinilor precedente.',
+    },
+    {
+      id: 'obg-s2',
+      name: 'Manevrele Leopold',
+      category: 'Manevră',
+      steps: [
+        'Explici manevra, ceri acordul, pacienta golește vezica și stă în decubit dorsal cu genunchii ușor flectați',
+        'Te așezi lateral, cu fața spre capul pacientei, pentru primele trei manevre',
+        'Manevra I: palpezi fundul uterin cu ambele mâini – identifici polul fetal de acolo (pelvisul: mare, moale, neregulat; capul: dur, rotund, balotabil)',
+        'Manevra a II-a: palpezi flancurile uterului – identifici spatele fetal (suprafață netedă, continuă) și membrele (mici proeminențe mobile)',
+        'Manevra a III-a: cuprinzi cu o mână polul de deasupra simfizei pubiene – stabilești prezentația și dacă este mobil',
+        'Te întorci cu fața spre picioarele pacientei pentru manevra a IV-a',
+        'Manevra a IV-a: cu ambele mâini alunecând spre bazin, apreciezi gradul de angajare a prezentației',
+        'Sintetizezi: situația, prezentația, poziția (partea pe care e spatele) și angajarea; localizezi focarul de auscultație al cordului fetal',
+      ],
+      tips: 'Mâinile trebuie să fie calde, iar palparea blândă, între contracții. Greșeala frecventă este schimbarea ordinii sau uitarea întoarcerii spre picioarele pacientei la ultima manevră.',
+    },
+    {
+      id: 'obg-s3',
+      name: 'Măsurarea înălțimii fundului uterin',
+      category: 'Manevră',
+      steps: [
+        'Pacienta golește vezica și stă în decubit dorsal, cu picioarele întinse',
+        'Identifici marginea superioară a simfizei pubiene',
+        'Palpezi cu marginea cubitală a mâinii fundul uterin, coborând de la apendicele xifoid',
+        'Așezi panglica centimetrică de la marginea superioară a simfizei până la fundul uterin, pe linia mediană sau urmând axul uterului',
+        'Citești valoarea în centimetri',
+        'Compari cu vârsta gestațională: în a doua jumătate a sarcinii, valoarea în centimetri aproximează numărul de săptămâni',
+        'Notezi valoarea și o urmărești la vizitele următoare',
+      ],
+      tips: 'O valoare mai mică decât vârsta gestațională sugerează restricție de creștere sau oligohidramnios; una mai mare – sarcină multiplă, macrosomie, polihidramnios sau datare greșită. Orice discrepanță se verifică ecografic.',
+    },
+    {
+      id: 'obg-s4',
+      name: 'Examenul cu valve și recoltarea Babeș-Papanicolau',
+      category: 'Manevră',
+      steps: [
+        'Explici procedura, ceri acordul și asiguri prezența unui însoțitor; verifici că pacienta nu este în menstruație',
+        'Pacienta în poziție ginecologică; inspectezi vulva și perineul',
+        'Introduci valvele (speculul) încălzite, fără lubrifiant care poate altera proba, oblic, apoi le rotești și le deschizi până expui colul',
+        'Inspectezi colul: aspect, orificiu extern, zona de transformare, leziuni, secreții',
+        'Recoltezi cu spatula sau peria citologică din exocol și endocol, rotind instrumentul în jurul orificiului cervical',
+        'Etalezi proba pe lamă și o fixezi imediat (sau o introduci în mediul lichid), etichetată corect',
+        'Inspectezi pereții vaginali la retragerea valvelor, închise parțial',
+        'Completezi buletinul de trimitere și explici pacientei cum va afla rezultatul',
+      ],
+      tips: 'Proba trebuie să cuprindă zona de transformare, iar fixarea întârziată strică frotiul. Asistentul urmărește consimțământul, comunicarea în timpul manevrei și respectarea intimității.',
+    },
+    {
+      id: 'obg-s5',
+      name: 'Calculul datei probabile a nașterii și al vârstei gestaționale',
+      category: 'Interpretare',
+      steps: [
+        'Afli prima zi a ultimei menstruații și verifici că ciclurile sunt regulate, de aproximativ 28 de zile',
+        'Aplici regula lui Naegele: adaugi 7 zile, scazi 3 luni și, dacă e cazul, adaugi un an',
+        'Calculezi vârsta gestațională la data consultației, în săptămâni și zile, numărate de la prima zi a ultimei menstruații',
+        'Verifici cu ecografia din primul trimestru (lungimea cranio-caudală) – cea mai precisă metodă de datare',
+        'Dacă există o diferență importantă între cele două, folosești datarea ecografică precoce',
+        'Ajustezi raționamentul la cicluri lungi sau neregulate și la sarcinile obținute prin reproducere asistată (data transferului embrionar)',
+      ],
+      tips: 'Greșeala clasică este folosirea ultimei zile a menstruației în loc de prima. Datarea stabilită la început nu se mai schimbă după ecografiile din trimestrele următoare.',
+    },
+  ],
+}

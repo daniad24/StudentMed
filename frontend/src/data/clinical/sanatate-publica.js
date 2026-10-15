@@ -1,0 +1,202 @@
+// Sănătate publică – scenarii de lucru și abilități practice (stagiu)
+export default {
+  cases: [
+    {
+      id: 'sap-c1',
+      title: 'Mai mulți bolnavi după aceeași masă festivă',
+      setting: 'Direcția de Sănătate Publică',
+      presentation: 'La o zi după o nuntă cu aproximativ 150 de invitați, mai multe spitale din județ raportează pacienți cu vărsături, diaree și crampe abdominale, apărute la câteva ore după masă. Toți bolnavii au participat la același eveniment. Ești medic în echipa care trebuie să investigheze focarul.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce informații colectezi la început (echivalentul anamnezei)?',
+          answer: '• Confirmi existența focarului: numărul de cazuri depășește ce se aștepta în mod obișnuit\n• Stabilești o definiție de caz: persoană prezentă la nuntă, cu vărsături sau diaree apărute într-un interval stabilit după masă\n• Lista completă a invitaților și meniul (fiecare preparat)\n• Chestionar standardizat pentru bolnavi și pentru invitații sănătoși: ce a consumat fiecare, ora debutului, simptomele\n• Informații despre bucătărie: preparare, păstrare, personal',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Cum descrii focarul după persoană, loc și timp?',
+          answer: '• Timp: construiești curba epidemică (numărul de cazuri în funcție de ora debutului)\n• O curbă cu un singur vârf, la scurt timp după masă, sugerează o sursă comună punctiformă\n• Persoană: vârstă, sex, simptome predominante, gravitate\n• Loc: toți au fost la același eveniment; verifici dacă există cazuri și în afara lui\n• Perioada de incubație estimată orientează spre tipul de agent (toxină preformată sau infecție)',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce analize faci pentru a identifica alimentul incriminat?',
+          answer: '• Pentru fiecare aliment calculezi rata de atac la cei care l-au consumat și la cei care nu l-au consumat\n• Calculezi RR = rata de atac la consumatori / rata de atac la neconsumatori\n• Alimentul suspect are rata de atac mare la consumatori, mică la neconsumatori și RR clar peste 1\n• Majoritatea bolnavilor trebuie să fi consumat acel aliment\n• Probe de laborator: coproculturi și vărsături de la bolnavi, probe de alimente rămase, examinarea personalului din bucătărie',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Cum formulezi concluzia anchetei?',
+          answer: '• Identifici alimentul cu asocierea cea mai puternică, susținută statistic\n• Corelezi cu perioada de incubație, simptomele și rezultatele laboratorului\n• Cauți greșeala de igienă care explică contaminarea (ex. păstrare la temperatură neadecvată, manipulant bolnav)\n• Concluzia: toxiinfecție alimentară cu sursă comună, cu alimentul și agentul probabil\n• Recunoști limitele: biasul de reamintire al invitaților, date incomplete',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Ce măsuri de control și prevenție propui?',
+          answer: '• Retragerea alimentelor suspecte și oprirea temporară a activității unității, dacă e cazul\n• Tratamentul bolnavilor (rehidratare) și supravegherea cazurilor noi\n• Examinarea și, la nevoie, excluderea temporară a personalului purtător sau bolnav\n• Instruirea personalului privind igiena și lanțul frigorific\n• Raportarea focarului către autorități și comunicarea rezultatelor',
+        },
+      ],
+      takeaways: [
+        'Definiția de caz și curba epidemică sunt primii pași ai anchetei.',
+        'Alimentul vinovat are cea mai mare diferență între ratele de atac (RR maxim).',
+        'Curba cu un singur vârf sugerează sursă comună punctiformă.',
+        'Ancheta se încheie cu măsuri de control și raportare.',
+      ],
+    },
+    {
+      id: 'sap-c2',
+      title: 'Este eficient programul de screening?',
+      setting: 'Comisie de evaluare a unui program de sănătate',
+      presentation: 'Un județ a implementat de câțiva ani un program organizat de screening pentru cancerul de col uterin. Coordonatorul raportează că supraviețuirea la 5 ani a femeilor diagnosticate prin program este mult mai mare decât a celor diagnosticate în afara lui și cere extinderea programului. Ți se cere să evaluezi critic programul.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce date despre program ceri mai întâi?',
+          answer: '• Populația-țintă și criteriile de eligibilitate\n• Testul folosit (citologie Babeș-Papanicolau, test HPV) și intervalul de testare\n• Rata de acoperire (câte femei eligibile au fost testate) și rata de participare\n• Ce se întâmplă cu rezultatele pozitive: trimitere la colposcopie, timp până la diagnostic și tratament\n• Datele de incidență și mortalitate prin cancer de col înainte și după program',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce indicatori de proces și de performanță examinezi?',
+          answer: '• Acoperirea populației-țintă și echitatea accesului (zone rurale, grupuri vulnerabile)\n• Proporția testelor neadecvate pentru interpretare\n• Proporția femeilor cu test pozitiv care au ajuns la investigația de confirmare\n• Sensibilitatea și specificitatea testului în practică\n• Valoarea predictivă pozitivă (câte rezultate pozitive se confirmă)',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Cum analizezi afirmația despre supraviețuire?',
+          answer: '• Supraviețuirea mai lungă la cele depistate prin screening poate fi falsă:\n• Lead-time bias: diagnosticul mai devreme lungește timpul de la diagnostic fără a amâna decesul\n• Length-time bias: screeningul prinde mai ales formele cu evoluție lentă\n• Biasul voluntarului sănătos: participantele au, în medie, un risc mai mic\n• Supradiagnosticul: leziuni care nu ar fi evoluat\n• Indicatorul corect: mortalitatea prin cancer de col în populația-țintă și incidența formelor invazive',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Ce concluzie formulezi?',
+          answer: '• Supraviețuirea de la diagnostic nu este suficientă pentru a demonstra eficiența\n• Programul este eficient dacă scade incidența cancerului invaziv și mortalitatea specifică, cu acoperire bună\n• Screeningul de col este bine susținut de dovezi, deoarece depistează leziuni precursoare tratabile\n• Punctele slabe identificate (acoperire, urmărire a pozitivelor) trebuie corectate înainte de extindere',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Ce recomandări faci?',
+          answer: '• Creșterea acoperirii: invitații personalizate, implicarea medicului de familie, acces facilitat\n• Asigurarea urmăririi tuturor rezultatelor pozitive (circuit clar spre colposcopie și tratament)\n• Control de calitate al laboratoarelor\n• Monitorizarea pe termen lung a incidenței și mortalității\n• Integrarea cu prevenția primară: vaccinarea anti-HPV',
+        },
+      ],
+      takeaways: [
+        'Un program se judecă după mortalitatea specifică, nu după supraviețuirea de la diagnostic.',
+        'Lead-time, length-time și supradiagnosticul înfrumusețează rezultatele screeningului.',
+        'Fără urmărirea pozitivelor, screeningul nu are efect.',
+        'Acoperirea populației este un indicator-cheie de proces.',
+      ],
+    },
+    {
+      id: 'sap-c3',
+      title: 'Un articol despre un medicament nou',
+      setting: 'Club de lectură în spital',
+      presentation: 'Un reprezentant prezintă un studiu în care un medicament nou ar reduce „cu 50%” riscul de infarct miocardic la pacienții hipertensivi. Medicul șef îți cere să citești articolul și să spui, la ședința de secție, dacă rezultatele ar trebui să schimbe practica.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebare clinică formulezi și ce verifici despre studiu?',
+          answer: '• Formulezi întrebarea PICO: pacienți hipertensivi, medicamentul nou, comparat cu tratamentul standard sau placebo, rezultat = infarct miocardic\n• Tipul de studiu: este un studiu randomizat controlat?\n• Sursa: revistă cu evaluare colegială, finanțare și conflicte de interese declarate\n• Criteriile de includere și excludere: seamănă participanții cu pacienții tăi?',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Cum evaluezi validitatea internă a studiului?',
+          answer: '• Randomizarea și ascunderea alocării au fost corecte?\n• Grupurile erau comparabile la început (tabelul cu caracteristicile inițiale)?\n• Orbirea pacienților, medicilor și evaluatorilor\n• Pierderile din urmărire au fost mici și echilibrate între grupuri?\n• Analiza s-a făcut în intenția de tratament (intention-to-treat)?\n• Rezultatul principal a fost stabilit dinainte, sau s-au ales rezultatele favorabile?',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Cum interpretezi rezultatele numerice?',
+          answer: '• Reducerea relativă de 50% poate ascunde un beneficiu absolut mic\n• Exemplu: dacă riscul scade de la 2% la 1%, reducerea absolută este 1%, iar NNT = 1 / 0,01 = 100\n• Verifici intervalul de încredere: dacă pentru RR include 1, efectul nu este semnificativ statistic\n• Un interval larg înseamnă estimare imprecisă\n• Cauți efectele adverse și numărul necesar pentru a produce un efect advers',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Ce concluzie formulezi?',
+          answer: '• Studiul este valid dacă trece criteriile de calitate de mai sus\n• Efectul trebuie să fie relevant clinic, nu doar semnificativ statistic\n• Un singur studiu, mai ales finanțat de producător, se interpretează cu prudență; cauți confirmare în alte studii sau meta-analize\n• Aplicabilitatea depinde de asemănarea pacienților tăi cu cei din studiu',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Ce recomandări faci pentru practică?',
+          answer: '• Prezinți beneficiul în termeni absoluți (RAR, NNT), alături de riscuri și cost\n• Compari cu ghidurile actuale și cu alternativele existente\n• Decizia la nivel individual ține cont de riscul de bază al pacientului și de preferințele lui\n• Propui reevaluarea când apar dovezi noi',
+        },
+      ],
+      takeaways: [
+        'Reducerea relativă a riscului impresionează; cea absolută și NNT informează.',
+        'Randomizarea, orbirea, pierderile mici și analiza ITT țin de validitatea internă.',
+        'IC 95% care include 1 pentru RR = efect nesemnificativ.',
+        'Semnificația statistică nu înseamnă relevanță clinică.',
+      ],
+    },
+  ],
+  skills: [
+    {
+      id: 'sap-s1',
+      name: 'Calculul sensibilității și specificității dintr-un tabel 2×2',
+      category: 'Interpretare',
+      steps: [
+        'Construiești tabelul: pe coloane boala (prezentă / absentă, după testul de referință), pe rânduri testul (pozitiv / negativ)',
+        'Notezi celulele: a = adevărat pozitivi, b = fals pozitivi, c = fals negativi, d = adevărat negativi',
+        'Verifici totalurile pe rânduri și pe coloane',
+        'Sensibilitatea = a / (a + c), calculată pe coloana bolnavilor',
+        'Specificitatea = d / (b + d), calculată pe coloana celor fără boală',
+        'Valoarea predictivă pozitivă = a / (a + b), pe rândul testelor pozitive',
+        'Valoarea predictivă negativă = d / (c + d), pe rândul testelor negative',
+        'Interpretezi: ce înseamnă rezultatele pentru un pacient și cum se schimbă valorile predictive cu prevalența',
+      ],
+      tips: 'Greșeala clasică este inversarea rândurilor cu coloanele sau confundarea sensibilității cu VPP. Sensibilitatea și specificitatea se citesc pe coloane (boală), valorile predictive pe rânduri (test).',
+    },
+    {
+      id: 'sap-s2',
+      name: 'Calculul riscului relativ și al odds ratio',
+      category: 'Interpretare',
+      steps: [
+        'Identifici tipul de studiu: cohortă (pornește de la expunere) sau caz-control (pornește de la boală)',
+        'Construiești tabelul 2×2: pe rânduri expuși / neexpuși, pe coloane bolnavi / nebolnavi',
+        'Pentru cohortă: incidența la expuși = a / (a + b), incidența la neexpuși = c / (c + d)',
+        'RR = incidența la expuși / incidența la neexpuși',
+        'Pentru caz-control: OR = (a × d) / (b × c)',
+        'Calculezi, dacă se cere, diferența de risc (riscul atribuibil) = incidența la expuși − incidența la neexpuși',
+        'Interpretezi: valoare egală cu 1 = fără asociere, peste 1 = risc crescut, sub 1 = efect protector',
+        'Verifici intervalul de încredere înainte de a trage concluzii',
+      ],
+      tips: 'RR nu se calculează dintr-un studiu caz-control, pentru că acolo proporția de bolnavi este fixată de cercetător. La colocviu se cere și o propoziție de interpretare, nu doar cifra.',
+    },
+    {
+      id: 'sap-s3',
+      name: 'Citirea critică a unui articol științific',
+      category: 'Interpretare',
+      steps: [
+        'Citești rezumatul și identifici întrebarea studiului (PICO)',
+        'Identifici tipul de studiu și verifici dacă este potrivit pentru întrebare',
+        'Analizezi selecția participanților și comparabilitatea grupurilor',
+        'Cauți sursele de bias (selecție, informare, pierderi din urmărire) și modul de control al confuziei',
+        'Verifici dacă rezultatul principal a fost definit dinainte și cum s-a făcut analiza',
+        'Citești rezultatele: mărimea efectului, în termeni absoluți și relativi, cu intervalele de încredere',
+        'Compari concluziile autorilor cu ce arată efectiv datele',
+        'Verifici finanțarea și conflictele de interese',
+        'Judeci aplicabilitatea la pacienții tăi',
+      ],
+      tips: 'Nu te opri la rezumat și la concluziile autorilor – acolo apar cel mai des exagerările. Asistentul urmărește dacă deosebești validitatea internă de aplicabilitate.',
+    },
+    {
+      id: 'sap-s4',
+      name: 'Alegerea tipului de studiu potrivit unei întrebări',
+      category: 'Interpretare',
+      steps: [
+        'Formulezi clar întrebarea: frecvență, cauză (factor de risc), eficacitate a unui tratament sau performanță a unui test',
+        'Pentru frecvența (prevalența) unei boli alegi un studiu transversal',
+        'Pentru un factor de risc al unei boli rare alegi un studiu caz-control',
+        'Pentru efectele unei expuneri rare sau pentru incidență alegi un studiu de cohortă',
+        'Pentru eficacitatea unui tratament alegi un studiu randomizat controlat',
+        'Pentru performanța unui test diagnostic compari testul cu un standard de referință, la aceeași populație',
+        'Verifici fezabilitatea și aspectele etice (o expunere nocivă nu poate fi alocată prin randomizare)',
+      ],
+      tips: 'Capcana frecventă: propunerea unui studiu randomizat pentru o expunere nocivă, cum ar fi fumatul. Justifică alegerea prin avantajele și limitele fiecărui tip de studiu.',
+    },
+    {
+      id: 'sap-s5',
+      name: 'Interpretarea unui interval de încredere',
+      category: 'Interpretare',
+      steps: [
+        'Identifici ce estimează intervalul: un RR / OR (raport) sau o diferență (de medii, de riscuri)',
+        'Identifici valoarea de nul: 1 pentru rapoarte, 0 pentru diferențe',
+        'Verifici dacă intervalul include valoarea de nul (rezultat nesemnificativ) sau nu (semnificativ la nivelul ales)',
+        'Apreciezi lățimea intervalului: îngust = estimare precisă, larg = estimare imprecisă',
+        'Judeci relevanța clinică a limitelor intervalului, nu doar a estimării punctuale',
+        'Formulezi concluzia în cuvinte, cu prudență pentru rezultatele nesemnificative',
+      ],
+      tips: 'Un interval care include valoarea de nul nu dovedește absența efectului. Intervalul se referă la parametrul din populație, nu la valorile indivizilor din studiu.',
+    },
+  ],
+}
