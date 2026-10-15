@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects } from '../data/mock'
@@ -11,7 +11,11 @@ const router = useRouter()
 const store = useAppStore()
 
 const subject = subjects.find((s) => s.id === route.params.subjectId)
-const source = route.query.toate ? store.cardsFor(subject.id) : store.dueCardsFor(subject.id)
+const block = route.query.bloc ? store.targetSession?.blocks.find((b) => b.key === route.query.bloc) : null
+const source = block
+  ? block.cardIds.map((id) => store.allCards.find((c) => c.id === id)).filter(Boolean)
+  : route.query.toate ? store.cardsFor(subject.id) : store.dueCardsFor(subject.id)
+const backTo = block ? '/tinta/plan' : `/materie/${subject.id}?tab=flashcards`
 const queue = ref([...source].sort(() => Math.random() - 0.5))
 const initialCount = queue.value.length
 
@@ -29,6 +33,9 @@ const streakBefore = store.currentStreak
 const current = computed(() => queue.value[0])
 const progress = computed(() => (initialCount ? (done.value / initialCount) * 100 : 100))
 const finished = computed(() => !current.value)
+watch(finished, (f) => {
+  if (f && block && initialCount) store.completeBlock(block.key)
+})
 
 function nextIntervalLabel(rating) {
   if (rating === 'red') return 'mâine'
@@ -61,7 +68,7 @@ function onReport(reason) {
 <template>
   <div class="flex min-h-[92dvh] flex-col">
     <header class="flex items-center gap-3">
-      <BackButton icon="close" :to="`/materie/${subject.id}?tab=flashcards`" />
+      <BackButton icon="close" :to="backTo" />
       <div class="h-4 flex-1 overflow-hidden rounded-full bg-gray-200">
         <div class="h-full rounded-full bg-brand-500 transition-all duration-500" :style="{ width: `${progress}%` }"></div>
       </div>
@@ -132,7 +139,7 @@ function onReport(reason) {
         <p class="font-black text-orange-600">Seria ta a crescut la {{ store.currentStreak }} {{ store.currentStreak === 1 ? 'zi' : 'zile' }}!</p>
       </div>
 
-      <button class="btn btn-primary mt-8 w-full" @click="router.push('/')">Continuă</button>
+      <button class="btn btn-primary mt-8 w-full" @click="router.push(block ? '/tinta/plan' : '/')">{{ block ? 'Înapoi la plan' : 'Continuă' }}</button>
     </div>
 
     <ReportDialog v-if="reporting" @close="reporting = false" @submit="onReport" />

@@ -16,20 +16,23 @@ const router = useRouter()
 const store = useAppStore()
 
 const subject = subjects.find((s) => s.id === route.params.subjectId)
-const questions = shuffle(store.questionsFor(subject.id)).slice(0, QUIZ_SIZE).map(prepareQuestion)
+const block = route.query.bloc ? store.targetSession?.blocks.find((b) => b.key === route.query.bloc) : null
+const questions = block
+  ? block.questionIds.map((id) => store.questionsFor(subject.id).find((q) => q.id === id)).filter(Boolean).map(prepareQuestion)
+  : shuffle(store.questionsFor(subject.id)).slice(0, QUIZ_SIZE).map(prepareQuestion)
 
 const index = ref(0)
 const selected = ref([])
 const checked = ref(false)
 const answers = ref([])
 const finished = ref(false)
-const secondsLeft = ref(QUIZ_SECONDS)
+const secondsLeft = ref(block ? 24 * 3600 : QUIZ_SECONDS)
 const streakBefore = store.currentStreak
 
 const current = computed(() => questions[index.value])
 const score = computed(() => answers.value.filter((a) => a.correct).length)
 const lastAnswer = computed(() => answers.value[answers.value.length - 1])
-const elapsed = computed(() => formatTime(QUIZ_SECONDS - secondsLeft.value))
+const elapsed = computed(() => formatTime((block ? 24 * 3600 : QUIZ_SECONDS) - secondsLeft.value))
 
 const timer = setInterval(() => {
   if (finished.value) return
@@ -60,9 +63,11 @@ function finish() {
   finished.value = true
   clearInterval(timer)
   store.recordQuiz(subject.id, score.value, questions.length)
+  if (block) store.completeBlock(block.key)
 }
 
 function restart() {
+  if (block) return router.push('/tinta/plan')
   router.replace({ path: `/pauza/${subject.id}`, query: { t: Date.now() } })
 }
 
@@ -87,14 +92,14 @@ function onReport(reason) {
 <template>
   <div class="flex min-h-[92dvh] flex-col">
     <header class="flex items-center gap-3">
-      <BackButton icon="close" to="/pauza" />
+      <BackButton icon="close" :to="block ? '/tinta/plan' : '/pauza'" />
       <div class="h-4 flex-1 overflow-hidden rounded-full bg-gray-200">
         <div
           class="h-full rounded-full bg-sky-500 transition-all duration-500"
           :style="{ width: `${((index + (checked || finished ? 1 : 0)) / questions.length) * 100}%` }"
         ></div>
       </div>
-      <span class="chip text-sm" :class="secondsLeft <= 30 ? 'bg-red-100 text-red-600' : 'bg-sky-100 text-sky-700'">
+      <span v-if="!block" class="chip text-sm" :class="secondsLeft <= 30 ? 'bg-red-100 text-red-600' : 'bg-sky-100 text-sky-700'">
         ⏱ {{ formatTime(Math.max(secondsLeft, 0)) }}
       </span>
     </header>
@@ -134,7 +139,7 @@ function onReport(reason) {
     <div v-else class="mt-6 flex flex-1 flex-col items-center text-center">
       <p class="text-7xl pop-in">{{ resultEmoji }}</p>
       <h1 class="mt-3 text-3xl font-black">{{ score }} / {{ questions.length }}</h1>
-      <p class="font-semibold text-muted">{{ secondsLeft <= 0 ? 'Timpul a expirat!' : `Terminat în ${elapsed}` }}</p>
+      <p class="font-semibold text-muted">{{ block ? 'Bloc terminat' : secondsLeft <= 0 ? 'Timpul a expirat!' : `Terminat în ${elapsed}` }}</p>
 
       <div v-if="store.currentStreak > streakBefore" class="mt-4 w-full rounded-3xl bg-orange-100 p-4 pop-in">
         <p class="font-black text-orange-600">
@@ -153,7 +158,7 @@ function onReport(reason) {
       </div>
 
       <div class="mt-8 grid w-full gap-2">
-        <button class="btn btn-blue w-full" @click="restart">Încă un quiz</button>
+        <button class="btn btn-blue w-full" @click="restart">{{ block ? 'Înapoi la plan' : 'Încă un quiz' }}</button>
         <RouterLink v-if="wrong.length" :to="`/flashcards/${subject.id}`" class="btn btn-white w-full">🃏 Repetă greșelile</RouterLink>
         <button class="btn btn-white w-full" @click="router.push('/')">Acasă</button>
       </div>

@@ -78,6 +78,15 @@ function logout() {
       <AppIcon name="forward" class="text-muted" />
     </RouterLink>
 
+    <RouterLink to="/clasament" class="card flex items-center gap-3 p-4 transition-transform active:translate-y-[2px]">
+      <span class="text-3xl">🏆</span>
+      <span class="flex-1">
+        <span class="block font-black">Clasament</span>
+        <span class="block text-sm font-semibold text-muted">XP-ul tău față de colegi, pe săptămână</span>
+      </span>
+      <AppIcon name="forward" class="text-muted" />
+    </RouterLink>
+
     <section class="card p-5">
       <h2 class="font-black">🎓 Anul de studiu</h2>
       <p class="mb-3 text-sm font-semibold text-muted">Acasă și Materii îți arată mai întâi materiile anului tău.</p>

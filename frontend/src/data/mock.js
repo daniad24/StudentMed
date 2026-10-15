@@ -293,3 +293,6 @@ export const clinical = Object.fromEntries(
     },
   ]),
 )
+
+// Subiectele (capitolele) fiecărei materii și asignarea conținutului: data/topics/<materie>.js
+export const topicMaps = loadDir(import.meta.glob('./topics/*.js', { eager: true, import: 'default' }))

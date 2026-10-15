@@ -1,0 +1,32 @@
+// Boli infecțioase – subiecte (capitole) și asignarea conținutului
+export default {
+  topics: [
+    { id: 'sepsis-soc-septic', name: 'Sepsisul și șocul septic' },
+    { id: 'antibioterapie-infectii-urinare', name: 'Antibioterapie și infecții urinare' },
+    { id: 'infectia-hiv', name: 'Infecția HIV și SIDA' },
+    { id: 'febra-origine-necunoscuta', name: 'Febra de origine necunoscută' },
+    { id: 'boli-eruptive', name: 'Bolile eruptive ale copilăriei' },
+    { id: 'mononucleoza', name: 'Mononucleoza infecțioasă' },
+    { id: 'diarei-c-difficile', name: 'Diarei infecțioase și C. difficile' },
+    { id: 'malarie-lyme', name: 'Malarie și boala Lyme' },
+  ],
+  map: {
+    'inf-q1': 'sepsis-soc-septic', 'inf-q2': 'sepsis-soc-septic', 'inf-q3': 'sepsis-soc-septic',
+    'inf-f5': 'sepsis-soc-septic', 'inf-t1': 'sepsis-soc-septic', 'inf-c2': 'sepsis-soc-septic',
+    'inf-q4': 'antibioterapie-infectii-urinare', 'inf-q5': 'antibioterapie-infectii-urinare',
+    'inf-q6': 'antibioterapie-infectii-urinare', 'inf-q30': 'antibioterapie-infectii-urinare',
+    'inf-q7': 'infectia-hiv', 'inf-q8': 'infectia-hiv', 'inf-q9': 'infectia-hiv', 'inf-q10': 'infectia-hiv',
+    'inf-q11': 'infectia-hiv', 'inf-q12': 'infectia-hiv', 'inf-f6': 'infectia-hiv', 'inf-f7': 'infectia-hiv',
+    'inf-t2': 'infectia-hiv',
+    'inf-q13': 'febra-origine-necunoscuta', 'inf-q14': 'febra-origine-necunoscuta',
+    'inf-q15': 'boli-eruptive', 'inf-q16': 'boli-eruptive', 'inf-q17': 'boli-eruptive',
+    'inf-q18': 'boli-eruptive', 'inf-q19': 'boli-eruptive', 'inf-f1': 'boli-eruptive',
+    'inf-f2': 'boli-eruptive', 'inf-f4': 'boli-eruptive', 'inf-t3': 'boli-eruptive', 'inf-c1': 'boli-eruptive',
+    'inf-q20': 'mononucleoza', 'inf-q21': 'mononucleoza', 'inf-f3': 'mononucleoza',
+    'inf-q22': 'diarei-c-difficile', 'inf-q23': 'diarei-c-difficile', 'inf-q24': 'diarei-c-difficile',
+    'inf-q25': 'diarei-c-difficile', 'inf-q26': 'diarei-c-difficile', 'inf-f8': 'diarei-c-difficile',
+    'inf-t4': 'diarei-c-difficile', 'inf-c3': 'diarei-c-difficile',
+    'inf-q27': 'malarie-lyme', 'inf-q28': 'malarie-lyme', 'inf-q29': 'malarie-lyme',
+    'inf-f9': 'malarie-lyme', 'inf-f10': 'malarie-lyme',
+  },
+}

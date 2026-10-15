@@ -3,7 +3,7 @@ const items = [
   { to: '/', label: 'Acasă', icon: '🏠', exact: true },
   { to: '/materii', label: 'Materii', icon: '📚' },
   { to: '/adauga', label: 'Adaugă', icon: '➕' },
-  { to: '/clasament', label: 'Clasament', icon: '🏆' },
+  { to: '/tinta', label: 'Țintă', icon: '🎯' },
   { to: '/profil', label: 'Profil', icon: '👤' },
 ]
 </script>

@@ -1,0 +1,33 @@
+// Reumatologie – subiecte (capitole) și asignarea conținutului
+export default {
+  topics: [
+    { id: 'poliartrita-reumatoida', name: 'Poliartrita reumatoidă' },
+    { id: 'spondiloartrite', name: 'Spondiloartritele' },
+    { id: 'lupus-antifosfolipidic', name: 'Lupus și sindrom antifosfolipidic' },
+    { id: 'sclerodermie', name: 'Sclerodermia sistemică' },
+    { id: 'sindrom-sjogren', name: 'Sindromul Sjögren' },
+    { id: 'guta-pseudoguta', name: 'Gută și pseudogută' },
+    { id: 'artroza-artrita-septica', name: 'Artroză și artrită septică' },
+    { id: 'vasculite-pmr', name: 'Vasculite și polimialgia reumatică' },
+  ],
+  map: {
+    'reu-q1': 'poliartrita-reumatoida', 'reu-q2': 'poliartrita-reumatoida', 'reu-q3': 'poliartrita-reumatoida',
+    'reu-q4': 'poliartrita-reumatoida', 'reu-q5': 'poliartrita-reumatoida', 'reu-q6': 'poliartrita-reumatoida',
+    'reu-q7': 'poliartrita-reumatoida', 'reu-f8': 'poliartrita-reumatoida', 'reu-t1': 'poliartrita-reumatoida',
+    'reu-c1': 'poliartrita-reumatoida',
+    'reu-q8': 'spondiloartrite', 'reu-q9': 'spondiloartrite', 'reu-q10': 'spondiloartrite',
+    'reu-q11': 'spondiloartrite', 'reu-q12': 'spondiloartrite', 'reu-f7': 'spondiloartrite',
+    'reu-f9': 'spondiloartrite', 'reu-t2': 'spondiloartrite', 'reu-c2': 'spondiloartrite',
+    'reu-q13': 'lupus-antifosfolipidic', 'reu-q14': 'lupus-antifosfolipidic', 'reu-q15': 'lupus-antifosfolipidic',
+    'reu-q16': 'lupus-antifosfolipidic', 'reu-q17': 'lupus-antifosfolipidic', 'reu-f5': 'lupus-antifosfolipidic',
+    'reu-f10': 'lupus-antifosfolipidic', 'reu-t3': 'lupus-antifosfolipidic',
+    'reu-q18': 'sclerodermie', 'reu-q19': 'sclerodermie', 'reu-f4': 'sclerodermie',
+    'reu-q27': 'sindrom-sjogren', 'reu-q28': 'sindrom-sjogren',
+    'reu-q20': 'guta-pseudoguta', 'reu-q21': 'guta-pseudoguta', 'reu-q22': 'guta-pseudoguta',
+    'reu-q30': 'guta-pseudoguta', 'reu-f2': 'guta-pseudoguta', 'reu-f3': 'guta-pseudoguta',
+    'reu-t4': 'guta-pseudoguta', 'reu-c3': 'guta-pseudoguta',
+    'reu-q23': 'artroza-artrita-septica', 'reu-q24': 'artroza-artrita-septica',
+    'reu-q29': 'artroza-artrita-septica', 'reu-f1': 'artroza-artrita-septica',
+    'reu-q25': 'vasculite-pmr', 'reu-q26': 'vasculite-pmr', 'reu-f6': 'vasculite-pmr',
+  },
+}

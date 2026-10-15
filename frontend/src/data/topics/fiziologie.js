@@ -1,0 +1,30 @@
+// Fiziologie – subiecte (capitole) și asignarea conținutului
+export default {
+  topics: [
+    { id: 'potential-actiune', name: 'Potențialul de acțiune și sinapsa' },
+    { id: 'electrofiziologie-cardiaca', name: 'Electrofiziologia cardiacă' },
+    { id: 'ciclul-cardiac', name: 'Ciclul cardiac și debitul cardiac' },
+    { id: 'presiune-arteriala', name: 'Reglarea presiunii arteriale' },
+    { id: 'respiratie', name: 'Respirația și schimbul de gaze' },
+    { id: 'functia-renala', name: 'Funcția renală' },
+    { id: 'sange-acido-bazic', name: 'Sânge și echilibrul acido-bazic' },
+    { id: 'digestie', name: 'Fiziologia digestivă' },
+    { id: 'endocrin', name: 'Insulina și axul tiroidian' },
+  ],
+  map: {
+    'fiz-t1': 'potential-actiune', 'fiz-t2': 'potential-actiune', 'fiz-q1': 'potential-actiune', 'fiz-q2': 'potential-actiune',
+    'fiz-q3': 'potential-actiune', 'fiz-q4': 'potential-actiune', 'fiz-q5': 'potential-actiune', 'fiz-q6': 'potential-actiune', 'fiz-f6': 'potential-actiune',
+    'fiz-t3': 'electrofiziologie-cardiaca', 'fiz-q7': 'electrofiziologie-cardiaca', 'fiz-q8': 'electrofiziologie-cardiaca',
+    'fiz-q9': 'electrofiziologie-cardiaca', 'fiz-f2': 'electrofiziologie-cardiaca',
+    'm6': 'ciclul-cardiac', 'fiz-q10': 'ciclul-cardiac', 'fiz-q11': 'ciclul-cardiac', 'fiz-q12': 'ciclul-cardiac', 'fiz-f3': 'ciclul-cardiac', 'fiz-f7': 'ciclul-cardiac',
+    'fiz-t4': 'presiune-arteriala', 'fiz-q13': 'presiune-arteriala', 'fiz-q14': 'presiune-arteriala',
+    'fiz-t5': 'respiratie', 'fiz-q15': 'respiratie', 'fiz-q16': 'respiratie', 'fiz-q17': 'respiratie', 'fiz-q18': 'respiratie',
+    'fiz-q19': 'respiratie', 'fiz-f4': 'respiratie', 'fiz-f12': 'respiratie',
+    'fiz-t6': 'functia-renala', 'fiz-q20': 'functia-renala', 'fiz-q21': 'functia-renala', 'fiz-q22': 'functia-renala',
+    'fiz-q23': 'functia-renala', 'fiz-f8': 'functia-renala',
+    'fiz-t7': 'sange-acido-bazic', 'fiz-q29': 'sange-acido-bazic', 'fiz-q30': 'sange-acido-bazic',
+    'fiz-f1': 'sange-acido-bazic', 'fiz-f9': 'sange-acido-bazic', 'fiz-f10': 'sange-acido-bazic',
+    'fiz-q24': 'digestie', 'fiz-q25': 'digestie', 'fiz-f11': 'digestie',
+    'fiz-t8': 'endocrin', 'fiz-q26': 'endocrin', 'fiz-q27': 'endocrin', 'fiz-q28': 'endocrin', 'fiz-f5': 'endocrin',
+  },
+}

@@ -26,6 +26,7 @@ const theCase = Object.values(clinical)
   .find((c) => c.id === route.params.caseId)
 const subject = subjects.find((s) => s.id === theCase?.subjectId)
 
+const fromPlan = !!route.query.bloc
 const phase = ref('intro') // intro | steps | done
 const index = ref(0)
 const revealed = ref(false)
@@ -50,6 +51,7 @@ function rate(r) {
   ratings.value.push(r)
   if (index.value + 1 >= theCase.steps.length) {
     store.finishCase(theCase.id, ratings.value)
+    if (fromPlan) store.completeBlock(route.query.bloc)
     phase.value = 'done'
     return
   }
@@ -61,7 +63,7 @@ function rate(r) {
 <template>
   <div v-if="theCase" class="flex min-h-[92dvh] flex-col">
     <header class="flex items-center gap-3">
-      <BackButton icon="close" :to="`/materie/${theCase.subjectId}?tab=stagiu`" />
+      <BackButton icon="close" :to="fromPlan ? '/tinta/plan' : `/materie/${theCase.subjectId}?tab=stagiu`" />
       <div class="h-4 flex-1 overflow-hidden rounded-full bg-gray-200">
         <div class="h-full rounded-full bg-sky-500 transition-all duration-500" :style="{ width: `${progress}%` }"></div>
       </div>
@@ -140,7 +142,7 @@ function rate(r) {
       </section>
       <div class="flex-1"></div>
       <div class="mt-6 grid gap-2">
-        <RouterLink :to="`/materie/${theCase.subjectId}?tab=stagiu`" class="btn btn-primary w-full">Înapoi la stagiu</RouterLink>
+        <RouterLink :to="fromPlan ? '/tinta/plan' : `/materie/${theCase.subjectId}?tab=stagiu`" class="btn btn-primary w-full">{{ fromPlan ? 'Înapoi la plan' : 'Înapoi la stagiu' }}</RouterLink>
         <button class="btn btn-white w-full" @click="start">Refă cazul</button>
       </div>
     </template>

@@ -45,7 +45,7 @@ const GREEN_INTERVALS = [7, 14, 30, 60]
 // De la câte voturi un material devine automat „Recomandat".
 export const RECOMMEND_VOTES = 25
 
-export const XP = { card: 2, correct: 5, wrong: 1, exam: 20, case: 10 }
+export const XP = { card: 2, correct: 5, wrong: 1, exam: 20, case: 10, session: 15 }
 
 // Colegi fictivi pentru clasamentul demo (XP pe o săptămână întreagă).
 const DEMO_RIVALS = [
@@ -399,6 +399,103 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
+
+  // --- Pregătire la țintă / Seara dinainte ---
+  // Sesiunea curentă (nu se salvează): lista de blocuri de parcurs pentru subiectele alese.
+  const targetSession = ref(null)
+
+  function topicsFor(subjectId) {
+    const tm = mock.topicMaps[subjectId]
+    if (!tm) return []
+    const count = (kind) => (tid) => Object.entries(tm.map).filter(([id, t]) => t === tid && kind(id)).length
+    const isQ = (id) => mock.questions.some((q) => q.id === id)
+    const isC = (id) => mock.flashcards.some((c) => c.id === id)
+    const isS = (id) => mock.materials.some((m) => m.id === id && m.type === 'summary')
+    return tm.topics.map((t) => ({
+      ...t,
+      questions: count(isQ)(t.id),
+      cards: count(isC)(t.id),
+      summaries: count(isS)(t.id),
+    }))
+  }
+
+  function idsInTopics(subjectId, topicIds) {
+    const tm = mock.topicMaps[subjectId]
+    const set = new Set(topicIds)
+    return new Set(Object.entries(tm?.map ?? {}).filter(([, t]) => set.has(t)).map(([id]) => id))
+  }
+
+  // Ultimul răspuns dat fiecărei grile din materie: { qid: true|false }
+  function lastAnswers(subjectId) {
+    const last = {}
+    for (const a of answerLog.value) if (a.subjectId === subjectId) last[a.qid] = a.correct
+    return last
+  }
+
+  // mode: 'tinta' (timp în minute) | 'seara' (esențial + greșeli + cartonașe slabe + test final)
+  function buildPlan(subjectId, topicIds, mode, minutes = 60) {
+    const ids = idsInTopics(subjectId, topicIds)
+    const last = lastAnswers(subjectId)
+    const rank = (q) => (last[q.id] === false ? 0 : last[q.id] === undefined ? 1 : 2)
+    const qs = mock.questions.filter((q) => ids.has(q.id)).sort((a, b) => rank(a) - rank(b) || Math.random() - 0.5)
+    const cardRank = (c) => (cardState.value[c.id]?.box ?? 0)
+    const cards = allCards.value
+      .filter((c) => ids.has(c.id) || (c.fromQuiz && ids.has(c.id.slice(3))))
+      .sort((a, b) => cardRank(a) - cardRank(b))
+    const summaries = mock.materials.filter((m) => m.type === 'summary' && ids.has(m.id))
+    const cases = mock.clinical[subjectId]?.cases.filter((c) => ids.has(c.id)) ?? []
+    const blocks = []
+    if (mode === 'seara') {
+      const wrongQs = qs.filter((q) => last[q.id] === false)
+      const weak = cards.filter((c) => (cardState.value[c.id]?.box ?? 0) < 3)
+      if (summaries.length) blocks.push({ key: 'sum', kind: 'summaries', title: 'Esențialul', note: 'Recitește rezumatele', minutes: summaries.reduce((a, m) => a + (m.readMinutes ?? 4), 0), summaryIds: summaries.map((m) => m.id) })
+      if (wrongQs.length) blocks.push({ key: 'wrong', kind: 'quiz', title: 'Greșelile tale', note: `${wrongQs.length} grile la care ai greșit data trecută`, minutes: wrongQs.length, questionIds: wrongQs.map((q) => q.id) })
+      if (weak.length) blocks.push({ key: 'cards', kind: 'cards', title: 'Cartonașe încă slabe', note: `${Math.min(weak.length, 30)} cartonașe`, minutes: Math.ceil(Math.min(weak.length, 30) * 0.4), cardIds: weak.slice(0, 30).map((c) => c.id) })
+      const finalQs = qs.slice(0, 15)
+      if (finalQs.length) blocks.push({ key: 'final', kind: 'quiz', title: 'Testul final', note: `${finalQs.length} grile amestecate, cu accent pe ce ai greșit`, minutes: finalQs.length, questionIds: finalQs.map((q) => q.id) })
+    } else {
+      let left = minutes
+      const sumBudget = Math.floor(minutes * 0.35)
+      const sumPicked = []
+      let used = 0
+      for (const m of summaries) {
+        const t = m.readMinutes ?? 4
+        if (used + t > sumBudget && sumPicked.length) break
+        sumPicked.push(m)
+        used += t
+      }
+      if (sumPicked.length) blocks.push({ key: 'sum', kind: 'summaries', title: 'Citește esențialul', note: `${sumPicked.length} rezumate`, minutes: used, summaryIds: sumPicked.map((m) => m.id) })
+      left -= used
+      const caseMin = 6
+      const useCase = cases.length && left >= 30 ? cases[0] : null
+      if (useCase) left -= caseMin
+      const nQ = Math.min(qs.length, Math.max(0, Math.floor(left * 0.6)))
+      const nC = Math.min(cards.length, Math.max(0, Math.floor((left - nQ) / 0.4)))
+      if (nC) blocks.push({ key: 'cards', kind: 'cards', title: 'Cartonașe', note: `${nC} cartonașe, întâi cele pe care nu le știi`, minutes: Math.ceil(nC * 0.4), cardIds: cards.slice(0, nC).map((c) => c.id) })
+      if (nQ) blocks.push({ key: 'quiz', kind: 'quiz', title: 'Grile', note: `${nQ} grile, întâi cele greșite sau nevăzute`, minutes: nQ, questionIds: qs.slice(0, nQ).map((q) => q.id) })
+      if (useCase) blocks.push({ key: 'case', kind: 'case', title: 'Caz clinic', note: useCase.title, minutes: caseMin, caseId: useCase.id })
+    }
+    targetSession.value = { subjectId, mode, minutes, topicIds, blocks, done: [], rewarded: false }
+    return targetSession.value
+  }
+
+  function completeBlock(key) {
+    const s = targetSession.value
+    if (!s || s.done.includes(key)) return
+    s.done = [...s.done, key]
+    if (!s.rewarded && s.done.length >= s.blocks.length) {
+      s.rewarded = true
+      addXp(XP.session)
+    }
+  }
+
+  function toggleBlock(key) {
+    const s = targetSession.value
+    if (!s) return
+    if (s.done.includes(key)) s.done = s.done.filter((k) => k !== key)
+    else completeBlock(key)
+  }
+
   function resetDemo() {
     try {
       localStorage.removeItem(STORAGE_KEY)
@@ -412,6 +509,7 @@ export const useAppStore = defineStore('app', () => {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     examDates, caseProgress, skillStatus,
+    targetSession, topicsFor, buildPlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,
     currentStreak, studiedToday, markStudied, totalXp, weekXp, leaderboard,

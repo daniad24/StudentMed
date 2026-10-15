@@ -136,7 +136,7 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
         <RouterLink
           v-for="e in exams"
           :key="e.subjectId"
-          :to="`/materie/${e.subjectId}?tab=grile`"
+          :to="`/tinta?materie=${e.subjectId}${e.daysLeft <= 1 ? '&mod=seara' : ''}`"
           class="card flex items-center gap-3 p-4 transition-transform active:translate-y-[2px]"
         >
           <span class="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-2xl bg-violet-100 leading-none text-violet-700">
@@ -155,6 +155,21 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
         </RouterLink>
       </div>
     </section>
+
+    <!-- Pregătire la țintă -->
+    <RouterLink
+      to="/tinta"
+      class="block rounded-3xl border-b-4 border-[#15803d] bg-gradient-to-br from-brand-400 to-brand-600 p-5 text-white transition-transform active:translate-y-[2px] slide-up"
+    >
+      <div class="flex items-center gap-4">
+        <div class="text-5xl">🎯</div>
+        <div class="flex-1">
+          <p class="text-xl font-black">Ai test? Pregătește-te la țintă</p>
+          <p class="text-sm font-semibold text-white/90">Alegi subiectele și timpul, primești planul. Sau „Seara dinainte”.</p>
+        </div>
+        <AppIcon name="forward" :size="28" />
+      </div>
+    </RouterLink>
 
     <!-- Pauza de gardă -->
     <RouterLink
