@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
+import { hardRefresh } from '../lib/refresh'
 import AppIcon from '../components/AppIcon.vue'
 
 const store = useAppStore()
@@ -21,17 +22,9 @@ const isContributor = computed(() => store.contributions > 0)
 const version = __APP_VERSION__
 const updating = ref(false)
 
-// Șterge service worker-ul și cache-ul, apoi reîncarcă: aplicația ia versiunea de pe server.
 async function updateApp() {
   updating.value = true
-  try {
-    const regs = (await navigator.serviceWorker?.getRegistrations()) ?? []
-    await Promise.all(regs.map((r) => r.unregister()))
-    await Promise.all((await caches.keys()).map((k) => caches.delete(k)))
-  } catch {
-    // dacă nu merge, reîncărcarea de mai jos tot ajută
-  }
-  location.reload()
+  await hardRefresh()
 }
 
 function logout() {

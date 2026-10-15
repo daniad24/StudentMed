@@ -4,6 +4,11 @@ import { registerSW } from 'virtual:pwa-register'
 import App from './App.vue'
 import router from './router'
 import './style.css'
+import { reloadOnceIfStale } from './lib/refresh'
+
+window.addEventListener('vite:preloadError', (e) => {
+  if (reloadOnceIfStale()) e.preventDefault()
+})
 
 createApp(App).use(createPinia()).use(router).mount('#app')
 

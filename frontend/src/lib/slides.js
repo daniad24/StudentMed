@@ -1,3 +1,4 @@
+import { isStaleChunkError, reloadOnceIfStale } from './refresh'
 // Extrage textul din prezentări (PPTX) și PDF-uri, direct în browser – fișierul nu pleacă de pe dispozitiv.
 // Rezultat: [{ index, title, lines: [{ text, level, bold: [fragmente îngroșate] }] }]
 
@@ -97,9 +98,15 @@ async function pageTextItems(page) {
 // PDF: pdf.js încarcă și pozele din slide-uri când trece prin ele, deci citirea pe intervale nu
 // ajută la PDF-urile cu multe poze. Citim fișierul întreg (memoria folosită ≈ mărimea lui).
 async function extractPdf(file, onProgress) {
-  const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs')
-  const { default: workerUrl } = await import('pdfjs-dist/legacy/build/pdf.worker.min.mjs?url')
-  pdfjs.GlobalWorkerOptions.workerSrc = workerUrl
+  let pdfjs
+  try {
+    pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs')
+    const { default: workerUrl } = await import('pdfjs-dist/legacy/build/pdf.worker.min.mjs?url')
+    pdfjs.GlobalWorkerOptions.workerSrc = workerUrl
+  } catch (err) {
+    if (isStaleChunkError(err) && reloadOnceIfStale()) throw new ImportError('Aplicația s-a actualizat, o reîncarc… Alege din nou fișierul.')
+    throw new ImportError('Aplicația are o versiune veche. Apasă „Actualizează aplicația” din Profil și încearcă din nou.')
+  }
 
   const task = pdfjs.getDocument({ data: await file.arrayBuffer() })
   let pdf
