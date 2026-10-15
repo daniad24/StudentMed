@@ -1,0 +1,203 @@
+// Reumatologie – cazuri clinice și abilități practice (stagiu)
+export default {
+  cases: [
+    {
+      id: 'reu-c1',
+      title: 'Dureri și umflături ale articulațiilor mâinilor',
+      setting: 'Ambulatoriu de reumatologie',
+      presentation: 'Femeie de 45 de ani se prezintă pentru dureri și tumefacții ale articulațiilor mâinilor și ale pumnilor de ambele părți, apărute treptat în ultimele trei luni. Dimineața are mâinile „înțepenite” peste o oră și îi este greu să-și încheie nasturii. Acuză oboseală. Este fumătoare.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebări de anamneză sunt esențiale?',
+          answer: '• Articulațiile afectate, simetria, durata simptomelor\n• Caracterul durerii: inflamator (redoare matinală prelungită, ameliorare la mișcare) vs mecanic\n• Impactul funcțional (activități zilnice, profesie)\n• Simptome sistemice: oboseală, febră, scădere ponderală\n• Manifestări extraarticulare: ochi și gură uscate, noduli, simptome respiratorii\n• Simptome sugestive pentru alte boli: psoriazis, erupții, fotosensibilitate, fenomen Raynaud, infecții recente\n• Istoric familial, fumat',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?',
+          answer: '• Sinovită (tumefacție moale, sensibilitate) la nivelul metacarpofalangienelor, interfalangienelor proximale și pumnilor, bilateral și simetric\n• Interfalangienele distale de obicei respectate\n• Testul compresiunii metacarpofalangienelor (squeeze test) dureros\n• Numărul de articulații dureroase și tumefiate (pentru scorurile de activitate)\n• Căutarea nodulilor reumatoizi, leziunilor de psoriazis, modificărilor unghiale\n• Examen general: pulmonar, cardiac',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce investigații ceri și ce rezultate te aștepți?',
+          answer: '• VSH și CRP: crescute\n• Factor reumatoid și anticorpi anti-CCP: pozitivi (anti-CCP mai specifici)\n• Hemogramă (anemie a bolilor cronice), funcție hepatică și renală (înainte de tratament)\n• Radiografii de mâini și picioare: la debut pot fi normale sau cu osteoporoză periarticulară; ulterior eroziuni\n• Ecografie articulară: sinovită\n• Serologii virale (hepatită B, C) înainte de tratamentul imunosupresor',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?',
+          answer: '• Cel mai probabil: poliartrită reumatoidă\n• Diferențial: artrita psoriazică, lupus eritematos sistemic, artrită virală (de obicei autolimitată), artroză nodulară a mâinilor (interfalangiene distale, fără redoare prelungită), polimialgia reumatică (vârstnic), gută poliarticulară',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Care sunt principiile de tratament și de monitorizare?',
+          answer: '• Diagnostic și tratament precoce („fereastra de oportunitate”) pentru prevenirea leziunilor articulare\n• Remisiv sintetic de primă linie: metotrexat (cu acid folic), cu monitorizarea hemogramei și a funcției hepatice\n• Corticoterapie de scurtă durată ca „punte”; AINS pentru simptome\n• Terapii biologice sau sintetice țintite la răspuns insuficient\n• Strategia „treat to target”: obiectiv remisiune sau activitate scăzută, evaluare periodică\n• Oprirea fumatului, kinetoterapie, evaluarea riscului cardiovascular și a osteoporozei',
+        },
+      ],
+      takeaways: [
+        'Poliartrita simetrică a articulațiilor mici ale mâinilor cu redoare matinală prelungită sugerează poliartrita reumatoidă.',
+        'Anti-CCP au specificitate mare.',
+        'Tratamentul remisiv precoce previne distrucția articulară.',
+        'Metotrexatul necesită monitorizare biologică regulată.',
+      ],
+    },
+    {
+      id: 'reu-c2',
+      title: 'Durere de spate care trezește tânărul noaptea',
+      setting: 'Ambulatoriu de reumatologie',
+      presentation: 'Bărbat de 26 de ani acuză durere lombară joasă și în fese, alternativ stânga-dreapta, de aproximativ un an. Durerea îl trezește în a doua parte a nopții, este însoțită de înțepeneală matinală prelungită și se ameliorează după ce face mișcare, nu la repaus. Cu un an în urmă a avut un episod de ochi roșu, dureros, cu fotofobie.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebări de anamneză sunt esențiale?',
+          answer: '• Caracterul inflamator al durerii: debut insidios înainte de vârsta adultă medie, durată de luni, trezire nocturnă, redoare matinală, ameliorare la efort, nu la repaus\n• Răspunsul la AINS (de obicei bun)\n• Manifestări asociate: uveită anterioară, entezită (durere de călcâi), dactilită, artrită periferică\n• Psoriazis, boală inflamatorie intestinală (diaree, sânge în scaun), infecții recente urinare/digestive\n• Istoric familial de spondilită, psoriazis, boală inflamatorie intestinală',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?',
+          answer: '• Inspecția coloanei: pierderea lordozei lombare\n• Mobilitatea coloanei lombare scăzută (testul Schober), distanța deget-sol, mobilitatea cervicală, distanța occiput-perete\n• Expansiunea toracică (poate fi redusă)\n• Sensibilitatea articulațiilor sacroiliace la palpare și la manevrele de provocare\n• Entezite (inserția tendonului lui Ahile, fascia plantară)\n• Articulații periferice, piele (psoriazis), ochi',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce investigații ceri și ce rezultate te aștepți?',
+          answer: '• VSH și CRP: crescute sau normale (normale nu exclud boala)\n• HLA-B27: frecvent pozitiv (susține diagnosticul, dar nu îl stabilește singur)\n• Radiografia articulațiilor sacroiliace: sacroiliită (poate lipsi în faza precoce)\n• RMN de sacroiliace: inflamație activă (edem osos) în faza precoce\n• Hemogramă, funcție hepatică și renală',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?',
+          answer: '• Cel mai probabil: spondilartrită axială (spondilită anchilozantă), cu uveită anterioară în antecedente\n• Diferențial: lombalgie mecanică, hernie de disc, artrita psoriazică sau enteropatică cu afectare axială, artrită reactivă, spondilodiscită infecțioasă, hiperostoză scheletică difuză (la vârstnic)',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Care sunt principiile de tratament și de monitorizare?',
+          answer: '• Kinetoterapie și exerciții zilnice – pilon al tratamentului, oprirea fumatului\n• AINS de primă linie (eficace, cu monitorizarea efectelor adverse)\n• Terapii biologice (anti-TNF, anti-IL-17) la boală activă sub AINS\n• Remisivele sintetice clasice nu sunt eficiente pe afectarea axială (pot fi utile pe artrita periferică)\n• Pacientul este instruit să se prezinte la oftalmolog de urgență la ochi roșu dureros\n• Monitorizarea activității bolii și a mobilității',
+        },
+      ],
+      takeaways: [
+        'Durerea lombară inflamatorie la tânăr (nocturnă, ameliorată de mișcare) sugerează spondilartrită.',
+        'Uveita anterioară, entezita și psoriazisul sunt indicii importante.',
+        'RMN-ul detectează sacroiliita înaintea radiografiei.',
+        'Exercițiul fizic și AINS sunt prima linie de tratament.',
+      ],
+    },
+    {
+      id: 'reu-c3',
+      title: 'Genunchi roșu, cald și foarte dureros',
+      setting: 'Camera de gardă',
+      presentation: 'Bărbat de 58 de ani se prezintă pentru durere intensă, tumefacție și roșeață la nivelul genunchiului drept, apărute în ultimele 24 de ore. Nu poate sprijini membrul. Este cunoscut cu hipertensiune tratată cu diuretic tiazidic și consumă frecvent alcool. A avut cu doi ani în urmă un episod asemănător la halucele stâng, care a trecut în câteva zile.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebări de anamneză sunt esențiale?',
+          answer: '• Debutul (brusc, în ore), intensitatea durerii, episoade anterioare similare\n• Febră, frisoane, stare generală alterată (artrită septică)\n• Porți de intrare: infecții cutanate, injecții intraarticulare, intervenții recente, proteză articulară\n• Factori de risc pentru gută: diuretice, alcool, alimentație bogată în purine, boală renală, istoric familial\n• Imunosupresie, diabet\n• Traumatism, contact sexual recent (artrită gonococică)',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?',
+          answer: '• Genunchi tumefiat, cald, eritematos, cu revărsat și durere la mobilizarea minimă\n• Temperatură, AV, TA (semne de sepsis)\n• Căutarea tofilor (urechi, coate, degete)\n• Examinarea celorlalte articulații\n• Leziuni cutanate (porți de intrare)',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce investigații ceri și ce rezultate te aștepți?',
+          answer: '• Artrocenteza (puncția articulară) – investigația cheie, înainte de antibiotic: aspect, celularitate, cristale la microscopie cu lumină polarizată, colorație Gram și cultură\n• Gută: cristale de urat monosodic aciculare, cu birefringență negativă\n• Hemogramă, VSH, CRP, hemoculturi dacă are febră\n• Acid uric seric (poate fi normal în criză), funcție renală\n• Radiografie de genunchi',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?',
+          answer: '• Cel mai probabil: artrită gutoasă acută (episod anterior de podagră, diuretic, alcool)\n• Diferențial obligatoriu: artrită septică (trebuie exclusă prin puncție)\n• Alte cauze: artropatie cu cristale de pirofosfat de calciu (pseudogută), artrită reactivă, hemartroză, debut monoarticular al unei artrite inflamatorii\n• Gută și infecția pot coexista – prezența cristalelor nu exclude infecția',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Care sunt principiile de tratament și de monitorizare?',
+          answer: '• Până la excluderea infecției: tratament ca artrită septică (antibiotic după recoltări, drenaj)\n• Criza de gută: AINS, colchicină sau corticoizi (alegerea în funcție de comorbidități), repaus, gheață\n• Nu se începe și nu se oprește tratamentul hipouricemiant în plină criză dacă pacientul îl lua deja\n• Pe termen lung: tratament hipouricemiant (alopurinol) la indicații, cu profilaxia crizelor la inițiere\n• Măsuri de stil de viață: alcool, alimentație, greutate; revizuirea diureticului\n• Monitorizarea acidului uric și a funcției renale',
+        },
+      ],
+      takeaways: [
+        'Orice monoartrită acută impune puncție articulară pentru a exclude artrita septică.',
+        'Cristalele aciculare cu birefringență negativă = gută.',
+        'Acidul uric poate fi normal în timpul crizei.',
+        'Diureticele tiazidice și alcoolul favorizează guta.',
+      ],
+    },
+  ],
+  skills: [
+    {
+      id: 'reu-s1',
+      name: 'Examenul articular (mână, genunchi)',
+      category: 'Examen clinic',
+      steps: [
+        'Te prezinți, explici, întrebi de zone dureroase; compari mereu bilateral; schema „privește, palpează, mișcă”.',
+        'Mâna – inspecție: tumefacții, deformări (deviație ulnară, deget în „gât de lebădă”, „butonieră”, noduli Heberden/Bouchard), atrofii, leziuni cutanate și unghiale.',
+        'Mâna – palpare: temperatură, sinovită la pumni, metacarpofalangiene, interfalangiene; testul compresiunii metacarpofalangienelor.',
+        'Mâna – funcție: închiderea pumnului, opoziția policelui, prehensiunea, sarcini fine (nasturi, scris).',
+        'Genunchiul – inspecție în ortostatism și decubit: axul, tumefacția, atrofia cvadricepsului, mersul.',
+        'Genunchiul – palpare: căldură, revărsat (șoc rotulian), puncte dureroase, fosa poplitee (chist Baker).',
+        'Genunchiul – mobilitate: flexie-extensie, crepitații, stabilitate ligamentară.',
+        'Notezi articulațiile dureroase și tumefiate și distingi sinovita (moale, caldă) de hipertrofia osoasă (dură, artroză).',
+      ],
+      tips: 'La colocviu se urmărește diferența dintre tumefacția inflamatorie și cea osoasă și distribuția afectării (de ex. interfalangiene distale în artroză, metacarpofalangiene în poliartrita reumatoidă).',
+    },
+    {
+      id: 'reu-s2',
+      name: 'Examenul coloanei (mobilitate)',
+      category: 'Examen clinic',
+      steps: [
+        'Pacientul în ortostatism, dezbrăcat până la lenjerie; inspecție din spate și din profil: curburi, cifoză, pierderea lordozei lombare.',
+        'Distanța occiput-perete (pacient cu călcâiele și spatele lipite de perete) – crescută în afectarea cervicotoracală.',
+        'Mobilitatea cervicală: flexie, extensie, rotații, înclinări laterale.',
+        'Expansiunea toracică la nivelul spațiului intercostal IV, între inspir și expir maxim.',
+        'Testul Schober (modificat): marchezi repere lombare și măsori creșterea distanței la flexie maximă.',
+        'Distanța deget-sol la flexia anterioară și înclinările laterale lombare.',
+        'Palparea articulațiilor sacroiliace și manevrele de provocare a durerii sacroiliace.',
+        'Cauți entezitele (călcâi, inserții tendinoase) și notezi valorile pentru urmărirea în timp.',
+      ],
+      tips: 'Distanța deget-sol este influențată și de șolduri și de ischiogambieri – Schober este mai specific pentru coloana lombară. Valorile se urmăresc la același pacient în timp.',
+    },
+    {
+      id: 'reu-s3',
+      name: 'Evaluarea redorii matinale și a durerii inflamatorii vs mecanice',
+      category: 'Comunicare',
+      steps: [
+        'Pui întrebări deschise despre durere: când a început, unde, cum evoluează în cursul zilei.',
+        'Întrebi de redoarea matinală și de durata ei: prelungită în bolile inflamatorii, scurtă în artroză.',
+        'Întrebi ce ameliorează durerea: mișcarea (inflamator) sau repausul (mecanic).',
+        'Întrebi dacă durerea trezește pacientul noaptea (sugestiv inflamator) și dacă apare la început de mișcare și după efort (mecanic).',
+        'Întrebi de tumefacții articulare, căldură locală, oboseală, febră.',
+        'Întrebi de răspunsul la AINS.',
+        'Corelezi cu examenul (sinovită vs hipertrofie osoasă) și cu markerii inflamatori.',
+        'Rezumi pacientului ce ai înțeles și încadrezi durerea ca inflamatorie sau mecanică.',
+      ],
+      tips: 'Întreabă concret de durata redorii matinale (cât timp durează până se „dezmorțește”), nu doar dacă există. Caracterul inflamator al durerii orientează spre reumatolog.',
+    },
+    {
+      id: 'reu-s4',
+      name: 'Recunoașterea semnelor de artrită septică',
+      category: 'Examen clinic',
+      steps: [
+        'Suspectezi la orice monoartrită acută: articulație caldă, tumefiată, foarte dureroasă, cu mobilitate mult limitată (activă și pasivă).',
+        'Cauți semnele sistemice: febră, frisoane, tahicardie, hipotensiune (sepsis) – pot lipsi, mai ales la vârstnic sau imunodeprimat.',
+        'Identifici factorii de risc: vârstă înaintată, proteză articulară, artrită preexistentă, diabet, imunosupresie, injecții intraarticulare, consum de droguri intravenoase, infecții cutanate.',
+        'Ceri artrocenteză înainte de antibiotic: aspect purulent, celularitate crescută cu predominanță de neutrofile, Gram, cultură, cristale.',
+        'Recoltezi hemoculturi, hemogramă, CRP, VSH.',
+        'Inițiezi antibioterapia empirică intravenoasă imediat după recoltări și anunți ortopedul pentru drenaj/lavaj.',
+        'Nu excluzi infecția doar pentru că ai găsit cristale sau pentru că pacientul nu are febră.',
+      ],
+      tips: 'Artrita septică este o urgență – distrugerea articulară se produce rapid. Regula: monoartrită acută = puncție articulară.',
+    },
+    {
+      id: 'reu-s5',
+      name: 'Examinarea pielii și unghiilor în bolile reumatice',
+      category: 'Examen clinic',
+      steps: [
+        'Examinezi tegumentele în lumină bună, inclusiv scalpul, zonele retroauriculare, ombilicul și pliul interfesier (psoriazis ascuns).',
+        'Unghii: depresiuni punctiforme (pitting), onicoliză (psoriazis); capilarele periunghiale modificate (sclerodermie, dermatomiozită).',
+        'Degete: fenomen Raynaud (din anamneză), ulcerații digitale, scleroză cutanată (sclerodactilie), dactilită („deget în cârnat”).',
+        'Față: erupție malară „în fluture” (lupus), eritem heliotrop palpebral (dermatomiozită), telangiectazii, microstomie (sclerodermie).',
+        'Mâini: papule Gottron pe fața dorsală a articulațiilor (dermatomiozită).',
+        'Noduli subcutanați (reumatoizi pe fața extensoare a antebrațului, tofi gutoși), livedo reticularis, purpură palpabilă (vasculită).',
+        'Mucoase: ulcerații orale, xerostomie.',
+        'Corelezi leziunile cu tabloul articular pentru diagnostic.',
+      ],
+      tips: 'Psoriazisul poate fi discret sau ascuns – caută-l activ la orice artrită. Modificările unghiale sunt un indiciu important pentru artrita psoriazică.',
+    },
+  ],
+}
