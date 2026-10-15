@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "dompurify": "^3.4.17",
-    "jszip": "^3.10.2",
+    "fflate": "^0.8.2",
     "marked": "^18.1.1",
     "pdfjs-dist": "^6.3.289",
     "pinia": "^4.1.0",

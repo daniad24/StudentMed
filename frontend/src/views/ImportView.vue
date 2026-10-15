@@ -7,7 +7,8 @@ import { extractSlides } from '../lib/slides'
 import { generateCards } from '../lib/cardgen'
 import BackButton from '../components/BackButton.vue'
 
-const MAX_MB = 30
+// PPTX se citește pe bucăți (memorie mică); PDF se citește întreg, deci limita e mai mică.
+const MAX_MB = { pptx: 500, pdf: 150 }
 const KIND_LABEL = { cloze: '✏️ Completează', definition: '📖 Definiție', list: '📋 Enumerare', manual: '✍️ Manual' }
 
 const route = useRoute()
@@ -17,6 +18,7 @@ const subjectId = ref(route.query.materie || subjects[0].id)
 const subject = computed(() => subjects.find((s) => s.id === subjectId.value))
 
 const phase = ref('pick') // pick | working | review | saved
+const progress = ref({ done: 0, total: 0 })
 const error = ref('')
 const fileName = ref('')
 const slides = ref([])
@@ -32,12 +34,19 @@ async function onFile(e) {
   e.target.value = ''
   if (!file) return
   error.value = ''
-  if (file.size > MAX_MB * 1024 * 1024) return (error.value = `Fișierul e prea mare (maxim ${MAX_MB} MB).`)
+  const kind = file.name.toLowerCase().endsWith('.pdf') ? 'pdf' : 'pptx'
+  if (file.size > MAX_MB[kind] * 1024 * 1024) {
+    return (error.value =
+      kind === 'pdf'
+        ? `PDF-ul are ${Math.round(file.size / 1048576)} MB, iar limita e ${MAX_MB.pdf} MB. Salvează cursul ca .pptx (merge până la ${MAX_MB.pptx} MB) sau comprimă PDF-ul.`
+        : `Prezentarea are ${Math.round(file.size / 1048576)} MB, iar limita e ${MAX_MB.pptx} MB.`)
+  }
 
   fileName.value = file.name
+  progress.value = { done: 0, total: 0 }
   phase.value = 'working'
   try {
-    slides.value = await extractSlides(file)
+    slides.value = await extractSlides(file, (done, total) => (progress.value = { done, total }))
     const textCount = slides.value.reduce((a, s) => a + s.lines.length, 0)
     if (!textCount) {
       phase.value = 'pick'
@@ -112,7 +121,18 @@ const vAutosize = { mounted: (el) => autosize({ target: el }) }
           <span class="text-lg font-black text-brand-700">
             {{ phase === 'working' ? `Citesc ${fileName}…` : 'Alege o prezentare sau un PDF' }}
           </span>
-          <span class="text-sm font-semibold text-muted">.pptx sau .pdf · maxim {{ MAX_MB }} MB</span>
+          <template v-if="phase === 'working'">
+            <span class="h-3 w-full max-w-xs overflow-hidden rounded-full bg-gray-200">
+              <span
+                class="block h-full rounded-full bg-brand-500 transition-all"
+                :style="{ width: progress.total ? `${(progress.done / progress.total) * 100}%` : '8%' }"
+              ></span>
+            </span>
+            <span class="text-sm font-semibold text-muted">
+              {{ progress.total ? `slide/pagina ${progress.done} din ${progress.total}` : 'Deschid fișierul…' }}
+            </span>
+          </template>
+          <span v-else class="text-sm font-semibold text-muted">.pptx (până la {{ MAX_MB.pptx }} MB) · .pdf (până la {{ MAX_MB.pdf }} MB)</span>
           <input type="file" accept=".pptx,.pdf,application/pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation" class="hidden" @change="onFile" />
         </label>
 
@@ -121,7 +141,7 @@ const vAutosize = { mounted: (el) => autosize({ target: el }) }
 
       <section class="card space-y-2 p-5 text-sm font-semibold text-muted">
         <h2 class="text-base font-black text-ink">Cum funcționează</h2>
-        <p>🔒 Fișierul e citit direct pe dispozitivul tău și nu se încarcă nicăieri.</p>
+        <p>🔒 Fișierul e citit direct pe dispozitivul tău și nu se încarcă nicăieri. Se citește doar textul, nu pozele, deci merge și cu fișiere mari.</p>
         <p>✏️ Termenii scriși <strong class="text-ink">îngroșat</strong> devin cartonașe „completează spațiul”.</p>
         <p>📖 Rândurile de forma „Termen – explicație” devin definiții.</p>
         <p>📋 Slide-urile cu o listă scurtă devin cartonașe „enumeră”.</p>

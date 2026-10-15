@@ -6,41 +6,48 @@ const PPTX_NS = {
   p: 'http://schemas.openxmlformats.org/presentationml/2006/main',
 }
 
+import { openZip, ZipError } from './zipLazy'
+
 const clean = (s) => s.replace(/\s+/g, ' ').trim()
 
 export class ImportError extends Error {}
 
-export async function extractSlides(file) {
+// onProgress(făcute, total) e apelat după fiecare slide/pagină, ca interfața să arate progresul.
+export async function extractSlides(file, onProgress = () => {}) {
   const name = file.name.toLowerCase()
   try {
-    if (name.endsWith('.pptx')) return await extractPptx(file)
-    if (name.endsWith('.pdf')) return await extractPdf(file)
+    if (name.endsWith('.pptx')) return await extractPptx(file, onProgress)
+    if (name.endsWith('.pdf')) return await extractPdf(file, onProgress)
   } catch (err) {
     if (err instanceof ImportError) throw err
     console.error(err)
+    if (err instanceof RangeError || /memory|allocation/i.test(err?.message ?? '')) {
+      throw new ImportError('Fișierul e prea mare pentru memoria telefonului. Încearcă să-l comprimi sau să-l împarți în mai multe fișiere.')
+    }
     throw new ImportError(`Nu am putut citi fișierul. Detalii tehnice: ${err?.message ?? err}`)
   }
   throw new ImportError('Format nesuportat. Încarcă un fișier .pptx sau .pdf.')
 }
 
-async function extractPptx(file) {
-  const { default: JSZip } = await import('jszip')
+async function extractPptx(file, onProgress) {
   let zip
   try {
-    zip = await JSZip.loadAsync(file)
-  } catch {
-    throw new ImportError('Fișierul nu pare a fi o prezentare PowerPoint validă (.pptx).')
+    zip = await openZip(file)
+  } catch (err) {
+    if (err instanceof ZipError && err.message === 'arhivă criptată') throw new ImportError('Prezentarea e protejată cu parolă.')
+    throw new ImportError('Fișierul nu pare a fi o prezentare PowerPoint validă (.pptx). Fișierele vechi .ppt trebuie salvate ca .pptx.')
   }
 
-  const slideFiles = Object.keys(zip.files)
+  const slideFiles = zip.names
     .map((path) => ({ path, n: Number(path.match(/^ppt\/slides\/slide(\d+)\.xml$/)?.[1]) }))
     .filter((f) => f.n)
     .sort((a, b) => a.n - b.n)
+  if (!slideFiles.length) throw new ImportError('Nu am găsit slide-uri în fișier. Pare a fi un .pptx gol sau deteriorat.')
 
   const parser = new DOMParser()
   const slides = []
   for (const { path, n } of slideFiles) {
-    const doc = parser.parseFromString(await zip.file(path).async('string'), 'application/xml')
+    const doc = parser.parseFromString(await zip.text(path), 'application/xml')
     let title = ''
     const lines = []
 
@@ -69,6 +76,7 @@ async function extractPptx(file) {
     // Fără titlu marcat: prima linie scurtă devine titlu.
     if (!title && lines.length && lines[0].text.length <= 80) title = lines.shift().text
     slides.push({ index: n, title, lines })
+    onProgress(slides.length, slideFiles.length)
   }
   return slides
 }
@@ -86,18 +94,30 @@ async function pageTextItems(page) {
   return items
 }
 
-async function extractPdf(file) {
+// PDF: pdf.js încarcă și pozele din slide-uri când trece prin ele, deci citirea pe intervale nu
+// ajută la PDF-urile cu multe poze. Citim fișierul întreg (memoria folosită ≈ mărimea lui).
+async function extractPdf(file, onProgress) {
   const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs')
   const { default: workerUrl } = await import('pdfjs-dist/legacy/build/pdf.worker.min.mjs?url')
   pdfjs.GlobalWorkerOptions.workerSrc = workerUrl
 
+  const task = pdfjs.getDocument({ data: await file.arrayBuffer() })
   let pdf
   try {
-    pdf = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise
-  } catch {
-    throw new ImportError('PDF-ul nu a putut fi deschis (poate e protejat cu parolă sau deteriorat).')
+    pdf = await task.promise
+  } catch (err) {
+    task.destroy()
+    if (err?.name === 'PasswordException') throw new ImportError('PDF-ul e protejat cu parolă.')
+    throw new ImportError('PDF-ul nu a putut fi deschis (poate e deteriorat).')
   }
+  try {
+    return await readPdfPages(pdf, onProgress)
+  } finally {
+    task.destroy()
+  }
+}
 
+async function readPdfPages(pdf, onProgress) {
   const slides = []
   for (let n = 1; n <= pdf.numPages; n++) {
     const page = await pdf.getPage(n)
@@ -135,6 +155,8 @@ async function extractPdf(file) {
       title,
       lines: lines.map((l) => ({ text: l.text.replace(/^[•▪●◦\-–*]\s*/, ''), level: 0, bold: [] })),
     })
+    page.cleanup()
+    onProgress(n, pdf.numPages)
   }
   return slides
 }
