@@ -89,7 +89,7 @@ function onReport(reason) {
           </div>
           <div class="flip-face flip-back card flex flex-col items-center justify-center border-brand-200 bg-brand-50 p-6 text-center">
             <p class="text-xs font-black tracking-widest text-brand-700 uppercase">Răspuns</p>
-            <p class="mt-3 font-black leading-snug text-brand-800" :class="current.back.length > 60 ? 'text-lg' : 'text-2xl'">{{ current.back }}</p>
+            <p class="mt-3 whitespace-pre-line font-black leading-snug text-brand-800" :class="current.back.length > 60 ? 'text-lg text-left' : 'text-2xl'">{{ current.back }}</p>
             <p v-if="current.note" class="mt-3 text-sm font-semibold text-muted">💡 {{ current.note }}</p>
           </div>
         </div>

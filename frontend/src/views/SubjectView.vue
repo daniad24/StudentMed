@@ -104,14 +104,17 @@ const multiCount = computed(() => store.questionsFor(route.params.id).filter((q)
         <div v-for="c in cards" :key="c.id" class="card p-3">
           <span v-if="c.fromQuiz" class="chip mb-1 bg-violet-100 text-violet-700">din grilele greșite</span>
           <p class="font-extrabold">{{ c.front }}</p>
-          <p class="text-sm font-semibold text-muted">{{ c.back }}</p>
+          <p class="whitespace-pre-line text-sm font-semibold text-muted">{{ c.back }}</p>
         </div>
       </div>
       <div v-else class="card p-6 text-center">
         <p class="text-3xl">🃏</p>
         <p class="font-extrabold">Niciun cartonaș încă</p>
       </div>
-      <RouterLink :to="`/adauga?materie=${subject.id}&tip=flashcard`" class="btn btn-white w-full">➕ Adaugă cartonaș</RouterLink>
+      <div class="grid grid-cols-2 gap-2">
+        <RouterLink :to="`/adauga?materie=${subject.id}&tip=flashcard`" class="btn btn-white px-2">➕ Cartonaș</RouterLink>
+        <RouterLink :to="`/import?materie=${subject.id}`" class="btn btn-white px-2">📄 Din PPT/PDF</RouterLink>
+      </div>
     </section>
 
     <!-- Grile -->

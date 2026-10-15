@@ -208,6 +208,15 @@ export const useAppStore = defineStore('app', () => {
     return c
   }
 
+  // Cartonașe importate dintr-un fișier (PPT/PDF), salvate deodată.
+  function addCards(subjectId, cards, source) {
+    const stamp = Date.now()
+    const author = user.value?.name ?? 'Tu'
+    const added = cards.map((c, i) => ({ id: `uc${stamp}-${i}`, author, subjectId, source, front: c.front, back: c.back }))
+    myCards.value.push(...added)
+    return added
+  }
+
   // rating: 'red' | 'yellow' | 'green'
   function rateCard(cardId, rating) {
     const prev = cardState.value[cardId]?.box ?? 0
@@ -327,7 +336,7 @@ export const useAppStore = defineStore('app', () => {
     login, logout,
     currentStreak, studiedToday, markStudied, totalXp, weekXp, leaderboard,
     allMaterials, materialsFor, toggleVote, toggleRecommended, addMaterial,
-    allCards, cardsFor, dueCardsFor, addCard, rateCard, cardStats,
+    allCards, cardsFor, dueCardsFor, addCard, addCards, rateCard, cardStats,
     questionsFor, recordAnswer, recordQuiz, recordExam, accuracyFor,
     report, resolveReport,
     contributions, badges, resetDemo,

@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 import { useAppStore, RECOMMEND_VOTES } from '../stores/app'
+import AppIcon from '../components/AppIcon.vue'
 import { subjects, years } from '../data/mock'
 
 const route = useRoute()
@@ -67,6 +68,18 @@ function submit() {
         {{ k.label }}
       </button>
     </div>
+
+    <RouterLink
+      :to="`/import?materie=${subjectId}`"
+      class="card flex items-center gap-3 p-4 transition-transform active:translate-y-[2px]"
+    >
+      <span class="text-3xl">📄</span>
+      <span class="flex-1">
+        <span class="block font-black">Cartonașe dintr-un curs (PPT/PDF)</span>
+        <span class="block text-sm font-semibold text-muted">Încarcă prezentarea și primești cartonașe gata făcute</span>
+      </span>
+      <AppIcon name="forward" class="text-muted" />
+    </RouterLink>
 
     <form class="card space-y-4 p-5" @submit.prevent="submit">
       <div>

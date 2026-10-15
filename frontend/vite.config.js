@@ -29,7 +29,14 @@ export default defineConfig({
       },
       workbox: {
         navigateFallback: '/index.html',
+        // pdf.js (~1,8 MB) se descarcă doar când cineva importă un PDF, nu la instalarea aplicației.
+        globIgnores: ['**/pdf*.{js,mjs}'],
         runtimeCaching: [
+          {
+            urlPattern: /\/assets\/pdf.*\.(m?js)$/,
+            handler: 'CacheFirst',
+            options: { cacheName: 'pdfjs', expiration: { maxEntries: 6 } },
+          },
           {
             urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
             handler: 'CacheFirst',
