@@ -33,6 +33,7 @@ function optionClass(opt, i) {
     >
       {{ isMulti(question) ? 'Complement multiplu · bifează toate răspunsurile corecte' : 'Complement simplu · un singur răspuns' }}
     </span>
+    <span v-if="question.source === 'ai'" class="chip mb-2 ml-1 whitespace-normal bg-amber-100 text-amber-700">🤖 generată de AI · neverificată</span>
     <h1 :key="question.id" class="text-xl font-black leading-snug sm:text-2xl slide-up">{{ question.text }}</h1>
 
     <div class="mt-5 space-y-2.5" :role="isMulti(question) ? 'group' : 'radiogroup'">

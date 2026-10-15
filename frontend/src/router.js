@@ -19,6 +19,7 @@ const routes = [
   { path: '/statistici', name: 'stats', component: () => import('./views/StatsView.vue') },
   { path: '/caz/:caseId', name: 'case', component: () => import('./views/CaseView.vue'), meta: { focus: true } },
   { path: '/import', name: 'import', component: () => import('./views/ImportView.vue') },
+  { path: '/import-ai', name: 'import-ai', component: () => import('./views/AiImportView.vue') },
   { path: '/adauga', name: 'add', component: () => import('./views/AddView.vue') },
   { path: '/profil', name: 'profile', component: () => import('./views/ProfileView.vue') },
   { path: '/moderare', name: 'moderation', component: () => import('./views/ModerationView.vue') },

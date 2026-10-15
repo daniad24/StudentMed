@@ -1,4 +1,5 @@
 <script setup>
+import { AI_IMPORT } from '../lib/flags'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { marked } from 'marked'
@@ -77,6 +78,19 @@ function submit() {
       <span class="flex-1">
         <span class="block font-black">Cartonașe dintr-un curs (PPT/PDF)</span>
         <span class="block text-sm font-semibold text-muted">Încarcă prezentarea și primești cartonașe gata făcute</span>
+      </span>
+      <AppIcon name="forward" class="text-muted" />
+    </RouterLink>
+
+    <RouterLink
+      v-if="AI_IMPORT"
+      :to="`/import-ai?materie=${subjectId}`"
+      class="card flex items-center gap-3 p-4 transition-transform active:translate-y-[2px]"
+    >
+      <span class="text-3xl">🤖</span>
+      <span class="flex-1">
+        <span class="block font-black">Grile din curs, cu chatbotul tău <span class="chip bg-amber-100 text-amber-700">test</span></span>
+        <span class="block text-sm font-semibold text-muted">Copiezi un prompt în ChatGPT/Gemini/Claude și lipești răspunsul</span>
       </span>
       <AppIcon name="forward" class="text-muted" />
     </RouterLink>

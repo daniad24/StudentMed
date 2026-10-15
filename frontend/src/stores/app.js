@@ -62,7 +62,7 @@ const DEMO_RIVALS = [
 const KEYS = [
   'user', 'isAdmin', 'theme', 'streak', 'cardState', 'votes', 'recommendedOverrides', 'reports',
   'myMaterials', 'myCards', 'quizCards', 'quizHistory', 'examHistory', 'answerLog', 'activity', 'leaderboardOptIn',
-  'examDates', 'caseProgress', 'skillStatus',
+  'examDates', 'caseProgress', 'skillStatus', 'myQuestions',
 ]
 
 // Carnetul de abilități practice: nivelul atins pentru fiecare manevră/examinare.
@@ -95,11 +95,12 @@ export const useAppStore = defineStore('app', () => {
   const examDates = ref(saved.examDates ?? {}) // { subjectId: 'YYYY-MM-DD' }
   const caseProgress = ref(saved.caseProgress ?? {}) // { caseId: { date, ratings: ['yes'|'partial'|'no'] } }
   const skillStatus = ref(saved.skillStatus ?? {}) // { skillId: 0..3 }
+  const myQuestions = ref(saved.myQuestions ?? []) // grile importate cu chatbotul (neverificate)
 
   const refs = {
     user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
     myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus,
+    examDates, caseProgress, skillStatus, myQuestions,
   }
   watch(
     KEYS.map((k) => refs[k]),
@@ -264,7 +265,22 @@ export const useAppStore = defineStore('app', () => {
 
   // --- Grile ---
   function questionsFor(subjectId) {
-    return mock.questions.filter((q) => q.subjectId === subjectId)
+    return [...mock.questions, ...myQuestions.value].filter((q) => q.subjectId === subjectId)
+  }
+
+  // Grile și cartonașe făcute cu un chatbot din cursul studentului; rămân marcate „neverificat”.
+  function addAiContent(subjectId, questions, cards) {
+    const stamp = Date.now()
+    const author = user.value?.name ?? 'Tu'
+    myQuestions.value.push(
+      ...questions.map((q, i) => ({ id: `ai${stamp}-q${i}`, subjectId, type: q.type, text: q.text, options: q.options, answer: q.answer, explanation: q.explanation, source: 'ai', author })),
+    )
+    myCards.value.push(...cards.map((c, i) => ({ id: `ai${stamp}-c${i}`, subjectId, front: c.front, back: c.back, source: 'ai', ai: true, author })))
+  }
+
+  function clearAiContent() {
+    myQuestions.value = []
+    myCards.value = myCards.value.filter((c) => !c.ai)
   }
 
   // O grilă greșită devine cartonaș de repetat (o singură dată per grilă).
@@ -508,7 +524,7 @@ export const useAppStore = defineStore('app', () => {
   return {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus,
+    examDates, caseProgress, skillStatus, myQuestions, addAiContent, clearAiContent,
     targetSession, topicsFor, buildPlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,

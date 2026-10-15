@@ -90,6 +90,7 @@ function onReport(reason) {
         >
           <div class="flip-face card flex flex-col items-center justify-center p-6 text-center">
             <p class="text-xs font-black tracking-widest text-muted uppercase">Întrebare</p>
+            <span v-if="current.ai" class="chip mt-2 bg-amber-100 text-amber-700">🤖 generat de AI · neverificat</span>
             <span v-if="current.fromQuiz" class="chip mt-2 bg-violet-100 text-violet-700">din grilele greșite</span>
             <p class="mt-3 font-black leading-snug" :class="current.front.length > 90 ? 'text-lg' : 'text-2xl'">{{ current.front }}</p>
             <p class="mt-6 text-sm font-bold text-muted">Atinge ca să vezi răspunsul</p>
