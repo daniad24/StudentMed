@@ -1,0 +1,27 @@
+// Biologie celulară și moleculară – subiecte (capitole) și asignarea conținutului
+export default {
+  topics: [
+    { id: 'membrana-transport', name: 'Membrana și transportul' },
+    { id: 'organite', name: 'Organitele celulare' },
+    { id: 'replicare-adn', name: 'Nucleul și replicarea ADN' },
+    { id: 'transcriptie-traducere', name: 'Transcripția și traducerea' },
+    { id: 'ciclul-celular', name: 'Ciclul celular și diviziunea' },
+    { id: 'moarte-celulara', name: 'Apoptoza și necroza' },
+    { id: 'comunicare-celulara', name: 'Comunicarea celulară' },
+    { id: 'citoschelet', name: 'Citoscheletul' },
+  ],
+  map: {
+    'bcm-q1': 'membrana-transport', 'bcm-q2': 'membrana-transport', 'bcm-q3': 'membrana-transport', 'bcm-q4': 'membrana-transport',
+    'bcm-q5': 'organite', 'bcm-q6': 'organite', 'bcm-q7': 'organite', 'bcm-q8': 'organite', 'bcm-q9': 'organite',
+    'bcm-q10': 'replicare-adn', 'bcm-q11': 'replicare-adn', 'bcm-q12': 'replicare-adn',
+    'bcm-q13': 'transcriptie-traducere', 'bcm-q14': 'transcriptie-traducere', 'bcm-q15': 'transcriptie-traducere', 'bcm-q16': 'transcriptie-traducere',
+    'bcm-q17': 'ciclul-celular', 'bcm-q18': 'ciclul-celular', 'bcm-q19': 'ciclul-celular', 'bcm-q20': 'ciclul-celular',
+    'bcm-q21': 'moarte-celulara', 'bcm-q22': 'moarte-celulara',
+    'bcm-q23': 'comunicare-celulara', 'bcm-q24': 'comunicare-celulara', 'bcm-q25': 'comunicare-celulara',
+    'bcm-q26': 'citoschelet', 'bcm-q27': 'citoschelet', 'bcm-q28': 'citoschelet',
+    'bcm-f1': 'membrana-transport', 'bcm-f2': 'organite', 'bcm-f3': 'organite', 'bcm-f10': 'organite',
+    'bcm-f4': 'replicare-adn', 'bcm-f5': 'transcriptie-traducere', 'bcm-f6': 'transcriptie-traducere',
+    'bcm-f7': 'ciclul-celular', 'bcm-f8': 'moarte-celulara', 'bcm-f9': 'citoschelet',
+    'bcm-t1': 'membrana-transport', 'bcm-t2': 'organite', 'bcm-t3': 'transcriptie-traducere', 'bcm-t4': 'ciclul-celular',
+  },
+}
