@@ -1,5 +1,6 @@
 <script setup>
 import { isMulti } from '../lib/quiz'
+import ZoomImage from './ZoomImage.vue'
 
 // `question` trebuie pregătită cu prepareQuestion(); `selected` = indicii bifați din `shuffled`.
 const props = defineProps({
@@ -35,6 +36,8 @@ function optionClass(opt, i) {
     </span>
     <span v-if="question.source === 'ai'" class="chip mb-2 ml-1 whitespace-normal bg-amber-100 text-amber-700">🤖 generată de AI · neverificată</span>
     <h1 :key="question.id" class="text-xl font-black leading-snug sm:text-2xl slide-up">{{ question.text }}</h1>
+
+    <ZoomImage v-if="question.image" :src="question.image.src" :alt="question.image.alt" />
 
     <div class="mt-5 space-y-2.5" :role="isMulti(question) ? 'group' : 'radiogroup'">
       <button

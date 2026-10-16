@@ -58,5 +58,7 @@ export default {
     'nef-f8': 'hiponatremia-si-siadh',
     'nef-q29': 'tulburari-acido-bazice',
     'nef-q30': 'tulburari-acido-bazice',
+    'nef-qi1': 'hiperkaliemia',
+    'nef-fi1': 'hiperkaliemia',
   },
 }

@@ -10,6 +10,7 @@ export default {
     { id: 'ocluzii-vasculare-retiniene', name: 'Ocluzii vasculare retiniene' },
     { id: 'traumatisme-oculare', name: 'Traumatisme oculare' },
     { id: 'refractie-examen', name: 'Vicii de refracție și examen oftalmologic' },
+    { id: 'cai-optice', name: 'Căile optice și câmpul vizual' },
   ],
   map: {
     'oft-q2': 'conjunctivite-uveite',
@@ -56,5 +57,8 @@ export default {
     'oft-f8': 'refractie-examen',
     'oft-f11': 'refractie-examen',
     'oft-f12': 'refractie-examen',
+    'oft-qi1': 'cai-optice',
+    'oft-qi2': 'cai-optice',
+    'oft-qi3': 'cai-optice',
   },
 }

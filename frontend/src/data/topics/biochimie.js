@@ -24,5 +24,6 @@ export default {
     'bio-t7': 'aminoacizi', 'bio-q23': 'aminoacizi', 'bio-q24': 'aminoacizi', 'bio-q25': 'aminoacizi', 'bio-q26': 'aminoacizi',
     'bio-f6': 'aminoacizi', 'bio-f12': 'aminoacizi',
     'bio-t8': 'hem-hemoglobina', 'bio-q29': 'hem-hemoglobina', 'bio-q30': 'hem-hemoglobina', 'bio-f11': 'hem-hemoglobina',
+    'bio-qi1': 'hem-hemoglobina',
   },
 }

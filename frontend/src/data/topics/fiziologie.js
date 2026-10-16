@@ -26,5 +26,11 @@ export default {
     'fiz-f1': 'sange-acido-bazic', 'fiz-f9': 'sange-acido-bazic', 'fiz-f10': 'sange-acido-bazic',
     'fiz-q24': 'digestie', 'fiz-q25': 'digestie', 'fiz-f11': 'digestie',
     'fiz-t8': 'endocrin', 'fiz-q26': 'endocrin', 'fiz-q27': 'endocrin', 'fiz-q28': 'endocrin', 'fiz-f5': 'endocrin',
+    'fiz-qi1': 'respiratie',
+    'fiz-qi2': 'respiratie',
+    'fiz-qi3': 'electrofiziologie-cardiaca',
+    'fiz-qi4': 'electrofiziologie-cardiaca',
+    'fiz-qi5': 'potential-actiune',
+    'fiz-qi6': 'potential-actiune',
   },
 }

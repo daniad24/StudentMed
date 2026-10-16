@@ -56,5 +56,8 @@ export default {
     'ati-c3': 'politrauma',
     'ati-q24': 'sedare-analgezie',
     'ati-q25': 'sedare-analgezie',
+    'ati-qi1': 'stop-cardiac',
+    'ati-qi2': 'stop-cardiac',
+    'ati-fi1': 'stop-cardiac',
   },
 }

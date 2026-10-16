@@ -366,5 +366,65 @@ export default {
       answer: [0, 1],
       explanation: 'Defectul aferent arată o leziune asimetrică a nervului optic sau extinsă a retinei: la mutarea luminii pe ochiul afectat, ambele pupile se dilată paradoxal. Pupilele sunt egale, iar cataracta nu produce acest semn.',
     },
+    {
+        "id": "oft-qi1",
+        "type": "single",
+        "image": {
+            "src": "/img/camp-vizual-a.svg",
+            "alt": "Câmp vizual la ochiul stâng și la ochiul drept"
+        },
+        "text": "Pierderea câmpului vizual temporal la ambii ochi (imaginea) sugerează o leziune la nivelul:",
+        "options": [
+            "Chiasmei optice",
+            "Nervului optic stâng",
+            "Tractului optic drept",
+            "Radiațiilor optice stângi",
+            "Cortexului occipital stâng"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Fibrele care încrucișează provin din retina nazală și deservesc câmpul temporal; leziunea chiasmatică (de exemplu tumoră hipofizară) dă hemianopsie bitemporală."
+    },
+    {
+        "id": "oft-qi2",
+        "type": "single",
+        "image": {
+            "src": "/img/camp-vizual-b.svg",
+            "alt": "Câmp vizual la ochiul stâng și la ochiul drept"
+        },
+        "text": "Hemianopsia omonimă dreaptă din imagine apare prin leziune:",
+        "options": [
+            "Retrochiasmatică stângă",
+            "Retrochiasmatică dreaptă",
+            "Chiasmatică",
+            "A nervului optic drept",
+            "Retiniană bilaterală"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Câmpul vizual drept este procesat de calea retrochiasmatică stângă (tract, radiații, cortex); leziunea ei produce defect omonim în partea dreaptă."
+    },
+    {
+        "id": "oft-qi3",
+        "type": "single",
+        "image": {
+            "src": "/img/camp-vizual-c.svg",
+            "alt": "Câmp vizual la ochiul stâng și la ochiul drept"
+        },
+        "text": "Pierderea completă a câmpului vizual la ochiul stâng, cu ochiul drept normal, indică o leziune:",
+        "options": [
+            "Prechiasmatică, la nivelul ochiului sau al nervului optic stâng",
+            "Chiasmatică",
+            "Retrochiasmatică dreaptă",
+            "Retrochiasmatică stângă",
+            "Corticală occipitală bilaterală"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Un defect care afectează doar un ochi indică o leziune anterioară chiasmei (ochi, retină sau nerv optic)."
+    },
   ],
 }

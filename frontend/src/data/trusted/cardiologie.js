@@ -184,6 +184,10 @@ Riscul embolic nu depinde de tipul FiA, ci de factorii de risc ai pacientului.
 
 Flutterul tipic are un circuit de reintrare în atriul drept, cu **unde F „în dinți de fierăstrău”** în DII, DIII, aVF și adesea conducere 2:1. Riscul embolic se gestionează ca în FiA, iar ablația istmului cavotricuspidian are succes foarte mare.
 
+![Fibrilație atrială: RR neregulat, fără unde P](/img/ecg-fibrilatie-atriala.svg)
+
+![Flutter atrial: unde F în dinți de fierăstrău](/img/ecg-flutter-atrial.svg)
+
 ## De reținut pentru examen
 
 - FiA = fără unde P + RR neregulat; flutter = dinți de fierăstrău.

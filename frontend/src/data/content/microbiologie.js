@@ -381,5 +381,47 @@ Clasificare după hemoliza pe geloză-sânge:
       answer: [4],
       explanation: 'Mediul Sabouraud (acid, cu glucoză) favorizează creșterea fungilor și inhibă parțial bacteriile. Thayer-Martin este un mediu selectiv pentru Neisseria.',
     },
+    {
+        "id": "mic-qi1",
+        "type": "single",
+        "image": {
+            "src": "/img/perete-bacterian.svg",
+            "alt": "Două tipuri de perete bacterian cu structuri numerotate"
+        },
+        "text": "În imaginea cu cele două celule, structura marcată cu 3 este caracteristică bacteriilor Gram-negative. Ea este:",
+        "options": [
+            "Membrana externă, cu lipopolizaharid (LPS)",
+            "Stratul gros de peptidoglican",
+            "Capsula",
+            "Membrana citoplasmatică",
+            "Spațiul periplasmic"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Bacteriile Gram-negative au o membrană externă ce poartă LPS (endotoxina); bacteriile Gram-pozitive nu o au."
+    },
+    {
+        "id": "mic-qi2",
+        "type": "multi",
+        "image": {
+            "src": "/img/perete-bacterian.svg",
+            "alt": "Două tipuri de perete bacterian cu structuri numerotate"
+        },
+        "text": "Care afirmații despre celula 1 (Gram-pozitivă) sunt corecte?",
+        "options": [
+            "Structura 1 este stratul gros de peptidoglican, care reține colorantul la colorația Gram",
+            "Nu are membrană externă",
+            "Peretele ei conține lipopolizaharid (LPS)",
+            "Structura 2 este membrana citoplasmatică",
+            "Peptidoglicanul ei este subțire, ca la celula 2"
+        ],
+        "answer": [
+            0,
+            1,
+            3
+        ],
+        "explanation": "Bacteriile Gram-pozitive au peptidoglican gros și nu au membrană externă sau LPS; sub perete se află membrana citoplasmatică. Peptidoglicanul subțire este al Gram-negativelor."
+    },
   ],
 }

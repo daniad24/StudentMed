@@ -365,5 +365,129 @@ export default {
       answer: [0, 2, 3, 4],
       explanation: 'Factorii II, VII, IX și X necesită vitamina K pentru gama-carboxilare în ficat. Factorul VIII nu depinde de vitamina K.',
     },
+    {
+        "id": "fiz-qi1",
+        "type": "single",
+        "image": {
+            "src": "/img/curba-oxihemoglobina.svg",
+            "alt": "Trei curbe de disociere a oxihemoglobinei"
+        },
+        "text": "Pe grafic, curba B este curba normală. Care afirmație descrie corect curba C?",
+        "options": [
+            "Afinitate scăzută a hemoglobinei pentru oxigen, cu cedare mai ușoară la țesuturi",
+            "Afinitate crescută a hemoglobinei pentru oxigen",
+            "Hemoglobină complet saturată la orice presiune a oxigenului",
+            "Curba este tipică pentru hemoglobina fetală",
+            "Reprezintă o scădere a capacității de transport a oxigenului"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Deplasarea la dreapta (C) înseamnă afinitate mai mică și cedare mai ușoară a O₂ la țesuturi; deplasarea la stânga (A) crește afinitatea."
+    },
+    {
+        "id": "fiz-qi2",
+        "type": "multi",
+        "image": {
+            "src": "/img/curba-oxihemoglobina.svg",
+            "alt": "Trei curbe de disociere a oxihemoglobinei"
+        },
+        "text": "Curba A este deplasată la stânga față de curba normală (B). Care afirmații sunt corecte?",
+        "options": [
+            "Afinitatea hemoglobinei pentru oxigen este crescută",
+            "P50 este mai mic decât cel normal",
+            "Poate apărea în alcaloză sau în prezența hemoglobinei fetale",
+            "Cedarea oxigenului la țesuturi este facilitată",
+            "Este deplasarea produsă de acidoză și febră"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "Deplasarea la stânga înseamnă afinitate mai mare și P50 mai mic; apare în alcaloză, cu HbF, și face cedarea mai dificilă. Acidoza și febra deplasează la dreapta."
+    },
+    {
+        "id": "fiz-qi3",
+        "type": "single",
+        "image": {
+            "src": "/img/potential-actiune-ventricular.svg",
+            "alt": "Potențial de acțiune ventricular cu faze numerotate"
+        },
+        "text": "În potențialul de acțiune al miocitului ventricular din imagine, ce se petrece în faza marcată cu 0?",
+        "options": [
+            "Intrare rapidă de Na⁺ în celulă, cu depolarizare rapidă",
+            "Ieșire de K⁺, cu repolarizare finală",
+            "Platou prin intrare de Ca²⁺",
+            "Potențial de repaus, menținut de pompa Na⁺/K⁺",
+            "Intrare de Cl⁻ în celulă"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Faza 0 este depolarizarea rapidă prin deschiderea canalelor de Na⁺ voltaj-dependente."
+    },
+    {
+        "id": "fiz-qi4",
+        "type": "multi",
+        "image": {
+            "src": "/img/potential-actiune-ventricular.svg",
+            "alt": "Potențial de acțiune ventricular cu faze numerotate"
+        },
+        "text": "Despre faza marcată cu 2 (platoul) a potențialului de acțiune ventricular sunt corecte:",
+        "options": [
+            "Se datorează în principal intrării de Ca²⁺ prin canale de tip L",
+            "Este echilibrată de o ieșire de K⁺",
+            "Contribuie la perioada refractară lungă a miocardului",
+            "Se datorează intrării rapide de Na⁺",
+            "Lipsește la celulele miocardice ventriculare"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "Platoul apare când intrarea de Ca²⁺ echilibrează ieșirea de K⁺ și prelungește perioada refractară, protejând inima de tetanos."
+    },
+    {
+        "id": "fiz-qi5",
+        "type": "single",
+        "image": {
+            "src": "/img/potential-actiune-neuron.svg",
+            "alt": "Potențial de acțiune neuronal cu porțiuni marcate A–D"
+        },
+        "text": "În potențialul de acțiune neuronal din imagine, ce se petrece în porțiunea marcată cu B (panta ascendentă)?",
+        "options": [
+            "Intrare masivă de Na⁺ prin canale voltaj-dependente",
+            "Ieșire de K⁺ prin canale voltaj-dependente",
+            "Intrare de Cl⁻",
+            "Activarea pompei Na⁺/K⁺ ca mecanism principal",
+            "Ieșire de Ca²⁺"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Panta ascendentă este depolarizarea: după atingerea pragului se deschid canalele de Na⁺ voltaj-dependente și Na⁺ intră în celulă."
+    },
+    {
+        "id": "fiz-qi6",
+        "type": "single",
+        "image": {
+            "src": "/img/potential-actiune-neuron.svg",
+            "alt": "Potențial de acțiune neuronal cu porțiuni marcate A–D"
+        },
+        "text": "Care este explicația principală a porțiunii marcate cu D (hiperpolarizarea de după potențial)?",
+        "options": [
+            "Canalele de K⁺ rămân deschise o scurtă perioadă după repolarizare",
+            "Canalele de Na⁺ se redeschid",
+            "Intră Ca²⁺ în celulă",
+            "Pompa Na⁺/K⁺ se oprește",
+            "Se închid toate canalele de K⁺ imediat"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Canalele de K⁺ voltaj-dependente se închid lent, așa că ieșirea de K⁺ continuă și potențialul coboară sub nivelul de repaus."
+    },
   ],
 }

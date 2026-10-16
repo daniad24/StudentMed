@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects } from '../data/mock'
 import BackButton from '../components/BackButton.vue'
+import ZoomImage from '../components/ZoomImage.vue'
 import ReportDialog from '../components/ReportDialog.vue'
 
 const route = useRoute()
@@ -92,7 +93,8 @@ function onReport(reason) {
             <p class="text-xs font-black tracking-widest text-muted uppercase">Întrebare</p>
             <span v-if="current.ai" class="chip mt-2 bg-amber-100 text-amber-700">🤖 generat de AI · neverificat</span>
             <span v-if="current.fromQuiz" class="chip mt-2 bg-violet-100 text-violet-700">din grilele greșite</span>
-            <p class="mt-3 font-black leading-snug" :class="current.front.length > 90 ? 'text-lg' : 'text-2xl'">{{ current.front }}</p>
+            <img v-if="current.image" :src="current.image.src" :alt="current.image.alt" class="mt-3 w-full rounded-xl border-2 border-gray-200 bg-white" />
+            <p class="mt-3 font-black leading-snug" :class="current.front.length > 90 || current.image ? 'text-lg' : 'text-2xl'">{{ current.front }}</p>
             <p class="mt-6 text-sm font-bold text-muted">Atinge ca să vezi răspunsul</p>
           </div>
           <div class="flip-face flip-back card flex flex-col items-center justify-center border-brand-200 bg-brand-50 p-6 text-center">

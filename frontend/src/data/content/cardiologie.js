@@ -12,6 +12,11 @@ export default {
     { id: "car-f8", front: "Suflu care crește la Valsalva și în ortostatism?", back: "Cardiomiopatie hipertrofică obstructivă" },
     { id: "car-f9", front: "Investigația de elecție pentru confirmarea emboliei pulmonare?", back: "Angiografia CT pulmonară" },
     { id: "car-f10", front: "Clacment de deschidere + uruitură diastolică apicală?", back: "Stenoză mitrală, de obicei reumatismală" },
+    {"id": "car-fi1", "image": {"src": "/img/ecg-fibrilatie-atriala.svg", "alt": "Traseu ECG"}, "front": "Ce ritm este?", "back": "Fibrilație atrială – RR neregulat, fără unde P"},
+    {"id": "car-fi2", "image": {"src": "/img/ecg-flutter-atrial.svg", "alt": "Traseu ECG"}, "front": "Ce ritm este?", "back": "Flutter atrial – unde F „în dinți de fierăstrău”"},
+    {"id": "car-fi3", "image": {"src": "/img/ecg-bav3.svg", "alt": "Traseu ECG"}, "front": "Ce ritm este?", "back": "Bloc AV complet – unde P și QRS independente"},
+    {"id": "car-fi4", "image": {"src": "/img/ecg-wpw.svg", "alt": "Traseu ECG"}, "front": "Ce arată traseul?", "back": "Sindrom WPW – PR scurt și undă delta"},
+    {"id": "car-fi5", "image": {"src": "/img/ecg-stemi.svg", "alt": "Traseu ECG"}, "front": "Ce modificare vezi pe segmentul ST?", "back": "Supradenivelare ST – suspiciune de infarct cu supradenivelare ST, urgență"},
   ],
   questions: [
     {
@@ -573,6 +578,208 @@ export default {
       ],
       answer: [3],
       explanation: "Embolia pulmonară cu instabilitate hemodinamică (risc înalt) are indicație de tromboliză; filtrul cav se rezervă situațiilor în care anticoagularea este contraindicată.",
+    },
+    {
+        "id": "car-qi1",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-fibrilatie-atriala.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "Traseul ECG din imagine arată cel mai probabil:",
+        "options": [
+            "Ritm sinusal normal",
+            "Fibrilație atrială",
+            "Flutter atrial tipic",
+            "Tahicardie ventriculară",
+            "Bloc atrioventricular complet"
+        ],
+        "answer": [
+            1
+        ],
+        "explanation": "Complexele QRS sunt neregulate (intervale RR variabile), nu se văd unde P, iar linia de bază este ondulată – fibrilație atrială."
+    },
+    {
+        "id": "car-qi2",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-flutter-atrial.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "Ce ritm este reprezentat în imagine?",
+        "options": [
+            "Fibrilație atrială",
+            "Flutter atrial",
+            "Ritm sinusal cu extrasistole",
+            "Tahicardie ventriculară",
+            "Bloc AV de gradul II tip Mobitz I"
+        ],
+        "answer": [
+            1
+        ],
+        "explanation": "Linia de bază are unde regulate „în dinți de fierăstrău”, iar ventriculii răspund regulat, printr-o conducere atrio-ventriculară fixă – flutter atrial."
+    },
+    {
+        "id": "car-qi3",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-tahicardie-supraventriculara.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "Un pacient are palpitații cu debut brusc. ECG arată tahicardie regulată, cu complexe QRS înguste și fără unde P vizibile. Interpretarea cea mai probabilă este:",
+        "options": [
+            "Fibrilație atrială",
+            "Tahicardie ventriculară",
+            "Tahicardie supraventriculară paroxistică",
+            "Bloc atrioventricular complet",
+            "Ritm sinusal normal"
+        ],
+        "answer": [
+            2
+        ],
+        "explanation": "Ritmul regulat, rapid, cu QRS îngust și fără unde P identificabile este tipic pentru o tahicardie supraventriculară paroxistică. Fibrilația atrială ar fi neregulată."
+    },
+    {
+        "id": "car-qi4",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-bav1.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "Fiecare undă P este urmată de un QRS, dar intervalul PR este lung și constant. Diagnosticul este:",
+        "options": [
+            "Bloc AV de gradul I",
+            "Bloc AV de gradul II tip Mobitz I",
+            "Bloc AV de gradul III",
+            "Fibrilație atrială",
+            "Sindrom Wolff-Parkinson-White"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Prelungirea constantă a intervalului PR, cu conducere păstrată la fiecare bătaie, definește blocul AV de gradul I."
+    },
+    {
+        "id": "car-qi5",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-wenckebach.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "Pe traseu, intervalul PR se alungește progresiv, apoi o undă P nu mai este urmată de QRS. Cum se numește acest tip de bloc?",
+        "options": [
+            "Bloc AV de gradul I",
+            "Bloc AV de gradul II, Mobitz I (Wenckebach)",
+            "Bloc AV de gradul II, Mobitz II",
+            "Bloc AV de gradul III",
+            "Bloc de ramură stângă"
+        ],
+        "answer": [
+            1
+        ],
+        "explanation": "Alungirea progresivă a PR până la o undă P blocată este caracteristică fenomenului Wenckebach (Mobitz I)."
+    },
+    {
+        "id": "car-qi6",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-bav3.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "Undele P apar regulat, complexele QRS apar regulat, dar mai rar, și nu există o relație constantă între ele. Aceasta este:",
+        "options": [
+            "Disociație atrioventriculară completă, în bloc AV de gradul III",
+            "Bloc AV de gradul I",
+            "Fibrilație atrială cu răspuns ventricular lent",
+            "Ritm sinusal cu extrasistole",
+            "Flutter atrial cu conducere 4:1"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "În blocul AV complet atriile și ventriculii bat independent: undele P nu se leagă de QRS, iar ventriculii sunt conduși de un ritm de scăpare, lent."
+    },
+    {
+        "id": "car-qi7",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-wpw.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "Traseul prezintă un interval PR scurt și o urcare lentă la începutul complexului QRS (undă delta). Diagnosticul este:",
+        "options": [
+            "Sindrom Wolff-Parkinson-White",
+            "Bloc AV de gradul I",
+            "Hipercalcemie",
+            "Infarct miocardic acut",
+            "Fibrilație ventriculară"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "PR scurt și unda delta apar prin preexcitație ventriculară pe o cale accesorie – sindrom Wolff-Parkinson-White."
+    },
+    {
+        "id": "car-qi8",
+        "type": "multi",
+        "image": {
+            "src": "/img/ecg-stemi.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "ECG-ul din imagine arată supradenivelare de segment ST. Care afirmații sunt corecte?",
+        "options": [
+            "Poate indica un infarct miocardic cu supradenivelare de ST, în contextul clinic potrivit",
+            "Reprezintă un motiv de evaluare cardiologică de urgență",
+            "Se deosebește de pericardită prin faptul că apare doar într-o singură derivație",
+            "Se interpretează împreună cu simptomele și cu troponina",
+            "Se poate ignora dacă pacientul nu mai are durere"
+        ],
+        "answer": [
+            0,
+            1,
+            3
+        ],
+        "explanation": "Supradenivelarea de ST într-un context clinic de ischemie este o urgență. Pericardita dă supradenivelare difuză, iar dispariția durerii nu exclude infarctul."
+    },
+    {
+        "id": "car-qi9",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-subdenivelare-st.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "Un pacient cu durere toracică la efort are pe traseu subdenivelare orizontală a segmentului ST. Cel mai probabil este vorba despre:",
+        "options": [
+            "Ischemie miocardică",
+            "Hiperkaliemie",
+            "Flutter atrial",
+            "Bloc AV de gradul I",
+            "Fibrilație ventriculară"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Subdenivelarea orizontală sau descendentă a ST în timpul durerii de efort sugerează ischemie miocardică (subendocardică)."
+    },
+    {
+        "id": "car-qi10",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-tahicardie-ventriculara.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "Un pacient cu infarct în antecedente are palpitații. ECG arată o tahicardie regulată cu complexe largi. Interpretarea cea mai prudentă este:",
+        "options": [
+            "Tahicardie ventriculară",
+            "Ritm sinusal normal",
+            "Fibrilație atrială cu RR neregulat",
+            "Bloc atrioventricular de gradul I",
+            "Flutter atrial cu conducere 4:1"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "O tahicardie regulată cu complexe largi la un pacient cu cardiopatie ischemică se consideră tahicardie ventriculară până la proba contrarie."
     },
   ],
 }

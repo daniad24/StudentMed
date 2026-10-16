@@ -14,6 +14,7 @@ export default {
     { id: 'ati-f10', front: 'Componentele scorului Glasgow?', back: 'Deschiderea ochilor, răspunsul verbal, răspunsul motor' },
     { id: 'ati-f11', front: 'Mioză punctiformă, bradipnee, comă?', back: 'Toxidrom opioid – antidot naloxona' },
     { id: 'ati-f12', front: 'Triada letală în traumă?', back: 'Hipotermia, acidoza, coagulopatia' },
+    {"id": "ati-fi1", "image": {"src": "/img/ecg-fibrilatie-ventriculara.svg", "alt": "Traseu ECG"}, "front": "Ce ritm este, la un pacient fără puls?", "back": "Fibrilație ventriculară – ritm șocabil: RCP și defibrilare precoce"},
   ],
   questions: [
     {
@@ -365,6 +366,49 @@ export default {
       ],
       answer: [4],
       explanation: 'Depresia respiratorie este efectul advers potențial letal; se monitorizează frecvența respiratorie, starea de conștiență, saturația și, ideal, capnografia, cu naloxona la îndemână.',
+    },
+    {
+        "id": "ati-qi1",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-fibrilatie-ventriculara.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "Un pacient inconștient, fără puls, are pe monitor traseul din imagine. Ce ritm este și ce conduită inițială se aplică?",
+        "options": [
+            "Fibrilație ventriculară – resuscitare cardio-respiratorie și defibrilare precoce",
+            "Asistolie – resuscitare fără defibrilare",
+            "Fibrilație atrială – cardioversie programată",
+            "Tahicardie supraventriculară – manevre vagale",
+            "Artefact de mișcare – se observă pacientul"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Activitatea haotică, fără QRS identificabile, la un pacient fără puls este fibrilație ventriculară, ritm șocabil: RCP continuă și defibrilare cât mai precoce."
+    },
+    {
+        "id": "ati-qi2",
+        "type": "multi",
+        "image": {
+            "src": "/img/ecg-tahicardie-ventriculara.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "Despre ritmul din imagine (tahicardie ventriculară monomorfă) sunt corecte:",
+        "options": [
+            "Poate degenera în fibrilație ventriculară",
+            "Dacă pacientul nu are puls, se tratează ca oprire cardiacă cu ritm șocabil",
+            "La pacientul instabil hemodinamic se indică cardioversie electrică sincronizată",
+            "Impune monitorizare și evaluare de urgență",
+            "Este întotdeauna benignă și nu necesită evaluare"
+        ],
+        "answer": [
+            0,
+            1,
+            2,
+            3
+        ],
+        "explanation": "Tahicardia ventriculară poate degenera, fără puls se tratează ca oprire cardiacă șocabilă, iar la pacientul instabil se folosește cardioversia sincronizată. Nu este benignă."
     },
   ],
 }

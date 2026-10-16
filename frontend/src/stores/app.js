@@ -296,6 +296,7 @@ export const useAppStore = defineStore('app', () => {
       id,
       subjectId: q.subjectId,
       front: q.text,
+      image: q.image,
       back: correctTexts(q).join(' · '),
       note: q.explanation,
       fromQuiz: true,

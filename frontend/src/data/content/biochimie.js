@@ -298,5 +298,28 @@ export default {
       answer: [0, 2, 3],
       explanation: '2,3-BPG, scăderea pH-ului, creșterea pCO₂ și a temperaturii favorizează cedarea O₂ în țesuturi. Alcaloza și HbF (care leagă slab 2,3-BPG) cresc afinitatea, deplasând curba spre stânga.',
     },
+    {
+        "id": "bio-qi1",
+        "type": "multi",
+        "image": {
+            "src": "/img/curba-oxihemoglobina.svg",
+            "alt": "Trei curbe de disociere a oxihemoglobinei"
+        },
+        "text": "Curba B este cea normală. Care factori deplasează curba spre dreapta, ca în curba C?",
+        "options": [
+            "Scăderea pH-ului (acidoza)",
+            "Creșterea PCO₂",
+            "Creșterea temperaturii",
+            "Creșterea 2,3-bisfosfogliceratului",
+            "Hemoglobina fetală"
+        ],
+        "answer": [
+            0,
+            1,
+            2,
+            3
+        ],
+        "explanation": "Acidoza, hipercapnia, febra și 2,3-BPG scad afinitatea Hb pentru O₂ (deplasare la dreapta). HbF are afinitate mai mare, deplasând curba la stânga."
+    },
   ],
 }

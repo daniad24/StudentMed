@@ -12,6 +12,7 @@ export default {
     { id: 'nef-f8', front: 'Riscul corectării prea rapide a hiponatremiei cronice?', back: 'Sindromul de demielinizare osmotică' },
     { id: 'nef-f9', front: 'Ce calcul urinar este radiotransparent pe radiografia simplă?', back: 'Calculul de acid uric' },
     { id: 'nef-f10', front: 'Prima investigație imagistică în injuria renală acută?', back: 'Ecografia renovezicală (exclude obstrucția)' },
+    {"id": "nef-fi1", "image": {"src": "/img/ecg-hiperkaliemie.svg", "alt": "Traseu ECG"}, "front": "Ce tulburare sugerează undele T înalte și ascuțite?", "back": "Hiperkaliemie"},
   ],
   questions: [
     {
@@ -433,6 +434,26 @@ export default {
       ],
       answer: [0, 3],
       explanation: 'Pierderea de acid gastric și excesul de mineralocorticoizi cresc bicarbonatul, adesea cu hipokaliemie. Acetazolamida (inhibitor de anhidrază carbonică) crește pierderea renală de bicarbonat, iar cetoacidoza și boala renală avansată produc acidoză metabolică.',
+    },
+    {
+        "id": "nef-qi1",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-hiperkaliemie.svg",
+            "alt": "Traseu ECG"
+        },
+        "text": "Un pacient cu boală renală avansată are pe ECG unde T înalte, ascuțite și simetrice. Ce tulburare electrolitică trebuie suspectată?",
+        "options": [
+            "Hiperkaliemie",
+            "Hipokaliemie",
+            "Hipernatremie",
+            "Hipomagneziemie",
+            "Hiponatremie"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Undele T înalte, „în cort”, sunt o modificare precoce a hiperkaliemiei, care poate duce ulterior la aritmii periculoase."
     },
   ],
 }

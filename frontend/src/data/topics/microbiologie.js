@@ -25,5 +25,7 @@ export default {
     'mic-t6': 'virusuri', 'mic-t7': 'virusuri', 'mic-t8': 'virusuri', 'mic-q24': 'virusuri', 'mic-q25': 'virusuri',
     'mic-q26': 'virusuri', 'mic-q27': 'virusuri', 'mic-f11': 'virusuri',
     'mic-q28': 'fungi', 'mic-q29': 'fungi', 'mic-q30': 'fungi', 'mic-f12': 'fungi',
+    'mic-qi1': 'structura-bacteriana',
+    'mic-qi2': 'structura-bacteriana',
   },
 }

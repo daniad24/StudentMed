@@ -23,6 +23,11 @@ const host = computed(() => {
   }
 })
 
+const zoomSrc = ref('')
+function onProseClick(e) {
+  if (e.target.tagName === 'IMG') zoomSrc.value = e.target.src
+}
+
 const reporting = ref(false)
 const thanks = ref(false)
 function onReport(reason) {
@@ -46,7 +51,10 @@ function onReport(reason) {
         <template v-if="material.topic">{{ material.topic }} · </template>de {{ material.author }}
       </p>
 
-      <div v-if="material.type === 'summary'" class="prose-med mt-4" v-html="html"></div>
+      <div v-if="material.type === 'summary'" class="prose-med mt-4" @click="onProseClick" v-html="html"></div>
+      <div v-if="zoomSrc" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3" @click="zoomSrc = ''">
+        <div class="max-h-full w-full max-w-4xl overflow-auto rounded-2xl bg-white p-2"><img :src="zoomSrc" alt="" class="w-full" /></div>
+      </div>
 
       <div v-if="material.references?.length" class="mt-6 rounded-2xl bg-gray-50 p-4">
         <p class="text-sm font-black">📚 Bibliografie</p>

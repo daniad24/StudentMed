@@ -33,6 +33,7 @@ export default defineConfig({
       },
       workbox: {
         navigateFallback: '/index.html',
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
         // pdf.js (~1,8 MB) se descarcă doar când cineva importă un PDF, nu la instalarea aplicației.
         globIgnores: ['**/pdf*.{js,mjs}'],
         runtimeCaching: [
