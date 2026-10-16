@@ -64,7 +64,7 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
         <h1 class="truncate text-2xl font-black">{{ firstName }} 👋</h1>
       </div>
       <div class="flex items-center gap-2">
-        <RouterLink to="/cauta" class="btn btn-white px-3 py-2" aria-label="Caută">🔍</RouterLink>
+        <RouterLink to="/cauta" data-tour="cauta" class="btn btn-white px-3 py-2" aria-label="Caută">🔍</RouterLink>
         <RouterLink to="/statistici" class="chip bg-orange-100 text-orange-600 text-base px-4 py-2">
           <span class="flame">🔥</span> {{ store.currentStreak }}
         </RouterLink>
@@ -72,7 +72,7 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
     </header>
 
     <!-- Streak -->
-    <section class="card p-5 slide-up">
+    <section class="card p-5 slide-up" data-tour="streak">
       <div class="flex items-center gap-4">
         <div class="text-5xl" :class="store.studiedToday ? 'flame' : 'grayscale opacity-60'">🔥</div>
         <div>
@@ -159,6 +159,7 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
     <!-- Pregătire la țintă -->
     <RouterLink
       to="/tinta"
+      data-tour="tinta"
       class="block rounded-3xl border-b-4 border-[#15803d] bg-gradient-to-br from-brand-400 to-brand-600 p-5 text-white transition-transform active:translate-y-[2px] slide-up"
     >
       <div class="flex items-center gap-4">
@@ -174,6 +175,7 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
     <!-- Pauza de gardă -->
     <RouterLink
       to="/pauza"
+      data-tour="pauza"
       class="block rounded-3xl border-b-4 border-[#0369a1] bg-gradient-to-br from-sky-400 to-sky-600 p-5 text-white transition-transform active:translate-y-[2px] slide-up"
     >
       <div class="flex items-center gap-4">
@@ -187,7 +189,7 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
     </RouterLink>
 
     <!-- Simulare examen -->
-    <RouterLink to="/simulare" class="card flex items-center gap-4 p-4 transition-transform active:translate-y-[2px] slide-up">
+    <RouterLink to="/simulare" data-tour="simulare" class="card flex items-center gap-4 p-4 transition-transform active:translate-y-[2px] slide-up">
       <span class="flex h-12 w-12 items-center justify-center rounded-2xl border-2 border-violet-200 bg-violet-100 text-2xl">🎓</span>
       <div class="flex-1">
         <p class="font-black">Simulare de examen</p>
@@ -197,7 +199,7 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
     </RouterLink>
 
     <!-- De repetat -->
-    <section class="slide-up">
+    <section class="slide-up" data-tour="repetat">
       <h2 class="mb-2 text-lg font-black">De repetat azi</h2>
       <div v-if="dueSubjects.length" class="space-y-2">
         <RouterLink

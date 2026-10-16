@@ -104,6 +104,15 @@ function logout() {
       <AppIcon name="forward" class="text-muted" />
     </RouterLink>
 
+    <button class="card flex w-full items-center gap-3 p-4 text-left transition-transform active:translate-y-[2px]" @click="store.startTour()">
+      <span class="text-3xl">🧭</span>
+      <span class="flex-1">
+        <span class="block font-black">Revezi turul aplicației</span>
+        <span class="block text-sm font-semibold text-muted">Ce face fiecare parte din Steto, pas cu pas</span>
+      </span>
+      <AppIcon name="forward" class="text-muted" />
+    </button>
+
     <section class="card p-5">
       <h2 class="font-black">🎓 Anul de studiu</h2>
       <p class="mb-3 text-sm font-semibold text-muted">Acasă și Materii îți arată mai întâi materiile anului tău.</p>

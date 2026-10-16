@@ -62,7 +62,7 @@ const DEMO_RIVALS = [
 const KEYS = [
   'user', 'isAdmin', 'theme', 'streak', 'cardState', 'votes', 'recommendedOverrides', 'reports',
   'myMaterials', 'myCards', 'quizCards', 'quizHistory', 'examHistory', 'answerLog', 'activity', 'leaderboardOptIn',
-  'examDates', 'caseProgress', 'skillStatus', 'myQuestions',
+  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone',
 ]
 
 // Carnetul de abilități practice: nivelul atins pentru fiecare manevră/examinare.
@@ -96,11 +96,13 @@ export const useAppStore = defineStore('app', () => {
   const caseProgress = ref(saved.caseProgress ?? {}) // { caseId: { date, ratings: ['yes'|'partial'|'no'] } }
   const skillStatus = ref(saved.skillStatus ?? {}) // { skillId: 0..3 }
   const myQuestions = ref(saved.myQuestions ?? []) // grile importate cu chatbotul (neverificate)
+  const tourDone = ref(saved.tourDone ?? false) // turul de prezentare a fost văzut
+  const tourOpen = ref(false)
 
   const refs = {
     user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
     myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus, myQuestions,
+    examDates, caseProgress, skillStatus, myQuestions, tourDone,
   }
   watch(
     KEYS.map((k) => refs[k]),
@@ -538,6 +540,15 @@ export const useAppStore = defineStore('app', () => {
     return n
   }
 
+  // --- Turul de prezentare ---
+  function startTour() {
+    tourOpen.value = true
+  }
+  function finishTour() {
+    tourDone.value = true
+    tourOpen.value = false
+  }
+
   function resetDemo() {
     try {
       localStorage.removeItem(STORAGE_KEY)
@@ -551,7 +562,7 @@ export const useAppStore = defineStore('app', () => {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     examDates, caseProgress, skillStatus, myQuestions, addAiContent, clearAiContent,
-    exportData, importData,
+    exportData, importData, tourDone, tourOpen, startTour, finishTour,
     targetSession, topicsFor, buildPlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,

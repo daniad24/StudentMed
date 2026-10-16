@@ -29,7 +29,7 @@ const list = computed(() =>
       <p class="text-sm font-semibold text-muted">Disciplinele pe ani, după planul de învățământ UMF „Carol Davila”.</p>
     </header>
 
-    <div class="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
+    <div class="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1" data-tour="ani">
       <button
         v-for="y in years"
         :key="y.id"
@@ -41,7 +41,7 @@ const list = computed(() =>
       </button>
     </div>
 
-    <div class="grid gap-3 sm:grid-cols-2">
+    <div class="grid gap-3 sm:grid-cols-2" data-tour="lista-materii">
       <component
         :is="s.empty ? 'div' : 'RouterLink'"
         v-for="(s, i) in list"

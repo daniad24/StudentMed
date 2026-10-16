@@ -1,12 +1,22 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from './stores/app'
 import BottomNav from './components/BottomNav.vue'
+import TourOverlay from './components/TourOverlay.vue'
 
 const route = useRoute()
 const store = useAppStore()
 const showNav = computed(() => route.name && !route.meta.public && !route.meta.focus)
+
+// Turul de prezentare pornește singur la prima intrare (după cont nou sau logare), pe paginile principale.
+watch(
+  () => [store.user, route.name],
+  () => {
+    if (store.user && !store.tourDone && route.name && !route.meta.public && !route.meta.focus) store.tourOpen = true
+  },
+  { immediate: true },
+)
 
 // Tema: 'auto' urmează setarea telefonului.
 const media = window.matchMedia('(prefers-color-scheme: dark)')
@@ -32,5 +42,6 @@ watchEffect(() => {
       </RouterView>
     </main>
     <BottomNav v-if="showNav" />
+    <TourOverlay v-if="store.tourOpen" />
   </div>
 </template>
