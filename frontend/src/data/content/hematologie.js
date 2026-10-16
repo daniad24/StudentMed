@@ -434,5 +434,59 @@ export default {
       answer: [3],
       explanation: 'Ecografia cu compresie este investigația de primă intenție pentru tromboza venoasă profundă; D-dimerii sunt aproape întotdeauna crescuți postoperator și nu pot confirma diagnosticul.',
     },
+    {
+        "id": "hem-qi1",
+        "type": "single",
+        "image": {
+            "src": "/img/cascada-coagularii.svg",
+            "alt": "Cascada coagulării simplificată cu porțiunile A, B și C"
+        },
+        "text": "Calea marcată cu A pe schema cascadei coagulării (factor tisular și VII) este explorată prin:",
+        "options": [
+        "Numărătoarea de trombocite",
+        "Timpul de protrombină (INR)",
+        "VSH",
+        "aPTT",
+        "Timpul de sângerare"
+    ],
+        "answer": [1],
+        "explanation": "Calea extrinsecă (factor tisular + VII) se evaluează prin timpul de protrombină, exprimat ca INR."
+    },
+    {
+        "id": "hem-qi2",
+        "type": "single",
+        "image": {
+            "src": "/img/cascada-coagularii.svg",
+            "alt": "Cascada coagulării simplificată cu porțiunile A, B și C"
+        },
+        "text": "Calea marcată cu B pe schema cascadei coagulării (XII, XI, IX și VIII) este explorată în principal prin:",
+        "options": [
+        "Timpul de sângerare",
+        "Timpul de protrombină (INR)",
+        "aPTT",
+        "Numărătoarea de trombocite",
+        "VSH"
+    ],
+        "answer": [2],
+        "explanation": "Calea intrinsecă (XII, XI, IX, VIII) este evaluată prin aPTT, care se prelungește în hemofilii."
+    },
+    {
+        "id": "hem-qi3",
+        "type": "multi",
+        "image": {
+            "src": "/img/cascada-coagularii.svg",
+            "alt": "Cascada coagulării simplificată cu porțiunile A, B și C"
+        },
+        "text": "Care afirmații sunt corecte?",
+        "options": [
+        "Calea marcată cu C este comună celor două căi",
+        "Un deficit de factor VIII prelungește aPTT, cu INR de obicei normal",
+        "Un deficit izolat de factor VII prelungește în primul rând aPTT, cu INR normal",
+        "Trombocitele sunt factorii din caseta „IX + VIII”",
+        "Warfarina crește factorii dependenți de vitamina K"
+    ],
+        "answer": [0,1],
+        "explanation": "Hemofilia A afectează calea intrinsecă (aPTT). Un deficit de VII prelungește INR, nu aPTT, iar warfarina scade factorii dependenți de vitamina K. Trombocitele nu sunt factori din cascada plasmatică."
+    },
   ],
 }

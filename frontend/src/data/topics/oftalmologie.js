@@ -60,5 +60,10 @@ export default {
     'oft-qi1': 'cai-optice',
     'oft-qi2': 'cai-optice',
     'oft-qi3': 'cai-optice',
+    'oft-qi4': 'cai-optice',
+    'oft-qi5': 'cai-optice',
+    'oft-qi6': 'cai-optice',
+    'oft-qi7': 'cai-optice',
+    'oft-qi8': 'cai-optice',
   },
 }

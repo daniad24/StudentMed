@@ -375,15 +375,13 @@ export default {
         },
         "text": "Pierderea câmpului vizual temporal la ambii ochi (imaginea) sugerează o leziune la nivelul:",
         "options": [
-            "Chiasmei optice",
-            "Nervului optic stâng",
-            "Tractului optic drept",
-            "Radiațiilor optice stângi",
-            "Cortexului occipital stâng"
-        ],
-        "answer": [
-            0
-        ],
+        "Chiasmei optice",
+        "Nervului optic stâng",
+        "Radiațiilor optice stângi",
+        "Tractului optic drept",
+        "Cortexului occipital stâng"
+    ],
+        "answer": [0],
         "explanation": "Fibrele care încrucișează provin din retina nazală și deservesc câmpul temporal; leziunea chiasmatică (de exemplu tumoră hipofizară) dă hemianopsie bitemporală."
     },
     {
@@ -395,15 +393,13 @@ export default {
         },
         "text": "Hemianopsia omonimă dreaptă din imagine apare prin leziune:",
         "options": [
-            "Retrochiasmatică stângă",
-            "Retrochiasmatică dreaptă",
-            "Chiasmatică",
-            "A nervului optic drept",
-            "Retiniană bilaterală"
-        ],
-        "answer": [
-            0
-        ],
+        "Retrochiasmatică stângă",
+        "Retrochiasmatică dreaptă",
+        "A nervului optic drept",
+        "Retiniană bilaterală",
+        "Chiasmatică"
+    ],
+        "answer": [0],
         "explanation": "Câmpul vizual drept este procesat de calea retrochiasmatică stângă (tract, radiații, cortex); leziunea ei produce defect omonim în partea dreaptă."
     },
     {
@@ -415,16 +411,104 @@ export default {
         },
         "text": "Pierderea completă a câmpului vizual la ochiul stâng, cu ochiul drept normal, indică o leziune:",
         "options": [
-            "Prechiasmatică, la nivelul ochiului sau al nervului optic stâng",
-            "Chiasmatică",
-            "Retrochiasmatică dreaptă",
-            "Retrochiasmatică stângă",
-            "Corticală occipitală bilaterală"
-        ],
-        "answer": [
-            0
-        ],
+        "Retrochiasmatică stângă",
+        "Retrochiasmatică dreaptă",
+        "Chiasmatică",
+        "Corticală occipitală bilaterală",
+        "Prechiasmatică, la nivelul ochiului sau al nervului optic stâng"
+    ],
+        "answer": [4],
         "explanation": "Un defect care afectează doar un ochi indică o leziune anterioară chiasmei (ochi, retină sau nerv optic)."
+    },
+    {
+        "id": "oft-qi4",
+        "type": "single",
+        "image": {
+            "src": "/img/cai-optice.svg",
+            "alt": "Schema căii vizuale cu cinci locuri de leziune marcate"
+        },
+        "text": "O leziune în punctul 2 (chiasma optică) produce:",
+        "options": [
+        "Hemianopsie bitemporală",
+        "Hemianopsie omonimă dreaptă",
+        "Hemianopsie omonimă stângă",
+        "Scotom central bilateral",
+        "Pierderea vederii la ochiul stâng"
+    ],
+        "answer": [0],
+        "explanation": "Chiasma încrucișează fibrele din retina nazală, care deservesc câmpul temporal: leziunea ei produce hemianopsie bitemporală."
+    },
+    {
+        "id": "oft-qi5",
+        "type": "single",
+        "image": {
+            "src": "/img/cai-optice.svg",
+            "alt": "Schema căii vizuale cu cinci locuri de leziune marcate"
+        },
+        "text": "O leziune în punctul 3 (tractul optic stâng) produce:",
+        "options": [
+        "Hemianopsie omonimă stângă",
+        "Pierderea vederii la ochiul stâng",
+        "Hemianopsie binazală",
+        "Hemianopsie bitemporală",
+        "Hemianopsie omonimă dreaptă"
+    ],
+        "answer": [4],
+        "explanation": "Tractul stâng conține fibre pentru câmpul vizual drept de la ambii ochi: leziunea lui dă hemianopsie omonimă dreaptă."
+    },
+    {
+        "id": "oft-qi6",
+        "type": "single",
+        "image": {
+            "src": "/img/cai-optice.svg",
+            "alt": "Schema căii vizuale cu cinci locuri de leziune marcate"
+        },
+        "text": "O leziune în punctul 1 (nervul optic stâng, înaintea chiasmei) produce:",
+        "options": [
+        "Pierderea vederii la ambii ochi",
+        "Pierderea vederii la ochiul stâng",
+        "Hemianopsie omonimă stângă",
+        "Hemianopsie bitemporală",
+        "Hemianopsie omonimă dreaptă"
+    ],
+        "answer": [1],
+        "explanation": "Înaintea chiasmei, toate fibrele unui ochi sunt în același nerv: leziunea determină un defect care afectează un singur ochi."
+    },
+    {
+        "id": "oft-qi7",
+        "type": "single",
+        "image": {
+            "src": "/img/cai-optice.svg",
+            "alt": "Schema căii vizuale cu cinci locuri de leziune marcate"
+        },
+        "text": "O leziune în punctul 5 (tractul optic drept) produce:",
+        "options": [
+        "Pierderea vederii la ochiul drept",
+        "Hemianopsie binazală",
+        "Hemianopsie bitemporală",
+        "Hemianopsie omonimă dreaptă",
+        "Hemianopsie omonimă stângă"
+    ],
+        "answer": [4],
+        "explanation": "Tractul drept conține fibre pentru câmpul vizual stâng de la ambii ochi: leziunea lui dă hemianopsie omonimă stângă."
+    },
+    {
+        "id": "oft-qi8",
+        "type": "single",
+        "image": {
+            "src": "/img/cai-optice.svg",
+            "alt": "Schema căii vizuale cu cinci locuri de leziune marcate"
+        },
+        "text": "La nivelul chiasmei optice (punctul 2) se încrucișează fibrele provenite din:",
+        "options": [
+        "Doar macula",
+        "Jumătatea nazală a retinei",
+        "Doar ochiul drept",
+        "Jumătatea temporală a retinei",
+        "Doar jumătatea superioară a retinei"
+    ],
+        "answer": [1],
+        "explanation": "Fibrele din retina nazală se încrucișează, iar cele din retina temporală rămân de aceeași parte."
     },
   ],
 }

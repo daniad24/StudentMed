@@ -22,5 +22,8 @@ export default {
     'ana-f2': 'inima-mediastin', 'ana-f4': 'inima-mediastin', 'ana-f8': 'inima-mediastin',
     'ana-t7': 'abdomen-peritoneu', 'ana-q7': 'abdomen-peritoneu', 'ana-q27': 'abdomen-peritoneu', 'ana-q28': 'abdomen-peritoneu',
     'ana-t8': 'abdomen-peritoneu', 'ana-q29': 'abdomen-peritoneu', 'ana-f10': 'abdomen-peritoneu',
+    'ana-qi1': 'inima-mediastin',
+    'ana-qi2': 'inima-mediastin',
+    'ana-qi3': 'inima-mediastin',
   },
 }

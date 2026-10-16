@@ -31,5 +31,8 @@ export default {
     'hem-q25': 'coagulopatii', 'hem-q26': 'coagulopatii', 'hem-q27': 'coagulopatii',
     'hem-q28': 'coagulopatii', 'hem-f10': 'coagulopatii', 'hem-t4': 'coagulopatii',
     'hem-q29': 'trombembolism-venos', 'hem-q30': 'trombembolism-venos',
+    'hem-qi1': 'coagulopatii',
+    'hem-qi2': 'coagulopatii',
+    'hem-qi3': 'coagulopatii',
   },
 }

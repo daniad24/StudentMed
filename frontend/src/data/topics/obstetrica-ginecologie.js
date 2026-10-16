@@ -55,5 +55,11 @@ export default {
     'obg-f11': 'patologie-ginecologica',
     'obg-t4': 'patologie-ginecologica',
     'obg-c3': 'patologie-ginecologica',
+    'obg-qi1': 'sarcina-fiziologica-prenatal',
+    'obg-qi2': 'sarcina-fiziologica-prenatal',
+    'obg-qi3': 'sarcina-fiziologica-prenatal',
+    'obg-qi4': 'sarcina-fiziologica-prenatal',
+    'obg-qi5': 'sarcina-fiziologica-prenatal',
+    'obg-fi1': 'sarcina-fiziologica-prenatal',
   },
 }

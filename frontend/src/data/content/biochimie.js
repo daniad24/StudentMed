@@ -307,18 +307,13 @@ export default {
         },
         "text": "Curba B este cea normală. Care factori deplasează curba spre dreapta, ca în curba C?",
         "options": [
-            "Scăderea pH-ului (acidoza)",
-            "Creșterea PCO₂",
-            "Creșterea temperaturii",
-            "Creșterea 2,3-bisfosfogliceratului",
-            "Hemoglobina fetală"
-        ],
-        "answer": [
-            0,
-            1,
-            2,
-            3
-        ],
+        "Creșterea PCO₂",
+        "Scăderea pH-ului (acidoza)",
+        "Creșterea temperaturii",
+        "Hemoglobina fetală",
+        "Creșterea 2,3-bisfosfogliceratului"
+    ],
+        "answer": [0,1,2,4],
         "explanation": "Acidoza, hipercapnia, febra și 2,3-BPG scad afinitatea Hb pentru O₂ (deplasare la dreapta). HbF are afinitate mai mare, deplasând curba la stânga."
     },
   ],

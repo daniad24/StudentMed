@@ -84,5 +84,7 @@ export default {
     'car-fi3': 'tulburari-de-ritm-si-conducere',
     'car-fi4': 'tulburari-de-ritm-si-conducere',
     'car-fi5': 'sindroame-coronariene',
+    'car-qi11': 'tulburari-de-ritm-si-conducere',
+    'car-qi12': 'tulburari-de-ritm-si-conducere',
   },
 }

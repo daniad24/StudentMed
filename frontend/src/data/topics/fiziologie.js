@@ -32,5 +32,11 @@ export default {
     'fiz-qi4': 'electrofiziologie-cardiaca',
     'fiz-qi5': 'potential-actiune',
     'fiz-qi6': 'potential-actiune',
+    'fiz-qi7': 'ciclul-cardiac',
+    'fiz-qi8': 'ciclul-cardiac',
+    'fiz-qi9': 'ciclul-cardiac',
+    'fiz-qi10': 'ciclul-cardiac',
+    'fiz-qi11': 'presiune-arteriala',
+    'fiz-qi12': 'electrofiziologie-cardiaca',
   },
 }

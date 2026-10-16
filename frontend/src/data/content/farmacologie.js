@@ -424,5 +424,83 @@ Farmacocinetica descrie ce face organismul cu medicamentul: **A**bsorbție, **D*
       answer: [1],
       explanation: 'Enzima de conversie degradează și bradikinina; inhibarea ei duce la acumularea bradikininei, care produce tuse seacă și, rar, angioedem.',
     },
+    {
+        "id": "far-qi1",
+        "type": "single",
+        "image": {
+            "src": "/img/raas.svg",
+            "alt": "Schema sistemului renină–angiotensină–aldosteron"
+        },
+        "text": "Inhibitorii enzimei de conversie a angiotensinei (IECA) acționează la nivelul marcat pe schemă cu:",
+        "options": [
+            "Punctul A",
+            "Punctul B",
+            "Punctul C",
+            "Punctul D",
+            "Niciun punct din schemă"
+        ],
+        "answer": [
+            1
+        ],
+        "explanation": "IECA blochează transformarea angiotensinei I în angiotensină II (punctul B)."
+    },
+    {
+        "id": "far-qi2",
+        "type": "single",
+        "image": {
+            "src": "/img/raas.svg",
+            "alt": "Schema sistemului renină–angiotensină–aldosteron"
+        },
+        "text": "Blocantele receptorilor AT1 ai angiotensinei II (sartanii) acționează la nivelul marcat cu:",
+        "options": [
+            "Punctul C",
+            "Punctul A",
+            "Punctul B",
+            "Punctul D",
+            "Niciun punct din schemă"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Sartanii împiedică angiotensina II să-și exercite efectele (vasoconstricție, secreție de aldosteron, ADH) prin receptorii AT1."
+    },
+    {
+        "id": "far-qi3",
+        "type": "single",
+        "image": {
+            "src": "/img/raas.svg",
+            "alt": "Schema sistemului renină–angiotensină–aldosteron"
+        },
+        "text": "Antagoniștii receptorilor aldosteronului (de exemplu spironolactona) acționează la nivelul marcat cu:",
+        "options": [
+            "Punctul D",
+            "Punctul A",
+            "Punctul B",
+            "Punctul C",
+            "Niciun punct din schemă"
+        ],
+        "answer": [
+            0
+        ],
+        "explanation": "Aldosteronul acționează pe receptorul mineralocorticoid din tubul distal; antagoniștii lui scad retenția de Na⁺ și pierderea de K⁺."
+    },
+    {
+        "id": "far-qi4",
+        "type": "multi",
+        "image": {
+            "src": "/img/raas.svg",
+            "alt": "Schema sistemului renină–angiotensină–aldosteron"
+        },
+        "text": "Care afirmații despre sistemul renină–angiotensină–aldosteron sunt corecte?",
+        "options": [
+        "Aldosteronul favorizează retenția de sodiu și pierderea de potasiu",
+        "Enzima de conversie transformă angiotensina I în angiotensină II",
+        "Renina transformă angiotensinogenul în angiotensină I",
+        "Angiotensina II produce vasoconstricție",
+        "Aldosteronul scade volemia"
+    ],
+        "answer": [0,1,2,3],
+        "explanation": "Renina începe cascada, ECA produce angiotensina II (vasoconstrictoare), iar aldosteronul reține sodiu și apă și elimină potasiu, deci crește volemia."
+    },
   ],
 }

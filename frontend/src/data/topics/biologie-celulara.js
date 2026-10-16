@@ -23,5 +23,8 @@ export default {
     'bcm-f4': 'replicare-adn', 'bcm-f5': 'transcriptie-traducere', 'bcm-f6': 'transcriptie-traducere',
     'bcm-f7': 'ciclul-celular', 'bcm-f8': 'moarte-celulara', 'bcm-f9': 'citoschelet',
     'bcm-t1': 'membrana-transport', 'bcm-t2': 'organite', 'bcm-t3': 'transcriptie-traducere', 'bcm-t4': 'ciclul-celular',
+    'bcm-qi1': 'ciclul-celular',
+    'bcm-qi2': 'ciclul-celular',
+    'bcm-qi3': 'ciclul-celular',
   },
 }

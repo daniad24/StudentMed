@@ -14,6 +14,7 @@ export default {
     { id: 'obg-f10', front: 'Ce stabilește prima manevră Leopold?', back: 'Ce pol fetal ocupă fundul uterin' },
     { id: 'obg-f11', front: 'Tipurile HPV oncogene cel mai frecvent implicate în cancerul de col?', back: 'HPV 16 și 18' },
     { id: 'obg-f12', front: 'Chist ovarian cu conținut ciocolatiu?', back: 'Endometriom (chist endometriozic)' },
+    {"id": "obg-fi1", "image": {"src": "/img/circulatie-fetala.svg", "alt": "Schemă a circulației fetale cu trei comunicări marcate"}, "front": "Ce este comunicarea marcată cu 2?", "back": "Foramenul oval (atriul drept → atriul stâng); după naștere devine fosa ovală"},
   ],
   questions: [
     {
@@ -299,6 +300,96 @@ export default {
       options: ['Sindromul ovarelor polichistice', 'Insuficiența ovariană prematură', 'Endometrioza', 'Hiperprolactinemia', 'Sarcina'],
       answer: [0],
       explanation: 'Disfuncția ovulatorie, hiperandrogenismul clinic și aspectul ecografic polichistic întrunesc criteriile sindromului ovarelor polichistice. Sarcina și alte cauze de amenoree trebuie totuși excluse.',
+    },
+    {
+        "id": "obg-qi1",
+        "type": "single",
+        "image": {
+            "src": "/img/circulatie-fetala.svg",
+            "alt": "Schemă a circulației fetale cu trei comunicări marcate"
+        },
+        "text": "Pe schema circulației fetale, comunicarea marcată cu 2, între atriul drept și atriul stâng, este:",
+        "options": [
+        "Foramenul oval",
+        "Canalul arterial",
+        "Vena ombilicală",
+        "Septul interventricular",
+        "Canalul venos"
+    ],
+        "answer": [0],
+        "explanation": "Foramenul oval permite trecerea sângelui din atriul drept în cel stâng, ocolind plămânii nefuncționali."
+    },
+    {
+        "id": "obg-qi2",
+        "type": "single",
+        "image": {
+            "src": "/img/circulatie-fetala.svg",
+            "alt": "Schemă a circulației fetale cu trei comunicări marcate"
+        },
+        "text": "Structura marcată cu 3, între trunchiul pulmonar și aorta descendentă, se numește:",
+        "options": [
+        "Vena cavă inferioară",
+        "Foramen oval",
+        "Canal arterial",
+        "Arterele ombilicale",
+        "Canal venos"
+    ],
+        "answer": [2],
+        "explanation": "Canalul arterial duce majoritatea sângelui din trunchiul pulmonar în aorta descendentă, pentru că rezistența din plămâni este mare."
+    },
+    {
+        "id": "obg-qi3",
+        "type": "single",
+        "image": {
+            "src": "/img/circulatie-fetala.svg",
+            "alt": "Schemă a circulației fetale cu trei comunicări marcate"
+        },
+        "text": "Care este rolul structurii marcate cu 1, între vena ombilicală și vena cavă inferioară?",
+        "options": [
+        "Duce sânge sărac în oxigen către placentă",
+        "Duce sângele de la ventriculul stâng spre plămâni",
+        "Permite trecerea sângelui din atriul drept în atriul stâng",
+        "Duce o mare parte din sângele bogat în oxigen din vena ombilicală spre vena cavă inferioară, ocolind parțial ficatul",
+        "Leagă trunchiul pulmonar de aortă"
+    ],
+        "answer": [3],
+        "explanation": "Canalul venos scurtcircuitează parțial ficatul și aduce sângele oxigenat de la placentă spre inimă."
+    },
+    {
+        "id": "obg-qi4",
+        "type": "multi",
+        "image": {
+            "src": "/img/circulatie-fetala.svg",
+            "alt": "Schemă a circulației fetale cu trei comunicări marcate"
+        },
+        "text": "Care afirmații despre circulația fetală sunt corecte?",
+        "options": [
+        "Sângele din vena ombilicală este cel mai bogat în oxigen",
+        "Cea mai mare parte a sângelui din trunchiul pulmonar ajunge în aortă prin canalul arterial",
+        "Arterele ombilicale aduc sânge oxigenat de la placentă la făt",
+        "Foramenul oval permite trecerea sângelui din atriul drept în atriul stâng",
+        "Plămânii primesc cea mai mare parte a debitului ventriculului drept"
+    ],
+        "answer": [0,1,3],
+        "explanation": "Vena ombilicală aduce sânge oxigenat de la placentă; foramenul oval și canalul arterial ocolesc plămânii. Arterele ombilicale duc sângele sărac în oxigen de la făt la placentă."
+    },
+    {
+        "id": "obg-qi5",
+        "type": "single",
+        "image": {
+            "src": "/img/circulatie-fetala.svg",
+            "alt": "Schemă a circulației fetale cu trei comunicări marcate"
+        },
+        "text": "După naștere, comunicarea marcată cu 3 pe schema circulației fetale se transformă în:",
+        "options": [
+        "Ligamentul ombilical medial",
+        "Fosa ovală",
+        "Ligamentul arterial",
+        "Ligamentul venos",
+        "Ligamentul rotund al ficatului"
+    ],
+        "answer": [2],
+        "explanation": "Canalul arterial se închide după naștere și devine ligamentul arterial; foramenul oval devine fosa ovală, iar canalul venos ligamentul venos."
     },
   ],
 }

@@ -390,15 +390,13 @@ Clasificare după hemoliza pe geloză-sânge:
         },
         "text": "În imaginea cu cele două celule, structura marcată cu 3 este caracteristică bacteriilor Gram-negative. Ea este:",
         "options": [
-            "Membrana externă, cu lipopolizaharid (LPS)",
-            "Stratul gros de peptidoglican",
-            "Capsula",
-            "Membrana citoplasmatică",
-            "Spațiul periplasmic"
-        ],
-        "answer": [
-            0
-        ],
+        "Membrana citoplasmatică",
+        "Capsula",
+        "Spațiul periplasmic",
+        "Membrana externă, cu lipopolizaharid (LPS)",
+        "Stratul gros de peptidoglican"
+    ],
+        "answer": [3],
         "explanation": "Bacteriile Gram-negative au o membrană externă ce poartă LPS (endotoxina); bacteriile Gram-pozitive nu o au."
     },
     {
@@ -410,17 +408,13 @@ Clasificare după hemoliza pe geloză-sânge:
         },
         "text": "Care afirmații despre celula 1 (Gram-pozitivă) sunt corecte?",
         "options": [
-            "Structura 1 este stratul gros de peptidoglican, care reține colorantul la colorația Gram",
-            "Nu are membrană externă",
-            "Peretele ei conține lipopolizaharid (LPS)",
-            "Structura 2 este membrana citoplasmatică",
-            "Peptidoglicanul ei este subțire, ca la celula 2"
-        ],
-        "answer": [
-            0,
-            1,
-            3
-        ],
+        "Structura 2 este membrana citoplasmatică",
+        "Peretele ei conține lipopolizaharid (LPS)",
+        "Peptidoglicanul ei este subțire, ca la celula 2",
+        "Nu are membrană externă",
+        "Structura 1 este stratul gros de peptidoglican, care reține colorantul la colorația Gram"
+    ],
+        "answer": [0,3,4],
         "explanation": "Bacteriile Gram-pozitive au peptidoglican gros și nu au membrană externă sau LPS; sub perete se află membrana citoplasmatică. Peptidoglicanul subțire este al Gram-negativelor."
     },
   ],

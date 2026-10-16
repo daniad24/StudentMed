@@ -63,5 +63,9 @@ export default {
     'far-t5': 'anticoagulante-antiagregante',
     'far-t7': 'antidiabetice',
     'far-t8': 'psihotrope',
+    'far-qi1': 'antihipertensive-diuretice',
+    'far-qi2': 'antihipertensive-diuretice',
+    'far-qi3': 'antihipertensive-diuretice',
+    'far-qi4': 'antihipertensive-diuretice',
   },
 }

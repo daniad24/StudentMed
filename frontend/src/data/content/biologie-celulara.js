@@ -246,5 +246,65 @@ export default {
       answer: [3],
       explanation: 'Filamentele intermediare conferă rezistență mecanică celulelor și țesuturilor; keratinele din epitelii sunt exemplul clasic.',
     },
+    {
+        "id": "bcm-qi1",
+        "type": "single",
+        "image": {
+            "src": "/img/ciclul-celular.svg",
+            "alt": "Ciclul celular cu patru faze marcate A–D"
+        },
+        "text": "În ce fază marcată pe schema ciclului celular se replică ADN-ul?",
+        "options": [
+            "Faza A",
+            "Faza B",
+            "Faza C",
+            "Faza D",
+            "Nicio fază: ADN-ul se replică doar în mitoză"
+        ],
+        "answer": [
+            1
+        ],
+        "explanation": "Ciclul este G1 (A), S (B), G2 (C), M (D). ADN-ul se replică în faza S."
+    },
+    {
+        "id": "bcm-qi2",
+        "type": "single",
+        "image": {
+            "src": "/img/ciclul-celular.svg",
+            "alt": "Ciclul celular cu patru faze marcate A–D"
+        },
+        "text": "Faza marcată cu D pe schema ciclului celular corespunde:",
+        "options": [
+        "Mitozei",
+        "Fazei de replicare a ADN-ului",
+        "Fazei G1",
+        "Fazei G2",
+        "Fazei de repaus G0"
+    ],
+        "answer": [0],
+        "explanation": "Ciclul parcurge G1, S, G2 și apoi mitoza (M), cea mai scurtă fază."
+    },
+    {
+        "id": "bcm-qi3",
+        "type": "multi",
+        "image": {
+            "src": "/img/ciclul-celular.svg",
+            "alt": "Ciclul celular cu patru faze marcate A–D"
+        },
+        "text": "Care afirmații despre fazele marcate pe schemă sunt corecte?",
+        "options": [
+            "Faza A (G1) este o fază de creștere și pregătire pentru replicare",
+            "Faza C (G2) include verificarea ADN-ului replicat și pregătirea pentru mitoză",
+            "Fazele A, B și C alcătuiesc interfaza",
+            "Faza D este faza cea mai lungă a ciclului",
+            "În faza B se separă cromozomii"
+        ],
+        "answer": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "Interfaza cuprinde G1, S și G2; mitoza (D) este scurtă, iar separarea cromozomilor are loc în mitoză, nu în S."
+    },
   ],
 }

@@ -310,5 +310,59 @@ export default {
       answer: [0, 2, 4],
       explanation: 'Ventriculul drept primește sânge prin orificiul tricuspid și îl trimite în trunchiul pulmonar; trabecula septomarginală îi este caracteristică. Venele pulmonare se deschid în atriul stâng, iar valva mitrală aparține inimii stângi.',
     },
+    {
+        "id": "ana-qi1",
+        "type": "single",
+        "image": {
+            "src": "/img/circulatie-inima.svg",
+            "alt": "Schemă a circulației sângelui prin inimă"
+        },
+        "text": "Pe schema circulației prin inimă, valva marcată cu 1 este:",
+        "options": [
+        "Valva tricuspidă",
+        "Valva mitrală",
+        "Valva Eustachio",
+        "Valva aortică",
+        "Valva pulmonară"
+    ],
+        "answer": [0],
+        "explanation": "Valva 1 se află între atriul drept (A) și ventriculul drept (B): este valva atrioventriculară dreaptă, tricuspidă."
+    },
+    {
+        "id": "ana-qi2",
+        "type": "multi",
+        "image": {
+            "src": "/img/circulatie-inima.svg",
+            "alt": "Schemă a circulației sângelui prin inimă"
+        },
+        "text": "Despre camera marcată cu D pe schemă sunt corecte:",
+        "options": [
+        "Primește sânge din venele cave",
+        "Pompează sânge oxigenat în aortă",
+        "Are peretele mai gros decât camera B",
+        "Este ventriculul stâng",
+        "Comunică cu camera A prin valva 1"
+    ],
+        "answer": [1,2,3],
+        "explanation": "Camera D primește sânge de la atriul stâng prin valva mitrală și îl pompează în aortă; peretele ei este mai gros decât al ventriculului drept. Venele cave se varsă în atriul drept."
+    },
+    {
+        "id": "ana-qi3",
+        "type": "single",
+        "image": {
+            "src": "/img/circulatie-inima.svg",
+            "alt": "Schemă a circulației sângelui prin inimă"
+        },
+        "text": "Structura marcată cu F pe schemă transportă:",
+        "options": [
+        "Sânge sărac în oxigen spre atriul drept",
+        "Sânge oxigenat de la plămâni spre atriul stâng",
+        "Limfă spre canalul toracic",
+        "Sânge oxigenat spre organe",
+        "Sânge sărac în oxigen de la ventriculul drept spre plămâni"
+    ],
+        "answer": [4],
+        "explanation": "F este trunchiul pulmonar, care duce sângele neoxigenat de la ventriculul drept spre plămâni."
+    },
   ],
 }

@@ -444,15 +444,13 @@ export default {
         },
         "text": "Un pacient cu boală renală avansată are pe ECG unde T înalte, ascuțite și simetrice. Ce tulburare electrolitică trebuie suspectată?",
         "options": [
-            "Hiperkaliemie",
-            "Hipokaliemie",
-            "Hipernatremie",
-            "Hipomagneziemie",
-            "Hiponatremie"
-        ],
-        "answer": [
-            0
-        ],
+        "Hipernatremie",
+        "Hipokaliemie",
+        "Hipomagneziemie",
+        "Hiperkaliemie",
+        "Hiponatremie"
+    ],
+        "answer": [3],
         "explanation": "Undele T înalte, „în cort”, sunt o modificare precoce a hiperkaliemiei, care poate duce ulterior la aritmii periculoase."
     },
   ],

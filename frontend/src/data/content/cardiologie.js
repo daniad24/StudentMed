@@ -588,15 +588,13 @@ export default {
         },
         "text": "Traseul ECG din imagine arată cel mai probabil:",
         "options": [
-            "Ritm sinusal normal",
-            "Fibrilație atrială",
-            "Flutter atrial tipic",
-            "Tahicardie ventriculară",
-            "Bloc atrioventricular complet"
-        ],
-        "answer": [
-            1
-        ],
+        "Ritm sinusal normal",
+        "Tahicardie ventriculară",
+        "Fibrilație atrială",
+        "Bloc atrioventricular complet",
+        "Flutter atrial tipic"
+    ],
+        "answer": [2],
         "explanation": "Complexele QRS sunt neregulate (intervale RR variabile), nu se văd unde P, iar linia de bază este ondulată – fibrilație atrială."
     },
     {
@@ -608,15 +606,13 @@ export default {
         },
         "text": "Ce ritm este reprezentat în imagine?",
         "options": [
-            "Fibrilație atrială",
-            "Flutter atrial",
-            "Ritm sinusal cu extrasistole",
-            "Tahicardie ventriculară",
-            "Bloc AV de gradul II tip Mobitz I"
-        ],
-        "answer": [
-            1
-        ],
+        "Flutter atrial",
+        "Tahicardie ventriculară",
+        "Fibrilație atrială",
+        "Ritm sinusal cu extrasistole",
+        "Bloc AV de gradul II tip Mobitz I"
+    ],
+        "answer": [0],
         "explanation": "Linia de bază are unde regulate „în dinți de fierăstrău”, iar ventriculii răspund regulat, printr-o conducere atrio-ventriculară fixă – flutter atrial."
     },
     {
@@ -628,15 +624,13 @@ export default {
         },
         "text": "Un pacient are palpitații cu debut brusc. ECG arată tahicardie regulată, cu complexe QRS înguste și fără unde P vizibile. Interpretarea cea mai probabilă este:",
         "options": [
-            "Fibrilație atrială",
-            "Tahicardie ventriculară",
-            "Tahicardie supraventriculară paroxistică",
-            "Bloc atrioventricular complet",
-            "Ritm sinusal normal"
-        ],
-        "answer": [
-            2
-        ],
+        "Fibrilație atrială",
+        "Tahicardie ventriculară",
+        "Tahicardie supraventriculară paroxistică",
+        "Bloc atrioventricular complet",
+        "Ritm sinusal normal"
+    ],
+        "answer": [2],
         "explanation": "Ritmul regulat, rapid, cu QRS îngust și fără unde P identificabile este tipic pentru o tahicardie supraventriculară paroxistică. Fibrilația atrială ar fi neregulată."
     },
     {
@@ -648,15 +642,13 @@ export default {
         },
         "text": "Fiecare undă P este urmată de un QRS, dar intervalul PR este lung și constant. Diagnosticul este:",
         "options": [
-            "Bloc AV de gradul I",
-            "Bloc AV de gradul II tip Mobitz I",
-            "Bloc AV de gradul III",
-            "Fibrilație atrială",
-            "Sindrom Wolff-Parkinson-White"
-        ],
-        "answer": [
-            0
-        ],
+        "Fibrilație atrială",
+        "Bloc AV de gradul I",
+        "Bloc AV de gradul III",
+        "Sindrom Wolff-Parkinson-White",
+        "Bloc AV de gradul II tip Mobitz I"
+    ],
+        "answer": [1],
         "explanation": "Prelungirea constantă a intervalului PR, cu conducere păstrată la fiecare bătaie, definește blocul AV de gradul I."
     },
     {
@@ -668,15 +660,13 @@ export default {
         },
         "text": "Pe traseu, intervalul PR se alungește progresiv, apoi o undă P nu mai este urmată de QRS. Cum se numește acest tip de bloc?",
         "options": [
-            "Bloc AV de gradul I",
-            "Bloc AV de gradul II, Mobitz I (Wenckebach)",
-            "Bloc AV de gradul II, Mobitz II",
-            "Bloc AV de gradul III",
-            "Bloc de ramură stângă"
-        ],
-        "answer": [
-            1
-        ],
+        "Bloc AV de gradul I",
+        "Bloc AV de gradul II, Mobitz I (Wenckebach)",
+        "Bloc AV de gradul II, Mobitz II",
+        "Bloc AV de gradul III",
+        "Bloc de ramură stângă"
+    ],
+        "answer": [1],
         "explanation": "Alungirea progresivă a PR până la o undă P blocată este caracteristică fenomenului Wenckebach (Mobitz I)."
     },
     {
@@ -688,15 +678,13 @@ export default {
         },
         "text": "Undele P apar regulat, complexele QRS apar regulat, dar mai rar, și nu există o relație constantă între ele. Aceasta este:",
         "options": [
-            "Disociație atrioventriculară completă, în bloc AV de gradul III",
-            "Bloc AV de gradul I",
-            "Fibrilație atrială cu răspuns ventricular lent",
-            "Ritm sinusal cu extrasistole",
-            "Flutter atrial cu conducere 4:1"
-        ],
-        "answer": [
-            0
-        ],
+        "Disociație atrioventriculară completă, în bloc AV de gradul III",
+        "Bloc AV de gradul I",
+        "Ritm sinusal cu extrasistole",
+        "Fibrilație atrială cu răspuns ventricular lent",
+        "Flutter atrial cu conducere 4:1"
+    ],
+        "answer": [0],
         "explanation": "În blocul AV complet atriile și ventriculii bat independent: undele P nu se leagă de QRS, iar ventriculii sunt conduși de un ritm de scăpare, lent."
     },
     {
@@ -708,15 +696,13 @@ export default {
         },
         "text": "Traseul prezintă un interval PR scurt și o urcare lentă la începutul complexului QRS (undă delta). Diagnosticul este:",
         "options": [
-            "Sindrom Wolff-Parkinson-White",
-            "Bloc AV de gradul I",
-            "Hipercalcemie",
-            "Infarct miocardic acut",
-            "Fibrilație ventriculară"
-        ],
-        "answer": [
-            0
-        ],
+        "Fibrilație ventriculară",
+        "Bloc AV de gradul I",
+        "Sindrom Wolff-Parkinson-White",
+        "Infarct miocardic acut",
+        "Hipercalcemie"
+    ],
+        "answer": [2],
         "explanation": "PR scurt și unda delta apar prin preexcitație ventriculară pe o cale accesorie – sindrom Wolff-Parkinson-White."
     },
     {
@@ -728,17 +714,13 @@ export default {
         },
         "text": "ECG-ul din imagine arată supradenivelare de segment ST. Care afirmații sunt corecte?",
         "options": [
-            "Poate indica un infarct miocardic cu supradenivelare de ST, în contextul clinic potrivit",
-            "Reprezintă un motiv de evaluare cardiologică de urgență",
-            "Se deosebește de pericardită prin faptul că apare doar într-o singură derivație",
-            "Se interpretează împreună cu simptomele și cu troponina",
-            "Se poate ignora dacă pacientul nu mai are durere"
-        ],
-        "answer": [
-            0,
-            1,
-            3
-        ],
+        "Se deosebește de pericardită prin faptul că apare doar într-o singură derivație",
+        "Se interpretează împreună cu simptomele și cu troponina",
+        "Se poate ignora dacă pacientul nu mai are durere",
+        "Reprezintă un motiv de evaluare cardiologică de urgență",
+        "Poate indica un infarct miocardic cu supradenivelare de ST, în contextul clinic potrivit"
+    ],
+        "answer": [1,3,4],
         "explanation": "Supradenivelarea de ST într-un context clinic de ischemie este o urgență. Pericardita dă supradenivelare difuză, iar dispariția durerii nu exclude infarctul."
     },
     {
@@ -750,15 +732,13 @@ export default {
         },
         "text": "Un pacient cu durere toracică la efort are pe traseu subdenivelare orizontală a segmentului ST. Cel mai probabil este vorba despre:",
         "options": [
-            "Ischemie miocardică",
-            "Hiperkaliemie",
-            "Flutter atrial",
-            "Bloc AV de gradul I",
-            "Fibrilație ventriculară"
-        ],
-        "answer": [
-            0
-        ],
+        "Fibrilație ventriculară",
+        "Flutter atrial",
+        "Hiperkaliemie",
+        "Bloc AV de gradul I",
+        "Ischemie miocardică"
+    ],
+        "answer": [4],
         "explanation": "Subdenivelarea orizontală sau descendentă a ST în timpul durerii de efort sugerează ischemie miocardică (subendocardică)."
     },
     {
@@ -770,16 +750,50 @@ export default {
         },
         "text": "Un pacient cu infarct în antecedente are palpitații. ECG arată o tahicardie regulată cu complexe largi. Interpretarea cea mai prudentă este:",
         "options": [
-            "Tahicardie ventriculară",
-            "Ritm sinusal normal",
-            "Fibrilație atrială cu RR neregulat",
-            "Bloc atrioventricular de gradul I",
-            "Flutter atrial cu conducere 4:1"
-        ],
-        "answer": [
-            0
-        ],
+        "Bloc atrioventricular de gradul I",
+        "Flutter atrial cu conducere 4:1",
+        "Tahicardie ventriculară",
+        "Ritm sinusal normal",
+        "Fibrilație atrială cu RR neregulat"
+    ],
+        "answer": [2],
         "explanation": "O tahicardie regulată cu complexe largi la un pacient cu cardiopatie ischemică se consideră tahicardie ventriculară până la proba contrarie."
+    },
+    {
+        "id": "car-qi11",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-normal-marcat.svg",
+            "alt": "ECG normal cu componente marcate de la 1 la 6"
+        },
+        "text": "Pe ECG-ul din imagine, intervalul marcat cu 2 (intervalul PR) reprezintă:",
+        "options": [
+        "Repolarizarea atrială",
+        "Depolarizarea ventriculară",
+        "Timpul de la începutul depolarizării atriale până la începutul depolarizării ventriculare",
+        "Timpul dintre două bătăi consecutive",
+        "Repolarizarea ventriculară"
+    ],
+        "answer": [2],
+        "explanation": "Intervalul PR include depolarizarea atrială și întârzierea fiziologică din nodul atrioventricular."
+    },
+    {
+        "id": "car-qi12",
+        "type": "multi",
+        "image": {
+            "src": "/img/ecg-normal-marcat.svg",
+            "alt": "ECG normal cu componente marcate de la 1 la 6"
+        },
+        "text": "Pe ECG-ul din imagine, care afirmații sunt corecte?",
+        "options": [
+        "Unda marcată cu 1 corespunde depolarizării atriale",
+        "Complexul marcat cu 3 corespunde depolarizării ventriculare",
+        "Intervalul marcat cu 6 reprezintă doar depolarizarea ventriculară",
+        "Intervalul marcat cu 2 reprezintă repolarizarea atrială",
+        "Unda marcată cu 5 corespunde repolarizării ventriculare"
+    ],
+        "answer": [0,1,4],
+        "explanation": "P = depolarizare atrială, QRS = depolarizare ventriculară, T = repolarizare ventriculară. PR este timpul de conducere atrio-ventriculară, iar QT cuprinde depolarizarea și repolarizarea ventriculară."
     },
   ],
 }

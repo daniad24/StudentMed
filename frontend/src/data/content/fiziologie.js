@@ -374,15 +374,13 @@ export default {
         },
         "text": "Pe grafic, curba B este curba normală. Care afirmație descrie corect curba C?",
         "options": [
-            "Afinitate scăzută a hemoglobinei pentru oxigen, cu cedare mai ușoară la țesuturi",
-            "Afinitate crescută a hemoglobinei pentru oxigen",
-            "Hemoglobină complet saturată la orice presiune a oxigenului",
-            "Curba este tipică pentru hemoglobina fetală",
-            "Reprezintă o scădere a capacității de transport a oxigenului"
-        ],
-        "answer": [
-            0
-        ],
+        "Afinitate crescută a hemoglobinei pentru oxigen",
+        "Curba este tipică pentru hemoglobina fetală",
+        "Hemoglobină complet saturată la orice presiune a oxigenului",
+        "Afinitate scăzută a hemoglobinei pentru oxigen, cu cedare mai ușoară la țesuturi",
+        "Reprezintă o scădere a capacității de transport a oxigenului"
+    ],
+        "answer": [3],
         "explanation": "Deplasarea la dreapta (C) înseamnă afinitate mai mică și cedare mai ușoară a O₂ la țesuturi; deplasarea la stânga (A) crește afinitatea."
     },
     {
@@ -394,17 +392,13 @@ export default {
         },
         "text": "Curba A este deplasată la stânga față de curba normală (B). Care afirmații sunt corecte?",
         "options": [
-            "Afinitatea hemoglobinei pentru oxigen este crescută",
-            "P50 este mai mic decât cel normal",
-            "Poate apărea în alcaloză sau în prezența hemoglobinei fetale",
-            "Cedarea oxigenului la țesuturi este facilitată",
-            "Este deplasarea produsă de acidoză și febră"
-        ],
-        "answer": [
-            0,
-            1,
-            2
-        ],
+        "Afinitatea hemoglobinei pentru oxigen este crescută",
+        "P50 este mai mic decât cel normal",
+        "Poate apărea în alcaloză sau în prezența hemoglobinei fetale",
+        "Cedarea oxigenului la țesuturi este facilitată",
+        "Este deplasarea produsă de acidoză și febră"
+    ],
+        "answer": [0,1,2],
         "explanation": "Deplasarea la stânga înseamnă afinitate mai mare și P50 mai mic; apare în alcaloză, cu HbF, și face cedarea mai dificilă. Acidoza și febra deplasează la dreapta."
     },
     {
@@ -416,15 +410,13 @@ export default {
         },
         "text": "În potențialul de acțiune al miocitului ventricular din imagine, ce se petrece în faza marcată cu 0?",
         "options": [
-            "Intrare rapidă de Na⁺ în celulă, cu depolarizare rapidă",
-            "Ieșire de K⁺, cu repolarizare finală",
-            "Platou prin intrare de Ca²⁺",
-            "Potențial de repaus, menținut de pompa Na⁺/K⁺",
-            "Intrare de Cl⁻ în celulă"
-        ],
-        "answer": [
-            0
-        ],
+        "Intrare rapidă de Na⁺ în celulă, cu depolarizare rapidă",
+        "Ieșire de K⁺, cu repolarizare finală",
+        "Platou prin intrare de Ca²⁺",
+        "Potențial de repaus, menținut de pompa Na⁺/K⁺",
+        "Intrare de Cl⁻ în celulă"
+    ],
+        "answer": [0],
         "explanation": "Faza 0 este depolarizarea rapidă prin deschiderea canalelor de Na⁺ voltaj-dependente."
     },
     {
@@ -436,17 +428,13 @@ export default {
         },
         "text": "Despre faza marcată cu 2 (platoul) a potențialului de acțiune ventricular sunt corecte:",
         "options": [
-            "Se datorează în principal intrării de Ca²⁺ prin canale de tip L",
-            "Este echilibrată de o ieșire de K⁺",
-            "Contribuie la perioada refractară lungă a miocardului",
-            "Se datorează intrării rapide de Na⁺",
-            "Lipsește la celulele miocardice ventriculare"
-        ],
-        "answer": [
-            0,
-            1,
-            2
-        ],
+        "Lipsește la celulele miocardice ventriculare",
+        "Se datorează intrării rapide de Na⁺",
+        "Contribuie la perioada refractară lungă a miocardului",
+        "Este echilibrată de o ieșire de K⁺",
+        "Se datorează în principal intrării de Ca²⁺ prin canale de tip L"
+    ],
+        "answer": [2,3,4],
         "explanation": "Platoul apare când intrarea de Ca²⁺ echilibrează ieșirea de K⁺ și prelungește perioada refractară, protejând inima de tetanos."
     },
     {
@@ -458,15 +446,13 @@ export default {
         },
         "text": "În potențialul de acțiune neuronal din imagine, ce se petrece în porțiunea marcată cu B (panta ascendentă)?",
         "options": [
-            "Intrare masivă de Na⁺ prin canale voltaj-dependente",
-            "Ieșire de K⁺ prin canale voltaj-dependente",
-            "Intrare de Cl⁻",
-            "Activarea pompei Na⁺/K⁺ ca mecanism principal",
-            "Ieșire de Ca²⁺"
-        ],
-        "answer": [
-            0
-        ],
+        "Ieșire de K⁺ prin canale voltaj-dependente",
+        "Intrare masivă de Na⁺ prin canale voltaj-dependente",
+        "Intrare de Cl⁻",
+        "Ieșire de Ca²⁺",
+        "Activarea pompei Na⁺/K⁺ ca mecanism principal"
+    ],
+        "answer": [1],
         "explanation": "Panta ascendentă este depolarizarea: după atingerea pragului se deschid canalele de Na⁺ voltaj-dependente și Na⁺ intră în celulă."
     },
     {
@@ -478,16 +464,124 @@ export default {
         },
         "text": "Care este explicația principală a porțiunii marcate cu D (hiperpolarizarea de după potențial)?",
         "options": [
-            "Canalele de K⁺ rămân deschise o scurtă perioadă după repolarizare",
-            "Canalele de Na⁺ se redeschid",
-            "Intră Ca²⁺ în celulă",
-            "Pompa Na⁺/K⁺ se oprește",
-            "Se închid toate canalele de K⁺ imediat"
+        "Pompa Na⁺/K⁺ se oprește",
+        "Se închid toate canalele de K⁺ imediat",
+        "Canalele de Na⁺ se redeschid",
+        "Canalele de K⁺ rămân deschise o scurtă perioadă după repolarizare",
+        "Intră Ca²⁺ în celulă"
+    ],
+        "answer": [3],
+        "explanation": "Canalele de K⁺ voltaj-dependente se închid lent, așa că ieșirea de K⁺ continuă și potențialul coboară sub nivelul de repaus."
+    },
+    {
+        "id": "fiz-qi7",
+        "type": "single",
+        "image": {
+            "src": "/img/bucla-presiune-volum.svg",
+            "alt": "Bucla presiune–volum a ventriculului stâng"
+        },
+        "text": "Pe bucla presiune–volum a ventriculului stâng, contracția izovolumică (ambele valve închise, presiunea crește) corespunde segmentului:",
+        "options": [
+            "Segmentul A",
+            "Segmentul B",
+            "Segmentul C",
+            "Segmentul D",
+            "Nu apare pe bucla presiune–volum"
         ],
         "answer": [
-            0
+            1
         ],
-        "explanation": "Canalele de K⁺ voltaj-dependente se închid lent, așa că ieșirea de K⁺ continuă și potențialul coboară sub nivelul de repaus."
+        "explanation": "În contracția izovolumică volumul rămâne constant, iar presiunea crește: segment vertical, în partea dreaptă a buclei (B)."
+    },
+    {
+        "id": "fiz-qi8",
+        "type": "multi",
+        "image": {
+            "src": "/img/bucla-presiune-volum.svg",
+            "alt": "Bucla presiune–volum a ventriculului stâng"
+        },
+        "text": "Despre segmentul C al buclei sunt corecte:",
+        "options": [
+        "Valva aortică este deschisă",
+        "Volumul ventricular scade",
+        "Sângele este ejectat în aortă",
+        "Valva mitrală este deschisă",
+        "Volumul ventricular crește"
+    ],
+        "answer": [0,1,2],
+        "explanation": "Segmentul C este ejecția: valva aortică este deschisă, ventriculul se golește parțial, iar valva mitrală este închisă."
+    },
+    {
+        "id": "fiz-qi9",
+        "type": "single",
+        "image": {
+            "src": "/img/bucla-presiune-volum.svg",
+            "alt": "Bucla presiune–volum a ventriculului stâng"
+        },
+        "text": "Segmentul D al buclei reprezintă:",
+        "options": [
+        "Sistola atrială",
+        "Contracția izovolumică",
+        "Relaxarea izovolumică, cu valvele mitrală și aortică închise",
+        "Umplerea ventriculară rapidă",
+        "Ejecția ventriculară"
+    ],
+        "answer": [2],
+        "explanation": "După închiderea valvei aortice, presiunea scade la volum constant, deoarece ambele valve sunt închise."
+    },
+    {
+        "id": "fiz-qi10",
+        "type": "single",
+        "image": {
+            "src": "/img/bucla-presiune-volum.svg",
+            "alt": "Bucla presiune–volum a ventriculului stâng"
+        },
+        "text": "Distanța orizontală dintre VTS și VTD pe bucla presiune–volum reprezintă:",
+        "options": [
+        "Rezistența vasculară periferică",
+        "Debitul cardiac pe minut",
+        "Frecvența cardiacă",
+        "Presiunea pulsată",
+        "Volumul bătaie"
+    ],
+        "answer": [4],
+        "explanation": "Lățimea buclei este diferența dintre volumul telediastolic și cel telesistolic, adică volumul de sânge ejectat la o bătaie."
+    },
+    {
+        "id": "fiz-qi11",
+        "type": "single",
+        "image": {
+            "src": "/img/raas.svg",
+            "alt": "Schema sistemului renină–angiotensină–aldosteron"
+        },
+        "text": "Enzima care acționează la nivelul marcat cu A în schemă, secretată de celulele juxtaglomerulare renale, este:",
+        "options": [
+        "Aldosteronul",
+        "Enzima de conversie a angiotensinei",
+        "Hormonul antidiuretic",
+        "Renina",
+        "Angiotensinogenul"
+    ],
+        "answer": [3],
+        "explanation": "Renina transformă angiotensinogenul în angiotensină I; este secretată de celulele juxtaglomerulare renale."
+    },
+    {
+        "id": "fiz-qi12",
+        "type": "single",
+        "image": {
+            "src": "/img/ecg-normal-marcat.svg",
+            "alt": "ECG normal cu componente marcate de la 1 la 6"
+        },
+        "text": "Pe ECG-ul din imagine, ce se petrece în ventricule în timpul segmentului marcat cu 4 (între QRS și unda T)?",
+        "options": [
+        "Se repolarizează rapid",
+        "Sunt depolarizate, în faza de platou a potențialului de acțiune",
+        "Se depolarizează atriile",
+        "Sunt în repaus electric, repolarizate complet",
+        "Se depolarizează rapid"
+    ],
+        "answer": [1],
+        "explanation": "Segmentul ST corespunde platoului potențialului de acțiune ventricular, când miocitele sunt depolarizate și nu există diferențe mari de potențial între ele."
     },
   ],
 }

@@ -376,15 +376,13 @@ export default {
         },
         "text": "Un pacient inconștient, fără puls, are pe monitor traseul din imagine. Ce ritm este și ce conduită inițială se aplică?",
         "options": [
-            "Fibrilație ventriculară – resuscitare cardio-respiratorie și defibrilare precoce",
-            "Asistolie – resuscitare fără defibrilare",
-            "Fibrilație atrială – cardioversie programată",
-            "Tahicardie supraventriculară – manevre vagale",
-            "Artefact de mișcare – se observă pacientul"
-        ],
-        "answer": [
-            0
-        ],
+        "Tahicardie supraventriculară – manevre vagale",
+        "Fibrilație atrială – cardioversie programată",
+        "Asistolie – resuscitare fără defibrilare",
+        "Artefact de mișcare – se observă pacientul",
+        "Fibrilație ventriculară – resuscitare cardio-respiratorie și defibrilare precoce"
+    ],
+        "answer": [4],
         "explanation": "Activitatea haotică, fără QRS identificabile, la un pacient fără puls este fibrilație ventriculară, ritm șocabil: RCP continuă și defibrilare cât mai precoce."
     },
     {
@@ -396,18 +394,13 @@ export default {
         },
         "text": "Despre ritmul din imagine (tahicardie ventriculară monomorfă) sunt corecte:",
         "options": [
-            "Poate degenera în fibrilație ventriculară",
-            "Dacă pacientul nu are puls, se tratează ca oprire cardiacă cu ritm șocabil",
-            "La pacientul instabil hemodinamic se indică cardioversie electrică sincronizată",
-            "Impune monitorizare și evaluare de urgență",
-            "Este întotdeauna benignă și nu necesită evaluare"
-        ],
-        "answer": [
-            0,
-            1,
-            2,
-            3
-        ],
+        "Este întotdeauna benignă și nu necesită evaluare",
+        "Impune monitorizare și evaluare de urgență",
+        "La pacientul instabil hemodinamic se indică cardioversie electrică sincronizată",
+        "Dacă pacientul nu are puls, se tratează ca oprire cardiacă cu ritm șocabil",
+        "Poate degenera în fibrilație ventriculară"
+    ],
+        "answer": [1,2,3,4],
         "explanation": "Tahicardia ventriculară poate degenera, fără puls se tratează ca oprire cardiacă șocabilă, iar la pacientul instabil se folosește cardioversia sincronizată. Nu este benignă."
     },
   ],
