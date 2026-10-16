@@ -1,4 +1,4 @@
-// Nefrologie – rezumate verificate (echipa StudentMed)
+// Nefrologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'nef-t1',

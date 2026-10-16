@@ -1,4 +1,4 @@
-// Oncologie medicală – rezumate verificate (echipa StudentMed)
+// Oncologie medicală – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'onc-t1',

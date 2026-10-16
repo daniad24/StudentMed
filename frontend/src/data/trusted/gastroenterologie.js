@@ -1,4 +1,4 @@
-// Gastroenterologie – rezumate verificate (echipa StudentMed)
+// Gastroenterologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'gas-t1',

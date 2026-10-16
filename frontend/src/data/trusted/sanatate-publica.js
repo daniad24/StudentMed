@@ -1,4 +1,4 @@
-// Sănătate publică – rezumate verificate (echipa StudentMed)
+// Sănătate publică – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'sap-t1',

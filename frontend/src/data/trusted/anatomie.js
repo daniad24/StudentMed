@@ -1,4 +1,4 @@
-// Anatomie – rezumate verificate (echipa StudentMed)
+// Anatomie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'ana-t1',

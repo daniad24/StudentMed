@@ -1,4 +1,4 @@
-// Ortopedie – rezumate verificate (echipa StudentMed)
+// Ortopedie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'ort-t1',

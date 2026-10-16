@@ -1,4 +1,4 @@
-// Pediatrie – rezumate verificate (echipa StudentMed)
+// Pediatrie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'ped-t1',

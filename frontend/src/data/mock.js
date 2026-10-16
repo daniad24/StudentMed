@@ -266,7 +266,7 @@ const trustedMaterials = Object.entries(trusted).flatMap(([subjectId, list]) =>
     subjectId,
     type: 'summary',
     source: 'trusted',
-    author: 'Echipa StudentMed',
+    author: 'Echipa Steto',
     upvotes: DEMO_VOTES[i % DEMO_VOTES.length],
     recommended: false,
     createdAt: '2026-10-01',

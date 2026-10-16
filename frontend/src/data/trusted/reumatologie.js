@@ -1,4 +1,4 @@
-// Reumatologie – rezumate verificate (echipa StudentMed)
+// Reumatologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'reu-t1',

@@ -1,4 +1,4 @@
-// Farmacologie – rezumate verificate (echipa StudentMed)
+// Farmacologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'far-t1',

@@ -1,4 +1,4 @@
-// Pneumologie – rezumate verificate (echipa StudentMed)
+// Pneumologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'pne-t1',

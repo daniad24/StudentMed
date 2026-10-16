@@ -1,4 +1,4 @@
-// Medicină de familie – rezumate verificate (echipa StudentMed)
+// Medicină de familie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'mfa-t1',

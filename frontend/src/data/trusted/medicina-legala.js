@@ -1,4 +1,4 @@
-// Medicină legală – rezumate verificate (echipa StudentMed)
+// Medicină legală – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'mle-t1',

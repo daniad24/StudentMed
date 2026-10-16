@@ -1,4 +1,4 @@
-// Boli infecțioase – rezumate verificate (echipa StudentMed)
+// Boli infecțioase – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'inf-t1',

@@ -1,4 +1,4 @@
-// Psihiatrie – rezumate verificate (echipa StudentMed)
+// Psihiatrie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'psy-t1',

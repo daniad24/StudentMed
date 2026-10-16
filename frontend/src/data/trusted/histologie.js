@@ -1,4 +1,4 @@
-// Histologie – rezumate verificate (echipa StudentMed)
+// Histologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'his-t1',

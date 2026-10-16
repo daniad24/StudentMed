@@ -1,4 +1,4 @@
-// Microbiologie – rezumate verificate (echipa StudentMed)
+// Microbiologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'mic-t1',

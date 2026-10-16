@@ -1,4 +1,4 @@
-// Fiziologie – rezumate verificate (echipa StudentMed)
+// Fiziologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'fiz-t1',

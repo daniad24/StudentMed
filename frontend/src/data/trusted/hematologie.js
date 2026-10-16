@@ -1,4 +1,4 @@
-// Hematologie – rezumate verificate (echipa StudentMed)
+// Hematologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'hem-t1',

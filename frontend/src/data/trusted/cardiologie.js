@@ -1,4 +1,4 @@
-// Cardiologie – rezumate verificate (echipa StudentMed)
+// Cardiologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'car-t1',

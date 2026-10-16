@@ -29,7 +29,7 @@ function submit() {
   <div class="flex min-h-[90dvh] flex-col justify-center">
     <div class="mb-8 text-center pop-in">
       <img src="/icon.svg" alt="" class="mx-auto mb-4 h-20 w-20 drop-shadow" />
-      <h1 class="text-4xl font-black text-brand-700">StudentMed</h1>
+      <h1 class="text-4xl font-black text-brand-700">Steto</h1>
       <p class="mt-2 font-semibold text-muted">Materiale, flashcards și grile pentru medicină.</p>
     </div>
 

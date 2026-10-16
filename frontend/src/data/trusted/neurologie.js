@@ -1,4 +1,4 @@
-// Neurologie – rezumate verificate (echipa StudentMed)
+// Neurologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'neu-t1',

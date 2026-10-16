@@ -1,4 +1,4 @@
-// Chirurgie generală – rezumate verificate (echipa StudentMed)
+// Chirurgie generală – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'chi-t1',

@@ -1,4 +1,4 @@
-// Endocrinologie și diabet – rezumate verificate (echipa StudentMed)
+// Endocrinologie și diabet – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'end-t1',

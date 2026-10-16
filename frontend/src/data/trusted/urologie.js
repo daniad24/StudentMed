@@ -1,4 +1,4 @@
-// Urologie – rezumate verificate (echipa StudentMed)
+// Urologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'uro-t1',

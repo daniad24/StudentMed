@@ -54,7 +54,7 @@ function onReport(reason) {
           <li v-for="r in material.references" :key="r">{{ r }}</li>
         </ul>
         <p class="mt-2 text-xs font-semibold text-muted">
-          Sinteză scrisă de echipa StudentMed după manualele de mai sus. Ai găsit o greșeală? Folosește 🚩 Raportează.
+          Sinteză scrisă de echipa Steto după manualele de mai sus. Ai găsit o greșeală? Folosește 🚩 Raportează.
         </p>
       </div>
 

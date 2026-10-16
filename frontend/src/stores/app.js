@@ -512,6 +512,31 @@ export const useAppStore = defineStore('app', () => {
     else completeBlock(key)
   }
 
+
+  // --- Backup al progresului (până avem conturi pe server) ---
+  function exportData() {
+    return JSON.stringify({ app: 'steto', version: 1, exportedAt: new Date().toISOString(), data: Object.fromEntries(KEYS.map((k) => [k, refs[k].value])) })
+  }
+
+  // Întoarce numărul de secțiuni restaurate; aruncă o eroare cu mesaj clar dacă fișierul nu e un backup.
+  function importData(raw) {
+    let obj
+    try {
+      obj = JSON.parse(raw)
+    } catch {
+      throw new Error('Fișierul nu e un backup Steto (nu pot citi conținutul).')
+    }
+    if (obj?.app !== 'steto' || typeof obj.data !== 'object' || !obj.data) throw new Error('Fișierul nu e un backup Steto.')
+    let n = 0
+    for (const k of KEYS) {
+      if (k === 'user' || !(k in obj.data) || obj.data[k] === null || obj.data[k] === undefined) continue
+      if (Array.isArray(refs[k].value) !== Array.isArray(obj.data[k])) continue
+      refs[k].value = obj.data[k]
+      n++
+    }
+    return n
+  }
+
   function resetDemo() {
     try {
       localStorage.removeItem(STORAGE_KEY)
@@ -525,6 +550,7 @@ export const useAppStore = defineStore('app', () => {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     examDates, caseProgress, skillStatus, myQuestions, addAiContent, clearAiContent,
+    exportData, importData,
     targetSession, topicsFor, buildPlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,

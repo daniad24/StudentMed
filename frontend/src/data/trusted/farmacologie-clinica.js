@@ -1,4 +1,4 @@
-// Farmacologie clinică – rezumate verificate (echipa StudentMed)
+// Farmacologie clinică – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'fcl-t1',

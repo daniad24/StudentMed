@@ -1,4 +1,4 @@
-// Radiologie și imagistică medicală – rezumate verificate (echipa StudentMed)
+// Radiologie și imagistică medicală – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'rad-t1',

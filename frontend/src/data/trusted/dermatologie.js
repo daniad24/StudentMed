@@ -1,4 +1,4 @@
-// Dermatologie – rezumate verificate (echipa StudentMed)
+// Dermatologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'der-t1',

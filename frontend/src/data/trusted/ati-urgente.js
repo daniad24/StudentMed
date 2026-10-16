@@ -1,4 +1,4 @@
-// ATI și medicină de urgență – rezumate verificate (echipa StudentMed)
+// ATI și medicină de urgență – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'ati-t1',

@@ -1,4 +1,4 @@
-// Oftalmologie – rezumate verificate (echipa StudentMed)
+// Oftalmologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'oft-t1',

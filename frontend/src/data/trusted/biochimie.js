@@ -1,4 +1,4 @@
-// Biochimie – rezumate verificate (echipa StudentMed)
+// Biochimie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'bio-t1',

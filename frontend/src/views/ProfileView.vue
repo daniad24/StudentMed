@@ -22,6 +22,30 @@ const isContributor = computed(() => store.contributions > 0)
 const version = __APP_VERSION__
 const updating = ref(false)
 
+const backupMsg = ref('')
+function downloadBackup() {
+  const blob = new Blob([store.exportData()], { type: 'application/json' })
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(blob)
+  a.download = `steto-backup-${new Date().toISOString().slice(0, 10)}.json`
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+  setTimeout(() => URL.revokeObjectURL(a.href), 10000)
+  backupMsg.value = 'Backup salvat. Păstrează fișierul într-un loc sigur (Fișiere, Drive, e-mail către tine).'
+}
+async function restoreBackup(e) {
+  const file = e.target.files?.[0]
+  e.target.value = ''
+  if (!file) return
+  try {
+    const n = store.importData(await file.text())
+    backupMsg.value = `Am restaurat ${n} secțiuni din backup.`
+  } catch (err) {
+    backupMsg.value = err.message
+  }
+}
+
 async function updateApp() {
   updating.value = true
   await hardRefresh()
@@ -135,6 +159,21 @@ function logout() {
         </RouterLink>
         <div v-if="store.myCards.length" class="card p-3 font-extrabold">🃏 {{ store.myCards.length }} cartonașe adăugate</div>
       </div>
+    </section>
+
+    <section class="card space-y-3 p-5">
+      <h2 class="font-black">💾 Backup</h2>
+      <p class="text-sm font-semibold text-muted">
+        Progresul stă doar în telefonul acesta. Dacă schimbi telefonul sau ștergi datele browserului, îl pierzi. Salvează din când în când un backup.
+      </p>
+      <div class="grid grid-cols-2 gap-2">
+        <button class="btn btn-white px-2 text-sm" @click="downloadBackup">⬇️ Salvează</button>
+        <label class="btn btn-white cursor-pointer px-2 text-sm">
+          ⬆️ Restaurează
+          <input type="file" accept=".json,application/json" class="hidden" @change="restoreBackup" />
+        </label>
+      </div>
+      <p v-if="backupMsg" class="text-sm font-bold text-brand-700">{{ backupMsg }}</p>
     </section>
 
     <section class="card space-y-3 p-5">

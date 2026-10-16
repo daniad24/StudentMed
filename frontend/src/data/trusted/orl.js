@@ -1,4 +1,4 @@
-// ORL – rezumate verificate (echipa StudentMed)
+// ORL – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'orl-t1',

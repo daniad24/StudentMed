@@ -1,4 +1,4 @@
-// Semiologie – rezumate verificate (echipa StudentMed)
+// Semiologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'sem-t1',

@@ -1,4 +1,4 @@
-// Obstetrică-ginecologie – rezumate verificate (echipa StudentMed)
+// Obstetrică-ginecologie – rezumate verificate (echipa Steto)
 export default [
   {
     id: 'obg-t1',

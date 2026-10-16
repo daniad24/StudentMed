@@ -16,8 +16,8 @@ export default defineConfig({
       injectRegister: false,
       includeAssets: ['icon.svg', 'apple-touch-icon.png'],
       manifest: {
-        name: 'StudentMed',
-        short_name: 'StudentMed',
+        name: 'Steto',
+        short_name: 'Steto',
         description: 'Materiale, flashcards și grile pentru studenții la medicină.',
         lang: 'ro',
         theme_color: '#16a34a',
