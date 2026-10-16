@@ -93,7 +93,8 @@ function onReport(reason) {
             <p class="text-xs font-black tracking-widest text-muted uppercase">Întrebare</p>
             <span v-if="current.ai" class="chip mt-2 bg-amber-100 text-amber-700">🤖 generat de AI · neverificat</span>
             <span v-if="current.fromQuiz" class="chip mt-2 bg-violet-100 text-violet-700">din grilele greșite</span>
-            <img v-if="current.image" :src="current.image.src" :alt="current.image.alt" class="mt-3 w-full rounded-xl border-2 border-gray-200 bg-white" />
+            <img v-if="current.image" :src="current.image.src" :alt="current.image.alt" class="mt-3 max-h-56 w-full rounded-xl border-2 border-gray-200 bg-white object-contain" />
+            <p v-if="current.image?.credit" class="mt-1 text-[10px] font-semibold text-muted">Foto: {{ current.image.credit.author }} · {{ current.image.credit.license }}</p>
             <p class="mt-3 font-black leading-snug" :class="current.front.length > 90 || current.image ? 'text-lg' : 'text-2xl'">{{ current.front }}</p>
             <p class="mt-6 text-sm font-bold text-muted">Atinge ca să vezi răspunsul</p>
           </div>

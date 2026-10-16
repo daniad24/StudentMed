@@ -2,7 +2,7 @@
 import { onUnmounted, ref, watch } from 'vue'
 
 // Imagine care se mărește la atingere (util pentru traseele ECG și schemele de pe telefon).
-defineProps({ src: { type: String, required: true }, alt: { type: String, default: '' } })
+defineProps({ src: { type: String, required: true }, alt: { type: String, default: '' }, credit: { type: Object, default: null } })
 const open = ref(false)
 
 function onKey(e) {
@@ -16,6 +16,10 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
   <figure class="my-3">
     <img :src="src" :alt="alt" loading="lazy" class="w-full cursor-zoom-in rounded-2xl border-2 border-gray-200 bg-white" @click.stop="open = true" />
     <figcaption class="mt-1 text-center text-xs font-bold text-muted">Atinge imaginea ca s-o mărești</figcaption>
+    <p v-if="credit" class="mt-0.5 text-center text-[11px] font-semibold text-muted">
+      Foto: {{ credit.author || 'autor necunoscut' }} · {{ credit.license }} ·
+      <a :href="credit.source" target="_blank" rel="noopener" class="underline">sursa</a>
+    </p>
   </figure>
   <Teleport to="body">
     <div v-if="open" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3" @click="open = false">
