@@ -2,15 +2,28 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 
 // Versiunea (hash-ul commit-ului) vine de la Vercel la build; local apare „dev".
 const appVersion = (process.env.VERCEL_GIT_COMMIT_SHA || 'dev').slice(0, 7)
+
+// Scrie dist/version.json; aplicația îl citește ca să afle singură dacă există o versiune nouă.
+const versionFile = () => {
+  let outDir = 'dist'
+  return {
+    name: 'steto-version-file',
+    configResolved: (c) => (outDir = c.build.outDir),
+    closeBundle: () => writeFileSync(join(outDir, 'version.json'), JSON.stringify({ version: appVersion })),
+  }
+}
 
 export default defineConfig({
   define: { __APP_VERSION__: JSON.stringify(appVersion) },
   plugins: [
     vue(),
     tailwindcss(),
+    versionFile(),
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: false,

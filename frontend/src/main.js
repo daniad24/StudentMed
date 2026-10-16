@@ -4,7 +4,7 @@ import { registerSW } from 'virtual:pwa-register'
 import App from './App.vue'
 import router from './router'
 import './style.css'
-import { reloadOnceIfStale } from './lib/refresh'
+import { hardRefresh, newVersionAvailable, reloadOnceIfStale } from './lib/refresh'
 
 window.addEventListener('vite:preloadError', (e) => {
   if (reloadOnceIfStale()) e.preventDefault()
@@ -23,3 +23,19 @@ registerSW({
     setInterval(check, 60 * 60 * 1000)
   },
 })
+
+// Versiune nouă: o aflăm la pornire, la revenirea în aplicație și din 10 în 10 minute.
+// Reîncărcăm automat, dar nu în mijlocul unui test sau al unei sesiuni de cartonașe: atunci așteptăm următoarea pagină.
+let updatePending = false
+async function checkForUpdate() {
+  if (!updatePending && !(await newVersionAvailable(__APP_VERSION__))) return
+  updatePending = true
+  if (router.currentRoute.value.meta.focus) return
+  hardRefresh()
+}
+router.afterEach(() => {
+  if (updatePending && !router.currentRoute.value.meta.focus) hardRefresh()
+})
+checkForUpdate()
+document.addEventListener('visibilitychange', () => document.visibilityState === 'visible' && checkForUpdate())
+setInterval(checkForUpdate, 10 * 60 * 1000)

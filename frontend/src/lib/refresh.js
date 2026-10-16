@@ -26,3 +26,16 @@ export function reloadOnceIfStale() {
 export function isStaleChunkError(err) {
   return /MIME type|dynamically imported module|Importing a module script failed|Failed to fetch dynamically/i.test(err?.message ?? '')
 }
+
+// Verifică pe server dacă există o versiune mai nouă decât cea încărcată. Întoarce true dacă da.
+export async function newVersionAvailable(current) {
+  if (!current || current === 'dev') return false
+  try {
+    const r = await fetch(`/version.json?t=${Date.now()}`, { cache: 'no-store' })
+    if (!r.ok) return false
+    const { version } = await r.json()
+    return !!version && version !== 'dev' && version !== current
+  } catch {
+    return false
+  }
+}
