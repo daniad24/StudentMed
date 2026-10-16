@@ -56,6 +56,44 @@ export default {
         'Histologia se obține înaintea tratamentului atunci când pacientul este stabil.',
       ],
     },
+    {
+      id: 'onc-c4',
+      title: "Febră după chimioterapie",
+      setting: "Camera de gardă",
+      presentation: "Femeie de 58 de ani, în tratament pentru cancer mamar cu chimioterapie adjuvantă, se prezintă pentru febră, frisoane și stare generală alterată, apărute în urmă cu câteva ore. Ultimul ciclu de chimioterapie a fost administrat acum aproximativ o săptămână și jumătate. Nu acuză tuse, disurie sau diaree, dar are dureri la nivelul gurii.",
+      steps: [
+        { kind: 'anamneza', prompt: "Ce întrebări de anamneză sunt esențiale?", answer: "• Data ultimului ciclu de chimioterapie și schema folosită\n• Debutul febrei, frisoane, alte simptome focale: tuse, disurie, diaree, durere perianală, dureri la deglutiție\n• Prezența unui cateter venos central, plăgi, proceduri recente\n• Tratamente asociate (corticoizi, antibiotice), alergii medicamentoase\n• Contacte infecțioase, călătorii recente" },
+        { kind: 'examen', prompt: "Ce urmărești la examenul obiectiv? Ce găsești?", answer: "• Semne vitale: temperatură, tensiune, frecvență cardiacă și respiratorie, saturație; căutarea semnelor de șoc septic\n• Examen minuțios al cavității orale (mucozită, candidoză), tegumentelor, locului cateterului, zonei perianale (fără tușeu rectal), plămânilor, abdomenului\n• Semnele locale pot fi discrete în absența neutrofilelor\n• La pacienta noastră: febră, tahicardie, mucozită orală, fără semne focale evidente" },
+        { kind: 'investigatii', prompt: "Ce investigații ceri și ce rezultate te aștepți?", answer: "• Hemoleucogramă cu formulă: neutropenie severă, posibil anemie și trombocitopenie\n• Hemoculturi (periferice și din cateter, dacă există), urocultură\n• Probe biochimice: creatinină, ionogramă, funcție hepatică, lactat, markeri inflamatori\n• Radiografie toracică; alte imagini în funcție de simptome\n• Investigațiile nu întârzie începerea tratamentului antibiotic" },
+        { kind: 'diagnostic', prompt: "Care e diagnosticul cel mai probabil și diagnosticul diferențial?", answer: "• Neutropenie febrilă postchimioterapie, probabil infecțioasă, cu potențial de evoluție spre sepsis\n• Diferențial: febră tumorală sau febră medicamentoasă, reacții la transfuzii, tromboze, infecții fungice sau virale în neutropenia prelungită\n• Absența sursei evidente nu exclude infecția gravă" },
+        { kind: 'tratament', prompt: "Care sunt principiile de tratament și de monitorizare?", answer: "• Urgență: după recoltarea hemoculturilor, antibioterapie empirică intravenoasă cu spectru larg, fără amânare\n• Evaluarea riscului pacientului (comorbidități, instabilitate hemodinamică) pentru decizia de internare\n• Resuscitare volemică și suport în caz de sepsis\n• Reevaluare zilnică, ajustare după culturi și evoluție; luarea în calcul a unui antifungic dacă febra persistă\n• Discuție cu oncologul despre amânarea sau ajustarea ciclurilor următoare, eventual factori de creștere granulocitară" },
+      ],
+      takeaways: [
+        "Febra la un pacient sub chimioterapie este neutropenie febrilă până la proba contrarie.",
+        "Antibioterapia empirică intravenoasă se începe imediat, după hemoculturi.",
+        "În neutropenie, semnele locale de infecție pot lipsi.",
+        "Examinarea zonei perianale se face fără tușeu rectal.",
+      ],
+    },
+    {
+      id: 'onc-c5',
+      title: "Anemie și modificarea tranzitului la vârstnic",
+      setting: "Cabinet",
+      presentation: "Bărbat de 66 de ani, fără control medical regulat, se prezintă pentru oboseală și palpitații la efort mic, apărute progresiv în ultimele luni. Familia a observat că a scăzut în greutate. Tatăl său a avut un cancer intestinal la vârsta de 70 de ani. Pacientul menționează constipație alternând cu scaune moi.",
+      steps: [
+        { kind: 'anamneza', prompt: "Ce întrebări de anamneză sunt esențiale?", answer: "• Caracterul tranzitului: durata modificării, scaune subțiri, tenesme, senzație de evacuare incompletă\n• Rectoragie sau melenă, dureri abdominale, balonare\n• Scădere ponderală, inapetență, febră\n• Antecedente personale și familiale de polipi sau cancer colorectal, boală inflamatorie intestinală\n• Alimentație, fumat, alcool, medicamente (antiinflamatoare, anticoagulante)" },
+        { kind: 'examen', prompt: "Ce urmărești la examenul obiectiv? Ce găsești?", answer: "• Paloare cutaneo-mucoasă, tahicardie, suflu sistolic funcțional\n• Palparea abdomenului: masă în fosa iliacă dreaptă, hepatomegalie nodulară\n• Palparea ganglionilor, în special supraclaviculari stângi\n• Tușeu rectal: leziuni rectale, sânge pe degetul de mănușă\n• Căutarea semnelor de ocluzie" },
+        { kind: 'investigatii', prompt: "Ce investigații ceri și ce rezultate te aștepți?", answer: "• Hemoleucogramă: anemie microcitară hipocromă; feritină scăzută\n• Colonoscopie cu biopsie: formațiune stenozantă sau vegetantă, confirmare histologică de adenocarcinom\n• CT toraco-abdomino-pelvin pentru stadializare: ganglioni, metastaze hepatice sau pulmonare\n• CEA ca valoare de bază pentru urmărire\n• Teste hepatice și renale înaintea tratamentului" },
+        { kind: 'diagnostic', prompt: "Care e diagnosticul cel mai probabil și diagnosticul diferențial?", answer: "• Cel mai probabil: cancer de colon cu anemie feriprivă prin sângerare ocultă\n• Diferențial: polip sângerând, boală inflamatorie intestinală, diverticuloză, angiodisplazie, hemoroizi, alte cauze de anemie feriprivă\n• Diagnosticul de certitudine este histologic, stadiul se stabilește după CT și piesa operatorie" },
+        { kind: 'tratament', prompt: "Care sunt principiile de tratament și de monitorizare?", answer: "• Decizie în comisie multidisciplinară\n• Tratament curativ: rezecție chirurgicală cu limfadenectomie, după corectarea anemiei și evaluarea preoperatorie\n• Chimioterapie adjuvantă în funcție de stadiul ganglionar\n• Dacă tumora e în rect: tratament neoadjuvant înaintea chirurgiei\n• Urmărire: examen clinic, CEA, imagistică, colonoscopie de control; consult genetic dacă istoricul familial o sugerează" },
+      ],
+      takeaways: [
+        "Anemia feriprivă la adultul vârstnic impune colonoscopie.",
+        "Cancerul de colon drept se manifestă adesea prin anemie, nu prin tulburări de tranzit.",
+        "Diagnosticul de certitudine este histologic, pe biopsie colonoscopică.",
+        "CEA este util pentru urmărire, nu pentru screening.",
+      ],
+    },
   ],
   skills: [
     {

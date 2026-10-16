@@ -17,6 +17,29 @@ export default {
     {"id": "car-fi3", "image": {"src": "/img/ecg-bav3.svg", "alt": "Traseu ECG"}, "front": "Ce ritm este?", "back": "Bloc AV complet – unde P și QRS independente"},
     {"id": "car-fi4", "image": {"src": "/img/ecg-wpw.svg", "alt": "Traseu ECG"}, "front": "Ce arată traseul?", "back": "Sindrom WPW – PR scurt și undă delta"},
     {"id": "car-fi5", "image": {"src": "/img/ecg-stemi.svg", "alt": "Traseu ECG"}, "front": "Ce modificare vezi pe segmentul ST?", "back": "Supradenivelare ST – suspiciune de infarct cu supradenivelare ST, urgență"},
+    { id: "car-f11", front: "Cardiomiopatie cu hipertrofie septală asimetrică și moarte subită la tineri?", back: "Cardiomiopatia hipertrofică (de obicei AD, mutații sarcomerice)" },
+    { id: "car-f12", front: "Balonizare apicală, coronare normale, după stres emoțional la femeie postmenopauză?", back: "Cardiomiopatia Takotsubo" },
+    { id: "car-f13", front: "Ce cauze toxice și metabolice dau cardiomiopatie dilatativă?", back: "Alcoolul, unele citostatice (antracicline), hipotiroidismul, tahicardia cronică" },
+    { id: "car-f14", front: "Cardiomiopatie restrictivă prin infiltrare cu proteină anormală?", back: "Amiloidoza cardiacă" },
+    { id: "car-f15", front: "Durere „în sfâșiere” interscapulară cu TA diferită între brațe?", back: "Suspiciune de disecție de aortă" },
+    { id: "car-f16", front: "Ce tip de disecție aortică are indicație chirurgicală de urgență?", back: "Tipul A Stanford (implică aorta ascendentă)" },
+    { id: "car-f17", front: "Cea mai frecventă localizare a anevrismului aortic?", back: "Aorta abdominală infrarenală" },
+    { id: "car-f18", front: "Test simplu la cabinet pentru boala arterială periferică?", back: "Indicele gleznă–braț" },
+    { id: "car-f19", front: "Ocluzie aorto-iliacă cu claudicație fesieră și disfuncție erectilă?", back: "Sindromul Leriche" },
+    { id: "car-f20", front: "Ținta principală a tratamentului hipolipemiant?", back: "LDL-colesterolul" },
+    { id: "car-f21", front: "Mecanismul de acțiune al statinelor?", back: "Inhibă HMG-CoA reductaza, scad sinteza hepatică de colesterol" },
+    { id: "car-f22", front: "Complicația acută a hipertrigliceridemiei foarte severe?", back: "Pancreatita acută" },
+    { id: "car-f23", front: "Sincopa este un semn de alarmă când apare în ce context?", back: "La efort sau fără prodrom, mai ales la cardiopat sau cu istoric familial de moarte subită" },
+    { id: "car-f24", front: "Prima investigație cardiacă în orice sincopă?", back: "ECG de repaus" },
+    { id: "car-f25", front: "Cea mai frecventă cauză de cor pulmonar cronic?", back: "BPOC" },
+    { id: "car-f26", front: "Standardul de aur pentru diagnosticul hipertensiunii pulmonare?", back: "Cateterismul cardiac drept" },
+    { id: "car-f27", front: "Poziția și medicația inițială în edemul pulmonar acut cardiogen?", back: "Poziție șezândă, oxigen, diuretic de ansă intravenos" },
+    { id: "car-f28", front: "Cea mai frecventă cauză de șoc cardiogen?", back: "Infarctul miocardic acut extins al ventriculului stâng" },
+    { id: "car-f29", front: "Dedublare fixă a zgomotului II?", back: "Defect septal atrial" },
+    { id: "car-f30", front: "Suflu continuu „în mașinărie” subclavicular stâng?", back: "Canal arterial persistent" },
+    { id: "car-f31", front: "Ce înseamnă sindromul Eisenmenger?", back: "Inversarea șuntului în dreapta–stânga prin hipertensiune pulmonară severă, cu cianoză" },
+    { id: "car-f32", front: "Unde T înalte și ascuțite pe ECG, apoi QRS larg?", back: "Hiperkaliemie" },
+    { id: "car-f33", front: "Unde Q patologice pe ECG indică?", back: "Necroză miocardică (infarct constituit)" },
   ],
   questions: [
     {
@@ -794,6 +817,1011 @@ export default {
     ],
         "answer": [0,1,4],
         "explanation": "P = depolarizare atrială, QRS = depolarizare ventriculară, T = repolarizare ventriculară. PR este timpul de conducere atrio-ventriculară, iar QT cuprinde depolarizarea și repolarizarea ventriculară."
+    },
+    {
+      "id": "car-q41",
+      "type": "single",
+      "text": "Care dintre următoarele descrie cel mai bine cardiomiopatia dilatativă?",
+      "options": [
+        "Hipertrofie septală asimetrică cu cavitate ventriculară mică și funcție sistolică păstrată",
+        "Dilatare izolată a ventriculului drept prin hipertensiune pulmonară cronică",
+        "Dilatarea ventriculului stâng cu scăderea fracției de ejecție, în absența unei cauze valvulare sau ischemice suficiente pentru a o explica",
+        "Rigiditate ventriculară cu dilatare atrială importantă și ventriculi de dimensiuni normale",
+        "Îngroșare pericardică cu calcificări și umplere ventriculară împiedicată"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Cardiomiopatia dilatativă asociază dilatare ventriculară și disfuncție sistolică. Hipertrofia asimetrică caracterizează forma hipertrofică, iar rigiditatea cu ventriculi nedilatați pe cea restrictivă."
+    },
+    {
+      "id": "car-q42",
+      "type": "multi",
+      "text": "Care dintre următoarele afirmații despre cardiomiopatia hipertrofică sunt corecte?",
+      "options": [
+        "Are frecvent transmitere autosomal dominantă, prin mutații ale proteinelor sarcomerice",
+        "Este o cauză de moarte subită la tineri, inclusiv la sportivi",
+        "Beta-blocantele sunt contraindicate deoarece cresc obstrucția",
+        "La forma obstructivă, deshidratarea și vasodilatatoarele pot agrava gradientul din camera de ejecție",
+        "Se caracterizează prin ventricul stâng dilatat, cu pereți subțiri"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Forma hipertrofică este genetică (sarcomerică, de obicei AD) și poate da aritmii ventriculare letale. Scăderea volumului și a postsarcinii agravează obstrucția, iar beta-blocantele o ameliorează prin prelungirea diastolei."
+    },
+    {
+      "id": "car-q43",
+      "type": "single",
+      "text": "Cardiomiopatia restrictivă se caracterizează fiziopatologic prin:",
+      "options": [
+        "Scăderea marcată a contractilității cu dilatare ventriculară biventriculară",
+        "Obstrucție dinamică a tractului de ejecție al ventriculului stâng",
+        "Regurgitare mitrală primară prin prolaps valvular",
+        "Disfuncție diastolică prin rigiditatea miocardului, cu ventriculi de dimensiuni apropiate de normal și atrii dilatate",
+        "Împiedicarea umplerii prin lichid intrapericardic sub presiune"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "În forma restrictivă umplerea ventriculară este limitată de rigiditatea peretelui, deci presiunile atriale cresc și atriile se dilată, în timp ce ventriculii rămân de dimensiuni apropiate de normal."
+    },
+    {
+      "id": "car-q44",
+      "type": "single",
+      "text": "O cauză frecvent invocată de cardiomiopatie restrictivă este:",
+      "options": [
+        "Tahicardia cronică necontrolată",
+        "Hipertensiunea arterială de lungă durată cu dilatare ventriculară",
+        "Amiloidoza cardiacă",
+        "Consumul cronic de alcool",
+        "Miocardita virală acută cu dilatare"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Amiloidoza, alături de sarcoidoză și hemocromatoză, infiltrează miocardul și îl face rigid. Alcoolul, tahicardia cronică și miocardita duc de obicei la formă dilatativă."
+    },
+    {
+      "id": "car-q45",
+      "type": "single",
+      "text": "Care element orientează spre pericardită constrictivă, nu spre cardiomiopatie restrictivă?",
+      "options": [
+        "Presiuni de umplere crescute",
+        "Calcificările pericardice vizibile radiologic sau la CT",
+        "Atrii dilatate cu ventriculi nedilatați",
+        "Turgescența jugularelor cu edeme periferice",
+        "Prezența semnului Kussmaul"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Semnul Kussmaul, congestia sistemică și presiunile de umplere crescute apar în ambele situații. Calcificările sau îngroșarea pericardului susțin constricția, care poate fi tratată chirurgical."
+    },
+    {
+      "id": "car-q46",
+      "type": "multi",
+      "text": "Care dintre următoarele pot complica evoluția cardiomiopatiei dilatative?",
+      "options": [
+        "Insuficiența mitrală funcțională prin dilatarea inelului",
+        "Formarea de trombi intracavitari cu embolii sistemice",
+        "Aritmii ventriculare și moarte subită",
+        "Stenoza aortică valvulară ca evoluție naturală obligatorie",
+        "Insuficiența cardiacă progresivă"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "explanation": "Dilatarea și hipokinezia favorizează stază, trombi, aritmii și regurgitare mitrală funcțională. Stenoza aortică valvulară nu rezultă din cardiomiopatia dilatativă."
+    },
+    {
+      "id": "car-q47",
+      "type": "single",
+      "text": "O femeie de 66 de ani, aflată la menopauză, are durere toracică și dispnee la câteva ore după o ceartă violentă. Troponina este ușor crescută, iar coronarografia nu arată stenoze semnificative; ventriculografia arată hipokinezia apexului cu hiperkinezia bazei. Diagnosticul cel mai probabil este:",
+      "options": [
+        "Infarct miocardic prin ocluzia stabilă a arterei descendente anterioare",
+        "Cardiomiopatia restrictivă amiloidică",
+        "Pericardita constrictivă",
+        "Cardiomiopatia Takotsubo (de stres)",
+        "Cardiomiopatia hipertrofică obstructivă"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Takotsubo apare după stres emoțional sau fizic intens, mai ales la femei postmenopauzale, cu aspect de balonizare apicală și coronare fără leziuni care să explice tabloul."
+    },
+    {
+      "id": "car-q48",
+      "type": "single",
+      "text": "Disecția de aortă Stanford tip A:",
+      "options": [
+        "Apare exclusiv la pacienții cu hipotensiune cronică",
+        "Implică aorta ascendentă și are indicație de tratament chirurgical de urgență",
+        "Este definită prin diametrul aortei abdominale",
+        "Implică exclusiv aorta descendentă și se tratează de regulă medical",
+        "Se tratează inițial prin tromboliză"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Tipul A implică aorta ascendentă, cu risc de tamponadă, insuficiență aortică și ocluzie coronariană, deci necesită chirurgie urgentă. Tipul B, necomplicat, se tratează de obicei medical."
+    },
+    {
+      "id": "car-q49",
+      "type": "multi",
+      "text": "Care dintre următoarele sunt factori de risc pentru disecția de aortă?",
+      "options": [
+        "Sindromul Marfan",
+        "Valva aortică bicuspidă",
+        "Hipotensiunea cronică",
+        "Anemia feriprivă",
+        "Hipertensiunea arterială necontrolată"
+      ],
+      "answer": [
+        0,
+        1,
+        4
+      ],
+      "explanation": "Hipertensiunea și bolile țesutului conjunctiv sau valva bicuspidă slăbesc peretele aortic și predispun la disecție. Hipotensiunea și anemia nu sunt factori de risc."
+    },
+    {
+      "id": "car-q50",
+      "type": "single",
+      "text": "Un bărbat de 58 de ani, hipertensiv, are durere toracică posterioară cu debut brusc, ca o „sfâșiere”, iradiată interscapular. TA diferă între cele două brațe. Hemodinamic este stabil. Ce investigație imagistică confirmă cel mai bine diagnosticul?",
+      "options": [
+        "Spirometria",
+        "Testul de efort pe covor rulant",
+        "Scintigrafia de perfuzie miocardică",
+        "Ecografia abdominală transparietală",
+        "Angiografia CT aortică"
+      ],
+      "answer": [
+        4
+      ],
+      "explanation": "La pacientul stabil cu suspiciune de disecție, angio-CT-ul este metoda de elecție. Ecografia transesofagiană poate fi folosită la cel instabil. Testul de efort e contraindicat."
+    },
+    {
+      "id": "car-q51",
+      "type": "multi",
+      "text": "Care dintre următoarele fac parte din abordarea inițială a disecției de aortă acute?",
+      "options": [
+        "Scăderea frecvenței cardiace și a tensiunii arteriale, cu beta-blocant intravenos",
+        "Anticoagulare cu heparină pentru prevenirea extinderii disecției",
+        "Tromboliză sistemică în cazul suspiciunii de infarct",
+        "Analgezie eficientă, de obicei cu opioid intravenos",
+        "Vasodilatator singur, fără control al frecvenței cardiace"
+      ],
+      "answer": [
+        0,
+        3
+      ],
+      "explanation": "Scopul este reducerea stresului pe peretele aortic. Trombolizarea și anticoagularea sunt periculoase în disecție, iar vasodilatatorul singur produce tahicardie reflexă care agravează forța de forfecare."
+    },
+    {
+      "id": "car-q52",
+      "type": "single",
+      "text": "Cea mai frecventă localizare a anevrismelor aortice este:",
+      "options": [
+        "Artera iliacă comună",
+        "Crosa aortică",
+        "Aorta ascendentă",
+        "Aorta abdominală infrarenală",
+        "Aorta toracică descendentă la nivelul diafragmului"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Anevrismul aortei abdominale infrarenale este cel mai frecvent, adesea la bărbați vârstnici fumători, și rămâne mult timp asimptomatic; screeningul se face ecografic."
+    },
+    {
+      "id": "car-q53",
+      "type": "multi",
+      "text": "Un pacient de 72 de ani, fumător, are durere abdominală și lombară intensă, hipotensiune și o masă abdominală pulsatilă. Care sunt elementele clasice care susțin ruptura de anevrism de aortă abdominală?",
+      "options": [
+        "Hemoptizie",
+        "Febră înaltă cu frisoane ca element dominant",
+        "Masă abdominală pulsatilă",
+        "Durere abdominală sau lombară de debut brusc",
+        "Hipotensiune sau stare de șoc"
+      ],
+      "answer": [
+        2,
+        3,
+        4
+      ],
+      "explanation": "Triada durere, hipotensiune și masă pulsatilă sugerează ruptura și impune intervenție de urgență. Febra și hemoptizia nu fac parte din tablou."
+    },
+    {
+      "id": "car-q54",
+      "type": "single",
+      "text": "Claudicația intermitentă se caracterizează prin:",
+      "options": [
+        "Furnicături permanente, neinfluențate de efort",
+        "Durere care apare în repaus noaptea și se ameliorează prin ridicarea piciorului",
+        "Durere care apare la ortostatism prelungit și dispare la ridicarea membrului",
+        "Durere sau crampă în musculatura gambei la mers, care dispare la oprire, după câteva minute",
+        "Durere în articulația genunchiului dimineața, cu redoare matinală prelungită"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Claudicația este durerea ischemică de efort cu caracter reproductibil: apare la o anumită distanță de mers și cedează la oprire. Durerea de repaus indică ischemie mai avansată."
+    },
+    {
+      "id": "car-q55",
+      "type": "single",
+      "text": "Care este principalul factor de risc modificabil pentru boala arterială periferică?",
+      "options": [
+        "Hipotensiunea cronică",
+        "Valori scăzute ale LDL-colesterolului",
+        "Fumatul",
+        "Sexul feminin tânăr",
+        "Activitatea fizică regulată"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Fumatul are legătura cea mai puternică cu apariția și progresia bolii arteriale periferice, alături de diabet, hipertensiune și dislipidemie."
+    },
+    {
+      "id": "car-q56",
+      "type": "single",
+      "text": "Care investigație neinvazivă, simplă, la cabinet, ajută la confirmarea unei boli arteriale periferice?",
+      "options": [
+        "Hemoleucograma",
+        "Radiografia piciorului",
+        "Testul de toleranță la glucoză",
+        "Indicele gleznă–braț",
+        "Electrocardiograma de repaus"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Indicele gleznă–braț compară presiunea sistolică la gleznă cu cea de la braț; o valoare scăzută indică stenoze arteriale ale membrelor inferioare."
+    },
+    {
+      "id": "car-q57",
+      "type": "multi",
+      "text": "Care dintre următoarele fac parte din tratamentul pe termen lung al arteriopatiei obliterante cu claudicație?",
+      "options": [
+        "Program de mers supravegheat",
+        "Renunțarea completă la fumat",
+        "Repaus la pat prelungit pentru a evita agravarea",
+        "Tratament antiagregant",
+        "Terapie hipolipemiantă cu statină"
+      ],
+      "answer": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "explanation": "Mersul programat îmbunătățește distanța de claudicație, iar tratamentul antiagregant și statina reduc riscul cardiovascular. Repausul prelungit nu ajută."
+    },
+    {
+      "id": "car-q58",
+      "type": "single",
+      "text": "Un pacient are durere intensă și bruscă la un picior, cu paloare, răceală, absența pulsurilor distale și, la examinare, deficit motor și senzitiv. Ce înseamnă acest tablou?",
+      "options": [
+        "Claudicație intermitentă stabilă",
+        "Neuropatie diabetică periferică simplă",
+        "Tromboflebită superficială necomplicată",
+        "Insuficiență venoasă cronică",
+        "Ischemie acută de membru avansată, care impune tratament de revascularizare de urgență"
+      ],
+      "answer": [
+        4
+      ],
+      "explanation": "Deficitul motor și senzitiv arată că membrul este amenințat, deci timpul este critic. Heparina se începe imediat și se organizează revascularizarea."
+    },
+    {
+      "id": "car-q59",
+      "type": "multi",
+      "text": "Care sunt măsuri potrivite la pacientul cu ischemie cronică critică de membru (durere de repaus, ulcer ischemic)?",
+      "options": [
+        "Încălzirea locală intensă a piciorului ischemic",
+        "Exerciții fizice intense pe covor rulant, până la apariția durerii severe",
+        "Bandaj compresiv strâns pe membrul afectat",
+        "Evaluarea pentru revascularizare",
+        "Îngrijirea atentă a leziunilor tisulare și prevenirea infecției"
+      ],
+      "answer": [
+        3,
+        4
+      ],
+      "explanation": "Perfuzia trebuie îmbunătățită, iar țesuturile protejate. Compresia, efortul intens și căldura locală agravează ischemia sau lezează țesuturile."
+    },
+    {
+      "id": "car-q60",
+      "type": "single",
+      "text": "Obstrucția aortei terminale sau a arterelor iliace, cu claudicație fesieră, disfuncție erectilă și pulsuri femurale diminuate sau absente, constituie:",
+      "options": [
+        "Sindromul de arc aortic",
+        "Sindromul de venă cavă superioară",
+        "Sindromul Budd–Chiari",
+        "Sindromul Raynaud primar",
+        "Sindromul Leriche"
+      ],
+      "answer": [
+        4
+      ],
+      "explanation": "Sindromul Leriche este ocluzia aorto-iliacă, cu claudicație proximală, disfuncție erectilă și pulsuri femurale diminuate."
+    },
+    {
+      "id": "car-q61",
+      "type": "single",
+      "text": "Statinele își exercită efectul hipolipemiant prin:",
+      "options": [
+        "Blocarea absorbției intestinale a colesterolului",
+        "Inhibarea HMG-CoA reductazei, cu scăderea sintezei hepatice de colesterol",
+        "Legarea acizilor biliari în intestin",
+        "Creșterea lipolizei periferice",
+        "Inhibarea enzimei de conversie a angiotensinei"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Statinele inhibă HMG-CoA reductaza, cresc expresia receptorilor LDL hepatici și scad LDL-colesterolul. Ezetimibul acționează la nivelul absorbției intestinale."
+    },
+    {
+      "id": "car-q62",
+      "type": "multi",
+      "text": "Care dintre următoarele sunt efecte adverse cunoscute ale statinelor?",
+      "options": [
+        "Mialgii sau miopatie, rar rabdomioliză",
+        "Tuse uscată persistentă",
+        "Hiperkaliemie",
+        "Bradicardie sinusală severă",
+        "Creșterea transaminazelor hepatice"
+      ],
+      "answer": [
+        0,
+        4
+      ],
+      "explanation": "Efectele musculare și creșterea transaminazelor sunt cele clasice. Tusea și hiperkaliemia aparțin inhibitorilor ECA, iar bradicardia nu e legată de statine."
+    },
+    {
+      "id": "car-q63",
+      "type": "single",
+      "text": "Un bărbat de 30 de ani are depozite tendinoase pe tendoanele lui Achile, arc corneean și LDL-colesterol mult crescut; tatăl a avut infarct la 45 de ani. Diagnosticul cel mai probabil este:",
+      "options": [
+        "Sindrom nefrotic",
+        "Hipercolesterolemie familială",
+        "Hipotiroidism subclinic",
+        "Sindrom metabolic",
+        "Hipertrigliceridemie familială izolată"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Xantoamele tendinoase, arcul corneean și boala coronariană precoce în familie indică hipercolesterolemia familială, de obicei prin deficit al receptorului LDL, cu transmitere autosomal dominantă."
+    },
+    {
+      "id": "car-q64",
+      "type": "multi",
+      "text": "Care dintre următoarele pot determina dislipidemie secundară?",
+      "options": [
+        "Hipertiroidismul",
+        "Hipotiroidismul",
+        "Anemia hemolitică",
+        "Sindromul nefrotic",
+        "Diabetul zaharat necontrolat"
+      ],
+      "answer": [
+        1,
+        3,
+        4
+      ],
+      "explanation": "Hipotiroidismul, sindromul nefrotic și diabetul necontrolat cresc lipidele; hipertiroidismul tinde să le scadă."
+    },
+    {
+      "id": "car-q65",
+      "type": "single",
+      "text": "Hipertrigliceridemia foarte severă expune în special la riscul de:",
+      "options": [
+        "Pancreatită acută",
+        "Hepatită virală",
+        "Anemie macrocitară",
+        "Stenoză mitrală",
+        "Litiază renală"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Trigliceridele foarte mari pot declanșa pancreatită acută, motiv pentru care hipertrigliceridemia severă se tratează prioritar."
+    },
+    {
+      "id": "car-q66",
+      "type": "multi",
+      "text": "Care dintre următoarele măsuri de prevenție cardiovasculară au beneficiu demonstrat?",
+      "options": [
+        "Renunțarea la fumat",
+        "Controlul tensiunii arteriale",
+        "Activitate fizică regulată",
+        "Alimentație săracă în grăsimi saturate și bogată în legume și fructe",
+        "Suplimentarea cu vitamine antioxidante pentru reducerea evenimentelor cardiovasculare"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "Modificările stilului de viață și controlul factorilor de risc reduc riscul cardiovascular. Suplimentele antioxidante nu au demonstrat beneficiu."
+    },
+    {
+      "id": "car-q67",
+      "type": "single",
+      "text": "Care dintre următoarele reprezintă un exemplu de prevenție secundară cardiovasculară?",
+      "options": [
+        "Dietă hipocalorică la un copil cu obezitate",
+        "Vaccinare antigripală la o persoană fără boli cronice",
+        "Screening al glicemiei la un adult sedentar fără boală",
+        "Sfat de renunțare la fumat la un tânăr sănătos",
+        "Statină și antiagregant la un pacient după infarct miocardic"
+      ],
+      "answer": [
+        4
+      ],
+      "explanation": "Prevenția secundară se adresează pacienților cu boală cardiovasculară deja manifestă, pentru a preveni recurența și progresia."
+    },
+    {
+      "id": "car-q68",
+      "type": "single",
+      "text": "Sincopa se definește ca:",
+      "options": [
+        "Pierdere de conștiență datorată exclusiv hipoglicemiei",
+        "Scădere progresivă a stării de conștiență pe parcursul mai multor ore",
+        "Pierdere de conștiență prin traumatism cranian cu recuperare incompletă",
+        "Pierdere tranzitorie de conștiență prin hipoperfuzie cerebrală globală, cu debut rapid, durată scurtă și recuperare spontană completă",
+        "Pierdere de conștiență prelungită, cu postcriză confuzională îndelungată"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Mecanismul este scăderea bruscă a fluxului cerebral. Spre deosebire de criza epileptică, recuperarea este rapidă și completă, fără postcriză prelungită."
+    },
+    {
+      "id": "car-q69",
+      "type": "single",
+      "text": "Cea mai frecventă cauză de sincopă este:",
+      "options": [
+        "Mixomul atrial",
+        "Tahicardia ventriculară",
+        "Sincopa reflexă (vasovagală)",
+        "Stenoza aortică",
+        "Embolia pulmonară masivă"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Sincopa reflexă este cea mai frecventă și are, de regulă, prognostic bun; cauzele cardiace sunt mai rare, dar mai periculoase."
+    },
+    {
+      "id": "car-q70",
+      "type": "multi",
+      "text": "Care dintre următoarele caracteristici sugerează o sincopă cu risc crescut, de cauză cardiacă?",
+      "options": [
+        "Apariția în timpul efortului fizic",
+        "Ortostatism prelungit într-un loc aglomerat și cald",
+        "Greață și transpirații înainte de pierderea conștienței",
+        "Absența oricărui prodrom, cu palpitații sau istoric familial de moarte subită",
+        "Apariția după o emoție puternică sau după vederea sângelui"
+      ],
+      "answer": [
+        0,
+        3
+      ],
+      "explanation": "Sincopa la efort sau fără prodrom, în contextul unei cardiopatii sau al unui istoric familial, orientează spre cauză cardiacă. Celelalte descriu tabloul tipic reflex."
+    },
+    {
+      "id": "car-q71",
+      "type": "single",
+      "text": "Un bărbat vârstnic, aflat sub tratament cu mai multe antihipertensive și diuretic, are amețeală și sincopă la ridicarea bruscă din pat. Mecanismul probabil este:",
+      "options": [
+        "Disecție de aortă",
+        "Hipertensiune pulmonară",
+        "Tahicardie ventriculară susținută",
+        "Bloc atrioventricular complet",
+        "Hipotensiune ortostatică"
+      ],
+      "answer": [
+        4
+      ],
+      "explanation": "Scăderea TA la ridicare în ortostatism, favorizată de diuretice, vasodilatatoare și depleție volemică, explică episodul."
+    },
+    {
+      "id": "car-q72",
+      "type": "multi",
+      "text": "Care dintre următoarele sunt cauze aritmice de sincopă?",
+      "options": [
+        "Blocul atrioventricular de grad înalt",
+        "Hipersensibilitatea sinusului carotidian",
+        "Sincopa situațională la micțiune",
+        "Tahicardia ventriculară",
+        "Hipotensiunea ortostatică"
+      ],
+      "answer": [
+        0,
+        3
+      ],
+      "explanation": "Bradiaritmiile severe și tahiaritmiile ventriculare scad brusc debitul cardiac. Celelalte forme sunt reflexe sau ortostatice."
+    },
+    {
+      "id": "car-q73",
+      "type": "single",
+      "text": "Care investigație este indispensabilă în evaluarea inițială a oricărui pacient cu sincopă?",
+      "options": [
+        "Electrocardiograma de repaus",
+        "Spirometria",
+        "Rezonanța magnetică cerebrală",
+        "Coronarografia",
+        "Angiografia CT pulmonară"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "După anamneză și examen clinic, inclusiv TA în clinostatism și ortostatism, ECG-ul poate detecta aritmii sau tulburări de conducere. Alte teste se aleg după suspiciune."
+    },
+    {
+      "id": "car-q74",
+      "type": "single",
+      "text": "Care este cea mai frecventă cauză de cor pulmonar cronic?",
+      "options": [
+        "Defectul septal ventricular mic",
+        "Pericardita acută",
+        "Cardiomiopatia hipertrofică",
+        "Stenoza mitrală reumatismală",
+        "Bronhopneumopatia obstructivă cronică"
+      ],
+      "answer": [
+        4
+      ],
+      "explanation": "Cordul pulmonar cronic înseamnă suprasolicitarea ventriculului drept prin boală pulmonară sau vasculară pulmonară. BPOC este cea mai frecventă cauză."
+    },
+    {
+      "id": "car-q75",
+      "type": "multi",
+      "text": "Care dintre următoarele semne pot apărea în cordul pulmonar cronic decompensat?",
+      "options": [
+        "Hepatomegalie de stază",
+        "Turgescența jugularelor",
+        "Edeme periferice",
+        "Ortopnee severă ca element dominant, cu raluri de stază bilaterale și galop de ventricul stâng",
+        "Accentuarea componentei pulmonare a zgomotului II"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "explanation": "Insuficiența de ventricul drept dă congestie sistemică. Tabloul pulmonar de stază predominant sugerează insuficiență stângă."
+    },
+    {
+      "id": "car-q76",
+      "type": "single",
+      "text": "Metoda de referință pentru confirmarea hipertensiunii pulmonare și măsurarea presiunilor este:",
+      "options": [
+        "Spirometria",
+        "Radiografia toracică",
+        "Auscultația cardiacă",
+        "Electrocardiograma",
+        "Cateterismul cardiac drept"
+      ],
+      "answer": [
+        4
+      ],
+      "explanation": "Ecocardiografia este metoda de screening, dar diagnosticul de certitudine și evaluarea hemodinamică se fac prin cateterism drept."
+    },
+    {
+      "id": "car-q77",
+      "type": "multi",
+      "text": "Care dintre următoarele condiții duc la hipertensiune pulmonară postcapilară (pasivă)?",
+      "options": [
+        "Fibroza pulmonară idiopatică",
+        "Disfuncția sistolică a ventriculului stâng",
+        "Stenoza mitrală",
+        "Sclerodermia cu afectare vasculară pulmonară",
+        "Embolia pulmonară cronică recurentă"
+      ],
+      "answer": [
+        1,
+        2
+      ],
+      "explanation": "Presiunea crescută în atriul stâng se transmite retrograd în circulația pulmonară. Celelalte exemple dau hipertensiune precapilară."
+    },
+    {
+      "id": "car-q78",
+      "type": "single",
+      "text": "Ce metodă neinvazivă permite estimarea presiunii sistolice din artera pulmonară?",
+      "options": [
+        "Electrocardiograma de efort",
+        "Auscultația zgomotului II",
+        "Ecocardiografia Doppler, pornind de la jetul de regurgitare tricuspidiană",
+        "Radiografia cardiopulmonară standard",
+        "Gazometria arterială"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Viteza jetului de regurgitare tricuspidiană permite estimarea presiunii sistolice pulmonare; ecografia arată și dilatarea cavităților drepte."
+    },
+    {
+      "id": "car-q79",
+      "type": "multi",
+      "text": "Care dintre următoarele măsuri sunt indicate la pacientul cu cor pulmonar cronic prin BPOC?",
+      "options": [
+        "Oxigenoterapie de lungă durată, dacă există hipoxemie cronică",
+        "Renunțarea la fumat",
+        "Tratamentul optim al bolii pulmonare de bază",
+        "Sedative benzodiazepinice pentru ameliorarea dispneei",
+        "Restricție totală și permanentă a oricărei activități"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Corectarea hipoxemiei reduce vasoconstricția pulmonară hipoxică, iar tratamentul bolii pulmonare încetinește evoluția. Sedativele pot deprima respirația."
+    },
+    {
+      "id": "car-q80",
+      "type": "single",
+      "text": "Care dintre următoarele reprezintă măsuri inițiale potrivite în edemul pulmonar acut cardiogen?",
+      "options": [
+        "Beta-blocant intravenos în bolus",
+        "Tromboliză sistemică de rutină",
+        "Poziție semișezândă, oxigen și diuretic de ansă intravenos",
+        "Poziție Trendelenburg și perfuzie rapidă de cristaloide",
+        "Antitusiv și repaus în decubit dorsal"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Poziția șezândă scade întoarcerea venoasă, oxigenul corectează hipoxemia, iar diureticul de ansă reduce volemia. Fluidele și beta-blocantele în bolus agravează situația."
+    },
+    {
+      "id": "car-q81",
+      "type": "multi",
+      "text": "Care dintre următoarele pot precipita un edem pulmonar acut cardiogen?",
+      "options": [
+        "Tahiaritmia cu alură ventriculară rapidă",
+        "Infarctul miocardic acut",
+        "Criza hipertensivă",
+        "Deshidratarea severă",
+        "Hemoragia digestivă abundentă"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Creșterea bruscă a postsarcinii, pierderea de miocard funcțional sau scurtarea diastolei cresc presiunea în atriul stâng și provoacă edem. Pierderea de volum are efect opus."
+    },
+    {
+      "id": "car-q82",
+      "type": "single",
+      "text": "Șocul cardiogen se caracterizează prin:",
+      "options": [
+        "Scăderea volemiei prin pierdere de sânge",
+        "Hipoperfuzie tisulară prin scăderea debitului cardiac, în pofida presiunilor de umplere crescute",
+        "Hipotensiune doar prin efect medicamentos, cu perfuzie conservată",
+        "Scăderea presiunilor de umplere prin deshidratare",
+        "Vasodilatație periferică extremă cu debit cardiac crescut"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "În șocul cardiogen pompa cardiacă nu mai asigură debitul necesar, deci presiunile din amonte rămân crescute, cu stază pulmonară."
+    },
+    {
+      "id": "car-q83",
+      "type": "single",
+      "text": "Cea mai frecventă cauză de șoc cardiogen este:",
+      "options": [
+        "Infarctul miocardic acut extins al ventriculului stâng",
+        "Pericardita acută necomplicată",
+        "Fibrilația atrială paroxistică izolată",
+        "Stenoza mitrală ușoară",
+        "Embolia pulmonară mică"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Pierderea unei mase importante de miocard în infarct duce la scăderea contractilității. Complicațiile mecanice ale infarctului sunt alte cauze."
+    },
+    {
+      "id": "car-q84",
+      "type": "multi",
+      "text": "Care dintre următoarele sunt semne de hipoperfuzie într-un șoc cardiogen?",
+      "options": [
+        "Oligurie",
+        "Hipotensiune arterială",
+        "Alterarea stării de conștiență",
+        "Tegumente calde și roz, cu jugulare plate",
+        "Extremități reci și umede"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "explanation": "Constricția periferică compensatorie dă extremități reci. Tegumentele calde sugerează șoc distributiv."
+    },
+    {
+      "id": "car-q85",
+      "type": "multi",
+      "text": "Care sunt componente ale managementului șocului cardiogen după infarct?",
+      "options": [
+        "Revascularizarea precoce a arterei responsabile",
+        "Perfuzie rapidă de volume mari de cristaloide",
+        "Suport inotrop sau vasopresor, la nevoie",
+        "Nitrați în doze mari, pentru vasodilatație",
+        "Beta-blocant intravenos pentru scăderea frecvenței"
+      ],
+      "answer": [
+        0,
+        2
+      ],
+      "explanation": "Tratamentul etiologic constă în deschiderea arterei ocluzionate, iar suportul hemodinamic susține perfuzia. Fluidele în exces, beta-blocantele și nitrații agravează."
+    },
+    {
+      "id": "car-q86",
+      "type": "single",
+      "text": "Care semn ajută la diferențierea șocului cardiogen de cel hemoragic?",
+      "options": [
+        "Tahicardia",
+        "Turgescența jugularelor, cu raluri de stază pulmonară",
+        "Oliguria",
+        "Hipotensiunea arterială",
+        "Extremitățile reci"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Șocul cardiogen asociază presiuni venoase crescute, deci jugulare turgescente și stază pulmonară; în șocul hemoragic venele sunt colabate."
+    },
+    {
+      "id": "car-q87",
+      "type": "single",
+      "text": "Dedublarea fixă a zgomotului II, independentă de respirație, este caracteristică pentru:",
+      "options": [
+        "Defectul septal atrial",
+        "Canalul arterial persistent",
+        "Stenoza aortică valvulară",
+        "Coarctația de aortă",
+        "Defectul septal ventricular restrictiv"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Șuntul stânga–dreapta atrial și suprasolicitarea de volum a ventriculului drept întârzie închiderea valvei pulmonare, cu dedublare fixă a zgomotului II."
+    },
+    {
+      "id": "car-q88",
+      "type": "multi",
+      "text": "Care sunt complicații posibile ale unui defect septal atrial netratat la adult?",
+      "options": [
+        "Disecție de aortă abdominală",
+        "Anevrism de aortă abdominală",
+        "Stenoză aortică calcificată dobândită",
+        "Aritmii atriale, precum fibrilația atrială",
+        "Hipertensiune pulmonară"
+      ],
+      "answer": [
+        3,
+        4
+      ],
+      "explanation": "Suprasolicitarea cavităților drepte favorizează aritmii atriale și, în timp, boală vasculară pulmonară. Celelalte afecțiuni nu au legătură cauzală directă."
+    },
+    {
+      "id": "car-q89",
+      "type": "single",
+      "text": "Care este tabloul auscultator tipic al unui defect septal ventricular cu șunt semnificativ?",
+      "options": [
+        "Suflu continuu subclavicular stâng",
+        "Dedublare fixă a zgomotului II fără suflu",
+        "Suflu sistolic ejecțional cu iradiere în vasele gâtului",
+        "Suflu diastolic apical cu clacment de deschidere",
+        "Suflu holosistolic aspru la marginea sternală stângă inferioară, adesea cu freamăt"
+      ],
+      "answer": [
+        4
+      ],
+      "explanation": "Șuntul are loc pe tot parcursul sistolei, deci suflul este holosistolic; defectele mici sunt adesea zgomotoase."
+    },
+    {
+      "id": "car-q90",
+      "type": "single",
+      "text": "Un suflu continuu, „în mașinărie”, auzit sub claviculă la stânga, este caracteristic pentru:",
+      "options": [
+        "Stenoza pulmonară izolată",
+        "Canalul arterial persistent",
+        "Tetralogia Fallot",
+        "Defectul septal atrial",
+        "Insuficiența mitrală cronică"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Canalul arterial persistent produce șunt aorto-pulmonar în sistolă și în diastolă, deci suflu continuu."
+    },
+    {
+      "id": "car-q91",
+      "type": "multi",
+      "text": "Care dintre următoarele sunt manifestări ale sindromului Eisenmenger?",
+      "options": [
+        "Hipocratism digital",
+        "Creșterea fluxului pulmonar prin șunt stânga–dreapta nemodificat",
+        "Zgomot II dedublat fix ca singură anomalie",
+        "Eritrocitoză secundară",
+        "Cianoză centrală"
+      ],
+      "answer": [
+        0,
+        3,
+        4
+      ],
+      "explanation": "În Eisenmenger, hipertensiunea pulmonară severă inversează șuntul, ceea ce duce la hipoxemie cronică, hipocratism și poliglobulie."
+    },
+    {
+      "id": "car-q92",
+      "type": "multi",
+      "text": "Care dintre următoarele sunt caracteristice coarctației de aortă la adult?",
+      "options": [
+        "Pulsuri femurale diminuate sau întârziate",
+        "Dedublare fixă a zgomotului II ca semn caracteristic",
+        "TA mai mică la membrele inferioare",
+        "Hipertensiune arterială la membrele superioare",
+        "Eroziuni costale (usura costală) pe radiografie"
+      ],
+      "answer": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "explanation": "Obstrucția istmului aortic crește presiunea în amonte, diminuă fluxul distal și dezvoltă circulație colaterală intercostală, cu usura costală."
+    },
+    {
+      "id": "car-q93",
+      "type": "single",
+      "text": "Care dintre următoarele NU face parte din tetralogia Fallot?",
+      "options": [
+        "Hipertrofia ventriculară dreaptă",
+        "Aorta „călare” pe septul interventricular",
+        "Stenoza mitrală",
+        "Stenoza pulmonară infundibulară",
+        "Defectul septal ventricular"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Tetralogia Fallot include CIV, obstrucție la ieșirea din ventriculul drept, aortă călare și hipertrofie dreaptă."
+    },
+    {
+      "id": "car-q94",
+      "type": "single",
+      "text": "Ce trebuie să evaluezi pentru a susține că un ritm este sinusal?",
+      "options": [
+        "Complexe QRS largi, fără legătură cu undele P",
+        "Absența undelor P cu interval RR neregulat",
+        "Unde P negative în DII, apărute după QRS",
+        "Unde P pozitive în DII, fiecare urmată de un complex QRS",
+        "Unde „în dinți de fierăstrău” în derivațiile inferioare"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Ritmul sinusal presupune depolarizare atrială de la nodul sinusal: undă P pozitivă în DII, negativă în aVR, urmată de QRS."
+    },
+    {
+      "id": "car-q95",
+      "type": "multi",
+      "text": "Care dintre următoarele modificări ECG pot apărea în hiperkaliemie?",
+      "options": [
+        "Unde U proeminente",
+        "Aplatizarea sau dispariția undelor P",
+        "Alungirea marcată a intervalului QT",
+        "Lărgirea complexului QRS",
+        "Unde T înalte, ascuțite, cu bază îngustă"
+      ],
+      "answer": [
+        1,
+        3,
+        4
+      ],
+      "explanation": "Hiperkaliemia progresivă dă unde T ascuțite, apoi tulburări de conducere cu P aplatizat și QRS larg. Undele U sunt asociate cu hipokaliemia."
+    },
+    {
+      "id": "car-q96",
+      "type": "single",
+      "text": "Hipercalcemia determină pe ECG, de regulă:",
+      "options": [
+        "Apariția undei delta",
+        "Unde T ascuțite și înalte",
+        "Unde U proeminente",
+        "Scurtarea intervalului QT",
+        "Supradenivelarea difuză a segmentului ST"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Hipercalcemia scurtează repolarizarea ventriculară, în timp ce hipocalcemia o prelungește."
+    },
+    {
+      "id": "car-q97",
+      "type": "single",
+      "text": "Care este aspectul tipic al blocului major de ramură stângă?",
+      "options": [
+        "QRS îngust cu undă delta",
+        "Complex QRS larg, cu R larg și crestat în derivațiile laterale (V5–V6, DI, aVL)",
+        "Lipsa undelor P cu QRS îngust",
+        "Complex rsR′ în V1, cu S larg în derivațiile laterale",
+        "Interval PR scurt cu QRS larg"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Blocul de ramură stângă are QRS lărgit, cu activare ventriculară întârziată în pereții laterali; prezența lui îngreunează interpretarea segmentului ST."
+    },
+    {
+      "id": "car-q98",
+      "type": "multi",
+      "text": "Care dintre următoarele pot sugera hipertrofia ventriculară stângă pe ECG?",
+      "options": [
+        "Undă delta cu interval PR scurt",
+        "Deviația axei electrice spre stânga",
+        "Tulburări secundare de repolarizare, de tip „strain”",
+        "Unde Q patologice izolate în derivațiile inferioare",
+        "Amplitudine crescută a complexelor QRS în derivațiile stângi"
+      ],
+      "answer": [
+        1,
+        2,
+        4
+      ],
+      "explanation": "Hipertrofia crește voltajul QRS și modifică repolarizarea. Unda delta indică preexcitație, iar undele Q patologice indică necroză."
+    },
+    {
+      "id": "car-q99",
+      "type": "multi",
+      "text": "Care dintre următoarele modificări ECG pot apărea în embolia pulmonară acută?",
+      "options": [
+        "Alternanță electrică permanentă",
+        "Tahicardie sinusală",
+        "Bloc atrioventricular complet obligatoriu",
+        "Unde T negative în derivațiile precordiale drepte (V1–V3)",
+        "Undă delta"
+      ],
+      "answer": [
+        1,
+        3
+      ],
+      "explanation": "Suprasolicitarea acută a inimii drepte dă tahicardie, T negative în V1–V3 sau bloc de ramură dreaptă. Celelalte nu sunt specifice."
+    },
+    {
+      "id": "car-q100",
+      "type": "single",
+      "text": "Undele Q patologice pe ECG indică de obicei:",
+      "options": [
+        "Hipokaliemie",
+        "Preexcitație ventriculară",
+        "Necroză miocardică (infarct constituit)",
+        "Hipertrofie ventriculară dreaptă",
+        "Pericardită acută"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Undele Q patologice reflectă țesut miocardic electric inactiv, de obicei după infarct, în derivațiile corespunzătoare teritoriului afectat."
     },
   ],
 }

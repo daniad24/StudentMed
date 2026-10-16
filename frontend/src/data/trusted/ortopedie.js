@@ -246,4 +246,286 @@ Se efectuează **după** imagistica completă, ideal în centrul care va face in
       'Bailey & Love’s Short Practice of Surgery, ed. 27 – Musculoskeletal tumours',
     ],
   },
+  {
+    id: 'ort-t5',
+    title: 'Luxațiile – umăr, șold, cot',
+    topic: 'Traumatologie articulară',
+    readMinutes: 3,
+    content: `## Principii generale
+
+**Luxația** este pierderea completă a contactului dintre suprafețele articulare; **subluxația** este pierderea parțială. Orice luxație se tratează ca o urgență: se evaluează **starea neurovasculară** înainte și după reducere, se face radiografie (înainte și după reducere), apoi se reduce articulația, de regulă sub analgezie sau sedare. După reducere se imobilizează scurt, apoi se începe reeducarea.
+
+## Luxația de umăr
+
+Glenohumerală, cea mai frecventă luxație mare a corpului, pentru că articulația este foarte mobilă și puțin congruentă. Tratamentul constă în reducere (manevre blânde, fără forță excesivă), imobilizare scurtă și reeducare.
+
+- **Anterioară** (marea majoritate a cazurilor): cădere pe braț în abducție și rotație externă. Umărul își pierde rotunjimea („epolet”), brațul este ținut în ușoară abducție.
+- **Posterioară**: rară, asociată crizelor convulsive și electrocutării; ușor de ratat pe radiografia de față, de aceea se cere incidență axilară sau de profil.
+- Leziuni asociate: **Bankart** (labrum glenoidian anteroinferior) și **Hill-Sachs** (impactare posterolaterală pe capul humeral). Nerv expus: **axilar**.
+- La tineri, recidivele sunt frecvente, iar stabilizarea chirurgicală se discută după episoade repetate.
+
+## Luxația de șold
+
+| Tip | Mecanism | Poziția membrului |
+|---|---|---|
+| **Posterioară** (majoritatea) | Lovirea genunchiului flectat de bord | Flexie, adducție, rotație internă, scurtat |
+| **Anterioară** | Abducție forțată cu rotație externă | Flexie, abducție, rotație externă |
+
+- Este o **urgență ortopedică**: reducerea cât mai precoce reduce riscul de **necroză avasculară** a capului femural.
+- Posibile leziuni asociate: fractura marginii cotilului, fractura capului sau colului femural, **nerv sciatic** (în luxația posterioară).
+- După reducere: CT pentru fragmente intraarticulare; complicație tardivă frecventă – **coxartroza posttraumatică**.
+
+## Luxația de cot
+
+- A doua ca frecvență la adult după umăr; **posterioară** în aproape toate cazurile, prin cădere pe mâna cu cotul extins.
+- Se verifică **artera brahială** și nervii **median** și **ulnar**; se asociază frecvent fracturi (cap radial, proces coronoid, epicondili).
+- După reducere se testează stabilitatea; imobilizarea se păstrează scurt, pentru a evita **rigiditatea**.
+- Complicații: rigiditate, **miozită osificantă** (favorizată de mobilizarea pasivă brutală), instabilitate cronică, leziuni neurovasculare.
+
+## De reținut pentru examen
+
+- Luxația posterioară de șold: flexie, adducție, rotație internă; risc de necroză avasculară și leziune de sciatic.
+- Luxația anterioară de umăr: nerv axilar; leziuni Bankart și Hill-Sachs.
+- Luxația posterioară de umăr se ratează ușor la radiografia de față.
+- Reducerea de șold se face de urgență; examenul neurovascular se documentează înainte și după.
+- Cotul se luxează posterior; mobilizarea forțată favorizează miozita osificantă.`,
+    references: [
+      'Apley’s System of Orthopaedics and Fractures, ed. 10 – Injuries of the shoulder, hip and elbow',
+      'Lawrence – Chirurgie generală și specialități chirurgicale, ed. 6 – cap. Ortopedie (luxațiile)',
+      'Bailey & Love’s Short Practice of Surgery, ed. 27 – Orthopaedic trauma',
+    ],
+  },
+  {
+    id: 'ort-t6',
+    title: 'Entorsele și leziunile ligamentare ale gleznei',
+    topic: 'Traumatologie sportivă',
+    readMinutes: 3,
+    content: `## Anatomie funcțională
+
+Stabilitatea gleznei depinde de trei grupe ligamentare:
+
+- **complexul lateral**: ligamentul talofibular anterior, calcaneofibular, talofibular posterior;
+- **ligamentul deltoid** (medial), puternic, lezat mai rar;
+- **sindesmoza tibiofibulară distală**, care menține unită mortaisa gleznei.
+
+## Entorsa laterală (prin inversiune)
+
+Cea mai frecventă leziune ligamentară a aparatului locomotor. Mecanism: întoarcerea piciorului spre interior în flexie plantară.
+
+- **Gradul I**: întindere, fără instabilitate.
+- **Gradul II**: ruptură parțială, tumefacție, echimoză, durere la sprijin.
+- **Gradul III**: ruptură completă, instabilitate.
+- Se lezează primul **ligamentul talofibular anterior**; în leziuni severe se adaugă **calcaneofibularul**.
+
+### Evaluare
+
+Clinic: durere și tumefacție în regiunea maleolei laterale, echimoză, test de sertar anterior al talusului. **Regulile Ottawa** stabilesc cine are nevoie de radiografie: durere osoasă la palparea maleolelor sau a bazei metatarsianului V / navicularului și incapacitatea de a face câțiva pași.
+
+## Tratament
+
+Scopul este controlul durerii și edemului, apoi recuperarea mobilității și a controlului neuromuscular.
+
+| Situație | Conduită |
+|---|---|
+| Entorsă gradul I–II | **Funcțional**: protecție, gheață, compresie, ridicarea membrului, mobilizare precoce, eventual orteză |
+| Gradul III | Orteză sau scurtă imobilizare, apoi reeducare; chirurgia rareori de prim intenție |
+| Instabilitate cronică | Kinetoterapie proprioceptivă; reconstrucție ligamentară dacă persistă cedarea |
+
+Reeducarea proprioceptivă scade riscul de recidivă. Imobilizarea gipsată prelungită nu este indicată în formele obișnuite, pentru că favorizează rigiditatea și atrofia musculară. Pacientul este instruit să reia treptat sprijinul și să facă exerciții de echilibru pentru a reduce recidivele.
+
+## Entorsa înaltă (sindesmoză)
+
+- Mecanism: **rotație externă cu dorsiflexie** a piciorului, frecventă la fotbal și schi.
+- Durere deasupra interliniei, **test de compresie a gambei (squeeze)** pozitiv, durere la rotația externă.
+- Radiografia poate arăta lărgirea spațiului tibiofibular; leziunile instabile se fixează chirurgical.
+- Se vindecă mai lent decât entorsa laterală, iar revenirea la sport durează mai mult; neglijarea ei lasă dureri și instabilitate persistente.
+
+## Fracturi asociate de ratat
+
+Fractura bazei metatarsianului V, fractura procesului lateral al talusului, fractura Maisonneuve (fibulă proximală) – de aceea se examinează tot piciorul și gamba proximală.
+
+## De reținut pentru examen
+
+- Primul ligament lezat în inversiune: talofibular anterior.
+- Regulile Ottawa limitează radiografiile inutile.
+- Tratament funcțional, nu gips prelungit.
+- Entorsa înaltă: rotație externă, squeeze test.
+- Entorsele repetate cu cedare = instabilitate cronică: reeducare proprioceptivă, apoi chirurgie.`,
+    references: [
+      'Apley’s System of Orthopaedics and Fractures, ed. 10 – Injuries of the ankle and foot',
+      'Lawrence – Chirurgie generală și specialități chirurgicale, ed. 6 – cap. Ortopedie (leziunile gleznei)',
+      'Netter – Atlas of Human Anatomy – Glezna și piciorul',
+    ],
+  },
+  {
+    id: 'ort-t7',
+    title: 'Osteoporoza și fracturile osteoporotice',
+    topic: 'Boli osoase metabolice',
+    readMinutes: 3,
+    content: `## Definiție
+
+**Osteoporoza** este o boală scheletică sistemică caracterizată prin scăderea masei osoase și alterarea microarhitecturii, cu creșterea fragilității și a riscului de fractură. Fractura apare la traumatisme minime, „de fragilitate”, de exemplu o cădere de la propria înălțime.
+
+## Clasificare
+
+- **Primară**: postmenopauzală (deficit de estrogeni) și senilă (legată de vârstă).
+- **Secundară**: corticoterapie prelungită, hipertiroidism, hiperparatiroidism, hipogonadism, malabsorbție, imobilizare, alcoolism, boli inflamatorii cronice.
+
+## Factori de risc
+
+- sex feminin, vârstă înaintată, menopauză precoce;
+- antecedente familiale (fractură de șold la părinți);
+- fumat, alcool, corticoterapie, greutate corporală mică, sedentarism, aport scăzut de calciu și vitamina D;
+- căderi frecvente.
+
+## Fracturile tipice
+
+| Localizare | Particularități |
+|---|---|
+| **Corpuri vertebrale** | Tasări, durere dorsală sau lombară, cifoză progresivă, scădere în înălțime; adesea asimptomatice |
+| **Radius distal** | Fractură Pouteau-Colles după cădere pe mână |
+| **Extremitate proximală a femurului** | Col femural și regiune trohanteriană; morbiditate și mortalitate mari |
+
+Fracturile anterioare de fragilitate cresc mult riscul de fracturi ulterioare. Fractura de șold se însoțește de imobilizare, complicații tromboembolice și infecțioase, de aceea tratamentul chirurgical precoce și mobilizarea rapidă sunt prioritare, iar după ea se inițiază evaluarea și tratamentul osteoporozei, ca prevenție secundară.
+
+## Diagnostic
+
+- **DXA (osteodensitometrie)** – metoda de referință pentru densitatea minerală osoasă.
+- Radiografia standard evidențiază osteoporoza doar tardiv, dar este utilă pentru fracturile vertebrale.
+- La bărbați sau la femeile tinere trebuie căutată activ o cauză secundară. Se exclud cauzele secundare: calciu, fosfor, funcție tiroidiană, paratiroidă, vitamina D, funcție renală și hepatică.
+
+## Tratament
+
+- **Nefarmacologic**: aport adecvat de calciu și vitamina D, exercițiu cu încărcare, renunțarea la fumat și alcool, **prevenirea căderilor**.
+- **Farmacologic**: antiresorbtive (bisfosfonați, denosumab) și osteoformatoare la cazurile selectate, conform ghidurilor.
+- Fracturile se tratează ortopedic sau chirurgical, cu mobilizare precoce; la fractura de șold se preferă intervenția rapidă.
+
+## De reținut pentru examen
+
+- Osteoporoza e silențioasă până la fractură; DXA stabilește diagnosticul.
+- Cele trei localizări clasice: vertebre, radius distal, șold.
+- Prima cauză primară la femei: deficitul de estrogeni postmenopauză.
+- Corticoizii sunt cea mai frecventă cauză secundară medicamentoasă.
+- Prevenirea căderilor contează la fel de mult ca medicația.`,
+    references: [
+      'Harrison’s Principles of Internal Medicine, ed. 21 – Osteoporosis',
+      'Apley’s System of Orthopaedics and Fractures, ed. 10 – Metabolic and endocrine disorders of bone',
+      'Lawrence – Chirurgie generală și specialități chirurgicale, ed. 6 – cap. Ortopedie (boli metabolice osoase)',
+    ],
+  },
+  {
+    id: 'ort-t8',
+    title: 'Artroza – gonartroza și coxartroza',
+    topic: 'Boli degenerative articulare',
+    readMinutes: 3,
+    content: `## Definiție și patogenie
+
+**Artroza** este boala degenerativă a articulațiilor sinoviale, cu degradarea cartilajului articular, remodelare osoasă subcondrală, formare de osteofite și inflamație sinovială secundară, de intensitate mică. Cele mai afectate sunt articulațiile portante (**genunchi, șold**), coloana și mâna.
+
+- **Primară**: legată de vârstă, predispoziție genetică, obezitate.
+- **Secundară**: după traumatisme, meniscectomii, displazie de șold, necroză avasculară, deviații de ax, boli inflamatorii.
+
+## Tabloul clinic
+
+- **Durere mecanică**: apare la efort, se calmează în repaus.
+- **Redoare matinală scurtă**, redoare după repaus (de gelificare).
+- Crepitații, limitarea mobilității, deformări; sinovită ocazională cu revărsat.
+- Spre deosebire de artritele inflamatorii: redoarea este scurtă, iar semnele sistemice lipsesc.
+
+## Gonartroza și coxartroza
+
+| | Gonartroza | Coxartroza |
+|---|---|---|
+| Durere | Anterioară sau medială, la urcat-coborât scări | **Inghinală**, cu iradiere spre genunchi |
+| Semn precoce | Crepitații, revărsat, deviație în varus | **Limitarea rotației interne** |
+| Mers | Mers cu genunchi rigid, deviații de ax | Șchiopătare antalgică, semnul Trendelenburg |
+| Factori favorizanți | Obezitate, meniscectomie, ax | Displazie de dezvoltare, necroză, impingement |
+
+## Diagnostic diferențial
+
+Se diferențiază de artrita reumatoidă (redoare matinală lungă, afectare simetrică a articulațiilor mici), de gută și pseudogută (crize acute, cristale în lichidul sinovial) și de artrita septică (febră, articulație fierbinte, urgență).
+
+## Imagistică
+
+Radiografia în ortostatism: **pensarea spațiului articular, osteofite, scleroză subcondrală, geode**. Severitatea radiografică nu se corelează perfect cu simptomele. RMN rareori este necesar și se rezervă suspiciunii de leziune asociată (menisc, necroză avasculară). Analizele de laborator sunt de regulă normale, iar lichidul sinovial este necaracteristic, noninflamator.
+
+## Tratament
+
+1. **Nefarmacologic**: scădere ponderală, exerciții de întărire musculară, ajutoare de mers, orteze, educație.
+2. **Farmacologic**: analgezice, antiinflamatoare nesteroidiene local sau oral, cu atenție la comorbidități; infiltrații intraarticulare în situații selectate.
+3. **Chirurgical**: în stadii avansate, dureroase, cu impact funcțional – **artroplastie totală** de șold sau de genunchi; osteotomii de corecție la pacienți tineri cu deviație de ax; artroscopia nu are indicație în artroza avansată ca atare.
+
+## De reținut pentru examen
+
+- Durere mecanică, redoare scurtă – artroză; redoare lungă – artrită inflamatorie.
+- Coxartroza: durere inghinală și pierderea rotației interne.
+- Radiografie: pensare, osteofite, scleroză, geode.
+- Obezitatea este principalul factor modificabil pentru gonartroză.
+- Artroplastia totală este tratamentul definitiv al stadiilor avansate.`,
+    references: [
+      'Apley’s System of Orthopaedics and Fractures, ed. 10 – Osteoarthritis',
+      'Harrison’s Principles of Internal Medicine, ed. 21 – Osteoarthritis',
+      'Lawrence – Chirurgie generală și specialități chirurgicale, ed. 6 – cap. Ortopedie (artroza)',
+    ],
+  },
+  {
+    id: 'ort-t9',
+    title: 'Fracturile membrului inferior – femur, tibie, gleznă',
+    topic: 'Traumatologie',
+    readMinutes: 3,
+    content: `## Diafiza femurală
+
+Fractură de energie mare la adultul tânăr (accident rutier) sau, rar, la vârstnic după traumatism minor.
+
+- Coapsa este deformată, tumefiată, scurtată; se pierd cantități mari de sânge în coapsă – risc de **șoc hipovolemic**.
+- Se examinează statusul neurovascular și articulațiile adiacente (șold, genunchi), adesea lezate asociat.
+- **Tratamentul de elecție la adult**: osteosinteză cu **tijă centromedulară blocată**, cât mai precoce.
+- Complicații: **embolie grasă**, tromboembolism venos, infecție, pseudartroză, consolidare vicioasă.
+
+## Tibia
+
+- Cel mai frecvent os lung cu fractură **deschisă**, pentru că fața anteromedială este subcutanată.
+- Fractura de diafiză: tija centromedulară la majoritatea cazurilor instabile; fracturile deschise necesită debridare, antibiotice și stabilizare.
+- **Platoul tibial**: fractură intraarticulară (de exemplu „bumper fracture”, prin valg); se pot asocia leziuni meniscale și ligamentare; se urmărește reducerea anatomică a suprafeței articulare.
+- Risc crescut de **sindrom de compartiment** în fracturile tibiale; se urmărește durerea disproporționată.
+
+## Glezna
+
+Se clasifică frecvent după **Weber**, în funcție de nivelul traiectului fibular față de sindesmoză:
+
+| Tip | Traiect fibular | Sindesmoză |
+|---|---|---|
+| **A** | Sub sindesmoză | Intactă |
+| **B** | La nivelul sindesmozei | Poate fi lezată |
+| **C** | Deasupra sindesmozei | Lezată |
+
+- Fracturile stabile, nedeplasate se tratează ortopedic; cele **deplasate sau instabile** se reduc anatomic și se fixează chirurgical, pentru că glezna este articulație portantă.
+- **Fractura Maisonneuve**: fibulă proximală, ruptură de sindesmoză și leziune medială; se caută la orice gleznă dureroasă după mecanism de rotație.
+- Complicații: artroză posttraumatică, necroză cutanată, rigiditate articulară, pseudartroză.
+
+## Particularități la copil și vârstnic
+
+La copil, fracturile diafizare se tratează adesea ortopedic, cu potențial mare de remodelare; la vârstnicul osteoporotic fixarea trebuie să permită sprijin și mobilizare cât mai rapidă. Fractura la o vârstă fragilă ridică și problema bolii osoase de fond.
+
+## Principii comune
+
+1. Examen neurovascular înainte și după orice manevră.
+2. Radiografii care includ articulațiile vecine.
+3. Fractura deschisă: antibiotic, antitetanic, debridare chirurgicală.
+4. Profilaxia tromboembolismului la pacienții imobilizați.
+5. Mobilizare precoce acolo unde stabilitatea permite.
+
+## De reținut pentru examen
+
+- Femur diafizar la adult – tijă centromedulară; atenție la hemoragie și embolie grasă.
+- Tibia – fractura deschisă cea mai frecventă; urmărește compartimentul.
+- Weber A/B/C după nivelul fibulei față de sindesmoză.
+- Platoul tibial: leziuni ligamentare și meniscale asociate.
+- Fractura gleznei deplasată necesită reducere anatomică.`,
+    references: [
+      'Apley’s System of Orthopaedics and Fractures, ed. 10 – Injuries of the knee and leg, ankle and foot',
+      'Lawrence – Chirurgie generală și specialități chirurgicale, ed. 6 – cap. Ortopedie (fracturile membrului inferior)',
+      'Bailey & Love’s Short Practice of Surgery, ed. 27 – Lower limb fractures',
+    ],
+  },
 ]

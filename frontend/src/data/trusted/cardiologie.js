@@ -248,4 +248,306 @@ Valvulopatiile produc fie **obstrucție** (stenoză), fie **regurgitare** (insuf
       'Harrison’s Principles of Internal Medicine – Valvular Heart Disease',
     ],
   },
+  {
+    id: 'car-t5',
+    title: "Cardiomiopatiile: dilatativă, hipertrofică, restrictivă",
+    topic: "Boli ale miocardului",
+    readMinutes: 3,
+    content: `## Ce sunt cardiomiopatiile
+
+**Cardiomiopatiile** sunt boli primare ale miocardului, în care mușchiul cardiac este anormal structural sau funcțional, fără ca valvulopatiile, hipertensiunea sau boala coronariană să le explice în întregime. Clasic se descriu trei fenotipuri, după modul în care este afectată funcția ventriculară.
+
+## Tabel comparativ
+
+| | Dilatativă | Hipertrofică | Restrictivă |
+|---|---|---|---|
+| Anomalia principală | Dilatare ventriculară, scăderea contractilității | Hipertrofie, de obicei septală asimetrică | Rigiditate, umplere diastolică limitată |
+| Funcția sistolică | Scăzută | Păstrată sau crescută | De obicei păstrată |
+| Dimensiunea ventriculilor | Mărită | Cavitate mică | Normală sau aproape normală |
+| Atriile | Pot fi dilatate | Dilatate frecvent | Dilatate net |
+| Exemple de cauze | Alcool, miocardite, genetic, tahicardie cronică | Mutații sarcomerice (AD) | Amiloidoză, sarcoidoză, hemocromatoză |
+
+## Cardiomiopatia dilatativă
+
+Este cea mai frecventă formă. Dilatarea și hipokinezia duc la **insuficiență cardiacă cu fracție de ejecție redusă**. Cauzele includ consumul cronic de alcool, miocardita virală, unele medicamente citotoxice, bolile endocrine, tahicardia cronică și factorii genetici. Complicațiile sunt:
+
+- aritmii ventriculare și moarte subită;
+- fibrilație atrială;
+- trombi intracavitari cu embolii sistemice;
+- insuficiență mitrală funcțională, prin dilatarea inelului.
+
+Tratamentul urmează principiile insuficienței cardiace sistolice, cu corectarea cauzei acolo unde se poate (de exemplu abstinența alcoolică).
+
+## Cardiomiopatia hipertrofică
+
+Are în general transmitere **autosomal dominantă**, prin mutații ale proteinelor sarcomerice. Hipertrofia septului poate produce **obstrucție dinamică** în tractul de ejecție al ventriculului stâng. Simptomele sunt dispneea, angina, presincopa și sincopa, iar boala este o cauză cunoscută de **moarte subită la tineri**, inclusiv la sportivi.
+
+- Suflul sistolic crește la manevra Valsalva și în ortostatism (scade întoarcerea venoasă) și scade în ghemuit.
+- Factorii care agravează obstrucția: deshidratarea, vasodilatatoarele, diureticele în exces.
+- Beta-blocantele prelungesc diastola și reduc obstrucția.
+- Pacienții cu risc crescut de aritmii pot beneficia de defibrilator implantabil.
+
+## Cardiomiopatia restrictivă
+
+Rigiditatea miocardică face ca ventriculul să se umple dificil, deci presiunile atriale cresc. Tabloul seamănă cu cel al insuficienței cardiace drepte: jugulare turgescente, hepatomegalie, edeme, uneori **semnul Kussmaul**. Cauzele principale sunt infiltrative (amiloidoza, sarcoidoza) sau de depozit (hemocromatoza). Ecografia arată ventriculi nedilatați și atrii mărite.
+
+**Diagnosticul diferențial cu pericardita constrictivă** este important, pentru că aceasta din urmă poate fi tratată chirurgical. Îngroșarea sau calcificările pericardului orientează spre constricție.
+
+## Cardiomiopatia Takotsubo
+
+Apare de obicei la femei postmenopauzale, după un stres emoțional sau fizic intens. Clinic și biologic poate imita un infarct, dar coronarografia nu arată o leziune care să explice tabloul, iar ventriculografia arată **balonizare apicală**. Disfuncția este de regulă reversibilă.
+
+## De reținut pentru examen
+
+- Dilatativă: dilatare plus fracție de ejecție scăzută; alcoolul și miocarditele sunt cauze clasice.
+- Hipertrofică: AD, moarte subită la sportivi; suflul crește la Valsalva; se evită deshidratarea și vasodilatatoarele.
+- Restrictivă: umplere rigidă, ventriculi nedilatați, atrii mari; amiloidoza este exemplul clasic.
+- Calcificările pericardice susțin pericardita constrictivă, nu cardiomiopatia restrictivă.
+- Takotsubo: femeie postmenopauzală, stres, coronare fără stenoze, balonizare apicală.
+`,
+    references: [
+      "Kumar & Clark – Medicină clinică, ed. 10 – cap. Cardiologie (Cardiomiopatii)",
+      "Harrison’s Principles of Internal Medicine – Cardiomyopathies and Myocarditis",
+    ],
+  },
+  {
+    id: 'car-t6',
+    title: "Disecția de aortă și anevrismul aortic",
+    topic: "Boli ale aortei",
+    readMinutes: 3,
+    content: `## Anevrismul aortic
+
+**Anevrismul** este o dilatare localizată, permanentă, a peretelui aortic. Cea mai frecventă localizare este **aorta abdominală infrarenală**, mai ales la bărbații vârstnici fumători. Cauzele și factorii de risc sunt ateroscleroza, hipertensiunea, fumatul, vârsta și, pentru aorta toracică, bolile țesutului conjunctiv (de exemplu sindromul Marfan) și valva aortică bicuspidă.
+
+- De regulă este **asimptomatic** și se descoperă incidental sau prin screening ecografic.
+- Riscul de ruptură crește cu diametrul anevrismului, motiv pentru care urmărirea se face prin imagistică.
+- **Ruptura** dă durere abdominală sau lombară bruscă, hipotensiune și o masă pulsatilă, deci o urgență chirurgicală.
+- Tratamentul include controlul factorilor de risc, supraveghere și, la indicație, reparație chirurgicală sau endovasculară.
+
+## Disecția de aortă
+
+În disecție, o ruptură a intimei permite sângelui să pătrundă în peretele aortic și să creeze un **fals lumen**. Factorul de risc cel mai important este **hipertensiunea arterială**; mai contribuie bolile țesutului conjunctiv, valva bicuspidă, sarcina și traumatismele.
+
+### Clasificare Stanford
+
+| Tip | Localizare | Abordare |
+|---|---|---|
+| A | Implică aorta ascendentă | Chirurgie de urgență |
+| B | Aorta descendentă, fără ascendentă | De regulă tratament medical, intervenție în complicații |
+
+### Tablou clinic
+
+- Durere toracică **brusc instalată**, foarte intensă, descrisă ca „sfâșiere”, cu iradiere interscapulară sau spre abdomen.
+- Diferență de tensiune arterială între brațe sau deficit de puls.
+- Complicații ale tipului A: **insuficiență aortică acută**, **tamponadă** prin hemopericard, ischemie miocardică (prin ostium coronarian), accident vascular cerebral.
+- Complicații de ocluzie a ramurilor: ischemie viscerală, renală sau de membre.
+
+### Diagnostic
+
+- ECG pentru a exclude infarctul; radiografia poate arăta lărgirea mediastinului.
+- **Angiografia CT aortică** este examenul de elecție la pacientul stabil; ecocardiografia transesofagiană este utilă la cel instabil.
+
+### Tratament inițial
+
+- Analgezie eficientă.
+- Scăderea frecvenței cardiace și a tensiunii arteriale cu **beta-blocant intravenos**, ca să scadă forța de forfecare asupra peretelui aortic.
+- Se evită **trombolizarea și anticoagularea**, care pot fi fatale.
+
+## De reținut pentru examen
+
+- Durere în sfâșiere, TA diferită între brațe: gândește-te la disecție înainte de a trata ca infarct.
+- Tipul A se operează de urgență; tipul B, necomplicat, se tratează medical.
+- Nu se administrează trombolitice sau anticoagulante dacă suspectezi disecție.
+- Ruptura de anevrism abdominal: durere, hipotensiune, masă pulsatilă.
+- Majoritatea anevrismelor sunt asimptomatice; screeningul se face prin ecografie.
+`,
+    references: [
+      "Harrison’s Principles of Internal Medicine – Diseases of the Aorta",
+      "Kumar & Clark – Medicină clinică, ed. 10 – cap. Boli vasculare",
+    ],
+  },
+  {
+    id: 'car-t7',
+    title: "Dislipidemiile și prevenția cardiovasculară",
+    topic: "Prevenție cardiovasculară",
+    readMinutes: 3,
+    content: `## Lipidele și riscul cardiovascular
+
+Colesterolul este transportat în sânge de lipoproteine. **LDL-colesterolul** este principalul factor aterogen și ținta terapeutică de bază. **HDL-colesterolul** are rol protector. **Trigliceridele** crescute contribuie la risc și, când sunt foarte mari, expun la **pancreatită acută**.
+
+## Cauze
+
+- **Primare (genetice):** cea mai cunoscută este **hipercolesterolemia familială**, cu defect al receptorului LDL și transmitere autosomal dominantă. Se recunoaște prin LDL foarte crescut, xantoame tendinoase, arc corneean și boală coronariană precoce în familie.
+- **Secundare:** hipotiroidism, sindrom nefrotic, diabet zaharat necontrolat, obezitate, consum de alcool (în special pentru trigliceride), boli hepatice colestatice, unele medicamente.
+
+Evaluarea unui pacient cu dislipidemie include întotdeauna căutarea cauzelor secundare, deoarece tratarea acestora poate normaliza profilul lipidic fără medicație suplimentară.
+
+## Tratament
+
+### Stil de viață
+
+- Alimentație săracă în grăsimi saturate și zahăr, bogată în legume, fructe și fibre.
+- Activitate fizică regulată și scădere ponderală.
+- **Renunțarea la fumat** și moderarea alcoolului.
+
+### Medicamente
+
+| Clasă | Mecanism | Observații |
+|---|---|---|
+| Statine | Inhibă HMG-CoA reductaza | Prima alegere pentru scăderea LDL; efecte adverse: mialgii, rar rabdomioliză, creșterea transaminazelor |
+| Ezetimib | Scade absorbția intestinală a colesterolului | Asociere la statină |
+| Fibrați | Scad în principal trigliceridele | Utili în hipertrigliceridemie |
+| Rășini care leagă acizii biliari | Cresc excreția biliară de colesterol | Pot crește trigliceridele |
+
+## Prevenția cardiovasculară
+
+- **Prevenția primară:** la persoane fără boală cardiovasculară, prin controlul factorilor de risc (fumat, hipertensiune, dislipidemie, diabet, obezitate, sedentarism) și estimarea riscului global.
+- **Prevenția secundară:** la cei cu boală stabilită (de exemplu după infarct): statină, antiagregant, control al tensiunii arteriale, reabilitare cardiacă, renunțare la fumat.
+- Factorii de risc **nemodificabili** sunt vârsta, sexul masculin și istoricul familial de boală cardiovasculară precoce.
+- Suplimentele cu vitamine antioxidante nu reduc evenimentele cardiovasculare.
+
+## De reținut pentru examen
+
+- LDL este ținta principală; statinele sunt prima linie.
+- Xantoame tendinoase plus arc corneean plus boală coronariană precoce: hipercolesterolemie familială.
+- Trigliceride foarte mari: risc de pancreatită.
+- Înainte de a eticheta dislipidemia drept primară, exclude hipotiroidismul, sindromul nefrotic și diabetul.
+- După infarct se aplică prevenția secundară: statină plus antiagregant plus modificarea stilului de viață.
+`,
+    references: [
+      "Harrison’s Principles of Internal Medicine – Disorders of Lipoprotein Metabolism",
+      "Katzung – Basic & Clinical Pharmacology – Agenți hipolipemianți",
+    ],
+  },
+  {
+    id: 'car-t8',
+    title: "Sincopa: cauze și abordare",
+    topic: "Simptome cardiovasculare",
+    readMinutes: 3,
+    content: `## Definiție
+
+**Sincopa** este pierderea tranzitorie a conștienței prin **hipoperfuzie cerebrală globală**, cu debut rapid, durată scurtă și **recuperare spontană completă**. Se deosebește de criza epileptică (postcriză prelungită, mișcări tonico-clonice prelungite) și de alte pierderi de conștiență fără hipoperfuzie.
+
+## Clasificare etiologică
+
+| Grup | Mecanism | Exemple |
+|---|---|---|
+| Reflexă (neuro-mediată) | Reflex vagal cu vasodilatație și bradicardie | Vasovagală, situațională (micțiune, tuse, defecație), hipersensibilitatea sinusului carotidian |
+| Hipotensiune ortostatică | Scăderea TA la ridicare | Depleție volemică, medicamente (diuretice, vasodilatatoare), neuropatie autonomă |
+| Cardiacă aritmică | Debit cardiac scăzut prin ritm | Bloc AV de grad înalt, disfuncție sinusală, tahicardie ventriculară |
+| Cardiacă structurală | Obstrucție la ejecție | Stenoză aortică, cardiomiopatie hipertrofică obstructivă, embolie pulmonară masivă, mixom atrial |
+
+**Sincopa reflexă** este cea mai frecventă și are, în general, prognostic bun. **Sincopa cardiacă** este mai rară, dar asociată cu risc mai mare de deces.
+
+## Semne care orientează
+
+### Spre sincopă reflexă
+
+- Declanșare prin ortostatism prelungit, căldură, durere, emoție, vederea sângelui.
+- Prodrom: greață, transpirații, paloare, vedere încețoșată.
+- Recuperare rapidă.
+
+### Spre sincopă cardiacă (semne de alarmă)
+
+- Debut în timpul **efortului** sau în decubit.
+- Palpitații înainte de episod, sau lipsa oricărui prodrom.
+- Cardiopatie cunoscută, istoric familial de moarte subită, suflu sugestiv (de exemplu stenoză aortică).
+
+## Evaluare inițială
+
+1. Anamneză detaliată: context, prodrom, durată, martori, medicație.
+2. Examen clinic, cu **tensiune arterială în clino- și ortostatism**.
+3. **ECG de repaus** la toți pacienții.
+4. În funcție de suspiciune: ecocardiografie, monitorizare ritm, test de efort, teste de laborator.
+
+## Management
+
+- Sincopa reflexă: explicarea mecanismului, evitarea factorilor declanșatori, hidratare, manevre de contrapresiune.
+- Hipotensiune ortostatică: revizuirea medicației, hidratare, ridicare treptată.
+- Cauzele cardiace: tratament specific (stimulator cardiac pentru bradiaritmii, tratamentul aritmiei, rezolvarea stenozei aortice).
+
+## De reținut pentru examen
+
+- Sincopa înseamnă hipoperfuzie cerebrală globală cu recuperare completă și rapidă.
+- Cea mai frecventă cauză: reflexă (vasovagală).
+- Sincopa la efort sau fără prodrom: gândește-te la cauză cardiacă.
+- ECG-ul și măsurarea TA în ortostatism sunt obligatorii în evaluare.
+- Stenoza aortică și cardiomiopatia hipertrofică pot da sincopă de efort.
+`,
+    references: [
+      "Harrison’s Principles of Internal Medicine – Syncope",
+      "Kumar & Clark – Medicină clinică, ed. 10 – cap. Cardiologie",
+    ],
+  },
+  {
+    id: 'car-t9',
+    title: "Edemul pulmonar acut cardiogen și șocul cardiogen",
+    topic: "Urgențe cardiovasculare",
+    readMinutes: 3,
+    content: `## Edemul pulmonar acut cardiogen
+
+Apare când presiunea în capilarele pulmonare crește brusc, iar lichidul trece în alveole. Cauzele și factorii precipitanți frecvenți sunt:
+
+- infarctul miocardic acut;
+- criza hipertensivă;
+- aritmii rapide (de exemplu fibrilația atrială cu alură ventriculară rapidă);
+- regurgitarea mitrală sau aortică acută;
+- decompensarea unei insuficiențe cardiace cronice (oprirea tratamentului, exces de sare și lichide).
+
+### Tablou clinic
+
+- Dispnee severă, ortopnee, anxietate, transpirații.
+- Tuse cu **spută spumoasă, rozată**.
+- Raluri crepitante care urcă de la baze spre vârfuri, uneori și wheezing.
+- Tahicardie, saturație scăzută, galop.
+
+### Management inițial
+
+- Poziție **șezândă sau semișezândă**, cu membrele inferioare atârnate.
+- **Oxigen**, iar în hipoxemie persistentă ventilație neinvazivă.
+- **Diuretic de ansă intravenos**.
+- Nitrați, atunci când tensiunea arterială o permite, în special în criza hipertensivă.
+- Tratamentul cauzei: revascularizare în infarct, controlul ritmului, tratament al cauzei valvulare.
+- Se evită perfuziile rapide de fluide și beta-blocantele în bolus.
+
+## Șocul cardiogen
+
+**Șocul cardiogen** este un sindrom de hipoperfuzie tisulară prin scăderea debitului cardiac, în pofida unor presiuni de umplere crescute. Cea mai frecventă cauză este **infarctul miocardic extins al ventriculului stâng**. Alte cauze: complicații mecanice ale infarctului (ruptură de mușchi papilar, ruptură de sept interventricular, ruptură de perete liber), miocardite fulminante, valvulopatii acute, aritmii severe.
+
+### Semne
+
+- Hipotensiune, tahicardie, alterarea stării de conștiență.
+- Extremități reci și umede, oligurie.
+- Jugulare turgescente și raluri de stază pulmonară.
+- Acidoză lactică în laborator.
+
+### Diferențierea de alte forme de șoc
+
+| Șoc | Jugulare | Tegumente | Mecanism |
+|---|---|---|---|
+| Cardiogen | Turgescente | Reci | Pompă insuficientă |
+| Hipovolemic (hemoragic) | Colabate | Reci | Volum scăzut |
+| Septic (distributiv) | Variabile | Adesea calde la început | Vasodilatație |
+| Obstructiv (embolie pulmonară, tamponadă) | Turgescente | Reci | Obstacol la umplere sau ejecție |
+
+### Tratament
+
+- **Revascularizarea precoce** a arterei responsabile, în infarct.
+- Suport inotrop sau vasopresor, după nevoie, și suport mecanic în centre specializate.
+- Corectarea hipoxemiei și a tulburărilor de ritm.
+- Evitarea fluidelor în exces, care agravează edemul pulmonar.
+
+## De reținut pentru examen
+
+- Spută spumoasă, rozată plus raluri crepitante: edem pulmonar acut.
+- Prima măsură: poziție șezândă, oxigen, diuretic de ansă intravenos.
+- Șocul cardiogen: jugulare turgescente, stază pulmonară, extremități reci.
+- Infarctul extins este cauza cea mai frecventă; un suflu nou după infarct sugerează complicație mecanică.
+- Revascularizarea precoce schimbă prognosticul în șocul cardiogen postinfarct.
+`,
+    references: [
+      "Harrison’s Principles of Internal Medicine – Cardiogenic Shock and Pulmonary Edema",
+      "Kumar & Clark – Medicină clinică, ed. 10 – cap. Cardiologie",
+    ],
+  },
 ]

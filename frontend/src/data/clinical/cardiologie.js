@@ -136,6 +136,84 @@ export default {
         'Instabilitatea hemodinamică impune cardioversie electrică.',
       ],
     },
+    {
+      "id": "car-c4",
+      "title": "Durere toracică posterioară cu debut brusc",
+      "setting": "Camera de gardă",
+      "presentation": "Bărbat de 60 de ani, hipertensiv cunoscut, cu tratament neregulat, fumător. Se prezintă cu durere toracică posterioară, instalată brusc cu o oră în urmă, foarte intensă, cu iradiere între omoplați. Nu are antecedente de boală coronariană. Este agitat și transpirat.",
+      "steps": [
+        {
+          "kind": "anamneza",
+          "prompt": "Ce întrebări de anamneză sunt esențiale?",
+          "answer": "• Caracterul durerii: debut brusc, maximă de la început, „în sfâșiere”, iradiere spre spate sau abdomen\n• Simptome asociate: sincopă, deficit neurologic, durere abdominală, slăbiciune a unui membru\n• Factori de risc: hipertensiune, fumat, boli ale țesutului conjunctiv, valvă aortică bicuspidă, sarcină, traumatism, consum de cocaină\n• Antecedente familiale de anevrism sau disecție\n• Aderența la tratamentul antihipertensiv"
+        },
+        {
+          "kind": "examen",
+          "prompt": "Ce urmărești la examenul obiectiv? Ce găsești?",
+          "answer": "• TA măsurată la ambele brațe: valori diferite între brațe, deficit de puls\n• Suflu diastolic de insuficiență aortică nou, apărut în context\n• Semne de tamponadă: jugulare turgescente, hipotensiune, zgomote cardiace asurzite\n• Examen neurologic pentru deficite focale\n• Palparea pulsurilor periferice și a abdomenului\n• Pacient palid, transpirat, tahicardic"
+        },
+        {
+          "kind": "investigatii",
+          "prompt": "Ce investigații ceri și ce rezultate te aștepți?",
+          "answer": "• ECG: pentru a exclude infarctul; poate fi normal sau cu modificări nespecifice\n• Radiografie toracică: posibilă lărgire a mediastinului\n• Angiografie CT aortică: examenul de elecție la pacientul stabil, arată flapul intimal și falsul lumen\n• Ecocardiografie (transtoracică sau transesofagiană): evaluează aorta ascendentă, insuficiența aortică și lichidul pericardic\n• Analize de bază, grup sanguin și compatibilitate pentru eventuală intervenție"
+        },
+        {
+          "kind": "diagnostic",
+          "prompt": "Care e diagnosticul cel mai probabil și diagnosticul diferențial?",
+          "answer": "• Diagnostic probabil: disecție acută de aortă; clasificarea Stanford (A sau B) decide conduita\n• Diferențial: infarct miocardic acut, embolie pulmonară, pericardită acută, anevrism aortic rupt, perforație ulceroasă sau pancreatită acută\n• Argumente: debut maxim brusc, durere în sfâșiere, iradiere interscapulară, hipertensiune, diferența de TA între brațe"
+        },
+        {
+          "kind": "tratament",
+          "prompt": "Care sunt principiile de tratament și de monitorizare?",
+          "answer": "• Transfer în terapie intensivă, monitorizare continuă, acces venos\n• Analgezie eficientă, de obicei cu opioid intravenos\n• Scăderea frecvenței cardiace și a TA cu beta-blocant intravenos, pentru a reduce stresul pe peretele aortic\n• Se evită trombolizarea și anticoagularea\n• Tipul A: chirurgie cardiovasculară de urgență; tipul B necomplicat: tratament medical și supraveghere imagistică\n• Pe termen lung: control strict al TA și monitorizarea aortei"
+        }
+      ],
+      "takeaways": [
+        "Durerea toracică „în sfâșiere” cu TA diferită între brațe impune excluderea disecției",
+        "Nu administra trombolitic sau anticoagulant înainte să excluzi disecția",
+        "Angio-CT-ul aortic este examenul de elecție la pacientul stabil",
+        "Tipul A se operează de urgență"
+      ]
+    },
+    {
+      "id": "car-c5",
+      "title": "Durere la gambă la mers",
+      "setting": "Cabinet de medicină de familie",
+      "presentation": "Bărbat de 64 de ani, fumător de 40 de ani, cu diabet zaharat de tip 2 și dislipidemie. Se prezintă pentru dureri în gambe care apar când merge o distanță mai lungă și dispar după câteva minute de oprire. În ultimele luni distanța de mers s-a redus.",
+      "steps": [
+        {
+          "kind": "anamneza",
+          "prompt": "Ce întrebări de anamneză sunt esențiale?",
+          "answer": "• Caracterul durerii: crampă în gambă la mers, reproductibilă, care cedează la oprire\n• Distanța de mers până la apariția durerii și evoluția ei\n• Durere de repaus nocturnă, ulcere sau răni care nu se vindecă\n• Factori de risc: fumat, diabet, hipertensiune, dislipidemie, antecedente familiale\n• Alte localizări ale aterosclerozei: boală coronariană, accident vascular cerebral\n• Diferențierea de stenoza de canal spinal și de patologia articulară"
+        },
+        {
+          "kind": "examen",
+          "prompt": "Ce urmărești la examenul obiectiv? Ce găsești?",
+          "answer": "• Inspecția: tegumente subțiri și lucioase, pilozitate scăzută, unghii îngroșate, ulcerații sau zone de necroză\n• Palpare: pulsuri femural, popliteu, pedios și tibial posterior diminuate sau absente, extremități reci\n• Timp de reumplere capilară prelungit; paloare la ridicarea membrului\n• Auscultația arterelor femurale: sufluri\n• Examenul piciorului diabetic și sensibilitatea\n• Tensiunea arterială și examenul cardiovascular general"
+        },
+        {
+          "kind": "investigatii",
+          "prompt": "Ce investigații ceri și ce rezultate te aștepți?",
+          "answer": "• Indicele gleznă–braț: valoare scăzută care confirmă boala arterială\n• Ecografie Doppler arterială a membrelor inferioare: localizează stenozele\n• Angiografie CT sau prin rezonanță, dacă se ia în calcul revascularizarea\n• Profil lipidic, glicemie și hemoglobină glicată, creatinină\n• ECG și evaluarea riscului cardiovascular global"
+        },
+        {
+          "kind": "diagnostic",
+          "prompt": "Care e diagnosticul cel mai probabil și diagnosticul diferențial?",
+          "answer": "• Diagnostic: boală arterială periferică (arteriopatie obliterantă) cu claudicație intermitentă\n• Diferențial: stenoză de canal spinal (durere ameliorată la aplecarea înainte), insuficiență venoasă cronică, neuropatie diabetică, artroză, sindrom de loje\n• Stadializare: claudicație, durere de repaus, ulcer sau gangrenă (ischemie critică)"
+        },
+        {
+          "kind": "tratament",
+          "prompt": "Care sunt principiile de tratament și de monitorizare?",
+          "answer": "• Renunțare completă la fumat\n• Program de mers supravegheat\n• Antiagregant și statină\n• Controlul tensiunii arteriale și al glicemiei\n• Îngrijirea piciorului, pantofi potriviți, inspecție zilnică\n• Evaluare pentru revascularizare dacă simptomele limitează major activitatea sau apare ischemie critică\n• Supraveghere periodică și atenție la durerea de repaus sau leziunile tisulare"
+        }
+      ],
+      "takeaways": [
+        "Claudicația este durerea ischemică de efort care cedează la oprire",
+        "Indicele gleznă–braț este testul de prim intenție",
+        "Fumatul și diabetul sunt factorii-cheie, iar pacientul are risc cardiovascular global crescut",
+        "Durerea de repaus sau ulcerul indică ischemie critică și necesită evaluare pentru revascularizare"
+      ]
+    },
   ],
   skills: [
     {

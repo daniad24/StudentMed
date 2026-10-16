@@ -136,6 +136,96 @@ export default {
         'Tratează și factorul care crește presiunea abdominală.',
       ],
     },
+    {
+      id: 'chi-c4',
+      title: 'Durere abdominală după un accident rutier',
+      setting: 'Camera de gardă',
+      presentation:
+        'Bărbat de 28 de ani, adus de echipajul ambulanței după un accident rutier în care a lovit volanul cu abdomenul. Acuză durere în hipocondrul stâng, cu iradiere în umărul stâng, și amețeală. Este palid, transpirat, cu extremitățile reci. Nu are antecedente semnificative cunoscute.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebări de anamneză sunt esențiale?',
+          answer:
+            '• Mecanismul traumatismului: viteză, centura de siguranță, impact direct\n• Localizarea și iradierea durerii, apariția amețelii sau a leșinului\n• Alte leziuni: torace, cap, bazin, membre\n• Antecedente medicale, medicație (anticoagulante), alergii, ultima masă, vaccinare antitetanică\n• Folosirea alcoolului sau a drogurilor, care pot masca simptomele',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?',
+          answer:
+            '• Evaluare ABCDE cu protecția coloanei cervicale\n• Tahicardie, hipotensiune sau semne de hipoperfuzie: piele rece, palidă, timp de reumplere capilară crescut\n• Inspecția abdomenului: echimoze, excoriații, distensie\n• Palpare: durere și apărare în hipocondrul stâng, posibil semne de iritație peritoneală\n• Examinarea toracelui, bazinului și a membrelor pentru leziuni asociate\n• Semnul Kehr: durere referită în umărul stâng',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce investigații ceri și ce rezultate te aștepți?',
+          answer:
+            '• Acces venos de calibru mare, grup sanguin și compatibilitate, hemoleucogramă, coagulare, biochimie\n• Ecografie FAST la pat: lichid liber intraperitoneal\n• La pacientul instabil cu FAST pozitiv nu se pierde timp cu CT\n• CT abdominal cu contrast doar dacă pacientul devine stabil, pentru stadializarea leziunilor\n• Radiografie toracică și de bazin în evaluarea primară',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?',
+          answer:
+            'Cel mai probabil: traumatism abdominal contuz cu ruptură splenică și hemoperitoneu, în șoc hemoragic.\nDiagnostic diferențial al sursei de sângerare:\n• Leziune hepatică\n• Leziune de mezenter sau vase mari\n• Hemotorace sau hemoragie retroperitoneală, fractură de bazin\n• Leziune de organ cavitar (intestin), mai rar șoc hemoragic precoce',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Care sunt principiile de tratament și de monitorizare?',
+          answer:
+            '• Resuscitare după principiile ATLS: oxigen, două linii venoase, înlocuirea volemiei, preferabil cu sânge și produse de sânge\n• Controlul hemoragiei: laparotomie de urgență pentru pacientul instabil cu FAST pozitiv\n• Intervenția poate fi splenectomie sau, dacă leziunea permite, tehnici de cruțare a splinei\n• Profilaxie antitetanică și analgezie\n• După splenectomie: vaccinări împotriva germenilor încapsulați și educarea pacientului privind riscul infecțiilor severe',
+        },
+      ],
+      takeaways: [
+        'Șocul la traumatizat este hemoragic până la proba contrarie.',
+        'FAST pozitiv la instabil înseamnă laparotomie, nu CT.',
+        'Durerea în umărul stâng după traumatism sugerează ruptură splenică.',
+        'După splenectomie sunt necesare vaccinări și vigilență la infecții.',
+      ],
+    },
+    {
+      id: 'chi-c5',
+      title: 'Durere anală intensă cu tumefacție',
+      setting: 'Cabinet de chirurgie',
+      presentation:
+        'Bărbat de 38 de ani, cu diabet zaharat de tip 2, se prezintă pentru durere anală pulsatilă, în creștere de trei zile, care îl împiedică să stea pe scaun. Are febră mică și a observat o tumefacție dureroasă lângă anus. Durerea este accentuată de defecație.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebări de anamneză sunt esențiale?',
+          answer:
+            '• Debutul, durata și caracterul durerii; legătura cu defecația\n• Febră, frisoane, secreție purulentă sau sângerare\n• Episoade anterioare de abcese sau fistule, boală Crohn, boli inflamatorii intestinale\n• Diabet, imunosupresie, tratamente\n• Tranzit intestinal și disurie',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?',
+          answer:
+            '• Inspecția regiunii perianale: tumefacție eritematoasă, caldă, dureroasă, uneori fluctuentă\n• Palpare blândă: sensibilitate, fluctuență\n• Tușeul rectal, dacă este tolerat, pentru colecții profunde; poate necesita anestezie\n• Semne sistemice: febră, tahicardie\n• Căutarea unui orificiu fistulos extern',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce investigații ceri și ce rezultate te aștepți?',
+          answer:
+            '• Hemoleucogramă: leucocitoză; markeri inflamatori crescuți\n• Glicemie și hemoglobină glicată în diabet\n• Ecografie endoanală sau RMN pelvin pentru abcese profunde sau fistule complexe\n• Culturi din puroi, dacă se evacuează\n• Diagnosticul este în principal clinic',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?',
+          answer:
+            'Cel mai probabil: abces perianal de origine criptoglandulară.\nDiagnostic diferențial:\n• Hemoroid extern trombozat\n• Fisură anală complicată\n• Chist pilonidal infectat\n• Hidrosadenită supurativă\n• Abces în boala Crohn',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Care sunt principiile de tratament și de monitorizare?',
+          answer:
+            '• Incizie și drenaj chirurgical, de regulă sub anestezie\n• Antibioticele singure nu sunt suficiente; se pot asocia la pacienți cu risc, cum este diabetul\n• Controlul glicemiei\n• Analgezie, băi de șezut, igienă locală\n• Urmărire pentru formarea unei fistule perianale, care necesită tratament chirurgical ulterior',
+        },
+      ],
+      takeaways: [
+        'Abcesul perianal se drenează chirurgical.',
+        'Diabetul crește riscul de infecții și complicații.',
+        'Un abces poate lăsa o fistulă perianală.',
+        'Fisura anală doare, hemoroidul intern sângerează nedureros.',
+      ],
+    },
   ],
   skills: [
     {

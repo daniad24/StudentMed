@@ -46,6 +46,8 @@ export default defineConfig({
       },
       workbox: {
         navigateFallback: '/index.html',
+        // tot conținutul medical e în pachetul principal (peste 2 MiB); îl păstrăm în cache ca aplicația să meargă și offline
+        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
         // pdf.js (~1,8 MB) se descarcă doar când cineva importă un PDF, nu la instalarea aplicației.
         globIgnores: ['**/pdf*.{js,mjs}'],

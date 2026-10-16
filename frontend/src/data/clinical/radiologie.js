@@ -56,6 +56,44 @@ export default {
         'Funcția renală se verifică la pacienții cu risc înaintea contrastului iodat.',
       ],
     },
+    {
+      id: 'rad-c4',
+      title: 'Căzătură cu pierdere de conștiență',
+      setting: 'Camera de gardă',
+      presentation: 'Bărbat de 72 de ani, aflat sub tratament anticoagulant, este adus după o căzătură pe scări, cu lovirea capului. Soția spune că a fost confuz câteva minute, apoi a devenit somnolent și a vomitat de două ori. Nu are alte antecedente neurologice cunoscute.',
+      steps: [
+        { kind: 'anamneza', prompt: 'Ce întrebări de anamneză sunt esențiale?', answer: '• Mecanismul și momentul traumatismului, pierderea de conștiență, amnezia\n• Simptome după traumatism: cefalee, vărsături, somnolență, convulsii\n• Medicația: anticoagulante sau antiagregante, alcool\n• Antecedente: boli neurologice, intervenții, căderi repetate\n• Cauza căderii (sincopă, vertij, slăbiciune) – poate fi o cauză medicală' },
+        { kind: 'examen', prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?', answer: '• Funcții vitale: tensiune, puls, saturație, glicemie capilară\n• Scorul Glasgow și reevaluarea lui repetată\n• Pupile (mărime, simetrie, reactivitate), deficit motor, semne meningeene\n• Semne de fractură de bază de craniu (echimoze periorbitare, otoragie)\n• Pacientul este somnolent, cu pupila stângă mai mare și hemipareză dreaptă discretă' },
+        { kind: 'investigatii', prompt: 'Ce investigații ceri și ce rezultate te aștepți?', answer: '• CT cerebral nativ de urgență, fără amânare, la un pacient anticoagulat și cu simptome\n• Fereastră parenchimatoasă pentru hemoragie și efect de masă, fereastră osoasă pentru fracturi\n• Probabil găsești o colecție extra-axială hiperdensă în semilună, cu deplasarea liniei mediane\n• Analize: hemoleucogramă, coagulogramă, grup sanguin, glicemie\n• Radiografia craniană nu are loc ca investigație inițială' },
+        { kind: 'diagnostic', prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?', answer: '• Hematom subdural acut la un pacient anticoagulat, cu efect de masă\n• Diferențial: hematom epidural (biconvex, de obicei arterial), contuzie hemoragică, hemoragie subarahnoidiană traumatică\n• Hematom intracerebral spontan care a provocat căderea\n• Infarct ischemic ce a determinat căderea, cu leziune traumatică asociată' },
+        { kind: 'tratament', prompt: 'Care sunt principiile de tratament și de monitorizare?', answer: '• Stabilizare: căi aeriene, oxigenare, tensiune arterială, imobilizare cervicală la nevoie\n• Consult neurochirurgical urgent; evacuare chirurgicală în funcție de dimensiune și efectul de masă\n• Oprirea anticoagulantului și corectarea coagulării, conform protocolului\n• Monitorizare neurologică seriată (Glasgow, pupile)\n• Repetarea CT la agravare clinică' },
+      ],
+      takeaways: [
+        'La TCC cu semne de gravitate se face CT cerebral nativ, nu radiografie craniană.',
+        'Anticoagularea crește riscul de hemoragie intracraniană tardivă.',
+        'Subdural: semilună și vene-punte; epidural: lenticular și arterial.',
+        'Reevaluarea clinică seriată contează la fel de mult ca prima imagine.',
+      ],
+    },
+    {
+      id: 'rad-c5',
+      title: 'Dispnee după imobilizare',
+      setting: 'Camera de gardă',
+      presentation: 'Femeie de 58 de ani, la 10 zile după o intervenție ortopedică pe membrul inferior, cu imobilizare prelungită, se prezintă pentru dispnee de debut brusc și durere toracică laterală care se accentuează la inspir. Are o tumefiere a gambei drepte. Este stabilă hemodinamic.',
+      steps: [
+        { kind: 'anamneza', prompt: 'Ce întrebări de anamneză sunt esențiale?', answer: '• Debutul dispneei (brusc), durerea pleuritică, tusea, hemoptizia, sincopa\n• Factori de risc pentru tromboză: intervenție recentă, imobilizare, neoplazie, antecedente de tromboembolism, tratament hormonal\n• Simptome la membrul inferior: durere, tumefiere, asimetrie\n• Alergii, funcție renală, medicație (pentru alegerea investigației cu contrast)' },
+        { kind: 'examen', prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?', answer: '• Funcții vitale: frecvență respiratorie, puls, tensiune, saturația în oxigen\n• Semne de insuficiență cardiacă dreaptă: turgescență jugulară, accentuarea zgomotului II pulmonar\n• Auscultația pulmonară: poate fi normală sau cu frecătură pleurală\n• Membrul inferior: edem unilateral, sensibilitate pe traiect venos\n• Pacienta este tahicardă, tahipneică, cu saturația scăzută și gamba dreaptă mai groasă' },
+        { kind: 'investigatii', prompt: 'Ce investigații ceri și ce rezultate te aștepți?', answer: '• Angio-CT pulmonar: investigația de elecție la pacientul stabil; defect de umplere intraluminal într-o arteră pulmonară\n• Radiografie toracică: adesea normală sau nespecifică, utilă pentru alte cauze de dispnee\n• ECG, gaze sanguine, markeri cardiaci și D-dimeri conform probabilității clinice\n• Ecografie Doppler venoasă a membrelor inferioare: tromboză venoasă profundă\n• Dacă angio-CT este contraindicat (insuficiență renală severă, alergie): scintigrafie ventilație-perfuzie' },
+        { kind: 'diagnostic', prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?', answer: '• Embolie pulmonară secundară unei tromboze venoase profunde postoperatorii\n• Diferențial: pneumonie, pneumotorax, edem pulmonar, infarct miocardic, pericardită\n• Disecție de aortă, atac de panică (diagnostic de excludere)\n• Radiografia toracică ajută la separarea cauzelor pulmonare evidente' },
+        { kind: 'tratament', prompt: 'Care sunt principiile de tratament și de monitorizare?', answer: '• Oxigen suplimentar, monitorizare, acces venos\n• Tratament anticoagulant, început prompt când suspiciunea este mare, conform protocolului\n• Stratificarea riscului după stabilitatea hemodinamică și funcția ventriculului drept; la instabili se discută terapii de reperfuzie\n• Prevenirea recidivei și identificarea factorilor favorizanți\n• Profilaxia tromboembolismului la pacienții cu risc' },
+      ],
+      takeaways: [
+        'Pacient stabil cu suspiciune mare de EP: angio-CT pulmonar.',
+        'Radiografia toracică poate fi normală și nu exclude EP.',
+        'Ecografia Doppler venoasă confirmă tromboza care susține diagnosticul.',
+        'Contrastul iodat cere evaluarea funcției renale și a alergiilor; alternativa este scintigrafia V/Q.',
+      ],
+    },
   ],
   skills: [
     {

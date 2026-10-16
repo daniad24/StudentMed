@@ -57,6 +57,44 @@ export default {
         'Suplimentele luate fără recomandare fac parte din anamneza medicamentoasă.',
       ],
     },
+    {
+      id: 'fcl-c4',
+      title: 'Erupție și dificultate respiratorie după un antibiotic',
+      setting: 'Camera de gardă',
+      presentation: 'Femeie de 32 de ani, adusă de familie la 20 de minute după prima priză a unui antibiotic oral prescris pentru o amigdalită. Acuză mâncărimi intense, senzație de gât strâns și amețeală. Nu are boli cronice cunoscute; a avut anterior „o erupție” după un tratament cu penicilină, pe care nu o menționase medicului.',
+      steps: [
+        { kind: 'anamneza', prompt: 'Ce întrebări de anamneză sunt esențiale?', answer: '• Medicamentul luat, ora administrării și ora debutului simptomelor\n• Simptome: prurit, edem facial sau al limbii, dispnee, wheezing, amețeli, vărsături, dureri abdominale\n• Antecedente alergice: reacții anterioare la medicamente, alimente, înțepături\n• Astm sau boli cardiace, tratamente asociate (beta-blocant, IEC)' },
+        { kind: 'examen', prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?', answer: '• Căile aeriene: edem al buzelor și limbii, stridor, voce modificată\n• Respirația: frecvență, wheezing, saturație\n• Circulația: tensiune scăzută, puls rapid, extremități reci\n• Pielea: urticarie generalizată, eritem, angioedem\n• Starea de conștiență' },
+        { kind: 'investigatii', prompt: 'Ce investigații ceri și ce rezultate te aștepți?', answer: '• Diagnosticul este clinic; tratamentul nu se amână pentru analize\n• Monitorizare: tensiune, puls, saturație, ECG\n• Triptaza serică (recoltată la scurt timp după debut) poate sprijini diagnosticul retrospectiv\n• Ulterior: consult alergologic pentru evaluarea alergiei la antibiotic' },
+        { kind: 'diagnostic', prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?', answer: '• Anafilaxie după antibiotic (probabil beta-lactamină), cu semne cutanate, respiratorii și circulatorii\n• Diferențial: urticarie izolată, atac de panică, criză de astm, reacție vasovagală, angioedem prin IEC, sindrom carcinoid' },
+        { kind: 'tratament', prompt: 'Care sunt principiile de tratament și de monitorizare?', answer: '• Oprirea medicamentului suspect\n• Adrenalină intramusculară imediat, repetabilă dacă răspunsul este insuficient\n• Poziționare culcat cu picioarele ridicate, oxigen, acces venos și lichide intravenoase\n• Adjuvant: antihistaminic, corticoid, bronhodilatator inhalator pentru bronhospasm\n• Observare după episod (risc de reacție bifazică), educație, notarea alergiei în fișă, trusă cu adrenalină autoinjectabilă la nevoie, trimitere la alergolog' },
+      ],
+      takeaways: [
+        'Adrenalina intramusculară este tratamentul de primă linie în anafilaxie.',
+        'Antihistaminicele și corticoizii sunt adjuvante, nu înlocuiesc adrenalina.',
+        'Anamneza alergică la medicamente se face înainte de orice prescripție.',
+        'Alergia se consemnează în fișă și se informează pacientul.',
+      ],
+    },
+    {
+      id: 'fcl-c5',
+      title: 'Slăbiciune și vărsături după oprirea unui tratament cronic',
+      setting: 'Secție de medicină internă',
+      presentation: 'Bărbat de 58 de ani, tratat de câțiva ani cu un glucocorticoid oral pentru o boală inflamatorie, care a oprit singur tratamentul în urmă cu 3 zile, fiindcă „se simțea bine”. Se prezintă cu slăbiciune marcată, greață, vărsături, dureri abdominale și amețeală la ridicarea în picioare, după o gastroenterită.',
+      steps: [
+        { kind: 'anamneza', prompt: 'Ce întrebări de anamneză sunt esențiale?', answer: '• Ce medicament, cât timp l-a luat și cum a fost oprit\n• Evenimentul declanșator: infecție, vărsături, intervenție\n• Simptome: oboseală, scădere în greutate, dureri abdominale, poftă de sare, sincope\n• Alte tratamente, aport de lichide, diaree\n• Mențiuni anterioare privind reducerea treptată a tratamentului' },
+        { kind: 'examen', prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?', answer: '• Tensiunea arterială scăzută, cu scădere ortostatică, puls rapid\n• Deshidratare: mucoase uscate, turgor scăzut\n• Febră sau semne de infecție\n• Abdomen sensibil difuz\n• Stare generală alterată, eventual confuzie' },
+        { kind: 'investigatii', prompt: 'Ce investigații ceri și ce rezultate te aștepți?', answer: '• Glicemie: tendință spre hipoglicemie\n• Ionogramă: hiponatremie, uneori hiperkaliemie (mai ales în insuficiența primară)\n• Creatinină, uree: ușor crescute prin deshidratare\n• Cortizol seric și test de stimulare, după stabilizare, dacă diagnosticul este incert\n• Hemoleucogramă, markeri de infecție, culturi la nevoie, ECG' },
+        { kind: 'diagnostic', prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?', answer: '• Insuficiență corticosuprarenală (criză addisoniană) prin supresia axei hipotalamo-hipofizo-suprarenale după oprirea bruscă a corticoterapiei, precipitată de infecția acută\n• Diferențial: gastroenterită cu hipovolemie, sepsis, boala Addison primară, abdomen acut, reactivarea bolii de bază' },
+        { kind: 'tratament', prompt: 'Care sunt principiile de tratament și de monitorizare?', answer: '• Urgență: acces venos, resuscitare volemică cu soluții saline, corectarea hipoglicemiei\n• Hidrocortizon intravenos fără a aștepta confirmarea de laborator\n• Tratarea cauzei declanșatoare (infecție)\n• Monitorizare: tensiune, diureză, glicemie, electroliți\n• Trecerea ulterioară pe corticoterapie orală și scădere lentă, individualizată; educația pacientului: nu se oprește singur tratamentul și are nevoie de acoperire în situații de stres' },
+      ],
+      takeaways: [
+        'Corticoterapia prelungită suprimă axa suprarenală; oprirea bruscă este periculoasă.',
+        'Criza addisoniană este urgență: lichide, glucoză și hidrocortizon fără întârziere.',
+        'Stresul (infecție, chirurgie) poate demasca insuficiența suprarenală.',
+        'Educația pacientului despre scăderea treptată previne episodul.',
+      ],
+    },
   ],
   skills: [
     {

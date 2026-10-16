@@ -136,6 +136,96 @@ export default {
         'Investigarea contacților este parte a tratamentului.',
       ],
     },
+    {
+      id: 'pne-c4',
+      title: 'Somnolență diurnă și sforăit',
+      setting: 'Cabinet de medicină de familie',
+      presentation:
+        'Bărbat de 52 de ani, supraponderal, cu hipertensiune arterială greu de controlat sub tratament, se prezintă pentru somnolență în timpul zilei, cefalee dimineața și un episod de adormire la volan. Soția povestește că sforăie zgomotos și că observă pauze în respirație în timpul nopții. Nu fumează, consumă alcool seara.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebări de anamneză sunt esențiale?',
+          answer:
+            '• Sforăit, pauze respiratorii martorizate, treziri cu senzație de sufocare, nicturie\n• Somnolență diurnă (scala Epworth), adormiri în situații periculoase, accidente sau aproape-accidente rutiere\n• Cefalee matinală, tulburări de concentrare, modificări de dispoziție\n• Greutate, alcool și sedative seara, medicamente, hipotiroidism\n• Antecedente cardiovasculare (hipertensiune, aritmii) și profesie (șofer profesionist?)',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?',
+          answer:
+            '• Indice de masă corporală și circumferința gâtului: obezitate centrală, gât gros\n• Examinarea orofaringelui: macroglosie, palat moale lung, amigdale mari, retrognație\n• Permeabilitatea nazală (deviație de sept, polipi)\n• Tensiunea arterială crescută\n• Auscultație cardiacă și pulmonară; semne de insuficiență dreaptă în formele avansate',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce investigații ceri și ce rezultate te aștepți?',
+          answer:
+            '• Poligrafie respiratorie sau polisomnografie nocturnă: apnei și hipopnei repetate, desaturări, treziri\n• Glicemie, profil lipidic, TSH\n• ECG și, la nevoie, ecocardiografie (cord drept, aritmii)\n• Gazometrie diurnă dacă se suspectează hipoventilație asociată obezității\n• Hemoleucogramă (poliglobulie posibilă)',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?',
+          answer:
+            'Cel mai probabil: sindrom de apnee obstructivă în somn.\nDiagnostic diferențial al somnolenței diurnă:\n• Privare cronică de somn\n• Narcolepsie\n• Hipotiroidism\n• Efect de medicamente sau alcool\n• Depresie\n• Apnee centrală (insuficiență cardiacă, opioide)',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Care sunt principiile de tratament și de monitorizare?',
+          answer:
+            '• Scădere ponderală, evitarea alcoolului și sedativelor seara, somn pe lateral\n• CPAP ca tratament de bază în forma moderată sau severă, cu verificarea aderenței\n• Tratamentul hipertensiunii și al comorbidităților; reevaluarea controlului tensional după CPAP\n• Sfat privind conducerea auto până la controlul somnolenței\n• Dispozitive de avansare mandibulară sau intervenții ORL în cazuri selectate',
+        },
+      ],
+      takeaways: [
+        'Obezitate, sforăit, pauze martorizate și somnolență diurnă sugerează apneea obstructivă în somn.',
+        'Diagnosticul se stabilește prin poligrafie sau polisomnografie.',
+        'CPAP este tratamentul de bază în formele moderate și severe.',
+        'Apneea netratată contribuie la hipertensiune rezistentă și accidente rutiere.',
+      ],
+    },
+    {
+      id: 'pne-c5',
+      title: 'Dispnee de efort și tuse uscată',
+      setting: 'Ambulatoriu de pneumologie',
+      presentation:
+        'Bărbat de 66 de ani, fost fumător, se prezintă pentru dispnee de efort care s-a agravat lent în ultimul an și tuse uscată persistentă. Nu are febră sau scădere ponderală. Are hipertensiune arterială tratată cu medicație obișnuită și a lucrat ca zugrav în tinerețe. Nu are animale de companie sau păsări în gospodărie.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebări de anamneză sunt esențiale?',
+          answer:
+            '• Evoluția dispneei (lentă, progresivă) și limitarea activităților zilnice\n• Tuse uscată, absența febrei, a hemoptiziei și a sputei purulente\n• Expuneri profesionale (azbest, siliciu, metale), pasiuni sau expuneri la păsări și mucegaiuri\n• Medicamente cu toxicitate pulmonară (amiodaronă, nitrofurantoin, citostatice), radioterapie toracică\n• Simptome de colagenoză: dureri articulare, fenomen Raynaud, uscăciunea ochilor și gurii\n• Fumat și antecedente familiale',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?',
+          answer:
+            '• Frecvență respiratorie, saturație în repaus și la efort\n• Hipocratism digital\n• Auscultație: raluri crepitante bazale bilaterale, fine, „în velcro”\n• Semne de hipertensiune pulmonară sau insuficiență dreaptă în formele avansate\n• Căutarea semnelor de colagenoză: sclerodactilie, tumefacții articulare, erupții cutanate',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce investigații ceri și ce rezultate te aștepți?',
+          answer:
+            '• Radiografie toracică: opacități reticulare bazale, volume pulmonare reduse\n• CT toracic de înaltă rezoluție: reticulație subpleurală bazală, bronșiectazii de tracțiune, fagure de miere\n• Spirometrie: tipar restrictiv; DLCO scăzută\n• Gazometrie sau pulsoximetrie la efort: hipoxemie\n• Teste imunologice pentru colagenoze\n• Lavaj bronhoalveolar sau biopsie doar dacă imagistica este neconcludentă',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?',
+          answer:
+            'Cel mai probabil: fibroză pulmonară idiopatică (model UIP), după excluderea altor cauze.\nDiagnostic diferențial:\n• Boală pulmonară interstițială din colagenoze\n• Pneumonită de hipersensibilitate cronică\n• Pneumoconioze (azbestoză, silicoză)\n• Toxicitate medicamentoasă\n• Insuficiență cardiacă stângă',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Care sunt principiile de tratament și de monitorizare?',
+          answer:
+            '• Medicamente antifibrotice, care încetinesc declinul funcțional, inițiate de pneumolog\n• Oxigenoterapie la efort sau în repaus când există hipoxemie\n• Reabilitare respiratorie, vaccinări antigripală și antipneumococică, oprirea fumatului\n• Tratamentul refluxului gastroesofagian și al comorbidităților\n• Evaluare pentru transplant pulmonar la pacienți selectați\n• Monitorizare periodică a funcției pulmonare și plan de îngrijiri paliative în boala avansată',
+        },
+      ],
+      takeaways: [
+        'Dispneea de efort progresivă cu tuse uscată și raluri velcro bazale sugerează fibroză interstițială.',
+        'HRCT cu model UIP poate stabili diagnosticul fără biopsie.',
+        'FPI nu răspunde la corticoizi ca tratament de fond; se folosesc antifibrotice.',
+        'Anamneza expunerilor și a medicamentelor este esențială înainte de eticheta idiopatică.',
+      ],
+    },
   ],
   skills: [
     {

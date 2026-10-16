@@ -118,6 +118,84 @@ export default {
         'Majoritatea herniilor de disc se ameliorează fără operație.',
       ],
     },
+    {
+      id: 'ort-c4',
+      title: 'Accident rutier cu durere intensă la nivelul șoldului',
+      setting: 'Camera de gardă',
+      presentation: 'Bărbat de 32 de ani, adus de ambulanță după o coliziune frontală în care a fost pasager fără centură. Acuză durere violentă în șoldul stâng și nu poate mișca membrul. A lovit genunchiul de bordul mașinii. Este conștient, hemodinamic stabil.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebări de anamneză sunt esențiale?',
+          answer: '• Mecanismul: viteză, impact asupra genunchiului flectat, alte traumatisme asociate (cap, torace, abdomen, coloană)\n• Localizarea durerii, imposibilitatea mișcării, parestezii sau slăbiciune la picior\n• Pierderea cunoștinței, alcool sau droguri la momentul accidentului\n• Antecedente: boli, medicație anticoagulantă, alergii, ultima masă (pentru anestezie)\n• Evaluare inițială de politraumatizat: ABCDE, apoi leziunile membrelor',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?',
+          answer: '• Atitudine vicioasă: șold în flexie, adducție și rotație internă, membru scurtat\n• Durere intensă la orice tentativă de mobilizare, impotență funcțională completă; trohanterul mare proeminent posterior\n• Examen neurovascular distal obligatoriu: puls pedios și tibial posterior, sensibilitate, flexia și extensia piciorului și degetelor (nerv sciatic)\n• Examinarea genunchiului ipsilateral, a femurului și a bazinului pentru leziuni asociate',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce investigații ceri și ce rezultate te aștepți?',
+          answer: '• Radiografie de bazin din față: capul femural situat în afara cotilului, deasupra și posterior\n• Radiografii de femur și genunchi pentru fracturi asociate\n• După reducere: radiografie de control și CT al șoldului pentru fragmente intraarticulare și fractura cotilului\n• Bilanț de politraumatizat: ecografie FAST, hemoleucogramă, grup sanguin',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?',
+          answer: '• Luxație posterioară traumatică de șold stâng (mecanism de tip „dashboard”)\n• Diferențial: fractură de col femural sau de diafiză femurală, fractură de cotil, fractură-luxație, luxație anterioară (membrul ar fi în abducție și rotație externă)\n• Leziuni asociate de căutat: fractura marginii posterioare a cotilului, leziune de nerv sciatic, leziuni ligamentare de genunchi',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Care sunt principiile de tratament și de monitorizare?',
+          answer: '• Urgență ortopedică: reducere cât mai rapidă, sub sedare sau anestezie, cu relaxare musculară adecvată\n• Reevaluarea neurovasculară imediat după reducere și documentarea ei\n• CT postreducere; dacă reducerea închisă eșuează sau există fragmente intraarticulare, tratament chirurgical\n• Mobilizare cu sprijin limitat, urmărirea tardivă pentru necroza avasculară a capului femural și coxartroza posttraumatică',
+        },
+      ],
+      takeaways: [
+        'Flexie, adducție și rotație internă a membrului scurtat după un traumatism cu impact pe genunchi = luxație posterioară de șold.',
+        'Reducerea precoce scade riscul de necroză avasculară.',
+        'Examenul nervului sciatic se face înainte și după reducere.',
+        'Un traumatism de energie mare impune evaluarea de politraumatizat.',
+      ],
+    },
+    {
+      id: 'ort-c5',
+      title: 'Durere dorsală bruscă după un efort banal',
+      setting: 'Cabinet de ortopedie',
+      presentation: 'Femeie de 74 de ani, aflată în menopauză de mulți ani, se prezintă pentru durere dorsală joasă apărută brusc după ce a ridicat o găleată cu apă. Durerea se accentuează la mișcare și la ridicarea din pat. Nu are febră, deficit motor sau tulburări sfincteriene. Fumează de mulți ani.',
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: 'Ce întrebări de anamneză sunt esențiale?',
+          answer: '• Debutul: brusc, după efort sau traumatism minim; durere mecanică sau de repaus\n• Semne de alarmă: febră, scădere în greutate, antecedente oncologice, durere nocturnă, deficit motor, tulburări urinare\n• Factori de risc pentru osteoporoză: menopauză, fumat, alcool, corticoterapie, scăderea în înălțime, fracturi anterioare, antecedente familiale de fractură de șold\n• Aport de calciu și vitamina D, medicație, căderi recente',
+        },
+        {
+          kind: 'examen',
+          prompt: 'Ce urmărești la examenul obiectiv? Ce găsești?',
+          answer: '• Inspecție: cifoză toracică accentuată, scădere în înălțime față de tinerețe\n• Palpare: durere localizată la percuția apofizei spinoase la nivelul vertebrei afectate, contractură paravertebrală\n• Examen neurologic complet al membrelor inferioare: forță, sensibilitate, reflexe, tonus sfincterian\n• Semne de excludere a unei cauze maligne sau infecțioase: febră, durere nocturnă care nu cedează la repaus',
+        },
+        {
+          kind: 'investigatii',
+          prompt: 'Ce investigații ceri și ce rezultate te aștepți?',
+          answer: '• Radiografie de coloană dorsolombară din față și profil: tasare cuneiformă sau lenticulară a unui corp vertebral, osteopenie\n• RMN dacă există deficit neurologic sau dubiu de cauză malignă, ori pentru datarea fracturii\n• DXA pentru confirmarea osteoporozei\n• Analize: calciu, fosfor, vitamina D, funcție renală, tiroidiană și paratiroidiană, hemoleucogramă, VSH, electroforeza proteinelor serice pentru excluderea mielomului',
+        },
+        {
+          kind: 'diagnostic',
+          prompt: 'Care e diagnosticul cel mai probabil și diagnosticul diferențial?',
+          answer: '• Fractură vertebrală prin tasare, de fragilitate, pe fond de osteoporoză postmenopauzală\n• Diferențial: fractură patologică (metastaze, mielom), spondilodiscită, hernie de disc, durere lombară mecanică banală\n• Fractura de fragilitate stabilește de la sine diagnosticul clinic de osteoporoză severă și cere căutarea cauzelor secundare',
+        },
+        {
+          kind: 'tratament',
+          prompt: 'Care sunt principiile de tratament și de monitorizare?',
+          answer: '• Analgezie adecvată, repaus relativ scurt și mobilizare precoce, cu sprijin ortopedic la nevoie\n• Reeducare și întărirea musculaturii paravertebrale, prevenirea căderilor\n• Tratament de fond al osteoporozei: calciu și vitamina D, medicație antiresorbtivă sau osteoformatoare conform ghidurilor\n• Cazuri selectate cu durere refractară sau tasare progresivă: tehnici de augmentare vertebrală sau fixare\n• Monitorizare: apariția altor fracturi, deficit neurologic, adeziunea la tratament',
+        },
+      ],
+      takeaways: [
+        'Durerea dorsală bruscă la o femeie vârstnică după efort minim sugerează fractură vertebrală de fragilitate.',
+        'Se elimină semnele de alarmă care cer excluderea unei cauze maligne sau infecțioase.',
+        'O fractură de fragilitate cere evaluare și tratament pentru osteoporoză.',
+        'Prevenirea căderilor și mobilizarea precoce fac parte din tratament.',
+      ],
+    },
   ],
   skills: [
     {

@@ -12,6 +12,26 @@ export default {
     { id: 'chi-f8', front: 'Durere abdominală sau lombară bruscă, hipotensiune, masă pulsatilă?', back: 'Anevrism de aortă abdominală rupt' },
     { id: 'chi-f9', front: 'Durere disproporționată față de aspectul pielii, cu crepitații?', back: 'Fasceită necrozantă – debridare chirurgicală de urgență' },
     { id: 'chi-f10', front: 'Disfonie apărută după tiroidectomie?', back: 'Lezarea nervului laringeu recurent' },
+    { id: 'chi-f11', front: 'Evoluția clasică a durerii în apendicita acută?', back: 'Epigastrică sau periombilicală, apoi migrare în fosa iliacă dreaptă' },
+    { id: 'chi-f12', front: 'Semnul Rovsing?', back: 'Durere în fosa iliacă dreaptă la palparea fosei iliace stângi' },
+    { id: 'chi-f13', front: 'Punctul McBurney?', back: 'Treimea externă a liniei spină iliacă antero-superioară – ombilic' },
+    { id: 'chi-f14', front: 'Peritonita primară (spontană) apare tipic la cine?', back: 'La cirotici cu ascită; tratament medical' },
+    { id: 'chi-f15', front: 'Atitudinea în peritonita secundară generalizată?', back: 'Resuscitare, antibiotice și control chirurgical al sursei' },
+    { id: 'chi-f16', front: 'Localizarea tipică a fisurii anale?', back: 'Linia mediană posterioară, cu durere la defecație' },
+    { id: 'chi-f17', front: 'Hemoroizi de gradul III?', back: 'Prolabează și necesită reducere manuală' },
+    { id: 'chi-f18', front: 'Tratamentul abcesului perianal?', back: 'Incizie și drenaj chirurgical' },
+    { id: 'chi-f19', front: 'Arsura de gradul III la palpare?', back: 'Albă-cerată sau carbonizată, uscată, insensibilă' },
+    { id: 'chi-f20', front: 'Regula lui 9 la adult: un membru inferior?', back: 'Aproximativ 18% din suprafața corporală' },
+    { id: 'chi-f21', front: 'Primul ajutor în arsura termică?', back: 'Răcire cu apă curentă și scoaterea inelelor' },
+    { id: 'chi-f22', front: 'Cea mai frecventă complicație pulmonară postoperatorie?', back: 'Atelectazia' },
+    { id: 'chi-f23', front: 'Scurgere serosanghinolentă abundentă prin plagă în ziua 7?', back: 'Dehiscență de plagă cu risc de eviscerație' },
+    { id: 'chi-f24', front: 'Triada Beck?', back: 'Hipotensiune, jugulare turgescente, zgomote cardiace asurzite' },
+    { id: 'chi-f25', front: 'Tratamentul pneumotoraxului în tensiune?', back: 'Decompresie pleurală imediată' },
+    { id: 'chi-f26', front: 'Fazele cicatrizării în ordine?', back: 'Hemostază, inflamație, proliferare, remodelare' },
+    { id: 'chi-f27', front: 'Triada Virchow?', back: 'Stază venoasă, leziune endotelială, hipercoagulabilitate' },
+    { id: 'chi-f28', front: 'Rolul ACE în cancerul colorectal?', back: 'Urmărirea recidivei după rezecție, nu screening' },
+    { id: 'chi-f29', front: 'Infecția gravă după splenectomie și germenul tipic?', back: 'Sepsis fulminant, pneumococ' },
+    { id: 'chi-f30', front: 'Donator universal de hematii în urgență?', back: 'Grup O, Rh negativ' },
   ],
   questions: [
     {
@@ -433,6 +453,874 @@ export default {
       ],
       answer: [0, 2, 3, 4],
       explanation: 'Mecanismele compensatorii mențin tensiunea arterială până la pierderi importante, astfel că hipotensiunea este un semn tardiv. Tahicardia și extremitățile reci sunt semne precoce.',
+    },
+    {
+      id: 'chi-q31',
+      type: 'single',
+      text: 'O femeie însărcinată, în al doilea trimestru, are durere în flancul drept și suspiciune de apendicită acută. Care este investigația imagistică de primă intenție?',
+      options: [
+        'Radiografia abdominală simplă',
+        'Tomografia computerizată cu substanță de contrast',
+        'Ecografia abdominală cu compresie gradată',
+        'Clisma baritată',
+        'Laparoscopia diagnostică obligatorie la toate gravidele'
+      ],
+      answer: [2],
+      explanation: 'Ecografia nu iradiază și este prima alegere în sarcină. Radiografia abdominală simplă are valoare diagnostică mică în apendicită, iar iradierea se evită când este posibil.',
+    },
+    {
+      id: 'chi-q32',
+      type: 'multi',
+      text: 'Care dintre următoarele sunt complicații posibile ale apendicitei acute netratate?',
+      options: [
+        'Perforația cu peritonită generalizată',
+        'Plastronul apendicular',
+        'Hemoragia digestivă superioară masivă',
+        'Abcesul apendicular',
+        'Pileflebita (tromboflebita septică a venei porte)'
+      ],
+      answer: [0, 1, 3, 4],
+      explanation: 'Apendicita netratată poate evolua spre perforație, plastron, abces și, rar, pileflebită cu abcese hepatice. Hemoragia digestivă superioară nu face parte din evoluția ei.',
+    },
+    {
+      id: 'chi-q33',
+      type: 'single',
+      text: 'Un pacient stabil hemodinamic, afebril sau subfebril, are o masă palpabilă dureroasă, bine delimitată, în fosa iliacă dreaptă, după câteva zile de durere. Cel mai probabil este vorba de un plastron apendicular. Atitudinea inițială obișnuită este:',
+      options: [
+        'Tratament conservator (repaus, antibiotice, monitorizare), cu apendicectomie planificată ulterior',
+        'Apendicectomie de urgență imediată, în orice condiții',
+        'Clisma baritată pentru confirmare',
+        'Incizie și drenaj la patul bolnavului',
+        'Externare fără tratament și reevaluare peste o lună'
+      ],
+      answer: [0],
+      explanation: 'Plastronul este o reacție de delimitare a epiploonului și ansele vecine în jurul apendicelui inflamat; operația în fază acută este dificilă. Se monitorizează evoluția, iar dacă apare abces sau peritonită se intervine.',
+    },
+    {
+      id: 'chi-q34',
+      type: 'single',
+      text: 'Punctul McBurney se află la:',
+      options: [
+        'Mijlocul liniei dintre ombilic și simfiza pubiană',
+        'Joncțiunea treimii interne cu treimea mijlocie a liniei bispinoase',
+        'Marginea laterală a dreptului abdominal, la nivelul ombilicului',
+        'Punctul de intersecție dintre linia axilară anterioară și rebordul costal drept',
+        'Joncțiunea treimii externe cu cele două treimi interne ale liniei dintre spina iliacă antero-superioară dreaptă și ombilic'
+      ],
+      answer: [4],
+      explanation: 'Punctul McBurney marchează proiecția bazei apendicelui și indică locul de maximă sensibilitate în apendicita acută; incizia clasică se face în acest teritoriu.',
+    },
+    {
+      id: 'chi-q35',
+      type: 'single',
+      text: 'O femeie de 22 de ani are durere în fosa iliacă dreaptă. Care dintre următoarele afecțiuni trebuie exclusă prin testul de sarcină, deoarece poate mima apendicita și constituie o urgență?',
+      options: [
+        'Gastrita erozivă',
+        'Sarcina ectopică',
+        'Litiaza vezicală',
+        'Hernia hiatală',
+        'Pancreatita cronică'
+      ],
+      answer: [1],
+      explanation: 'Sarcina ectopică, în special cea rupturată, poate da durere pelvină și semne peritoneale. La orice femeie aflată la vârsta fertilă cu durere în fosa iliacă dreaptă se face test de sarcină.',
+    },
+    {
+      id: 'chi-q36',
+      type: 'multi',
+      text: 'Care dintre următoarele afirmații despre apendicita acută la categorii particulare de pacienți sunt corecte?',
+      options: [
+        'La vârstnic, leucocitoza este întotdeauna marcată',
+        'La vârstnic, tabloul clinic este adesea atipic, iar diagnosticul poate fi întârziat',
+        'La copilul mic, perforația este mai frecventă la momentul diagnosticului decât la adultul tânăr',
+        'În sarcina avansată, durerea poate fi localizată mai sus în flancul drept, prin deplasarea apendicelui de către uter',
+        'La copilul mic, semnele peritoneale sunt mai evidente și mai ușor de obiectivat decât la adult'
+      ],
+      answer: [1, 2, 3],
+      explanation: 'Atipia clinică și întârzierea diagnosticului la extremele de vârstă cresc rata perforației. Uterul gravid deplasează cecul și apendicele cranial.',
+    },
+    {
+      id: 'chi-q37',
+      type: 'single',
+      text: 'Cea mai frecventă cauză de peritonită acută secundară este:',
+      options: [
+        'Diseminarea hematogenă a unui singur germen la un pacient fără patologie abdominală',
+        'Colonizarea peritoneului prin cateter de dializă peritoneală',
+        'Ascita cirotică infectată spontan',
+        'Perforația unui organ cavitar (apendice, ulcer gastroduodenal, colon)',
+        'Pancreatita cronică calcifiantă'
+      ],
+      answer: [3],
+      explanation: 'Peritonita secundară rezultă dintr-un focar intraabdominal (perforație, dehiscență, inflamație transmurală). Ascita infectată spontan și infecția prin cateter sunt forme primare sau terțiare, mai rare.',
+    },
+    {
+      id: 'chi-q38',
+      type: 'multi',
+      text: 'Despre peritonita bacteriană spontană (primară), care afirmații sunt corecte?',
+      options: [
+        'Apare tipic la pacienți cu ciroză și ascită',
+        'Impune laparotomie de urgență pentru identificarea perforației',
+        'De regulă este monomicrobiană',
+        'Tratamentul este în principal medical, cu antibiotice, fără laparotomie',
+        'Sursa infecției este o perforație de organ cavitar'
+      ],
+      answer: [0, 2, 3],
+      explanation: 'Peritonita primară nu are o sursă intraabdominală chirurgicală; diagnosticul se pune prin analiza lichidului de ascită, iar tratamentul este medical. Chirurgia se rezervă peritonitelor secundare.',
+    },
+    {
+      id: 'chi-q39',
+      type: 'single',
+      text: 'Principiul de bază al tratamentului unei peritonite acute secundare generalizate este:',
+      options: [
+        'Antibioterapie exclusivă, cu reevaluare după 72 de ore',
+        'Repaus digestiv și analgezice, fără intervenție',
+        'Resuscitare, antibioterapie și controlul chirurgical al sursei de contaminare',
+        'Drenaj percutanat izolat, indiferent de cauză',
+        'Clisme evacuatorii repetate'
+      ],
+      answer: [2],
+      explanation: 'Fără eliminarea sursei (sutura perforației, rezecție, apendicectomie) infecția persistă. Resuscitarea volemică și antibioterapia sunt măsuri asociate, nu înlocuitoare ale intervenției.',
+    },
+    {
+      id: 'chi-q40',
+      type: 'multi',
+      text: 'Care dintre următoarele sunt complicații posibile după o peritonită acută operată?',
+      options: [
+        'Pancreatita cronică calcifiantă',
+        'Abcese intraabdominale reziduale (subfrenic, în fundul de sac Douglas)',
+        'Ileus paralitic prelungit',
+        'Hernia hiatală prin alunecare',
+        'Stenoza pilorică hipertrofică a adultului'
+      ],
+      answer: [1, 2],
+      explanation: 'După peritonită pot rămâne colecții purulente în zonele declive sau subfrenice și poate persista ileusul. Pot apărea și sepsisul, insuficiența multiplă de organ și eventrația, dar celelalte variante nu sunt consecințe ale peritonitei.',
+    },
+    {
+      id: 'chi-q41',
+      type: 'single',
+      text: 'Un pacient operat pentru peritonită are febră și tenesme rectale, iar la tușeul rectal se palpează o bombare dureroasă a fundului de sac Douglas. Diagnosticul probabil este:',
+      options: [
+        'Abces în fundul de sac Douglas (abces pelvin)',
+        'Hemoroizi interni trombozați',
+        'Fisură anală acută',
+        'Prostatită cronică',
+        'Invaginație ileocecală'
+      ],
+      answer: [0],
+      explanation: 'Fundul de sac Douglas este zona cea mai declivă a peritoneului la pacientul în poziție semișezândă; colecțiile se acumulează aici și pot fi palpate prin tușeu rectal sau vaginal, apoi drenate.',
+    },
+    {
+      id: 'chi-q42',
+      type: 'single',
+      text: 'Un adult de 45 de ani relatează sânge roșu aprins, la sfârșitul defecației, pe hârtie și în vasul de toaletă, fără durere. Cea mai probabilă cauză este:',
+      options: [
+        'Fisura anală acută',
+        'Abcesul perianal',
+        'Cancerul de colon drept',
+        'Diverticulita acută',
+        'Boala hemoroidală internă'
+      ],
+      answer: [4],
+      explanation: 'Hemoroizii interni sângerează tipic nedureros, cu sânge roșu aprins. Fisura anală sângerează puțin, dar este însoțită de durere intensă. Nu se atribuie automat orice rectoragie hemoroizilor, mai ales după 40–50 de ani.',
+    },
+    {
+      id: 'chi-q43',
+      type: 'multi',
+      text: 'Despre fisura anală, care afirmații sunt corecte?',
+      options: [
+        'Localizarea tipică este laterală stângă, la ora 3',
+        'Localizarea tipică este pe linia mediană posterioară',
+        'Durerea apare în timpul defecației și poate persista după aceasta',
+        'Debutează cu hemoragie abundentă, fără durere',
+        'Este asociată cu hipertonia sfincterului anal intern'
+      ],
+      answer: [1, 2, 4],
+      explanation: 'Fisura este o ulcerație a anodermului, în special posterior, cu spasm sfincterian și durere caracteristică; sângerarea este discretă.',
+    },
+    {
+      id: 'chi-q44',
+      type: 'single',
+      text: 'Hemoroizii interni care prolabează la efort sau la defecație și necesită reducere manuală sunt de gradul:',
+      options: [
+        'I',
+        'III',
+        'II',
+        'IV',
+        '0'
+      ],
+      answer: [1],
+      explanation: 'Gradul I – nu prolabează; II – prolabează și se reduc spontan; III – necesită reducere manuală; IV – ireductibili. Gradul orientează opțiunea terapeutică.',
+    },
+    {
+      id: 'chi-q45',
+      type: 'single',
+      text: 'Tratamentul de bază al unui abces perianal colectat este:',
+      options: [
+        'Antibioterapie orală exclusivă',
+        'Scleroterapie cu soluție sclerozantă',
+        'Dilatație anală forțată',
+        'Incizia și drenajul chirurgical',
+        'Așteptare până la fistulizare spontană'
+      ],
+      answer: [3],
+      explanation: 'Colecțiile purulente se tratează prin evacuare; antibioticele singure nu sunt suficiente. Abcesul netratat se poate fistuliza sau extinde.',
+    },
+    {
+      id: 'chi-q46',
+      type: 'single',
+      text: 'Care afirmație despre fistula perianală este corectă?',
+      options: [
+        'Se vindecă de regulă spontan sub tratament antibiotic',
+        'Nu se asociază niciodată cu boala Crohn',
+        'Orificiul intern se află de obicei la nivelul criptelor de la linia pectinee, iar tratamentul este chirurgical',
+        'Orificiul intern se deschide în rectul supraperitoneal',
+        'Este întotdeauna rezultatul unui traumatism anal direct'
+      ],
+      answer: [2],
+      explanation: 'Majoritatea fistulelor au origine criptoglandulară, după un abces perianal; ele nu se închid spontan. Boala Crohn este o cauză importantă de fistule complexe sau recidivante.',
+    },
+    {
+      id: 'chi-q47',
+      type: 'multi',
+      text: 'Un bărbat de 62 de ani are rectoragie recentă și un hemoroid vizibil la anuscopie. Care afirmații sunt corecte?',
+      options: [
+        'Tușeul rectal este contraindicat în prezența hemoroizilor',
+        'Sângele roșu aprins exclude cancerul rectal',
+        'Colonoscopia este inutilă dacă se vede un hemoroid',
+        'Prezența hemoroizilor nu exclude o altă sursă de sângerare, inclusiv neoplazică',
+        'La un astfel de pacient trebuie luată în calcul o evaluare endoscopică a colonului'
+      ],
+      answer: [3, 4],
+      explanation: 'Boala hemoroidală și neoplasmul colorectal pot coexista; la vârstă înaintată sau cu simptome de alarmă se exclude neoplazia. Tușeul rectal face parte din examinarea obligatorie.',
+    },
+    {
+      id: 'chi-q48',
+      type: 'single',
+      text: 'O leziune de ardere cu flictene, bază roz, umedă și foarte dureroasă corespunde, calitativ, unei arsuri de:',
+      options: [
+        'Gradul II superficial (dermică superficială)',
+        'Gradul I (epidermică)',
+        'Gradul III (grosime totală)',
+        'Gradul IV (carbonizare)',
+        'O leziune de degerătură'
+      ],
+      answer: [0],
+      explanation: 'În arsura dermică superficială sunt afectate epidermul și partea superficială a dermului, cu terminații nervoase intacte, deci durere intensă; vindecarea se face de obicei fără cicatrice importantă.',
+    },
+    {
+      id: 'chi-q49',
+      type: 'single',
+      text: 'Care caracteristică este tipică pentru o arsură de gradul III (grosime totală)?',
+      options: [
+        'Flictene mari, umede, extrem de dureroase',
+        'Eritem simplu, fără flictene, care se albește la presiune',
+        'Vindecare rapidă fără intervenție, în câteva zile',
+        'Sensibilitate crescută la atingere ușoară',
+        'Zonă uscată, albă-cerată sau carbonizată, de obicei insensibilă la durere'
+      ],
+      answer: [4],
+      explanation: 'Distrugerea totală a dermului implică și terminațiile nervoase, de aceea zona centrală este nedureroasă. Aceste leziuni nu se pot epiteliza din dermul profund și necesită adesea excizie și grefă.',
+    },
+    {
+      id: 'chi-q50',
+      type: 'multi',
+      text: 'Care dintre următoarele sunt măsuri corecte în primul ajutor al unei arsuri termice recente?',
+      options: [
+        'Aplicarea de gheață direct pe arsură',
+        'Aplicarea de unt sau ulei pe leziune',
+        'Răcirea zonei cu apă curentă, la temperatură moderată',
+        'Îndepărtarea inelelor, ceasurilor și a hainelor nearse înainte de instalarea edemului',
+        'Verificarea statutului antitetanic'
+      ],
+      answer: [2, 3, 4],
+      explanation: 'Apa curentă oprește procesul de ardere și ameliorează durerea; gheața poate agrava leziunea tisulară, iar grăsimile rețin căldura și contaminează. Bijuteriile se scot precoce pentru că edemul le face constrictive.',
+    },
+    {
+      id: 'chi-q51',
+      type: 'multi',
+      text: 'Care dintre următoarele ridică suspiciunea unei leziuni inhalatorii la un pacient ars?',
+      options: [
+        'Incendiu într-un spațiu închis',
+        'Vibrise arse și funingine în orofaringe',
+        'Absența oricărei leziuni la nivelul feței exclude cu certitudine leziunea inhalatorie',
+        'Răgușeală sau stridor',
+        'Arsuri faciale'
+      ],
+      answer: [0, 1, 3, 4],
+      explanation: 'Leziunea inhalatorie poate duce la edem de căi aeriene cu obstrucție rapid progresivă; semnele de suspiciune impun evaluare atentă și, la nevoie, intubație precoce. Lipsa arsurilor faciale nu o exclude.',
+    },
+    {
+      id: 'chi-q52',
+      type: 'multi',
+      text: 'Care sunt complicații importante ale unei arsuri extinse?',
+      options: [
+        'Hipervolemia precoce prin retenție de lichide',
+        'Hipertensiune arterială prin pierdere plasmatică',
+        'Absența oricărui risc de hipotermie',
+        'Șocul hipovolemic prin pierdere de plasmă (extravazare capilară)',
+        'Infecția plăgii și sepsisul'
+      ],
+      answer: [3, 4],
+      explanation: 'Creșterea permeabilității capilare duce la pierdere volemică și edem, iar bariera cutanată distrusă favorizează infecția. Arșii pierd căldură și sunt expuși hipotermiei, nu protejați de ea.',
+    },
+    {
+      id: 'chi-q53',
+      type: 'single',
+      text: 'Conform regulii lui Wallace („regula lui 9”), arsura circumferențială a întregului membru inferior drept al unui adult reprezintă aproximativ:',
+      options: [
+        '9% din suprafața corporală',
+        '18% din suprafața corporală',
+        '27% din suprafața corporală',
+        '36% din suprafața corporală',
+        '4,5% din suprafața corporală'
+      ],
+      answer: [1],
+      explanation: 'La adult, fiecare membru inferior reprezintă aproximativ 18%, fiecare membru superior 9%, capul 9%, iar fiecare față a trunchiului 18%.',
+    },
+    {
+      id: 'chi-q54',
+      type: 'single',
+      text: 'Cea mai frecventă complicație pulmonară postoperatorie este:',
+      options: [
+        'Pneumotoraxul spontan',
+        'Embolia pulmonară masivă',
+        'Abcesul pulmonar',
+        'Atelectazia',
+        'Sindromul de detresă respiratorie al nou-născutului'
+      ],
+      answer: [3],
+      explanation: 'Anestezia generală, durerea și imobilizarea reduc ventilația bazală și favorizează colapsul alveolar. Prevenția presupune fizioterapie respiratorie, analgezie adecvată și mobilizare precoce.',
+    },
+    {
+      id: 'chi-q55',
+      type: 'multi',
+      text: 'Care sunt măsuri de profilaxie a bolii tromboembolice postoperatorii?',
+      options: [
+        'Repaus prelungit la pat',
+        'Mobilizarea precoce',
+        'Compresia elastică sau pneumatică intermitentă',
+        'Anticoagulare profilactică la pacienții cu risc crescut',
+        'Restricția totală a lichidelor'
+      ],
+      answer: [1, 2, 3],
+      explanation: 'Staza venoasă este unul dintre factorii triadei Virchow; mobilizarea și compresia o reduc, iar anticoagularea profilactică se individualizează după risc. Deshidratarea și imobilizarea cresc riscul.',
+    },
+    {
+      id: 'chi-q56',
+      type: 'single',
+      text: 'Febra apărută în primele 24–48 de ore după o intervenție abdominală majoră, fără alte semne de alarmă, este cel mai frecvent atribuită:',
+      options: [
+        'Dehiscenței anastomotice',
+        'Abcesului subfrenic constituit',
+        'Atelectaziei și răspunsului inflamator la agresiunea chirurgicală',
+        'Infecției de plagă',
+        'Pancreatitei cronice'
+      ],
+      answer: [2],
+      explanation: 'Complicațiile septice (infecție de plagă, dehiscență anastomotică, abcese) apar de obicei mai târziu, în jurul zilelor 5–7. Febra precoce are cauze pulmonare sau inflamatorii, dar trebuie reevaluată dacă persistă.',
+    },
+    {
+      id: 'chi-q57',
+      type: 'multi',
+      text: 'Care dintre următoarele sugerează o dehiscență anastomotică după o rezecție intestinală?',
+      options: [
+        'Febră și tahicardie după câteva zile de evoluție aparent favorabilă',
+        'Durere abdominală care se accentuează',
+        'Apariția de conținut intestinal sau purulent pe tubul de dren',
+        'Reluarea precoce a tranzitului și durere abdominală în scădere',
+        'Ileus prelungit și semne de peritonită'
+      ],
+      answer: [0, 1, 2, 4],
+      explanation: 'Dehiscența se manifestă de obicei după zilele 3–7 și poate duce la peritonită sau abces. Semnele necesită investigare imagistică și, adesea, reintervenție.',
+    },
+    {
+      id: 'chi-q58',
+      type: 'single',
+      text: 'În ziua 7 după o laparotomie, un pacient tușește și apoi observă scurgere abundentă de lichid serosanghinolent prin plagă. Prima conduită este:',
+      options: [
+        'Acoperirea plăgii cu comprese sterile umezite, repaus și pregătirea pentru reintervenție',
+        'Sutura plăgii la patul bolnavului, fără anestezie',
+        'Repunerea anselor cu mâna, în salon',
+        'Externarea cu pansament uscat',
+        'Aplicarea de unguente iritante pe marginile plăgii'
+      ],
+      answer: [0],
+      explanation: 'Lichidul în cantitate mare poate anunța dehiscența fasciei cu risc de eviscerație. Se protejează conținutul abdominal, se evită manipularea și se anunță echipa chirurgicală.',
+    },
+    {
+      id: 'chi-q59',
+      type: 'multi',
+      text: 'Care afirmații despre evaluarea preoperatorie sunt corecte?',
+      options: [
+        'Clasificarea ASA măsoară dificultatea tehnică a operației',
+        'Clasificarea ASA descrie starea fizică generală a pacientului înainte de anestezie',
+        'Oprirea fumatului cu o zi înainte elimină riscul pulmonar',
+        'Consimțământul informat se obține după explicarea riscurilor, beneficiilor și alternativelor',
+        'Antecedentele cardiopulmonare se omit la chirurgia programată'
+      ],
+      answer: [1, 3],
+      explanation: 'ASA evaluează comorbiditățile, nu complexitatea chirurgicală. Consimțământul informat este o cerință etică și legală, iar optimizarea comorbidităților reduce riscul perioperator.',
+    },
+    {
+      id: 'chi-q60',
+      type: 'single',
+      text: 'Un traumatizat toracic are dispnee severă, hipotensiune, jugulare turgescente, trahee deviată și murmur vezicular abolit pe o hemitorace hipersonor. Conduita imediată este:',
+      options: [
+        'Radiografie toracică și apoi decizia',
+        'Administrare de anticoagulant',
+        'Pericardiocenteză',
+        'Observare 24 de ore',
+        'Decompresie pleurală imediată, fără a aștepta radiografia'
+      ],
+      answer: [4],
+      explanation: 'Pneumotoraxul sufocant (în tensiune) este diagnostic clinic și urgență vitală; se decomprimă, apoi se drenează pleural.',
+    },
+    {
+      id: 'chi-q61',
+      type: 'multi',
+      text: 'Care sunt elementele triadei Beck în tamponada cardiacă?',
+      options: [
+        'Hipertensiune arterială',
+        'Zgomote cardiace accentuate și murmur vezicular abolit',
+        'Hipotensiune arterială',
+        'Distensia venelor jugulare',
+        'Zgomote cardiace asurzite'
+      ],
+      answer: [2, 3, 4],
+      explanation: 'Colecția pericardică comprimă cavitățile cardiace, scade debitul și crește presiunea venoasă. Zgomotele cardiace devin îndepărtate.',
+    },
+    {
+      id: 'chi-q62',
+      type: 'single',
+      text: 'Care este cea mai importantă măsură în tratamentul șocului hemoragic?',
+      options: [
+        'Administrarea exclusivă de vasopresoare',
+        'Oprirea sângerării (controlul sursei) asociată cu restabilirea volemiei',
+        'Repaus la pat și observație',
+        'Antibioterapie cu spectru larg',
+        'Corecția glicemiei înaintea oricărei alte măsuri'
+      ],
+      answer: [1],
+      explanation: 'Fără oprirea hemoragiei, resuscitarea volemică singură este temporară. Hemoragia se controlează prin compresie, chirurgie sau alte metode, iar volumul pierdut se înlocuiește, de preferință cu sânge.',
+    },
+    {
+      id: 'chi-q63',
+      type: 'single',
+      text: 'Un traumatizat abdominal contuz are hipotensiune persistentă, tahicardie și FAST pozitiv pentru lichid intraperitoneal. Conduita este:',
+      options: [
+        'Tomografie computerizată cu substanță de contrast înainte de orice măsură',
+        'Observație clinică 48 de ore',
+        'Radiografie abdominală simplă',
+        'Laparotomie de urgență',
+        'Tratament conservator în salon'
+      ],
+      answer: [3],
+      explanation: 'La instabilul hemodinamic cu hemoperitoneu se merge direct în sala de operație; CT se rezervă pacienților stabili.',
+    },
+    {
+      id: 'chi-q64',
+      type: 'single',
+      text: 'Pacient stabil hemodinamic, după o contuzie abdominală, cu leziune hepatică de grad mic pe CT. Atitudinea posibilă este:',
+      options: [
+        'Laparotomie obligatorie la orice leziune hepatică',
+        'Externare imediată fără urmărire',
+        'Tratament non-operator cu monitorizare atentă',
+        'Hepatectomie dreaptă',
+        'Transplant hepatic'
+      ],
+      answer: [2],
+      explanation: 'Leziunile hepatice și splenice la pacienți stabili pot fi tratate conservator, în servicii cu posibilitate de monitorizare și intervenție rapidă.',
+    },
+    {
+      id: 'chi-q65',
+      type: 'multi',
+      text: 'Despre voletul costal, care afirmații sunt corecte?',
+      options: [
+        'Nu se asociază cu contuzie pulmonară',
+        'Analgezia nu influențează ventilația',
+        'Constă în fracturi costale multiple, în mai multe puncte',
+        'Prezintă mișcare paradoxală a segmentului respectiv',
+        'Hipoxia se datorează în mare parte contuziei pulmonare subiacente'
+      ],
+      answer: [2, 3, 4],
+      explanation: 'Segmentul mobil se mișcă invers față de peretele toracic, dar leziunea pulmonară dă gravitatea hipoxiei; analgezia eficientă ameliorează mecanica respiratorie.',
+    },
+    {
+      id: 'chi-q66',
+      type: 'single',
+      text: 'Tratamentul inițial al unui hemotorace este:',
+      options: [
+        'Drenajul pleural cu tub',
+        'Puncție pericardică',
+        'Antitusive',
+        'Radioterapie',
+        'Doar observare, fără intervenție'
+      ],
+      answer: [0],
+      explanation: 'Drenajul evacuează sângele, reexpansionează plămânul și permite monitorizarea pierderii; toracotomia se rezervă sângerării masive sau persistente.',
+    },
+    {
+      id: 'chi-q67',
+      type: 'single',
+      text: 'O plagă contaminată, prezentată la câteva ore de la producere și care a necesitat toaletă chirurgicală, se închide cel mai prudent prin:',
+      options: [
+        'Sutură primară imediată, strânsă',
+        'Grefă de piele imediată pe plaga nepregătită',
+        'Închidere cu adeziv pe plaga necurățată',
+        'Nicio îngrijire',
+        'Sutură primară întârziată, după câteva zile, dacă nu apar semne de infecție'
+      ],
+      answer: [4],
+      explanation: 'Intervalul de așteptare permite instalarea apărării locale și reduce riscul de infecție; suturile se aplică apoi pe plaga curată.',
+    },
+    {
+      id: 'chi-q68',
+      type: 'multi',
+      text: 'Care factori întârzie cicatrizarea plăgilor?',
+      options: [
+        'Diabetul zaharat',
+        'Vârsta tânără',
+        'Corticoterapia prelungită',
+        'Ischemia locală',
+        'Malnutriția'
+      ],
+      answer: [0, 2, 3, 4],
+      explanation: 'Circulația locală insuficientă, deficitele nutriționale, hiperglicemia și glucocorticoizii alterează inflamația și sinteza de colagen.',
+    },
+    {
+      id: 'chi-q69',
+      type: 'single',
+      text: 'În care fază a cicatrizării se formează țesutul de granulație și se depune colagen?',
+      options: [
+        'Faza de hemostază',
+        'Faza proliferativă',
+        'Faza inflamatorie imediată',
+        'Faza de remodelare tardivă',
+        'Nicio fază nu implică colagen'
+      ],
+      answer: [1],
+      explanation: 'Fibroblastele și neoangiogeneza formează țesutul de granulație în faza proliferativă. Remodelarea ulterioară crește rezistența cicatricei.',
+    },
+    {
+      id: 'chi-q70',
+      type: 'multi',
+      text: 'Despre infecția de plagă postoperatorie, care afirmații sunt corecte?',
+      options: [
+        'Antibioticele singure vindecă o colecție purulentă fără drenaj',
+        'Tratamentul esențial este deschiderea plăgii și evacuarea colecției',
+        'Debutează de obicei în primele 6 ore',
+        'Se tratează exclusiv prin pansamente uscate, fără evacuarea colecției',
+        'Apare de obicei după câteva zile de la operație'
+      ],
+      answer: [1, 4],
+      explanation: 'Colecția purulentă se evacuează; antibioticele sunt adjuvante. Semnele clasice (durere, eritem, căldură, secreție) apar în zilele 4–7.',
+    },
+    {
+      id: 'chi-q71',
+      type: 'single',
+      text: 'Cicatricea cheloidă diferă de cea hipertrofică prin faptul că:',
+      options: [
+        'Rămâne strict în limitele plăgii și regresează de obicei',
+        'Apare numai la vârstnici',
+        'Este un semn de infecție activă',
+        'Depășește marginile plăgii inițiale și nu regresează spontan',
+        'Nu conține colagen'
+      ],
+      answer: [3],
+      explanation: 'Cheloidul are o proliferare colagenică excesivă, extinsă dincolo de leziune, cu recidive după excizie simplă.',
+    },
+    {
+      id: 'chi-q72',
+      type: 'multi',
+      text: 'Care sunt elemente ale profilaxiei antitetanice în plăgi?',
+      options: [
+        'Toaleta chirurgicală a plăgii',
+        'Verificarea statusului de vaccinare',
+        'Tetanosul conferă imunitate durabilă',
+        'Imunoglobulină antitetanică la plăgi cu risc la pacienții incomplet vaccinați',
+        'Toaleta plăgii este inutilă dacă se face vaccinul'
+      ],
+      answer: [0, 1, 3],
+      explanation: 'Eliminarea țesuturilor devitalizate scade riscul anaerob; vaccinarea și imunoglobulina asigură protecție. Boala nu produce imunitate protectoare.',
+    },
+    {
+      id: 'chi-q73',
+      type: 'single',
+      text: 'Care sunt componentele triadei Virchow?',
+      options: [
+        'Hipertensiune, hiperlipidemie, fumat',
+        'Febră, durere, edem',
+        'Staza venoasă, leziunea endotelială, hipercoagulabilitatea',
+        'Anemie, leucocitoză, trombocitopenie',
+        'Vasoconstricție, hipotensiune, tahicardie'
+      ],
+      answer: [2],
+      explanation: 'Cei trei factori favorizează tromboza venoasă și explică profilaxia postoperatorie.',
+    },
+    {
+      id: 'chi-q74',
+      type: 'multi',
+      text: 'Care sunt semne sugestive de tromboză venoasă profundă a gambei?',
+      options: [
+        'Membru rece, palid, fără puls',
+        'Edem unilateral',
+        'Durere la palparea maselor musculare ale gambei',
+        'Diferență de circumferință între gambe',
+        'Semnul Homans este diagnostic de certitudine'
+      ],
+      answer: [1, 2, 3],
+      explanation: 'Edemul unilateral cu durere sugerează TVP; semnul Homans are valoare mică. Membrul rece fără puls indică ischemie arterială.',
+    },
+    {
+      id: 'chi-q75',
+      type: 'single',
+      text: 'Investigația de primă intenție în suspiciunea de TVP a membrului inferior este:',
+      options: [
+        'Ecografia Doppler venoasă (duplex)',
+        'Radiografia membrului',
+        'Electromiografia',
+        'Scintigrafia osoasă',
+        'Biopsia musculară'
+      ],
+      answer: [0],
+      explanation: 'Ecografia duplex este neinvazivă, disponibilă și precisă pentru trombii proximali.',
+    },
+    {
+      id: 'chi-q76',
+      type: 'multi',
+      text: 'Care sunt complicații ale bolii varicoase?',
+      options: [
+        'Gangrena arterială uscată de cauză embolică',
+        'Ulcerul venos',
+        'Tromboflebita superficială',
+        'Hemoragia varicoasă',
+        'Dermita de stază cu hiperpigmentare'
+      ],
+      answer: [1, 2, 3, 4],
+      explanation: 'Hipertensiunea venoasă duce la leziuni cutanate, ulcer, tromboflebită sau ruptură de varice. Gangrena arterială ține de patologia arterială.',
+    },
+    {
+      id: 'chi-q77',
+      type: 'single',
+      text: 'Un ulcer cu margini neregulate, situat supramaleolar medial, cu hiperpigmentare și edem, este caracteristic pentru:',
+      options: [
+        'Ulcerul arterial ischemic',
+        'Ulcerul neuropatic plantar',
+        'Ulcerul de decubit sacrat',
+        'Ulcerul tropical',
+        'Ulcerul venos'
+      ],
+      answer: [4],
+      explanation: 'Ulcerul venos apare în zona gambieră inferioară, are fond umed și se însoțește de dermită ocră; cel arterial este distal și dureros.',
+    },
+    {
+      id: 'chi-q78',
+      type: 'single',
+      text: 'Un pacient cu ischemie acută embolică a membrului inferior și deficit motor începe de urgență cu:',
+      options: [
+        'Repaus la pat și reevaluare peste 48 de ore',
+        'Anticoagulare imediată și revascularizare urgentă (embolectomie)',
+        'Fizioterapie',
+        'Compresie elastică',
+        'Amputație imediată în toate cazurile'
+      ],
+      answer: [1],
+      explanation: 'Ischemia severă trebuie tratată în ore. Anticoagularea limitează propagarea trombului, iar embolectomia restabilește fluxul.',
+    },
+    {
+      id: 'chi-q79',
+      type: 'single',
+      text: 'Care sunt localizările cele mai frecvente ale cancerului colorectal?',
+      options: [
+        'Cecul și apendicele',
+        'Unghiul hepatic',
+        'Colonul transvers',
+        'Rectul și sigmoidul',
+        'Unghiul splenic'
+      ],
+      answer: [3],
+      explanation: 'Majoritatea tumorilor colorectale se dezvoltă în segmentul rectosigmoidian.',
+    },
+    {
+      id: 'chi-q80',
+      type: 'multi',
+      text: 'Comparând cancerul de colon drept cu cel de colon stâng, care afirmații sunt corecte?',
+      options: [
+        'Cel drept debutează tipic cu ocluzie joasă precoce',
+        'Cel stâng nu produce tulburări de tranzit',
+        'Cel drept se manifestă frecvent prin anemie feriprivă',
+        'Cel stâng se manifestă frecvent prin modificări ale tranzitului',
+        'Cel drept poate da o masă palpabilă în flancul sau fosa iliacă dreaptă'
+      ],
+      answer: [2, 3, 4],
+      explanation: 'Colonul drept are lumen larg și conținut lichid, deci sângerarea cronică este manifestarea comună. Colonul stâng, mai îngust, dă constipație și ocluzie.',
+    },
+    {
+      id: 'chi-q81',
+      type: 'single',
+      text: 'Care este rolul antigenului carcinoembrionar (ACE) în cancerul colorectal?',
+      options: [
+        'Metodă de screening în populația generală',
+        'Test de diagnostic de certitudine',
+        'Monitorizarea după rezecție, pentru detectarea recidivei',
+        'Indicator al sângerării oculte',
+        'Marker specific exclusiv colonului'
+      ],
+      answer: [2],
+      explanation: 'ACE nu are specificitate pentru screening sau diagnostic, dar valorile care cresc după operație pot semnala recidivă.',
+    },
+    {
+      id: 'chi-q82',
+      type: 'multi',
+      text: 'Care sunt factori de risc pentru cancerul colorectal?',
+      options: [
+        'Polipii adenomatoși',
+        'Hemoroizii',
+        'Colita ulcerativă extinsă, de lungă durată',
+        'Polipoza adenomatoasă familială',
+        'Sindromul Lynch'
+      ],
+      answer: [0, 2, 3, 4],
+      explanation: 'Secvența adenom–carcinom, inflamația cronică și sindroamele ereditare cresc riscul. Hemoroizii nu sunt factor de risc.',
+    },
+    {
+      id: 'chi-q83',
+      type: 'single',
+      text: 'Diagnosticul de certitudine al cancerului colorectal se stabilește prin:',
+      options: [
+        'Examen histopatologic al biopsiei prelevate la colonoscopie',
+        'Examen radiologic simplu',
+        'ACE crescut',
+        'Tușeu rectal singur',
+        'Ecografie abdominală'
+      ],
+      answer: [0],
+      explanation: 'Colonoscopia permite vizualizarea și biopsierea tumorii; alte investigații stadializează sau orientează.',
+    },
+    {
+      id: 'chi-q84',
+      type: 'single',
+      text: 'Care este microorganismul cel mai frecvent implicat în sepsisul fulminant postsplenectomie?',
+      options: [
+        'Escherichia coli exclusiv',
+        'Candida albicans',
+        'Clostridium tetani',
+        'Bacilul Koch',
+        'Streptococcus pneumoniae'
+      ],
+      answer: [4],
+      explanation: 'Fără splină, germenii încapsulați (pneumococ, Haemophilus influenzae, meningococ) sunt greu eliminați; de aceea sunt recomandate vaccinările.',
+    },
+    {
+      id: 'chi-q85',
+      type: 'multi',
+      text: 'Care dintre următoarele sunt indicații posibile de splenectomie?',
+      options: [
+        'Splenomegalie asimptomatică de orice cauză',
+        'Anemie feriprivă',
+        'Hemoragie variceală',
+        'Traumatism splenic cu instabilitate hemodinamică',
+        'Purpura trombocitopenică imună refractară la tratament medical'
+      ],
+      answer: [3, 4],
+      explanation: 'Splenectomia se indică în hemoragie necontrolabilă sau boli hematologice cu eșec terapeutic; nu pentru splenomegalie asimptomatică.',
+    },
+    {
+      id: 'chi-q86',
+      type: 'single',
+      text: 'Care modificare apare pe frotiul sanguin după splenectomie?',
+      options: [
+        'Hematii normale fără modificări',
+        'Corpi Howell-Jolly',
+        'Trombocitopenie constantă',
+        'Neutropenie izolată',
+        'Reticulocitopenie profundă'
+      ],
+      answer: [1],
+      explanation: 'Fără splină, hematiile cu resturi nucleare nu sunt eliminate. Poate apărea și trombocitoză tranzitorie.',
+    },
+    {
+      id: 'chi-q87',
+      type: 'multi',
+      text: 'Despre ruptura splenică traumatică, care afirmații sunt corecte?',
+      options: [
+        'Poate produce durere referită în umărul stâng (semnul Kehr)',
+        'Apare doar în traumatismele penetrante',
+        'Poate evolua în doi timpi, prin ruptura secundară a unui hematom subcapsular',
+        'Durerea este exclusiv în hipocondrul drept',
+        'Nu poate produce hemoperitoneu'
+      ],
+      answer: [0, 2],
+      explanation: 'Iritația diafragmatică dă durere în umăr. Hematomul subcapsular se poate rupe tardiv.',
+    },
+    {
+      id: 'chi-q88',
+      type: 'single',
+      text: 'Prima măsură în hemoragia externă a unui membru este:',
+      options: [
+        'Aplicarea de garou fără limită de timp',
+        'Spălarea abundentă fără compresie',
+        'Ridicarea pansamentului la fiecare minut',
+        'Compresiunea directă pe plagă',
+        'Administrarea de analgezice orale'
+      ],
+      answer: [3],
+      explanation: 'Compresia directă este simplă și eficientă pentru controlul sângerării; garoul se rezervă situațiilor excepționale.',
+    },
+    {
+      id: 'chi-q89',
+      type: 'multi',
+      text: 'Care sunt manifestări ale reacției hemolitice acute transfuzionale?',
+      options: [
+        'Febră și frisoane',
+        'Evoluție exclusiv tardivă, la săptămâni',
+        'Durere lombară',
+        'Hipotensiune',
+        'Hemoglobinurie'
+      ],
+      answer: [0, 2, 3, 4],
+      explanation: 'Incompatibilitatea ABO produce hemoliză intravasculară rapidă; transfuzia se oprește imediat.',
+    },
+    {
+      id: 'chi-q90',
+      type: 'single',
+      text: 'În urgență vitală, la un pacient cu grupă necunoscută, se pot administra hematii de grup:',
+      options: [
+        'AB, Rh pozitiv',
+        'A, Rh pozitiv',
+        'O, Rh negativ',
+        'B, Rh pozitiv',
+        'Orice grup'
+      ],
+      answer: [2],
+      explanation: 'Grupul O, Rh negativ este donatorul universal pentru hematii.',
+    },
+    {
+      id: 'chi-q91',
+      type: 'multi',
+      text: 'Care sunt complicații ale transfuziei masive?',
+      options: [
+        'Hipocalcemia prin citrat',
+        'Hipercalcemie prin citrat',
+        'Policitemia',
+        'Hipertermie malignă constantă',
+        'Hipotermia'
+      ],
+      answer: [0, 4],
+      explanation: 'Citratul leagă calciul, iar sângele rece scade temperatura. Pot apărea și coagulopatia de diluție și tulburări de potasiu.',
+    },
+    {
+      id: 'chi-q92',
+      type: 'single',
+      text: 'Concentratul eritrocitar este indicat în principal pentru:',
+      options: [
+        'Creșterea capacității de transport a oxigenului în anemie simptomatică sau hemoragie',
+        'Corectarea hipoproteinemiei',
+        'Creșterea imunității',
+        'Corecția exclusivă a coagulopatiei',
+        'Expansiunea volemică izolată'
+      ],
+      answer: [0],
+      explanation: 'Hematiile asigură transportul oxigenului; pentru deficit de coagulare se folosesc plasma sau factorii.',
     },
   ],
 }

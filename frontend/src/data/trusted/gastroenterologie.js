@@ -254,4 +254,250 @@ Inhibitorii de pompă de protoni și antibioticele recente pot produce **rezulta
       'Harrison’s Principles of Internal Medicine – Peptic Ulcer Disease and Related Disorders',
     ],
   },
+  {
+    id: 'gas-t5',
+    title: "Cancerul colorectal și polipoza",
+    topic: "Oncologie digestivă",
+    readMinutes: 3,
+    content: `## Patogeneză
+Cea mai mare parte a **cancerelor colorectale sporadice** apare prin secvența **adenom–carcinom**: o leziune benignă acumulează în ani de zile mutații succesive și devine invazivă. Din acest motiv, depistarea și îndepărtarea adenoamelor prin colonoscopie previne boala.
+
+Factori de risc: vârsta peste 50 de ani, dieta bogată în carne procesată și săracă în fibre, obezitatea, sedentarismul, fumatul, alcoolul, **rectocolita ulcero-hemoragică de lungă durată**, antecedentele de adenoame și istoricul familial.
+
+## Sindroame ereditare
+| | Polipoza adenomatoasă familială | Sindrom Lynch |
+|---|---|---|
+| Gena | **APC** | Gene de reparare a nepotrivirilor ADN |
+| Transmitere | Autosomal dominantă | Autosomal dominantă |
+| Fenotip | Sute-mii de adenoame colonice | Puțini polipi, cancer precoce, adesea în colonul proximal |
+| Alte tumori | Duoden, tiroidă, desmoide | Endometru, ovar, stomac, tract urinar |
+| Conduită | Colectomie profilactică | Colonoscopie de supraveghere la intervale scurte |
+
+## Tablou clinic
+- **Colon drept**: lumen larg, conținut lichid, tumori voluminoase mute; anemie feriprivă, sânge ocult, durere vagă, masă palpabilă în fosa iliacă dreaptă.
+- **Colon stâng**: lumen mai îngust, scaun format; modificarea tranzitului, scaune subțiate, rectoragie, ocluzie.
+- **Rect**: rectoragie, tenesme, senzație de evacuare incompletă.
+- Semne tardive: scădere ponderală, hepatomegalie metastatică.
+
+## Diagnostic și stadializare
+- **Colonoscopia cu biopsie** este investigația de bază și permite și polipectomia.
+- Stadializare: CT toraco-abdominal, la rect și RMN pelvin sau ecoendoscopie.
+- **CEA**: nu e test de diagnostic sau de screening, ci de urmărire postoperatorie.
+
+## Tratament
+- Boala localizată: **rezecție chirurgicală** cu limfadenectomie regională.
+- Stadiile cu ganglioni invadați primesc de regulă chimioterapie adjuvantă.
+- Cancerul de rect poate necesita tratament neoadjuvant, în funcție de stadiu.
+- Metastazele hepatice izolate pot fi uneori rezecate.
+
+## Screening
+La risc mediu: test imunochimic fecal periodic (cu colonoscopie la pozitivi) sau colonoscopie periodică. Rudele de gradul I ale pacienților se evaluează mai devreme.
+
+## De reținut pentru examen
+- Adenomul vilos și cel de dimensiuni mari au risc mai mare de malignizare.
+- Anemia feriprivă la bărbat sau la femeia în menopauză impune explorarea tubului digestiv, inclusiv colonoscopie.
+- Colonul drept dă anemie, colonul stâng dă ocluzie și modificări de tranzit.
+- FAP înseamnă APC și colectomie profilactică; Lynch înseamnă defect mismatch repair.
+- CEA servește la monitorizare, nu la screening.`,
+    references: [
+      "Kumar & Clark – Medicină clinică, ed. 10 – cap. Gastroenterologie (Intestinul gros)",
+      "Harrison’s Principles of Internal Medicine – Colorectal Neoplasms",
+      "Sinopsis de medicină, ed. 5",
+    ],
+  },
+  {
+    id: 'gas-t6',
+    title: "Cancerul gastric și esofagian. Esofagul Barrett",
+    topic: "Oncologie digestivă",
+    readMinutes: 2,
+    content: `## Cancerul esofagian
+Există două tipuri principale, cu factori de risc diferiți.
+
+| | Carcinom scuamos | Adenocarcinom |
+|---|---|---|
+| Teren | Fumat, alcool, achalazie, stricturi caustice | **Esofag Barrett**, reflux cronic, obezitate |
+| Localizare tipică | Esofag superior și mijlociu | Esofag distal, joncțiune eso-gastrică |
+
+**Esofagul Barrett** este o complicație a refluxului cronic: epiteliul scuamos al esofagului distal este înlocuit printr-un epiteliu cilindric cu **metaplazie intestinală**. Evoluează posibil spre displazie și adenocarcinom. Se face supraveghere endoscopică cu biopsii, iar displazia poate fi tratată endoscopic.
+
+Clinic, cancerul esofagian dă **disfagie progresivă**, inițial pentru solide, apoi pentru lichide, odinofagie, scădere ponderală, regurgitații. Diagnosticul se pune prin endoscopie cu biopsie, iar stadializarea prin CT și ecoendoscopie.
+
+## Cancerul gastric
+- Predomină **adenocarcinomul**; mai rare sunt limfomul MALT, GIST și tumorile neuroendocrine.
+- Factori de risc: infecția cu **Helicobacter pylori**, gastrita atrofică, anemia pernicioasă, dieta bogată în sare și afumături, fumatul, istoricul familial.
+- Se disting forma intestinală (precedată de gastrită atrofică și metaplazie) și forma difuză (infiltrativă, „linită plastică”).
+- Clinic, debutul e tardiv și nespecific: dispepsie, sațietate precoce, scădere ponderală, anemie, vărsături în stenoza pilorică, hemoragie digestivă superioară.
+- Semne de boală avansată: **ganglion Virchow** supraclavicular stâng, masă epigastrică, ascită, hepatomegalie.
+
+## Diagnostic și tratament
+- **Endoscopie cu biopsii multiple**: orice ulcer gastric se biopsiază.
+- Stadializare: CT, ecoendoscopie, uneori laparoscopie.
+- Singura șansă de vindecare este **rezecția chirurgicală**, asociată cu chimioterapie perioperatorie în funcție de stadiu.
+- Eradicarea H. pylori reduce riscul, iar limfomul MALT gastric precoce poate regresa după eradicare.
+
+## Alte tumori gastrice
+- **Limfomul MALT** este legat de infecția cronică cu H. pylori și are evoluție lentă; în stadiu precoce poate regresa după eradicare.
+- **GIST** provine din celulele interstițiale Cajal, se dezvoltă submucos și sângerează adesea; diagnosticul necesită imunohistochimie.
+- Tumorile neuroendocrine gastrice pot apărea pe fondul gastritei atrofice cu hipergastrinemie.
+
+## De reținut pentru examen
+- Disfagia progresivă la un vârstnic cu scădere ponderală înseamnă neoplasm până la proba contrară.
+- Barrett înseamnă metaplazie intestinală și risc de adenocarcinom, nu de carcinom scuamos.
+- Achalazia, fumatul, alcoolul și cauzticele predispun la carcinomul scuamos.
+- Ganglionul Virchow este supraclavicular stâng.
+- Ulcerul gastric se biopsiază și se controlează endoscopic până la vindecare; ulcerul duodenal nu se malignizează.`,
+    references: [
+      "Kumar & Clark – Medicină clinică, ed. 10 – cap. Gastroenterologie (Esofagul, Stomacul)",
+      "Harrison’s Principles of Internal Medicine – Esophageal Cancer; Gastric Cancer",
+      "Sinopsis de medicină, ed. 5",
+    ],
+  },
+  {
+    id: 'gas-t7',
+    title: "Steatoza hepatică metabolică și hepatita alcoolică",
+    topic: "Hepatologie",
+    readMinutes: 2,
+    content: `## Steatoza hepatică metabolică (MASLD)
+Reprezintă acumularea de grăsime în hepatocite la persoane fără consum important de alcool, în contextul **sindromului metabolic**: obezitate abdominală, rezistență la insulină sau diabet zaharat de tip 2, dislipidemie, hipertensiune.
+
+- De obicei **asimptomatică**; se descoperă ecografic (ficat hiperecogen) sau prin transaminaze ușor crescute.
+- Spectrul bolii: steatoză simplă, **steatohepatită** (inflamație și balonizare hepatocitară), fibroză, ciroză și carcinom hepatocelular.
+- Diagnostic: ecografie, scoruri neinvazive de fibroză, elastografie; biopsia în cazuri selectate. Se exclud alte cauze (alcool, virusuri, medicamente).
+- Tratament: **scăderea ponderală**, activitate fizică, dietă, controlul diabetului și al lipidelor. Pacienții cu fibroză avansată se supraveghează pentru ciroză și carcinom.
+- Cea mai frecventă cauză de deces la acești pacienți este cardiovasculară.
+
+## Boala hepatică alcoolică
+Se desfășoară în trepte, care se pot suprapune:
+1. **Steatoza alcoolică**, reversibilă la abstinență.
+2. **Hepatita alcoolică**, cu necroză și inflamație.
+3. **Ciroza alcoolică**.
+
+### Hepatita alcoolică acută
+- Consumator cronic de alcool, cu **icter**, febră, hepatomegalie sensibilă, uneori ascită.
+- Biologic: **AST > ALT** (raport supraunitar), GGT crescută, leucocitoză cu neutrofilie, VEM crescut, bilirubină și INR crescute în formele severe.
+- Histologic: balonizare, corpi Mallory-Denk, infiltrat neutrofilic, steatoză, fibroză perisinusoidală.
+- Formele severe au mortalitate mare; se folosesc scoruri de severitate, iar în cazuri selectate corticoterapia.
+
+| | Steatoză metabolică | Hepatită alcoolică |
+|---|---|---|
+| Teren | Sindrom metabolic | Consum cronic de alcool |
+| Simptome | De obicei absente | Icter, febră, durere |
+| Transaminaze | ALT ≥ AST | AST > ALT |
+| Măsura esențială | Scădere ponderală | Abstinență |
+
+## Tratament comun
+- **Abstinența totală** este esențială în boala alcoolică, la orice stadiu.
+- Suport nutrițional (aport caloric și proteic adecvat), suplimentare de vitamine din grupul B, tratamentul sindromului de sevraj.
+- Tratamentul complicațiilor cirozei, vaccinarea împotriva hepatitelor A și B.
+
+## De reținut pentru examen
+- AST/ALT supraunitar și GGT crescută orientează spre etiologie alcoolică.
+- Steatoza simplă este benignă și reversibilă; steatohepatita este stadiul cu risc de progresie.
+- Ficat hiperecogen la ecografie nu înseamnă hepatită, ci cel mai adesea steatoză.
+- Abstinența schimbă prognosticul, chiar în ciroza alcoolică.
+- Carcinomul hepatocelular poate complica și steatohepatita, uneori înainte de ciroză.`,
+    references: [
+      "Kumar & Clark – Medicină clinică, ed. 10 – cap. Boli hepatice",
+      "Harrison’s Principles of Internal Medicine – Alcohol-Associated Liver Disease; Nonalcoholic Fatty Liver Disease",
+      "Sinopsis de medicină, ed. 5",
+    ],
+  },
+  {
+    id: 'gas-t8',
+    title: "Hepatita autoimună, ciroza biliară primitivă și colangita sclerozantă primitivă",
+    topic: "Hepatologie",
+    readMinutes: 2,
+    content: `## Idee generală
+Trei boli hepatice cronice cu mecanism imun diferă prin tiparul biologic: una **hepatocelulară** (hepatita autoimună) și două **colestatice** (ciroza biliară primitivă și colangita sclerozantă primitivă).
+
+## Hepatita autoimună
+- Predomină la **femei**, cu două vârfuri de incidență, inclusiv la tineri.
+- Debut insidios (oboseală, artralgii, icter) sau acut; uneori se descoperă direct la stadiul de ciroză.
+- Biologic: **transaminaze crescute**, **hipergamaglobulinemie IgG**, autoanticorpi: **ANA**, **anticorpi antimușchi neted**, anti-LKM1 la o formă mai rară; markeri virali negativi.
+- Biopsia arată **hepatită de interfață** cu infiltrat limfoplasmocitar.
+- Tratament: **imunosupresie** (corticosteroizi, apoi azatioprină); răspunde de obicei bine. Se asociază cu alte boli autoimune (tiroidită, diabet de tip 1).
+
+## Ciroza biliară primitivă (colangita biliară primitivă)
+- **Femeie de vârstă mijlocie**, cu oboseală și **prurit**, uneori xantelasme, sindrom sicca.
+- Biologic: **fosfatază alcalină și GGT crescute**, **anticorpi antimitocondriali (AMA)**, IgM crescută.
+- Mecanism: distrugere autoimună a **canalelor biliare mici intrahepatice**; căile biliare mari sunt normale.
+- Tratament: **acid ursodeoxicolic**; pruritul se tratează simptomatic; transplant hepatic în stadiul terminal.
+
+## Colangita sclerozantă primitivă
+- Predomină la **bărbați tineri**, cu **rectocolită ulcero-hemoragică** asociată în majoritatea cazurilor.
+- Inflamație și fibroză a căilor biliare **intra- și extrahepatice**, cu stenoze și dilatații alternante.
+- Diagnostic: **colangio-RM** (aspect „în mărgele”), AMA de obicei absenți; biopsia arată fibroză periductală „în coajă de ceapă”.
+- Complicații: colangite bacteriene, ciroză, **colangiocarcinom**, iar pacienții cu colită au risc crescut de cancer colorectal.
+- Nu există tratament medical care să oprească boala; transplantul hepatic este opțiunea în stadiul avansat.
+
+## Comparație rapidă
+| | Hepatita autoimună | CBP | CSP |
+|---|---|---|---|
+| Sex | Femei | Femei | Bărbați |
+| Biochimie | Transaminaze | Fosfatază alcalină | Fosfatază alcalină |
+| Marker | ANA, SMA, IgG | AMA | Colangio-RM, uneori p-ANCA |
+| Tratament | Imunosupresie | Acid ursodeoxicolic | Transplant, în stadiu avansat |
+
+## De reținut pentru examen
+- Prurit și fosfatază alcalină crescută la o femeie de 50 de ani înseamnă ciroză biliară primitivă până la proba contrară.
+- AMA sunt marker pentru CBP, nu pentru CSP.
+- CSP se asociază cu colita ulcerativă și cu colangiocarcinomul.
+- Hepatita autoimună răspunde la corticoizi; diagnosticul necesită excluderea cauzelor virale.
+- Imagistica căilor biliare (colangio-RM) face diferența între CSP și CBP.`,
+    references: [
+      "Kumar & Clark – Medicină clinică, ed. 10 – cap. Boli hepatice și biliare",
+      "Harrison’s Principles of Internal Medicine – Autoimmune Hepatitis; Primary Biliary Cholangitis; Primary Sclerosing Cholangitis",
+      "Sinopsis de medicină, ed. 5",
+    ],
+  },
+  {
+    id: 'gas-t9',
+    title: "Malabsorbția și diareea cronică",
+    topic: "Intestin subțire",
+    readMinutes: 2,
+    content: `## Diareea cronică: abordare
+Diareea cronică persistă de săptămâni. Se clasifică după mecanism, ceea ce ghidează investigațiile.
+
+| Tip | Mecanism | Indicii | Exemple |
+|---|---|---|---|
+| **Osmotică** | Solviți neabsorbiți atrag apă | Se oprește la repaus alimentar | Intoleranța la lactoză, laxative osmotice |
+| **Secretorie** | Secreție activă de electroliți | Volum mare, apos, persistă în post | Toxine bacteriene, tumori neuroendocrine |
+| **Inflamatorie** | Leziune mucoasă | Sânge, mucus, dureri, calprotectină crescută | Crohn, rectocolită, infecții |
+| **Steatoree** | Malabsorbție lipidică | Scaune voluminoase, fetide, păstoase | Celiacă, pancreatită cronică |
+| **Funcțională** | Motilitate alterată | Fără semne de alarmă | Sindrom de intestin iritabil |
+
+## Sindromul de malabsorbție
+Poate fi prin defect de **digestie** (insuficiență pancreatică, deficit de săruri biliare) sau de **absorbție** (boli ale mucoasei: celiacă, Crohn, rezecții, boala Whipple, supracreșterea bacteriană, infecții parazitare cu Giardia).
+
+### Manifestări
+- Diaree cu **steatoree**, balonare, scădere ponderală, apetit păstrat.
+- Deficite de micronutrienți: **anemie** (fier, B12, acid folic), **osteomalacie** (vitamina D, calciu), **tulburări de coagulare** (vitamina K), neuropatie, glosită.
+- Hipoproteinemie cu edeme, hipocalcemie cu tetanie.
+
+## Cauze importante
+- **Boala celiacă**: atrofie vilozitară, anticorpi antitransglutaminază.
+- **Pancreatita cronică**: insuficiență exocrină, steatoree marcată.
+- **Boala Crohn ileală sau rezecția ileonului**: deficit de B12 și săruri biliare.
+- **Supracreșterea bacteriană**: după anse oarbe, diverticuloză jejunală, dismotilitate; test respirator cu hidrogen.
+- **Intoleranța la lactoză**: balonare și diaree după lactate; test respirator sau probă de excludere.
+
+## Investigații
+1. Hemogramă, feritină, B12, folat, albumină, coagulare, calciu și vitamina D.
+2. Coprocultură, examen parazitologic, calprotectină fecală.
+3. Serologie celiacă; endoscopie cu biopsii duodenale.
+4. Elastaza fecală pentru funcția pancreatică; imagistică.
+5. Colonoscopie cu biopsii la diareea inflamatorie sau cu semne de alarmă.
+
+## De reținut pentru examen
+- Diareea care persistă în timpul postului este secretorie, nu osmotică.
+- Anemia feriprivă refractară la fier oral la o femeie tânără impune screening celiac.
+- Rezecția ileonului terminal înseamnă deficit de vitamina B12.
+- Steatoreea fără mucoasă bolnavă ridică suspiciunea de patologie pancreatică.
+- Diareea cu sânge și scădere ponderală impune colonoscopie, nu diagnostic de colon iritabil.`,
+    references: [
+      "Kumar & Clark – Medicină clinică, ed. 10 – cap. Intestinul subțire",
+      "Harrison’s Principles of Internal Medicine – Diarrhea and Constipation; Malabsorption",
+      "Sinopsis de medicină, ed. 5",
+    ],
+  },
 ]

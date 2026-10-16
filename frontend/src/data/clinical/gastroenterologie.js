@@ -136,6 +136,96 @@ export default {
         'Abstinența de alcool schimbă prognosticul cirozei alcoolice.',
       ],
     },
+    {
+      id: 'gas-c4',
+      title: "Anemie și schimbarea tranzitului la un vârstnic",
+      setting: "Cabinet de medicină de familie / ambulatoriu",
+      presentation:
+        "Bărbat de 68 de ani, fost fumător, se prezintă pentru oboseală, palpitații la efort ușor și scădere ponderală de câteva luni. Povestește că tranzitul i s-a schimbat în ultimele luni, cu alternanță între constipație și scaune moi, uneori cu sânge închis. Tatăl a decedat la 70 de ani de o boală digestivă tumorală.",
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: "Ce întrebări de anamneză sunt esențiale?",
+          answer:
+            "• Caracterul modificării tranzitului, durata, aspectul scaunelor (calibru, sânge, mucus), tenesme\n• Scăderea ponderală, apetitul, durerea abdominală, vărsăturile\n• Simptome de anemie: dispnee, palpitații, amețeli\n• Antecedente personale de polipi, boală inflamatorie intestinală, colonoscopii anterioare\n• Istoric familial de cancer colorectal sau alte tumori; medicamente (anticoagulante, AINS, fier)",
+        },
+        {
+          kind: 'examen',
+          prompt: "Ce urmărești la examenul obiectiv? Ce găsești?",
+          answer:
+            "• Paloare cutaneo-mucoasă, tahicardie\n• Abdomen: masă palpabilă în fosa iliacă, meteorism, sensibilitate, hepatomegalie (posibile metastaze)\n• Tușeul rectal obligatoriu: tumoră, sânge pe degetul de mânușă\n• Adenopatii periferice, în special supraclaviculare\n• Semne de ocluzie (distensie, zgomote intestinale modificate)",
+        },
+        {
+          kind: 'investigatii',
+          prompt: "Ce investigații ceri și ce rezultate te aștepți?",
+          answer:
+            "• Hemogramă: anemie, de obicei microcitară, cu feritină scăzută\n• Colonoscopie completă cu biopsie – investigația de bază\n• Examen histopatologic: adenocarcinom\n• Stadializare: CT toraco-abdominal; la tumorile rectale RMN pelvin\n• CEA pentru valoare de referință și monitorizare, nu pentru diagnostic\n• Probe hepatice, funcție renală, evaluare preoperatorie",
+        },
+        {
+          kind: 'diagnostic',
+          prompt: "Care e diagnosticul cel mai probabil și diagnosticul diferențial?",
+          answer:
+            "Cel mai probabil: cancer colorectal, cu anemie feriprivă prin sângerare cronică.\nDiagnostic diferențial: boală diverticulară, boală inflamatorie intestinală, polipi sângeranți, hemoroizi (nu explică anemia și schimbarea tranzitului la această vârstă), colită ischemică, sindrom de intestin iritabil (se exclude la vârstă înaintată cu semne de alarmă).",
+        },
+        {
+          kind: 'tratament',
+          prompt: "Care sunt principiile de tratament și de monitorizare?",
+          answer:
+            "• Corectarea anemiei și a deficitului de fier; evaluare nutrițională\n• Tratament chirurgical: rezecție segmentară cu limfadenectomie, cu intenție curativă în boala localizată\n• Chimioterapie adjuvantă când sunt ganglioni invadați; la rect, uneori tratament neoadjuvant\n• Urmărire postoperatorie: CEA, imagistică periodică, colonoscopie de control\n• Evaluarea rudelor de gradul I pentru screening, eventual consult genetic dacă tumora a apărut precoce",
+        },
+      ],
+      takeaways: [
+        "Orice schimbare recentă a tranzitului la vârsta a treia, cu anemie, impune colonoscopie.",
+        "Anemia feriprivă la bărbat înseamnă sursă digestivă până la proba contrară.",
+        "Tușeul rectal face parte din examenul oricărui pacient cu suspiciune de cancer colorectal.",
+        "CEA se folosește la monitorizare, nu la diagnostic.",
+      ],
+    },
+    {
+      id: 'gas-c5',
+      title: "Disfagie la o tânără, cu regurgitații",
+      setting: "Cabinet / ambulatoriu de gastroenterologie",
+      presentation:
+        "Femeie de 34 de ani, fără boli cunoscute, se prezintă pentru senzația că alimentele „rămân în piept”, instalată treptat în ultimul an. Spune că îi este greu să înghită atât mâncarea, cât și apa, regurgitează noaptea alimente nedigerate și a scăzut în greutate. A încercat tratament pentru reflux, fără rezultat.",
+      steps: [
+        {
+          kind: 'anamneza',
+          prompt: "Ce întrebări de anamneză sunt esențiale?",
+          answer:
+            "• Caracterul disfagiei: pentru solide, lichide sau ambele; intermitentă sau progresivă; durata\n• Regurgitații de alimente nedigerate, tuse nocturnă, episoade de pneumonie\n• Durere toracică, pirozis (de obicei absent sau atipic)\n• Scăderea ponderală, odinofagia, semne de alarmă\n• Antecedente: ingestie de caustice, boli de țesut conjunctiv, boală Chagas (în zone endemice), tratamente anterioare fără răspuns",
+        },
+        {
+          kind: 'examen',
+          prompt: "Ce urmărești la examenul obiectiv? Ce găsești?",
+          answer:
+            "• Starea de nutriție, greutate, semne de deshidratare\n• Examenul cavității bucale și al gâtului, adenopatii cervicale\n• Examen pulmonar: raluri localizate sugerează aspirație\n• Abdomen de obicei normal\n• Excluderea semnelor de boală de țesut conjunctiv (sclerodermie): modificări cutanate, Raynaud",
+        },
+        {
+          kind: 'investigatii',
+          prompt: "Ce investigații ceri și ce rezultate te aștepți?",
+          answer:
+            "• Endoscopie digestivă superioară: exclude neoplasmul și stenoza; esofag dilatat cu resturi alimentare, sfincter care se deschide cu rezistență\n• Tranzit baritat: esofag dilatat, îngustare distală în „cioc de pasăre”\n• Manometrie esofagiană: lipsa relaxării sfincterului esofagian inferior și absența peristaltismului – confirmă diagnosticul\n• Radiografie toracică dacă se suspectează aspirație",
+        },
+        {
+          kind: 'diagnostic',
+          prompt: "Care e diagnosticul cel mai probabil și diagnosticul diferențial?",
+          answer:
+            "Cel mai probabil: achalazie esofagiană.\nDiagnostic diferențial: boala de reflux gastroesofagian cu stenoză peptică, cancer esofagian sau al cardiei (pseudoachalazie), spasm esofagian difuz, esofagită eozinofilică, sclerodermie cu afectare esofagiană, stricturi postcaustice.",
+        },
+        {
+          kind: 'tratament',
+          prompt: "Care sunt principiile de tratament și de monitorizare?",
+          answer:
+            "• Tratamentul definitoriu reduce presiunea sfincterului esofagian inferior: dilatație pneumatică, miotomie Heller laparoscopică sau miotomie endoscopică\n• Alegerea depinde de vârstă, risc operator și experiența centrului\n• Medicația (nitrați, blocanți de calciu) are doar rol temporar\n• Inhibitorii de pompă de protoni nu tratează achalazia; după miotomie pot fi necesari pentru reflux\n• Supraveghere pe termen lung: recidivă, reflux, risc de carcinom scuamos",
+        },
+      ],
+      takeaways: [
+        "Disfagia atât pentru solide, cât și pentru lichide, de la debut, orientează spre tulburare de motilitate.",
+        "Endoscopia exclude obligatoriu un neoplasm care mimează achalazia.",
+        "Aspectul în cioc de pasăre și manometria sunt cheia diagnosticului.",
+        "Tratamentul reduce presiunea sfincteriană; IPP nu rezolvă boala.",
+      ],
+    },
   ],
   skills: [
     {

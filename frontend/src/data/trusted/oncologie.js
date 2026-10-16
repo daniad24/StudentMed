@@ -242,4 +242,293 @@ Dispneea, greața și vărsăturile, anorexia și cașexia, anxietatea, depresia
 - Durerea se reevaluează constant, cu aceeași scală.`,
     references: ['Oxford Textbook of Palliative Medicine – Controlul durerii', 'Harrison’s Principles of Internal Medicine – Palliative and end-of-life care'],
   },
+  {
+    id: 'onc-t5',
+    title: "Cancerul pulmonar: tipuri, diagnostic și principii de tratament",
+    topic: "Oncologie toracică",
+    readMinutes: 3,
+    content: `## Epidemiologie și etiologie
+
+Cancerul pulmonar este una dintre principalele cauze de deces prin cancer. **Fumatul activ** este factorul de risc dominant, urmat de fumatul pasiv, expunerea la **radon**, azbest și alte noxe profesionale. Adenocarcinomul este cel mai frecvent subtip la nefumători.
+
+## Clasificare histologică
+
+Distincția esențială pentru tratament este între cancerul pulmonar **fără celule mici (NSCLC)** și cel **cu celule mici (SCLC)**.
+
+| Tip | Particularități |
+|---|---|
+| Adenocarcinom | Cel mai frecvent; adesea periferic; mutații țintibile (EGFR, ALK, ROS1) |
+| Carcinom scuamos | Central, legat de fumat; cavitație; hipercalcemie prin PTHrP |
+| Carcinom cu celule mari | Periferic, agresiv, diagnostic de excludere |
+| Carcinom cu celule mici | Neuroendocrin, central, metastazare precoce, chimiosensibil inițial |
+
+## Prezentare clinică
+
+- Simptome locale: tuse persistentă sau modificată, hemoptizie, dispnee, dureri toracice, pneumonii recurente în același teritoriu.
+- Extensie loco-regională: disfonie (nerv recurent), **sindrom de venă cavă superioară**, sindrom Horner, revărsat pleural sau pericardic.
+- **Tumora Pancoast** (apex): durere de umăr și braț, sindrom Horner.
+- Metastaze: os, ficat, creier, suprarenale.
+- **Sindroame paraneoplazice**: SIADH, ACTH ectopic și sindromul Lambert-Eaton în carcinomul cu celule mici; hipercalcemie în carcinomul scuamos; hipocratism digital și osteoartropatie hipertrofică.
+
+## Diagnostic și stadializare
+
+1. Radiografie și **CT toracic** (extins la abdomenul superior).
+2. **Confirmare histologică**: bronhoscopie cu biopsie, biopsie transtoracică ghidată imagistic sau biopsia unui situs metastatic accesibil.
+3. Stadializare: PET-CT, imagistică cerebrală (CT sau IRM), evaluare mediastinală invazivă când rezultatul schimbă conduita.
+4. În NSCLC avansat, **testare moleculară** (EGFR, ALK, ROS1 și alte ținte) și evaluarea expresiei PD-L1.
+
+SCLC se descrie clasic ca **boală limitată** (într-un câmp de iradiere) sau **extinsă**.
+
+## Principii de tratament
+
+- **NSCLC stadii precoce:** chirurgie (lobectomie cu limfadenectomie) la pacienții operabili; radioterapie stereotactică la cei inoperabili.
+- **Stadii local avansate:** chimioradioterapie, uneori urmată de imunoterapie.
+- **Boală metastatică:** terapii țintite dacă există o alterație moleculară, imunoterapie (inhibitori de checkpoint) sau chimioterapie pe bază de platină.
+- **SCLC:** chimioterapie cu platină, cu radioterapie toracică în boala limitată; răspunsul inițial bun este frecvent urmat de recădere.
+- Îngrijiri de susținere și paliative precoce, renunțarea la fumat.
+
+## Screening
+
+Tomografia computerizată cu doză mică poate fi oferită unor grupuri selecționate de mari fumători; radiografia toracică nu este metodă eficientă de screening.
+
+## De reținut pentru examen
+
+- Adenocarcinom = frecvent la nefumători, mutații EGFR/ALK; scuamos = central, hipercalcemie.
+- SCLC: metastazare precoce, paraneoplazii (SIADH, ACTH, Lambert-Eaton), chimiosensibil, rareori operabil.
+- Pancoast = durere de umăr + Horner, nu pneumonie.
+- Diagnosticul de certitudine este histologic; testarea moleculară decide terapia în adenocarcinomul avansat.
+- Sindromul de venă cavă superioară: cauza malignă cea mai frecventă este cancerul pulmonar.`,
+    references: ["Harrison’s Principles of Internal Medicine – Neoplasms of the lung", "DeVita, Hellman, and Rosenberg’s Cancer: Principles and Practice of Oncology – Lung cancer"],
+  },
+  {
+    id: 'onc-t6',
+    title: "Cancerul colorectal: risc, screening și tratament",
+    topic: "Oncologie digestivă",
+    readMinutes: 3,
+    content: `## Etiopatogenie
+
+Majoritatea cazurilor apar sporadic, prin **secvența adenom–carcinom**: acumularea de alterații genetice transformă treptat un polip adenomatos în cancer. Factori de risc: vârsta, alimentația bogată în carne procesată și săracă în fibre, obezitatea, sedentarismul, fumatul, alcoolul.
+
+Predispoziții mari:
+- **Polipoza adenomatoasă familială** (mutație APC, sute de polipi, risc aproape sigur de cancer fără colectomie).
+- **Sindromul Lynch** (gene de reparare a nepotrivirilor ADN, risc și pentru endometru, ovar, stomac).
+- **Boala inflamatorie intestinală** extinsă și de lungă durată, în special colita ulcerativă.
+- Istoric personal sau familial de polipi sau cancer colorectal.
+
+## Prezentare clinică
+
+- Colon drept: anemie feriprivă, sângerare ocultă, astenie, masă palpabilă în fosa iliacă dreaptă.
+- Colon stâng: modificarea tranzitului, constipație, scaune subțiri, rectoragie, sindrom subocluziv.
+- Rect: rectoragie, tenesme, senzație de evacuare incompletă.
+- Manifestarea poate fi o complicație: ocluzie, perforație sau metastaze hepatice.
+
+## Diagnostic
+
+1. **Colonoscopie cu biopsie** – metoda de referință; permite și excizia polipilor.
+2. Stadializare: CT toraco-abdomino-pelvin; IRM pelvin pentru cancerul de rect.
+3. **CEA** la bază și pentru urmărire, nu pentru screening.
+
+## Screening
+
+Testul imunochimic de sânge ocult în scaun și colonoscopia, începând de la vârsta medie și mai devreme la cei cu risc crescut. Scopul este depistarea cancerului precoce și îndepărtarea precursorilor.
+
+## Tratament
+
+| Situație | Conduită |
+|---|---|
+| Colon localizat | Rezecție chirurgicală cu limfadenectomie; chimioterapie adjuvantă în funcție de stadiul ganglionar |
+| Rect local avansat | Chimioradioterapie neoadjuvantă, apoi chirurgie |
+| Metastaze hepatice rezecabile | Metastazectomie, uneori cu chimioterapie perioperatorie |
+| Boală metastatică | Chimioterapie, ± terapii țintite; stabilirea statusului RAS, BRAF și al instabilității microsatelitare |
+
+Tumorile cu **instabilitate microsatelitară înaltă** răspund la imunoterapie.
+
+## Prognostic
+
+Rezultatul depinde în primul rând de stadiul la diagnostic: boala localizată are prognostic bun, iar cea metastatică este rareori vindecabilă. Statusul ganglionar și invazia vasculară influențează decizia de chimioterapie adjuvantă.
+
+## Urmărire
+
+Examen clinic periodic, CEA, imagistică și colonoscopie de control, pentru detectarea recidivei sau a unei a doua tumori.
+
+## De reținut pentru examen
+
+- Anemia feriprivă la adultul în vârstă impune colonoscopie.
+- Sindromul Lynch = defect MMR, risc endometrial; FAP = APC, polipi numeroși.
+- Rectul beneficiază de radioterapie neoadjuvantă, colonul de obicei nu.
+- Ficatul este prima localizare metastatică (circulația portală).
+- CEA se folosește pentru monitorizare, nu pentru screening sau diagnostic.`,
+    references: ["Harrison’s Principles of Internal Medicine – Gastrointestinal cancers", "Sleisenger and Fordtran’s Gastrointestinal and Liver Disease – Colorectal cancer"],
+  },
+  {
+    id: 'onc-t7',
+    title: "Limfoamele: Hodgkin versus non-Hodgkin",
+    topic: "Hematologie oncologică",
+    readMinutes: 2,
+    content: `## Definiție
+
+Limfoamele sunt proliferări maligne ale celulelor sistemului limfoid, de obicei cu debut în ganglioni. Se împart în **limfom Hodgkin** și **limfoame non-Hodgkin (LNH)**, cu istorie naturală și tratament diferite.
+
+## Comparație
+
+| Caracteristică | Hodgkin | Non-Hodgkin |
+|---|---|---|
+| Celulă tipică | Reed-Sternberg (binucleată) | Absente |
+| Extensie | Contiguă, din aproape în aproape | Adesea necontiguă |
+| Debut | Frecvent cervical sau mediastinal | Ganglionar sau extraganglionar |
+| Origine celulară | Limfocit B | B (majoritar) sau T/NK |
+| Vârstă | Vârf la adultul tânăr și la vârstnic | Crește cu vârsta |
+| Curabilitate | Majoritatea pacienților se vindecă | Variabilă după tip |
+
+## Prezentare clinică
+
+- **Adenopatii** nedureroase, elastice, persistente, adesea cervicale.
+- **Simptome B**: febră inexplicabilă, transpirații nocturne, scădere ponderală; au valoare prognostică.
+- Prurit, astenie; masă mediastinală cu tuse sau dispnee; splenomegalie.
+- În LNH: simptome în funcție de localizarea extraganglionară (stomac, piele, SNC).
+
+## Diagnostic
+
+1. **Biopsie excizională** a ganglionului (nu doar puncție), cu imunohistochimie.
+2. Stadializare **Ann Arbor**: I (o regiune), II (două sau mai multe de aceeași parte a diafragmului), III (ambele părți), IV (afectare extraganglionară diseminată); sufixul B arată simptome sistemice.
+3. PET-CT, hemoleucogramă, LDH, evaluare cardiacă înaintea chimioterapiei.
+
+## Tipuri de reținut
+
+- **Limfom difuz cu celule mari B** – cel mai frecvent LNH, agresiv, potențial curabil.
+- **Limfom folicular** – indolent, t(14;18) cu supraexpresia BCL2.
+- **Limfom Burkitt** – t(8;14), MYC, proliferare foarte rapidă, risc de sindrom de liză tumorală.
+- **Limfom cu celule de manta** – asociat cu ciclina D1.
+
+## Tratament
+
+- Hodgkin: chimioterapie combinată, ± radioterapie pe câmpuri limitate, în funcție de stadiu.
+- LNH B CD20-pozitiv: imunochimioterapie cu **rituximab** (anti-CD20).
+- Limfoamele indolente: uneori doar observație la început.
+- Recăderi: chimioterapie de salvare, transplant autolog, terapii țintite, imunoterapie celulară.
+
+Complicații de urmărit: infecții, **liza tumorală** în formele agresive, toxicitate cardiacă și pulmonară, neoplazii secundare tardive.
+
+## De reținut pentru examen
+
+- Reed-Sternberg = Hodgkin; extensia contiguă este regula în Hodgkin.
+- Simptomele B: febră, transpirații nocturne, scădere în greutate.
+- Diagnosticul cere biopsie excizională, nu doar citologie.
+- DLBCL = cel mai frecvent LNH; folicular = t(14;18); Burkitt = t(8;14).
+- Rituximab = anti-CD20.`,
+    references: ["Harrison’s Principles of Internal Medicine – Malignancies of lymphoid cells", "Robbins and Cotran Pathologic Basis of Disease – Diseases of white blood cells"],
+  },
+  {
+    id: 'onc-t8',
+    title: "Chimioterapia: principii și toxicități frecvente",
+    topic: "Tratament oncologic",
+    readMinutes: 2,
+    content: `## Principii
+
+**Chimioterapia citotoxică** vizează celulele aflate în proliferare, în diferite faze ale ciclului celular. Eficacitatea este limitată de heterogenitatea tumorii, de apariția rezistenței și de toxicitatea asupra țesuturilor normale cu reînnoire rapidă.
+
+Intenții terapeutice:
+- **curativă** (limfoame, tumori germinale);
+- **adjuvantă** (după chirurgie, pentru eliminarea micrometastazelor);
+- **neoadjuvantă** (înainte de chirurgie sau radioterapie, pentru reducerea tumorii);
+- **paliativă** (control simptomatic și al bolii avansate).
+
+**Polichimioterapia** asociază citostatice cu mecanisme și toxicități diferite, pentru eficacitate mai bună și rezistență mai redusă.
+
+## Toxicități comune
+
+- **Mielosupresie**: neutropenie (risc de infecție, inclusiv **neutropenie febrilă**), anemie, trombocitopenie.
+- **Mucozită** și diaree prin afectarea epiteliului digestiv.
+- **Greață și vărsături** – prevenite cu antiemetice, în special antagoniști 5-HT3.
+- **Alopecie** reversibilă.
+- Infertilitate, risc de neoplazii secundare tardive.
+
+## Toxicități caracteristice unor clase
+
+| Medicament/clasă | Toxicitate tipică |
+|---|---|
+| Antracicline (doxorubicină) | Cardiomiopatie dependentă de doza cumulativă |
+| Cisplatin | Nefrotoxicitate, ototoxicitate, neuropatie, emeză marcată |
+| Bleomicină | Pneumonită și fibroză pulmonară |
+| Ciclofosfamidă, ifosfamidă | Cistită hemoragică (acroleină), prevenită cu mesna |
+| Alcaloizi de vinca, taxani | Neuropatie periferică |
+| Metotrexat | Mucozită, mielosupresie, hepatotoxicitate |
+
+## Sindromul de liză tumorală
+
+Apare după chimioterapia tumorilor cu masă mare și proliferare rapidă (limfoame agresive, leucemii): hiperkaliemie, hiperfosfatemie, hiperuricemie, hipocalcemie și insuficiență renală acută. Prevenție: hidratare, hipouricemiante, monitorizare biologică.
+
+## Evaluarea răspunsului
+
+Răspunsul se apreciază clinic, imagistic (criteriile RECIST) și, la unele tumori, prin markeri tumorali. Dacă boala progresează sau toxicitatea este inacceptabilă, schema se schimbă sau se oprește, iar decizia ține cont și de preferințele pacientului.
+
+## Principii de siguranță
+
+- Evaluarea statusului de performanță, a funcției renale, hepatice și cardiace înainte de tratament.
+- Monitorizarea hemoleucogramei între cicluri; tratamentul se amână sau se ajustează la toxicitate.
+- Extravazarea unor citostatice produce necroză tisulară locală.
+- Pacientul este educat să se prezinte urgent la febră sau sângerare.
+
+## De reținut pentru examen
+
+- Țesuturile cu proliferare rapidă sunt cele afectate: măduvă, mucoase, foliculi piloși.
+- Doxorubicină = cord; bleomicină = plămân; cisplatin = rinichi, ureche; ciclofosfamidă = vezică.
+- Febra la un pacient neutropenic este urgență: antibiotice imediat, după hemoculturi.
+- Polichimioterapia combină mecanisme diferite și toxicități necumulative.
+- Chimioterapia adjuvantă urmează chirurgiei, cea neoadjuvantă o precede.`,
+    references: ["Katzung – Basic & Clinical Pharmacology – Cancer chemotherapy", "DeVita, Hellman, and Rosenberg’s Cancer: Principles and Practice of Oncology – Principles of chemotherapy"],
+  },
+  {
+    id: 'onc-t9',
+    title: "Imunoterapia și terapiile țintite: concepte",
+    topic: "Tratament oncologic",
+    readMinutes: 3,
+    content: `## De la citotoxic la țintit
+
+Chimioterapia clasică afectează toate celulele care se divid. **Terapiile țintite** acționează asupra unei anomalii moleculare specifice tumorii, iar **imunoterapia** mobilizează sistemul imun împotriva ei. Ambele necesită adesea un **biomarker predictiv** pentru selecția pacienților.
+
+## Terapii țintite
+
+| Tip | Exemplu | Ținta / observații |
+|---|---|---|
+| Anticorp monoclonal | Trastuzumab | HER2 în cancerul mamar; risc de cardiotoxicitate |
+| Anticorp monoclonal | Rituximab | CD20 în limfoamele B |
+| Anticorp monoclonal | Bevacizumab | VEGF; hipertensiune, proteinurie, risc hemoragic |
+| Inhibitor de tirozinkinază | Imatinib | BCR-ABL (leucemie mieloidă cronică), KIT (GIST) |
+| Inhibitor de tirozinkinază | Inhibitori EGFR, ALK | Adenocarcinom pulmonar cu mutația corespunzătoare |
+| Inhibitor PARP | Olaparib | Tumori cu deficit de recombinare omologă (BRCA) |
+| Hormonoterapie | Tamoxifen, inhibitori de aromatază, deprivare androgenică | Cancer mamar și prostatic hormonodependente |
+
+Efectele adverse diferă de cele ale chimioterapiei: erupții cutanate, diaree, hipertensiune, toxicitate cardiacă, în funcție de țintă. Eficacitatea este adesea limitată de **rezistența dobândită**.
+
+## Imunoterapia
+
+- **Inhibitori de checkpoint imun** (anti-PD-1, anti-PD-L1, anti-CTLA-4): îndepărtează frâna care limitează activitatea limfocitelor T împotriva tumorii. Utilizați în melanom, cancer pulmonar, renal, vezical, colorectal cu instabilitate microsatelitară înaltă și altele.
+- **Terapia cu celule CAR-T**: limfocitele T ale pacientului sunt modificate genetic să recunoască un antigen tumoral (de exemplu în unele limfoame și leucemii B); risc de sindrom de eliberare de citokine și toxicitate neurologică.
+- Vaccinuri și citokine – roluri mai restrânse.
+
+## Efecte adverse imun-mediate
+
+Inflamația autoimună poate afecta orice organ:
+- colită și diaree;
+- pneumonită;
+- hepatită;
+- endocrinopatii (tiroidită, hipofizită, insuficiență suprarenală);
+- manifestări cutanate.
+
+Recunoașterea precoce este esențială; tratamentul constă în suspendarea terapiei și corticoterapie, uneori imunosupresie suplimentară. Pacientul este instruit să raporteze simptome noi.
+
+## Selecția pacienților
+
+Alegerea se bazează pe testare moleculară (EGFR, ALK, HER2, BRCA, BRAF, instabilitate microsatelitară) și, în cazul checkpoint-urilor, pe expresia PD-L1 și tipul tumorii. Răspunsurile imune pot fi durabile, dar nu apar la toți pacienții.
+
+## De reținut pentru examen
+
+- Terapie țintită = anomalie moleculară specifică; necesită biomarker.
+- Trastuzumab = HER2; rituximab = CD20; bevacizumab = VEGF; imatinib = BCR-ABL.
+- Anti-PD-1 activează limfocitele T, cu efecte adverse imun-mediate (colită, pneumonită, tiroidită, hepatită).
+- Rezistența dobândită apare frecvent la terapiile țintite.
+- Corticoterapia tratează majoritatea efectelor adverse imun-mediate semnificative.`,
+    references: ["Abbas’ Cellular and Molecular Immunology – Tumor immunity", "Katzung – Basic & Clinical Pharmacology – Cancer chemotherapy"],
+  },
 ]

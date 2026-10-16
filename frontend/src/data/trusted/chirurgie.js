@@ -276,4 +276,280 @@ Stadiile III–IV definesc **ischemia critică**, cu risc de amputație.
       'Bailey & Love’s Short Practice of Surgery – Bolile arteriale',
     ],
   },
+  {
+    id: 'chi-t5',
+    title: 'Apendicita acută',
+    topic: 'Urgențe abdominale',
+    readMinutes: 3,
+    content: `## Definiție și etiopatogenie
+
+**Apendicita acută** este inflamația acută a apendicelui vermiform și reprezintă cea mai frecventă urgență chirurgicală abdominală. Mecanismul clasic este **obstrucția lumenului** (fecalit, hiperplazie limfoidă, mai rar tumoră sau corp străin), urmată de creșterea presiunii intraluminale, ischemie, proliferare bacteriană și, în lipsa tratamentului, necroză și perforație.
+
+## Tablou clinic
+
+- **durere** cu debut epigastric sau periombilical (viscerală), care **migrează în fosa iliacă dreaptă** (parietală), pe măsură ce inflamația atinge peritoneul;
+- **anorexie**, greață, vărsături de obicei după apariția durerii;
+- febră mică sau moderată; tranzit variabil;
+- la examen: sensibilitate maximă în **punctul McBurney**, apărare musculară localizată, semnul **Blumberg** (durere la decompresiunea bruscă), semnul **Rovsing** (durere în fosa iliacă dreaptă la palparea fosei iliace stângi), semnul psoasului sau al obturatorului în localizările retrocecale sau pelvine.
+
+Localizarea variabilă a apendicelui (retrocecal, pelvin, subhepatic) explică **formele atipice**.
+
+## Diagnostic
+
+Diagnosticul este în principal **clinic**. Analizele arată de obicei leucocitoză cu neutrofilie și proteină C reactivă crescută. **Ecografia** este utilă mai ales la copil, la femeia tânără și în sarcină; **tomografia computerizată** se folosește la adult când diagnosticul este incert. La femeile la vârstă fertilă se face test de sarcină.
+
+## Diagnostic diferențial
+
+| Grup | Exemple |
+|---|---|
+| Ginecologic | sarcină ectopică, torsiune de anexă, boală inflamatorie pelvină |
+| Urologic | colică ureterală dreaptă, pielonefrită |
+| Digestiv | adenită mezenterică, ileită (boala Crohn), diverticulită cecală, gastroenterită |
+
+## Forme evolutive și complicații
+
+- **catarală**, **flegmonoasă**, **gangrenoasă**;
+- **perforația** cu peritonită localizată sau generalizată;
+- **plastronul apendicular** – masă inflamatorie delimitată de epiploon și anse;
+- **abcesul apendicular** și, rar, **pileflebita** cu abcese hepatice.
+
+La **copilul mic** și la **vârstnic** tabloul este adesea atipic, iar diagnosticul întârziat, deci perforația este mai frecventă. În **sarcină** apendicele este deplasat cranial de uterul gravid.
+
+## Tratament
+
+- **apendicectomia**, deschisă sau laparoscopică, este tratamentul standard în apendicita acută; antibioticele se asociază perioperator;
+- în apendicita necomplicată, antibioterapia singură a fost studiată la pacienți selectați, dar chirurgia rămâne abordarea clasică din manualele de bază;
+- **plastronul** la un pacient stabil se tratează inițial conservator, cu monitorizare; abcesul se drenează;
+- peritonita generalizată necesită intervenție și toaletă peritoneală.
+
+## De reținut pentru examen
+
+- Durerea migrează de la periombilical la fosa iliacă dreaptă; anorexia este frecventă.
+- Blumberg și Rovsing sunt semne de iritație peritoneală.
+- La femeia fertilă se exclude sarcina ectopică.
+- Plastronul apendicular nu se operează de urgență la un pacient stabil.
+- La vârstnic și la copil mic abdomenul poate fi înșelător, iar perforația este frecventă.`,
+    references: [
+      'Bailey & Love’s Short Practice of Surgery – Apendicele vermiform',
+      'Lawrence – Chirurgie generală și specialități chirurgicale, ed. 6 – Apendicita acută',
+    ],
+  },
+  {
+    id: 'chi-t6',
+    title: 'Peritonitele acute',
+    topic: 'Urgențe abdominale',
+    readMinutes: 3,
+    content: `## Definiție și clasificare
+
+**Peritonita** este inflamația peritoneului, cel mai adesea de cauză infecțioasă. Se clasifică în funcție de mecanism:
+
+| Tip | Mecanism | Exemple | Tratament |
+|---|---|---|---|
+| **Primară (spontană)** | fără sursă intraabdominală; infecție de obicei monomicrobiană | ascită din ciroză, dializă peritoneală | medical (antibiotice) |
+| **Secundară** | perforație sau inflamație a unui organ cavitar, de obicei polimicrobiană | apendicită perforată, ulcer perforat, diverticulită, dehiscență anastomotică | **chirurgical** |
+| **Terțiară** | persistentă sau recurentă după tratament corect al celei secundare | la pacienți critici | suport, drenaj, antibiotice |
+
+Peritonita **secundară** este cea mai frecventă în practica chirurgicală. Poate fi **localizată** (abces, plastron) sau **generalizată**.
+
+## Fiziopatologie
+
+Contaminarea peritoneului declanșează un răspuns inflamator cu exsudat, ileus paralitic prin iritație și sechestrare de lichid în spațiul al treilea. Rezultă **hipovolemie**, tulburări hidroelectrolitice și, în formele grave, **sepsis** și insuficiență multiplă de organ.
+
+## Tablou clinic
+
+- durere abdominală intensă, accentuată de mișcare și tuse; pacientul stă nemișcat;
+- greață, vărsături, febră, tahicardie;
+- la examen: **contractură musculară** („abdomen de lemn”) în perforațiile grave, **Blumberg** pozitiv, silență auscultatorie prin ileus;
+- în stadii avansate: facies suferind, deshidratare, hipotensiune, oligurie.
+
+**Pneumoperitoneul** pe radiografia în ortostatism (aer liber sub diafragm) indică perforație de organ cavitar, dar absența lui nu o exclude.
+
+## Investigații
+
+Hemoleucogramă, markeri inflamatori, ionogramă, funcție renală, gaze sanguine, radiografie abdominală sau toracică și, la pacientul stabil cu diagnostic incert, tomografie computerizată.
+
+## Principii de tratament
+
+- **resuscitare**: lichide intravenoase, oxigen, monitorizarea diurezei, corectarea tulburărilor ionice;
+- **antibioterapie** cu spectru larg, care acoperă bacili gram-negativi și anaerobi;
+- **controlul chirurgical al sursei**: sutura perforației, apendicectomie, rezecție cu sau fără stomă;
+- **toaleta peritoneală** și, după caz, drenaj;
+- suport în terapie intensivă la cazurile severe.
+
+## Complicații
+
+Abcese reziduale (subfrenic, interansă, în **fundul de sac Douglas**), ileus prelungit, fistule, sepsis, insuficiență multiplă de organ, eventrații tardive. Abcesul pelvin se poate palpa la tușeul rectal ca o bombare dureroasă.
+
+## De reținut pentru examen
+
+- Peritonita primară se tratează medical; cea secundară necesită control chirurgical al sursei.
+- Contractura generalizată indică peritonită prin perforație.
+- Aerul liber subdiafragmatic sugerează perforație, dar nu orice peritonită îl are.
+- Resuscitarea nu trebuie amânată în așteptarea operației.
+- Fundul de sac Douglas este locul declivității pentru colecții, accesibile prin tușeu rectal.`,
+    references: [
+      'Bailey & Love’s Short Practice of Surgery – Peritoneul și infecțiile intraabdominale',
+      'Lawrence – Chirurgie generală și specialități chirurgicale, ed. 6 – Peritonita',
+    ],
+  },
+  {
+    id: 'chi-t7',
+    title: 'Patologia anorectală benignă',
+    topic: 'Chirurgie colorectală și anală',
+    readMinutes: 3,
+    content: `## Anatomie utilă
+
+Canalul anal este delimitat superior de joncțiunea anorectală și inferior de marginea anală. **Linia pectinee (dentată)** separă zona cu inervație viscerală, nedureroasă, de zona inferioară, cu inervație somatică, **sensibilă la durere**. De aici explicația: leziunile situate sub linia pectinee dor, cele de deasupra de obicei nu.
+
+## Boala hemoroidală
+
+Hemoroizii sunt formațiuni vasculare normale ale canalului anal care devin patologice când se măresc și produc simptome.
+
+- **interni**, deasupra liniei pectinee: sângerare roșie aprinsă, nedureroasă, la defecație; prolaps;
+- **externi**, sub linia pectinee: dureroși mai ales când se trombozează.
+
+| Grad | Descriere |
+|---|---|
+| I | sângerează, nu prolabează |
+| II | prolabează la defecație, se reduc spontan |
+| III | prolabează, se reduc manual |
+| IV | prolaps ireductibil |
+
+Tratament: reglarea tranzitului (fibre, hidratare), proceduri ambulatorii (ligatură elastică, scleroterapie) la gradele mici, hemoroidectomie la gradele avansate sau eșecuri. **Rectoragia nu se atribuie automat hemoroizilor** la vârstnic sau la simptome de alarmă; se exclude o leziune colorectală.
+
+## Fisura anală
+
+Ulcerație a anodermului, de obicei pe **linia mediană posterioară**. Se manifestă prin **durere** în timpul și după defecație și sângerare discretă. Există hipertonie a sfincterului anal intern. Fisura laterală sau multiplă ridică suspiciunea altor boli (boala Crohn, infecții, neoplazii). Tratamentul începe conservator (fibre, igienă, măsuri locale), iar la cronicizare se poate recurge la chirurgie (sfincterotomie laterală internă).
+
+## Abcesul perianal
+
+Provine de obicei dintr-o infecție a glandelor criptice anale. Se manifestă prin durere pulsatilă, tumefacție dureroasă, eritem perianal, uneori febră. **Tratamentul este incizia și drenajul**; antibioticele singure nu sunt suficiente, deși se pot adăuga la pacienții cu risc (diabet, imunosupresie).
+
+## Fistula perianală
+
+Este un traiect care unește un **orificiu intern** (de regulă la nivelul unei cripte, la linia pectinee) cu un **orificiu extern** cutanat, cu supurație intermitentă. Apare adesea după un abces și **nu se vindecă spontan**. Se asociază uneori cu boala Crohn. Orientarea traiectului față de sfincter dictează tehnica chirurgicală (fistulotomie pentru traiecte simple, tehnici de cruțare a sfincterului în cele complexe, pentru a preveni **incontinența**). Legea Goodsall ajută la predicția poziției orificiului intern.
+
+## De reținut pentru examen
+
+- Hemoroizii interni sângerează nedureros; fisura anală doare.
+- Fisura tipică este posterioară; cele laterale sugerează altă cauză.
+- Abcesul perianal se drenează chirurgical.
+- Fistula nu se vindecă spontan și se asociază cu boala Crohn.
+- Orice rectoragie la vârstă înaintată impune excluderea unui cancer colorectal.`,
+    references: [
+      'Bailey & Love’s Short Practice of Surgery – Anusul și canalul anal',
+      'Lawrence – Chirurgie generală și specialități chirurgicale, ed. 6 – Afecțiunile anorectale',
+    ],
+  },
+  {
+    id: 'chi-t8',
+    title: 'Îngrijirea pre- și postoperatorie',
+    topic: 'Principii de chirurgie',
+    readMinutes: 3,
+    content: `## Evaluarea preoperatorie
+
+Scopul este identificarea riscurilor și optimizarea pacientului înainte de intervenție, când urgența permite.
+
+- **anamneza** și examenul clinic: comorbidități cardiace, pulmonare, renale, diabet, tratamente anticoagulante sau antiagregante, alergii, antecedente anestezice;
+- **clasificarea ASA** a stării fizice, folosită de anestezist;
+- investigații adaptate la vârstă, tip de operație și comorbidități (hemoleucogramă, coagulare, biochimie, ECG, radiografie toracică);
+- **consimțământul informat**, după explicarea beneficiilor, riscurilor și alternativelor;
+- măsuri: oprirea fumatului, corecția anemiei și a dezechilibrelor, profilaxie antibiotică și antitrombotică după risc, postul preoperator, pregătirea pielii.
+
+## Îngrijirea postoperatorie
+
+- monitorizarea funcțiilor vitale, a diurezei și a plăgii;
+- **analgezie** adecvată, care permite respirație profundă și mobilizare;
+- **hidratare** și reluarea alimentației progresiv, după tipul intervenției;
+- **mobilizare precoce**, fizioterapie respiratorie;
+- supravegherea drenurilor și a tranzitului intestinal.
+
+## Complicații postoperatorii
+
+| Interval | Complicații frecvente |
+|---|---|
+| Imediat (ore) | hemoragie, durere, greață și vărsături, hipotensiune, retenție urinară |
+| Precoce (zile) | **atelectazie** și pneumonie, infecție urinară, ileus paralitic, tromboză venoasă profundă și embolie pulmonară, **dehiscență anastomotică**, abcese, infecție de plagă |
+| Tardiv | eventrație, aderențe cu ocluzie, fistule, cicatrice vicioasă |
+
+**Febra** în primele 24–48 de ore are cel mai des cauză pulmonară sau inflamatorie postoperatorie. Febra, tahicardia și durerea abdominală în zilele 5–7 după o anastomoză trebuie să ridice suspiciunea unei **dehiscențe**. Infecția de plagă apare de regulă după câteva zile și se tratează prin **deschiderea plăgii**. Scurgerea abundentă de lichid serosanghinolent prin plagă după laparotomie poate anunța o **dehiscență a fasciei**.
+
+## Ileusul postoperator
+
+După laparotomie, motilitatea intestinală scade temporar. Ileusul se tratează prin corectarea dezechilibrelor electrolitice (în special a potasiului), evitarea medicamentelor care încetinesc tranzitul, mobilizare și, la nevoie, decompresie nazogastrică. Un ileus care **persistă** sau se agravează trebuie să ridice suspiciunea unei complicații septice sau a unei obstrucții mecanice.
+
+## Profilaxia bolii tromboembolice
+
+Include mobilizarea precoce, mijloace mecanice (ciorapi compresivi, compresie pneumatică intermitentă) și anticoagulare profilactică, în funcție de riscul pacientului. Se bazează pe triada Virchow: **stază, leziune endotelială, hipercoagulabilitate**.
+
+## De reținut pentru examen
+
+- Cea mai frecventă complicație pulmonară postoperatorie este atelectazia.
+- Complicațiile septice apar de obicei mai târziu decât cele pulmonare.
+- Febra, tahicardia și durerea după anastomoză sugerează dehiscență.
+- Infecția de plagă se tratează prin deschidere și drenaj, nu doar cu antibiotice.
+- Consimțământul informat este obligatoriu înaintea intervențiilor programate.`,
+    references: [
+      'Bailey & Love’s Short Practice of Surgery – Îngrijirea perioperatorie și complicațiile postoperatorii',
+      'Lawrence – Chirurgie generală și specialități chirurgicale, ed. 6 – Îngrijirea pacientului chirurgical',
+    ],
+  },
+  {
+    id: 'chi-t9',
+    title: 'Traumatismele toracice și abdominale. Șocul hemoragic',
+    topic: 'Traumă',
+    readMinutes: 3,
+    content: `## Evaluarea inițială
+
+Abordarea traumatizatului urmează secvența **ABCDE**: căi aeriene cu protecția coloanei cervicale, respirație, circulație cu controlul hemoragiei, status neurologic, expunere. Leziunile care amenință viața se tratează pe măsură ce sunt identificate, înainte de investigații detaliate.
+
+## Șocul hemoragic
+
+La traumatizat, șocul este considerat **hemoragic până la proba contrarie**. Compensarea inițială (tahicardie, vasoconstricție, tensiune menținută) maschează pierderea; **hipotensiunea este semn tardiv**. Tratamentul cere:
+
+- **oprirea sângerării** (compresie, intervenție chirurgicală sau angioembolizare);
+- acces venos și înlocuirea volemiei, preferabil cu sânge și produse de sânge;
+- prevenirea hipotermiei și corecția coagulopatiei.
+
+## Urgențele toracice vitale
+
+| Leziune | Semne | Conduită |
+|---|---|---|
+| **Pneumotorax în tensiune** | dispnee, hipotensiune, jugulare turgescente, deviația traheei, murmur abolit | decompresie imediată, apoi dren |
+| **Hemotorace masiv** | șoc, matitate, murmur abolit | drenaj pleural, toracotomie în hemoragie persistentă |
+| **Tamponadă cardiacă** | triada Beck: hipotensiune, jugulare turgescente, zgomote asurzite | evacuarea pericardului |
+| **Volet costal** | mișcare paradoxală, hipoxie | analgezie, suport ventilator; contuzia pulmonară dă gravitatea |
+| **Pneumotorax deschis** | plagă toracică aspirativă | pansament parțial ocluziv, dren |
+
+## Traumatismele abdominale
+
+Pot fi **contuze** sau **penetrante**. Organele frecvent lezate includ splina, ficatul și intestinul subțire.
+
+- pacientul **instabil** cu FAST pozitiv merge direct la **laparotomie**;
+- pacientul **stabil** se investighează prin **tomografie computerizată** cu contrast;
+- leziunile hepatice și splenice la pacienții stabili pot fi tratate **non-operator**, cu monitorizare strictă;
+- peritonita, eviscerația sau instabilitatea la plăgile penetrante impun intervenție.
+
+**Ecografia FAST** caută lichid liber în peritoneu și pericard; este rapidă și se poate repeta.
+
+## Principii de monitorizare
+
+Traumatizatul se reevaluează repetat, deoarece starea se poate modifica rapid. Se urmăresc pulsul, tensiunea, diureza, nivelul de conștiență și oxigenarea. Sângerările oculte pot fi retroperitoneale sau în cavitatea pleurală, motiv pentru care examenul clinic singur nu este suficient. La pacienții cu leziuni abdominale tratate conservator se repetă examenul abdominal și hemoglobina, iar orice deteriorare impune reevaluare imagistică sau chirurgicală.
+
+## Semne de alarmă
+
+Echimoze pe peretele abdominal, durere cu apărare, distensie, semnul Kehr (durere în umăr în ruptura splenică), hematurie în traumatismul renal.
+
+## De reținut pentru examen
+
+- ABCDE, cu protecția coloanei cervicale.
+- Hipotensiunea este un semn tardiv în șocul hemoragic.
+- Pneumotoraxul în tensiune se decomprimă clinic, fără radiografie.
+- Triada Beck indică tamponadă cardiacă.
+- FAST pozitiv la instabil înseamnă laparotomie; CT se face doar la stabili.`,
+    references: [
+      'Advanced Trauma Life Support (ATLS) – Student Course Manual, capitolele evaluării inițiale și șocului',
+      'Bailey & Love’s Short Practice of Surgery – Traumatismele',
+    ],
+  },
 ]
