@@ -203,5 +203,10 @@ function logout() {
       <button class="btn btn-white w-full" @click="store.resetDemo()">↺ Resetează datele demo</button>
       <button class="btn btn-red w-full" @click="logout">Ieși din cont</button>
     </section>
+
+    <p class="pb-2 text-center text-xs font-semibold text-muted">
+      Steto · făcută de
+      <a href="https://husanudaniel.ro" target="_blank" rel="noopener" class="underline">Daniel Husanu</a>
+    </p>
   </div>
 </template>
