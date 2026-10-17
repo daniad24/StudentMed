@@ -5,11 +5,12 @@ Variabile de mediu (Vercel › Settings › Environment Variables). **Nu le pune
 | Variabilă | Rol |
 |---|---|
 | `GEMINI_API_KEY` | cheia de API (Google AI Studio) |
-| `GEMINI_MODEL` | modelul folosit (implicit `gemini-3.8-flash`; pune unul dintre cele listate în AI Studio) |
+| `GEMINI_MODEL` | modelul folosit (implicit `gemini-3.5-flash-lite`; pune unul dintre cele listate în AI Studio) |
 | `AI_PROVIDER` | `gemini` (singurul implementat acum) |
 | `INVITE_CODES` | `COD1:Etichetă,COD2:Etichetă` – generează cu `node scripts/make-codes.mjs 20 "Grupa"` |
 | `AI_DAILY_PER_CODE` | apeluri pe zi pentru un cod (implicit 120; un curs mare folosește zeci) |
 | `AI_DAILY_TOTAL` | apeluri pe zi, total (implicit 1500) |
+| `GEMINI_FALLBACK_MODEL` | model de rezervă la 503 temporar (implicit `gemini-flash-lite-latest`) |
 | `GEMINI_THINKING` | nivelul de „gândire” (implicit `low`; `off` nu mai trimite câmpul) |
 | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | contoare persistente; fără ele limitele se țin doar în memoria instanței (bun pentru teste) |
 
