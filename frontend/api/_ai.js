@@ -1,8 +1,9 @@
 // Furnizorul de AI se alege cu AI_PROVIDER ("gemini" acum; "claude" se adaugă în același loc).
 export class AiError extends Error {
-  constructor(message, status = 502) {
+  constructor(message, status = 502, detail = '') {
     super(message)
     this.status = status
+    this.detail = detail
   }
 }
 
@@ -18,12 +19,13 @@ async function geminiRequest(prompt, model, key, thinking, signal) {
   })
 }
 
-async function callGemini(prompt, timeoutMs = 55000) {
+async function callGemini(prompt, timeoutMs = 55000, opts = {}) {
   const key = process.env.GEMINI_API_KEY
   if (!key) throw new AiError('Serverul nu are încă o cheie de AI configurată.', 503)
-  const model = process.env.GEMINI_MODEL || 'gemini-3.8-flash'
+  const model = opts.model || process.env.GEMINI_MODEL || 'gemini-3.8-flash'
   // Modelele noi „gândesc” implicit mult și pot depăși timpul; cerem gândire redusă (GEMINI_THINKING=off dezactivează câmpul).
-  const thinking = (process.env.GEMINI_THINKING ?? 'low') === 'off' ? null : process.env.GEMINI_THINKING ?? 'low'
+  const wantThinking = opts.thinking ?? process.env.GEMINI_THINKING ?? 'low'
+  const thinking = wantThinking === 'off' ? null : wantThinking
   const ctl = new AbortController()
   const t0 = Date.now()
   const timer = setTimeout(() => ctl.abort(), timeoutMs)
@@ -42,10 +44,12 @@ async function callGemini(prompt, timeoutMs = 55000) {
   }
   if (r.status === 429) throw new AiError('Serviciul de AI e ocupat sau a atins limita. Încearcă peste câteva minute.', 503)
   if (!r.ok) {
-    console.error('Gemini error', r.status, model, (await r.text().catch(() => '')).slice(0, 500))
+    const body = (await r.text().catch(() => '')).slice(0, 500)
+    console.error('Gemini error', r.status, model, body)
     throw new AiError(
       r.status === 404 ? `Modelul „${model}” nu există. Verifică GEMINI_MODEL în Vercel.` : r.status === 403 || r.status === 401 ? 'Cheia de API nu are acces. Verifică GEMINI_API_KEY.' : `Serviciul de AI a răspuns cu eroare (${r.status}).`,
       502,
+      body,
     )
   }
   const data = await r.json()
@@ -58,10 +62,20 @@ async function callGemini(prompt, timeoutMs = 55000) {
 }
 
 // Întoarce { text, ms, model, thinking, usage }
-export async function generateDetailed(prompt, timeoutMs) {
+export async function generateDetailed(prompt, timeoutMs, opts) {
   const provider = (process.env.AI_PROVIDER || 'gemini').toLowerCase()
-  if (provider === 'gemini') return callGemini(prompt, timeoutMs)
+  if (provider === 'gemini') return callGemini(prompt, timeoutMs, opts)
   throw new AiError(`Furnizor de AI necunoscut: ${provider}`, 500)
+}
+
+// Modelele pe care cheia le poate folosi pentru generare (pentru diagnostic).
+export async function listGeminiModels() {
+  const key = process.env.GEMINI_API_KEY
+  if (!key) throw new AiError('Serverul nu are încă o cheie de AI configurată.', 503)
+  const r = await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200', { headers: { 'x-goog-api-key': key } })
+  const body = await r.text()
+  if (!r.ok) throw new AiError(`Lista de modele: eroare ${r.status}`, 502, body.slice(0, 300))
+  return (JSON.parse(body).models ?? []).filter((m) => (m.supportedGenerationMethods ?? []).includes('generateContent')).map((m) => m.name.replace(/^models\//, ''))
 }
 
 export async function generate(prompt) {
