@@ -62,7 +62,7 @@ const DEMO_RIVALS = [
 const KEYS = [
   'user', 'isAdmin', 'theme', 'streak', 'cardState', 'votes', 'recommendedOverrides', 'reports',
   'myMaterials', 'myCards', 'quizCards', 'quizHistory', 'examHistory', 'answerLog', 'activity', 'leaderboardOptIn',
-  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone',
+  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode',
 ]
 
 // Carnetul de abilități practice: nivelul atins pentru fiecare manevră/examinare.
@@ -98,11 +98,12 @@ export const useAppStore = defineStore('app', () => {
   const myQuestions = ref(saved.myQuestions ?? []) // grile importate cu chatbotul (neverificate)
   const tourDone = ref(saved.tourDone ?? false) // turul de prezentare a fost văzut
   const tourOpen = ref(false)
+  const aiCode = ref(saved.aiCode ?? null) // { code, label } – cod de invitație pentru generarea cu AI
 
   const refs = {
     user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
     myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus, myQuestions, tourDone,
+    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode,
   }
   watch(
     KEYS.map((k) => refs[k]),
@@ -540,6 +541,14 @@ export const useAppStore = defineStore('app', () => {
     return n
   }
 
+  // --- Cod de invitație pentru AI ---
+  function setAiCode(code, label) {
+    aiCode.value = { code, label }
+  }
+  function clearAiCode() {
+    aiCode.value = null
+  }
+
   // --- Turul de prezentare ---
   function startTour() {
     tourOpen.value = true
@@ -562,7 +571,7 @@ export const useAppStore = defineStore('app', () => {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     examDates, caseProgress, skillStatus, myQuestions, addAiContent, clearAiContent,
-    exportData, importData, tourDone, tourOpen, startTour, finishTour,
+    exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
     targetSession, topicsFor, buildPlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,

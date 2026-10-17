@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { hardRefresh } from '../lib/refresh'
+import { AI_IMPORT } from '../lib/flags'
 import AppIcon from '../components/AppIcon.vue'
 
 const store = useAppStore()
@@ -21,6 +22,25 @@ const isContributor = computed(() => store.contributions > 0)
 
 const version = __APP_VERSION__
 const updating = ref(false)
+
+const codeInput = ref('')
+const codeBusy = ref(false)
+const codeMsg = ref('')
+async function activateCode() {
+  codeBusy.value = true
+  codeMsg.value = ''
+  try {
+    const r = await fetch('/api/check-code', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: codeInput.value }) })
+    const data = await r.json().catch(() => ({}))
+    if (!r.ok) throw new Error(data.error || 'Nu am putut verifica codul.')
+    store.setAiCode(codeInput.value.trim().toUpperCase(), data.label)
+    codeInput.value = ''
+  } catch (e) {
+    codeMsg.value = e.message === 'Failed to fetch' ? 'Nu am putut contacta serverul. Verifică internetul.' : e.message
+  } finally {
+    codeBusy.value = false
+  }
+}
 
 const backupMsg = ref('')
 function downloadBackup() {
@@ -168,6 +188,24 @@ function logout() {
         </RouterLink>
         <div v-if="store.myCards.length" class="card p-3 font-extrabold">🃏 {{ store.myCards.length }} cartonașe adăugate</div>
       </div>
+    </section>
+
+    <section v-if="AI_IMPORT" class="card space-y-3 p-5">
+      <h2 class="font-black">🔑 Cod de invitație</h2>
+      <template v-if="store.aiCode">
+        <p class="text-sm font-semibold text-muted">
+          Activ: <b class="text-ink">{{ store.aiCode.label }}</b>. În Adaugă › „Grile din curs” ai acum butonul de generare cu AI.
+        </p>
+        <button class="btn btn-white w-full" @click="store.clearAiCode()">Elimină codul</button>
+      </template>
+      <template v-else>
+        <p class="text-sm font-semibold text-muted">Ai primit un cod? Introdu-l ca să generezi grile și cartonașe din cursuri cu AI.</p>
+        <div class="flex gap-2">
+          <input v-model="codeInput" class="input flex-1 uppercase" placeholder="COD-1234" autocomplete="off" autocapitalize="characters" @keyup.enter="activateCode" />
+          <button class="btn btn-primary px-4" :disabled="codeBusy || !codeInput.trim()" @click="activateCode">{{ codeBusy ? '…' : 'Activează' }}</button>
+        </div>
+        <p v-if="codeMsg" class="text-sm font-bold text-red-600">{{ codeMsg }}</p>
+      </template>
     </section>
 
     <section class="card space-y-3 p-5">

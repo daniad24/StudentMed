@@ -23,6 +23,29 @@ const copied = ref(false)
 const reading = ref(false)
 const fileError = ref('')
 
+const generating = ref(false)
+const aiError = ref('')
+async function generateWithAi() {
+  aiError.value = ''
+  generating.value = true
+  try {
+    const r = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: store.aiCode.code, text: parts.value[part.value] ?? parts.value[0], subjectName: subject.value.name, questions: 8, cards: 8 }),
+    })
+    const data = await r.json().catch(() => ({}))
+    if (r.status === 401) store.clearAiCode()
+    if (!r.ok) throw new Error(data.error || `Eroare ${r.status}`)
+    result.value = parseAiResponse(data.raw)
+    phase.value = 'review'
+  } catch (e) {
+    aiError.value = e.message === 'Failed to fetch' ? 'Nu am putut contacta serverul. Verifică internetul.' : e.message
+  } finally {
+    generating.value = false
+  }
+}
+
 const raw = ref('')
 const result = ref(null)
 const error = ref('')
@@ -117,8 +140,20 @@ function again() {
         </p>
       </section>
 
+      <section v-if="prompt && store.aiCode" class="card space-y-3 border-brand-500 p-5">
+        <h2 class="font-black">2. Generează cu AI <span class="chip bg-brand-100 text-brand-700">cod: {{ store.aiCode.label }}</span></h2>
+        <p class="text-sm font-semibold text-muted">
+          Textul de mai sus (partea selectată) se trimite la un serviciu de AI, care întoarce 8 grile și 8 cartonașe. Nu trimite materiale pe care nu ai voie să le dai mai departe.
+        </p>
+        <p v-if="aiError" class="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-600 shake">{{ aiError }}</p>
+        <button class="btn btn-primary w-full" :disabled="generating" @click="generateWithAi">{{ generating ? '⏳ Generez… (până la un minut)' : '✨ Generează grile și cartonașe' }}</button>
+      </section>
+      <p v-else-if="prompt" class="rounded-xl bg-gray-100 px-3 py-2 text-sm font-semibold text-muted">
+        Ai cod de invitație? Îl introduci în Profil și apare aici butonul de generare cu AI. Fără cod, folosește chatbotul tău, mai jos.
+      </p>
+
       <section v-if="prompt" class="card space-y-3 p-5">
-        <h2 class="font-black">2. Copiază promptul în chatbot</h2>
+        <h2 class="font-black">{{ store.aiCode ? 'Sau: ' : '' }}2. Copiază promptul în chatbot</h2>
         <div v-if="parts.length > 1" class="flex gap-2 overflow-x-auto">
           <button v-for="(_, i) in parts" :key="i" class="btn shrink-0 px-3 py-1.5 text-sm" :class="part === i ? 'btn-primary' : 'btn-white'" @click="part = i">
             Partea {{ i + 1 }}
