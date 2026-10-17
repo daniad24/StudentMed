@@ -34,21 +34,21 @@ export function isBoilerplatePage(pageText) {
   return t.length < 1500 && BOILERPLATE.test(t)
 }
 
-export function buildPrompt({ subjectName, text, questions = 8, cards = 8 }) {
+export function buildPrompt({ subjectName, text, questions = 8, cards = 8, summary = true }) {
   return `Ești asistent pentru un student la Medicină. Din TEXTUL de mai jos (curs la materia „${subjectName}”) fă grile și cartonașe de învățat, în limba română.
 
 Reguli:
 - Folosește DOAR informațiile din text. Nu adăuga nimic din cunoștințele tale și nu inventa.
 - Nu pune doze, valori numerice sau praguri decât dacă apar clar în text.
 - Ignoră părțile administrative din text (note despre drepturi de autor, pagina de titlu, autori, cuprins, bibliografie, mulțumiri) și nu face întrebări despre ele.
-- Fă ${questions} grile și ${cards} cartonașe.
+- Fă ${questions} grile și ${cards} cartonașe${summary ? ' și un rezumat al textului' : ''}.
 - Fiecare grilă are exact 5 variante. Poate avea unul sau mai multe răspunsuri corecte (complement simplu sau multiplu, ca la examenele din facultate).
 - „answer” = indicii variantelor corecte, începând de la 0.
 - „explanation” = o propoziție care spune de ce e corect, bazată pe text.
 - Cartonașele: „front” = întrebare scurtă, „back” = răspuns scurt.
-
+${summary ? '- „summary” = rezumat în Markdown (titluri cu ##, liste scurte, termenii-cheie cu **bold**), 100–200 de cuvinte, doar din text, fără informații noi.\n' : ''}
 Răspunde DOAR cu JSON valid, fără alt text înainte sau după, exact în forma:
-{"questions":[{"text":"…","options":["…","…","…","…","…"],"answer":[0],"explanation":"…"}],"cards":[{"front":"…","back":"…"}]}
+{"questions":[{"text":"…","options":["…","…","…","…","…"],"answer":[0],"explanation":"…"}],"cards":[{"front":"…","back":"…"}]${summary ? ',"summary":"…"' : ''}}
 
 TEXT:
 """
@@ -97,5 +97,6 @@ export function parseAiResponse(raw) {
     cards.push({ front, back, keep: true })
   })
   if (!questions.length && !cards.length) throw new Error(skipped[0] ?? 'Răspunsul nu conține grile sau cartonașe.')
-  return { questions, cards, skipped }
+  const summary = str(data.summary)
+  return { questions, cards, skipped, summary: summary.length >= 60 ? summary : '' }
 }

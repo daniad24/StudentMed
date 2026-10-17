@@ -5,6 +5,7 @@ import { useAppStore, RECOMMEND_VOTES, SKILL_LEVELS, today } from '../stores/app
 import { subjects } from '../data/mock'
 import BackButton from '../components/BackButton.vue'
 import MaterialItem from '../components/MaterialItem.vue'
+import SourceChips from '../components/SourceChips.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -15,11 +16,13 @@ const tab = computed(() => route.query.tab || 'materiale')
 const setTab = (t) => router.replace({ query: { tab: t } })
 
 const filter = ref('all')
-const filters = [
+const filters = computed(() => allFilters.filter((f) => f.id !== 'ai' || allMaterials.value.some((m) => m.source === 'ai')))
+const allFilters = [
   { id: 'all', label: 'Toate' },
   { id: 'trusted', label: '✅ De încredere' },
   { id: 'recommended', label: '⭐ Recomandate' },
   { id: 'community', label: '👥 Comunitate' },
+  { id: 'ai', label: '🤖 Generate AI' },
   { id: 'mine', label: '👤 Ale mele' },
 ]
 
@@ -29,15 +32,18 @@ const filterTests = {
   trusted: (m) => m.source === 'trusted',
   recommended: (m) => m.recommended,
   community: (m) => m.source !== 'trusted' && !m.mine,
-  mine: (m) => m.mine,
+  ai: (m) => m.source === 'ai',
+  mine: (m) => m.mine && m.source !== 'ai',
 }
 const countFor = (id) => allMaterials.value.filter(filterTests[id]).length
 const materials = computed(() => allMaterials.value.filter(filterTests[filter.value]))
 
-const stats = computed(() => store.cardStats(route.params.id))
-const cards = computed(() => store.cardsFor(route.params.id))
-const questionCount = computed(() => store.questionsFor(route.params.id).length)
-const multiCount = computed(() => store.questionsFor(route.params.id).filter((q) => q.type === 'multi').length)
+const origin = computed(() => store.sourceFilter)
+const counts = computed(() => store.originCounts(route.params.id))
+const stats = computed(() => store.cardStats(route.params.id, origin.value))
+const cards = computed(() => store.cardsFor(route.params.id, origin.value))
+const questionCount = computed(() => store.questionsFor(route.params.id, origin.value).length)
+const multiCount = computed(() => store.questionsFor(route.params.id, origin.value).filter((q) => q.type === 'multi').length)
 
 // --- Colocviu ---
 const plan = computed(() => store.examPlan(route.params.id))
@@ -150,6 +156,7 @@ const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
 
     <!-- Flashcards -->
     <section v-else-if="tab === 'flashcards'" class="space-y-3">
+      <SourceChips :counts="counts.cards" />
       <div class="card p-5">
         <div class="grid grid-cols-3 text-center">
           <div><p class="text-2xl font-black">{{ stats.total }}</p><p class="text-xs font-bold text-muted">total</p></div>
@@ -164,6 +171,7 @@ const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
       <div v-if="cards.length" class="space-y-2">
         <div v-for="c in cards" :key="c.id" class="card p-3">
           <span v-if="c.fromQuiz" class="chip mb-1 bg-violet-100 text-violet-700">din grilele greșite</span>
+          <span v-else-if="c.ai" class="chip mb-1 bg-amber-100 text-amber-700">🤖 generat de AI</span>
           <p class="font-extrabold">{{ c.front }}</p>
           <p class="whitespace-pre-line text-sm font-semibold text-muted">{{ c.back }}</p>
         </div>
@@ -244,15 +252,17 @@ const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
 
     <!-- Grile -->
     <section v-else class="space-y-3">
+      <SourceChips :counts="counts.questions" />
       <div class="card p-6 text-center">
         <p class="text-5xl">✅</p>
         <p class="mt-2 text-xl font-black">{{ questionCount }} grile disponibile</p>
         <p class="text-sm font-semibold text-muted">
           {{ multiCount }} cu complement multiplu · primești 10 aleatorii, ai 3 minute.
         </p>
+        <p v-if="origin === 'ai'" class="mt-2 text-xs font-bold text-amber-700">🤖 Grile generate de AI: pot conține greșeli, compară cu cursul.</p>
         <RouterLink v-if="questionCount" :to="`/pauza/${subject.id}`" class="btn btn-blue mt-4 w-full">⏱️ Începe quiz-ul</RouterLink>
         <RouterLink v-if="questionCount" :to="`/simulare?materie=${subject.id}`" class="btn btn-white mt-2 w-full">🎓 Simulare de colocviu</RouterLink>
-        <p v-else class="mt-3 text-sm font-bold text-muted">Grilele pentru această materie vin în curând.</p>
+        <p v-else class="mt-3 text-sm font-bold text-muted">Nicio grilă în această categorie. Alege altă categorie sus.</p>
       </div>
     </section>
   </div>

@@ -16,13 +16,13 @@ const store = useAppStore()
 // ?mod=rezidentiat preselectează capitolele de rezidențiat.
 const rezMode = route.query.mod === 'rezidentiat'
 const available = subjects
-  .map((s) => ({ ...s, count: store.questionsFor(s.id).length }))
+  .map((s) => ({ ...s, count: store.questionsFor(s.id, store.sourceFilter).length }))
   .filter((s) => s.count > 0 && (!rezMode || s.rez))
 // ?materie=<id> = simulare de colocviu doar din materia respectivă.
 const onlySubject = available.find((s) => s.id === route.query.materie)?.id
 const picked = ref(onlySubject ? [onlySubject] : available.map((s) => s.id))
 const size = ref(rezMode ? 50 : 30)
-const pool = computed(() => picked.value.flatMap((id) => store.questionsFor(id)))
+const pool = computed(() => picked.value.flatMap((id) => store.questionsFor(id, store.sourceFilter)))
 
 function togglePick(id) {
   picked.value = picked.value.includes(id) ? picked.value.filter((x) => x !== id) : [...picked.value, id]

@@ -19,7 +19,7 @@ const subject = subjects.find((s) => s.id === route.params.subjectId)
 const block = route.query.bloc ? store.targetSession?.blocks.find((b) => b.key === route.query.bloc) : null
 const questions = block
   ? block.questionIds.map((id) => store.questionsFor(subject.id).find((q) => q.id === id)).filter(Boolean).map(prepareQuestion)
-  : shuffle(store.questionsFor(subject.id)).slice(0, QUIZ_SIZE).map(prepareQuestion)
+  : shuffle(store.questionsFor(subject.id, store.sourceFilter).length ? store.questionsFor(subject.id, store.sourceFilter) : store.questionsFor(subject.id)).slice(0, QUIZ_SIZE).map(prepareQuestion)
 
 const index = ref(0)
 const selected = ref([])

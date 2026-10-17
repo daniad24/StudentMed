@@ -7,6 +7,7 @@ defineProps({ material: { type: Object, required: true }, detailed: { type: Bool
 <template>
   <div class="flex flex-wrap gap-1">
     <span v-if="material.source === 'trusted'" class="chip bg-sky-100 text-sky-700">✅ Sursă de încredere</span>
+    <span v-else-if="material.source === 'ai'" class="chip bg-amber-100 text-amber-700">🤖 Generat de AI · neverificat</span>
     <span v-else-if="material.mine" class="chip bg-violet-100 text-violet-700">👤 Al tău</span>
     <span v-else class="chip bg-gray-100 text-muted">👥 Comunitate</span>
 

@@ -73,7 +73,8 @@ async function generateChunks(chunks, per) {
   } catch {
     // ecranul se poate stinge; progresul parțial rămâne oricum
   }
-  const out = { questions: [], cards: [], skipped: [] }
+  const out = { questions: [], cards: [], skipped: [], summary: '' }
+  const sums = []
   const seenQ = new Set()
   const seenC = new Set()
   let next = 0
@@ -101,6 +102,7 @@ async function generateChunks(chunks, per) {
         for (const q of res.questions) if (!seenQ.has(norm(q.text))) (seenQ.add(norm(q.text)), out.questions.push(q))
         for (const c of res.cards) if (!seenC.has(norm(c.front))) (seenC.add(norm(c.front)), out.cards.push(c))
         out.skipped.push(...res.skipped)
+        if (res.summary) sums.push({ i, text: res.summary })
       }
       progress.value.done++
     }
@@ -112,7 +114,9 @@ async function generateChunks(chunks, per) {
   } catch {
     // nimic
   }
-  if (out.questions.length || out.cards.length) {
+  sums.sort((a, b) => a.i - b.i)
+  out.summary = sums.length > 1 ? sums.map((x, n) => `## Partea ${n + 1}\n\n${x.text}`).join('\n\n') : (sums[0]?.text ?? '')
+  if (out.questions.length || out.cards.length || out.summary) {
     result.value = out
     phase.value = 'review'
     if (fatal) aiNote.value = `Am oprit la ${progress.value.done} din ${chunks.length} părți: ${fatal}`
@@ -178,10 +182,14 @@ function check() {
 const setAll = (list, v) => list.forEach((x) => (x.keep = v))
 const keptQ = computed(() => result.value?.questions.filter((q) => q.keep) ?? [])
 const keptC = computed(() => result.value?.cards.filter((c) => c.keep) ?? [])
+const keepSummary = ref(true)
+const summaryTitle = ref('')
+const summaryOn = computed(() => !!result.value?.summary && keepSummary.value)
 
 function save() {
-  store.addAiContent(subjectId.value, keptQ.value, keptC.value)
-  saved.value = keptQ.value.length + keptC.value.length
+  const summary = summaryOn.value ? { title: summaryTitle.value.trim() || `Rezumat AI – ${subject.value.name}`, content: result.value.summary } : null
+  store.addAiContent(subjectId.value, keptQ.value, keptC.value, summary)
+  saved.value = keptQ.value.length + keptC.value.length + (summary ? 1 : 0)
   phase.value = 'saved'
 }
 
@@ -280,6 +288,17 @@ function again() {
         Am omis {{ result.skipped.length }}: {{ result.skipped.slice(0, 4).join(' · ') }}
       </p>
 
+      <section v-if="result.summary" class="space-y-2">
+        <h2 class="font-black">Rezumat</h2>
+        <div class="card space-y-2 p-4" :class="!keepSummary && 'opacity-50'">
+          <label class="flex items-center gap-3 text-sm font-extrabold">
+            <input v-model="keepSummary" type="checkbox" class="h-5 w-5 accent-brand-600" /> Salvează rezumatul în Materiale
+          </label>
+          <input v-model="summaryTitle" class="w-full rounded-xl border-2 border-gray-200 px-3 py-2 text-sm font-bold" :placeholder="`Rezumat AI – ${subject.name}`" />
+          <p class="max-h-48 overflow-y-auto whitespace-pre-line text-sm font-semibold text-muted">{{ result.summary }}</p>
+        </div>
+      </section>
+
       <section v-if="result.questions.length" class="space-y-2">
         <div class="flex items-baseline justify-between">
           <h2 class="font-black">Grile ({{ keptQ.length }}/{{ result.questions.length }})</h2>
@@ -311,7 +330,7 @@ function again() {
       </section>
 
       <div class="grid gap-2">
-        <button class="btn btn-primary w-full" :disabled="!keptQ.length && !keptC.length" @click="save">Salvează {{ keptQ.length + keptC.length }} în {{ subject.name }}</button>
+        <button class="btn btn-primary w-full" :disabled="!keptQ.length && !keptC.length && !summaryOn" @click="save">Salvează {{ keptQ.length + keptC.length + (summaryOn ? 1 : 0) }} în {{ subject.name }}</button>
         <button class="btn btn-white w-full" @click="phase = 'edit'">Înapoi</button>
       </div>
     </template>
@@ -319,7 +338,7 @@ function again() {
     <section v-else class="card space-y-3 p-6 text-center pop-in">
       <p class="text-5xl">🎉</p>
       <p class="text-xl font-black">Am salvat {{ saved }} elemente</p>
-      <p class="text-sm font-semibold text-muted">Le găsești în grilele și cartonașele materiei, cu eticheta „AI”.</p>
+      <p class="text-sm font-semibold text-muted">Le găsești în materie, la Grile, Cartonașe și Materiale, sub filtrul „Generate AI”, separate de conținutul Steto.</p>
       <RouterLink :to="`/materie/${subjectId}`" class="btn btn-primary w-full">Deschide materia</RouterLink>
       <button class="btn btn-white w-full" @click="again">{{ part + 1 < parts.length ? 'Următoarea parte' : 'Alt text' }}</button>
       <button class="mt-2 text-xs font-bold text-muted" @click="store.clearAiContent(); phase = 'edit'">Șterge tot ce am importat cu AI</button>

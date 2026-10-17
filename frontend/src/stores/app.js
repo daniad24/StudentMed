@@ -62,7 +62,7 @@ const DEMO_RIVALS = [
 const KEYS = [
   'user', 'isAdmin', 'theme', 'streak', 'cardState', 'votes', 'recommendedOverrides', 'reports',
   'myMaterials', 'myCards', 'quizCards', 'quizHistory', 'examHistory', 'answerLog', 'activity', 'leaderboardOptIn',
-  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode',
+  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter',
 ]
 
 // Carnetul de abilități practice: nivelul atins pentru fiecare manevră/examinare.
@@ -98,12 +98,13 @@ export const useAppStore = defineStore('app', () => {
   const myQuestions = ref(saved.myQuestions ?? []) // grile importate cu chatbotul (neverificate)
   const tourDone = ref(saved.tourDone ?? false) // turul de prezentare a fost văzut
   const tourOpen = ref(false)
+  const sourceFilter = ref(saved.sourceFilter ?? 'all') // all | steto | ai | mine – ce fel de conținut exersezi
   const aiCode = ref(saved.aiCode ?? null) // { code, label } – cod de invitație pentru generarea cu AI
 
   const refs = {
     user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
     myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode,
+    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter,
   }
   watch(
     KEYS.map((k) => refs[k]),
@@ -213,13 +214,18 @@ export const useAppStore = defineStore('app', () => {
   // --- Flashcards ---
   const allCards = computed(() => [...mock.flashcards, ...myCards.value, ...quizCards.value])
 
-  function cardsFor(subjectId) {
-    return allCards.value.filter((c) => c.subjectId === subjectId)
+  // Originea conținutului: steto (scris de noi), ai (generat de AI), mine (făcut sau importat de student, plus greșelile lui).
+  const originOfCard = (c) => (c.ai ? 'ai' : mock.flashcards.some((x) => x.id === c.id) ? 'steto' : 'mine')
+  const originOfQuestion = (q) => (q.source === 'ai' ? 'ai' : 'steto')
+  const inOrigin = (origin, filter) => filter === 'all' || origin === filter
+
+  function cardsFor(subjectId, origin = 'all') {
+    return allCards.value.filter((c) => c.subjectId === subjectId && inOrigin(originOfCard(c), origin))
   }
 
-  function dueCardsFor(subjectId) {
+  function dueCardsFor(subjectId, origin = 'all') {
     const t = today()
-    return cardsFor(subjectId).filter((c) => {
+    return cardsFor(subjectId, origin).filter((c) => {
       const s = cardState.value[c.id]
       return !s || s.due <= t
     })
@@ -260,30 +266,40 @@ export const useAppStore = defineStore('app', () => {
     return days
   }
 
-  function cardStats(subjectId) {
-    const cards = cardsFor(subjectId)
+  function cardStats(subjectId, origin = 'all') {
+    const cards = cardsFor(subjectId, origin)
     const known = cards.filter((c) => (cardState.value[c.id]?.box ?? 0) >= 3).length
-    return { total: cards.length, due: dueCardsFor(subjectId).length, known }
+    return { total: cards.length, due: dueCardsFor(subjectId, origin).length, known }
+  }
+
+  // Câte cartonașe și grile are materia, pe origine (pentru butoanele de filtrare).
+  function originCounts(subjectId) {
+    const out = { cards: { all: 0, steto: 0, ai: 0, mine: 0 }, questions: { all: 0, steto: 0, ai: 0, mine: 0 } }
+    for (const c of allCards.value) if (c.subjectId === subjectId) (out.cards.all++, out.cards[originOfCard(c)]++)
+    for (const q of [...mock.questions, ...myQuestions.value]) if (q.subjectId === subjectId) (out.questions.all++, out.questions[originOfQuestion(q)]++)
+    return out
   }
 
   // --- Grile ---
-  function questionsFor(subjectId) {
-    return [...mock.questions, ...myQuestions.value].filter((q) => q.subjectId === subjectId)
+  function questionsFor(subjectId, origin = 'all') {
+    return [...mock.questions, ...myQuestions.value].filter((q) => q.subjectId === subjectId && inOrigin(originOfQuestion(q), origin))
   }
 
   // Grile și cartonașe făcute cu un chatbot din cursul studentului; rămân marcate „neverificat”.
-  function addAiContent(subjectId, questions, cards) {
+  function addAiContent(subjectId, questions, cards, summary = null) {
     const stamp = Date.now()
     const author = user.value?.name ?? 'Tu'
     myQuestions.value.push(
       ...questions.map((q, i) => ({ id: `ai${stamp}-q${i}`, subjectId, type: q.type, text: q.text, options: q.options, answer: q.answer, explanation: q.explanation, source: 'ai', author })),
     )
     myCards.value.push(...cards.map((c, i) => ({ id: `ai${stamp}-c${i}`, subjectId, front: c.front, back: c.back, source: 'ai', ai: true, author })))
+    if (summary?.content) addMaterial({ type: 'summary', subjectId, title: summary.title || 'Rezumat generat de AI', content: summary.content, source: 'ai', ai: true, readMinutes: Math.max(1, Math.round(summary.content.split(/\s+/).length / 150)) })
   }
 
   function clearAiContent() {
     myQuestions.value = []
     myCards.value = myCards.value.filter((c) => !c.ai)
+    myMaterials.value = myMaterials.value.filter((m) => !m.ai)
   }
 
   // O grilă greșită devine cartonaș de repetat (o singură dată per grilă).
@@ -571,7 +587,7 @@ export const useAppStore = defineStore('app', () => {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     examDates, caseProgress, skillStatus, myQuestions, addAiContent, clearAiContent,
-    exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
+    sourceFilter, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
     targetSession, topicsFor, buildPlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,

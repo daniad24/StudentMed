@@ -15,7 +15,7 @@ const subject = subjects.find((s) => s.id === route.params.subjectId)
 const block = route.query.bloc ? store.targetSession?.blocks.find((b) => b.key === route.query.bloc) : null
 const source = block
   ? block.cardIds.map((id) => store.allCards.find((c) => c.id === id)).filter(Boolean)
-  : route.query.toate ? store.cardsFor(subject.id) : store.dueCardsFor(subject.id)
+  : route.query.toate ? store.cardsFor(subject.id, store.sourceFilter) : store.dueCardsFor(subject.id, store.sourceFilter)
 const backTo = block ? '/tinta/plan' : `/materie/${subject.id}?tab=flashcards`
 const queue = ref([...source].sort(() => Math.random() - 0.5))
 const initialCount = queue.value.length
