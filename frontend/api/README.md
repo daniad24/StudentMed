@@ -5,7 +5,7 @@ Variabile de mediu (Vercel › Settings › Environment Variables). **Nu le pune
 | Variabilă | Rol |
 |---|---|
 | `GEMINI_API_KEY` | cheia de API (Google AI Studio) |
-| `GEMINI_MODEL` | modelul folosit (implicit `gemini-2.5-flash`; pune unul dintre cele listate în AI Studio) |
+| `GEMINI_MODEL` | modelul folosit (implicit `gemini-3.8-flash`; pune unul dintre cele listate în AI Studio) |
 | `AI_PROVIDER` | `gemini` (singurul implementat acum) |
 | `INVITE_CODES` | `COD1:Etichetă,COD2:Etichetă` – generează cu `node scripts/make-codes.mjs 20 "Grupa"` |
 | `AI_DAILY_PER_CODE` | generări pe zi pentru un cod (implicit 15) |

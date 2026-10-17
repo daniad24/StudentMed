@@ -9,7 +9,7 @@ export class AiError extends Error {
 async function callGemini(prompt) {
   const key = process.env.GEMINI_API_KEY
   if (!key) throw new AiError('Serverul nu are încă o cheie de AI configurată.', 503)
-  const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash'
+  const model = process.env.GEMINI_MODEL || 'gemini-3.8-flash'
   const ctl = new AbortController()
   const timer = setTimeout(() => ctl.abort(), 55000)
   let r
