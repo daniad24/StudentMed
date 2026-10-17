@@ -6,30 +6,47 @@ export class AiError extends Error {
   }
 }
 
+// Gemini apelat o dată; `thinking` = nivelul de „gândire” cerut (null = nu trimitem câmpul).
+async function geminiRequest(prompt, model, key, thinking, signal) {
+  const generationConfig = { responseMimeType: 'application/json', temperature: 0.3, maxOutputTokens: 8192 }
+  if (thinking) generationConfig.thinkingConfig = { thinkingLevel: thinking }
+  return fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
+    body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig }),
+    signal,
+  })
+}
+
 async function callGemini(prompt) {
   const key = process.env.GEMINI_API_KEY
   if (!key) throw new AiError('Serverul nu are încă o cheie de AI configurată.', 503)
   const model = process.env.GEMINI_MODEL || 'gemini-3.8-flash'
+  // Modelele noi „gândesc” implicit mult și pot depăși timpul; cerem gândire redusă (GEMINI_THINKING=off dezactivează câmpul).
+  const thinking = (process.env.GEMINI_THINKING ?? 'low') === 'off' ? null : process.env.GEMINI_THINKING ?? 'low'
   const ctl = new AbortController()
   const timer = setTimeout(() => ctl.abort(), 55000)
   let r
   try {
-    r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        generationConfig: { responseMimeType: 'application/json', temperature: 0.3, maxOutputTokens: 8192 },
-      }),
-      signal: ctl.signal,
-    })
+    r = await geminiRequest(prompt, model, key, thinking, ctl.signal)
+    if (r.status === 400 && thinking) {
+      // modelul nu acceptă câmpul de gândire: reîncercăm fără el
+      console.warn('Gemini a refuzat thinkingConfig, reîncerc fără', await r.text().catch(() => ''))
+      r = await geminiRequest(prompt, model, key, null, ctl.signal)
+    }
   } catch (e) {
     throw new AiError(e.name === 'AbortError' ? 'AI-ul a durat prea mult. Încearcă un text mai scurt.' : 'Nu am putut contacta serviciul de AI.', 504)
   } finally {
     clearTimeout(timer)
   }
   if (r.status === 429) throw new AiError('Serviciul de AI e ocupat sau a atins limita. Încearcă peste câteva minute.', 503)
-  if (!r.ok) throw new AiError(`Serviciul de AI a răspuns cu eroare (${r.status}).`, 502)
+  if (!r.ok) {
+    console.error('Gemini error', r.status, model, (await r.text().catch(() => '')).slice(0, 500))
+    throw new AiError(
+      r.status === 404 ? `Modelul „${model}” nu există. Verifică GEMINI_MODEL în Vercel.` : r.status === 403 || r.status === 401 ? 'Cheia de API nu are acces. Verifică GEMINI_API_KEY.' : `Serviciul de AI a răspuns cu eroare (${r.status}).`,
+      502,
+    )
+  }
   const data = await r.json()
   const cand = data.candidates?.[0]
   const text = (cand?.content?.parts ?? []).map((p) => p.text ?? '').join('')

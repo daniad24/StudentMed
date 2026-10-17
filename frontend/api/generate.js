@@ -23,10 +23,10 @@ export default async function handler(req, res) {
   const subjectName = String(body.subjectName ?? 'Medicină').slice(0, 80)
 
   // limite: pe cod și total, pe zi
-  const perCode = int(process.env.AI_DAILY_PER_CODE, 15)
-  const total = int(process.env.AI_DAILY_TOTAL, 300)
+  const perCode = int(process.env.AI_DAILY_PER_CODE, 120)
+  const total = int(process.env.AI_DAILY_TOTAL, 1500)
   const day = today()
-  if ((await incr(`ai:use:${day}:${found.code}`)) > perCode) return res.status(429).json({ error: `Ai folosit cele ${perCode} generări de azi. Revino mâine.` })
+  if ((await incr(`ai:use:${day}:${found.code}`)) > perCode) return res.status(429).json({ error: `Ai folosit toate cele ${perCode} apeluri de azi. Revino mâine.` })
   if ((await incr(`ai:use:${day}:ALL`)) > total) return res.status(429).json({ error: 'Limita zilnică a aplicației a fost atinsă. Revino mâine.' })
 
   const questions = Math.min(int(body.questions, 8), 15)
