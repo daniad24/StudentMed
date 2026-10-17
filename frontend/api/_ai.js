@@ -18,14 +18,15 @@ async function geminiRequest(prompt, model, key, thinking, signal) {
   })
 }
 
-async function callGemini(prompt) {
+async function callGemini(prompt, timeoutMs = 55000) {
   const key = process.env.GEMINI_API_KEY
   if (!key) throw new AiError('Serverul nu are încă o cheie de AI configurată.', 503)
   const model = process.env.GEMINI_MODEL || 'gemini-3.8-flash'
   // Modelele noi „gândesc” implicit mult și pot depăși timpul; cerem gândire redusă (GEMINI_THINKING=off dezactivează câmpul).
   const thinking = (process.env.GEMINI_THINKING ?? 'low') === 'off' ? null : process.env.GEMINI_THINKING ?? 'low'
   const ctl = new AbortController()
-  const timer = setTimeout(() => ctl.abort(), 55000)
+  const t0 = Date.now()
+  const timer = setTimeout(() => ctl.abort(), timeoutMs)
   let r
   try {
     r = await geminiRequest(prompt, model, key, thinking, ctl.signal)
@@ -52,11 +53,17 @@ async function callGemini(prompt) {
   const text = (cand?.content?.parts ?? []).map((p) => p.text ?? '').join('')
   if (!text) throw new AiError(data.promptFeedback?.blockReason ? 'AI-ul a refuzat acest text.' : 'AI-ul nu a întors niciun răspuns.', 502)
   if (cand.finishReason === 'MAX_TOKENS') throw new AiError('Răspunsul a fost tăiat. Încearcă un text mai scurt.', 502)
-  return text
+  const u = data.usageMetadata ?? {}
+  return { text, ms: Date.now() - t0, model, thinking, usage: { in: u.promptTokenCount, out: u.candidatesTokenCount, thoughts: u.thoughtsTokenCount } }
+}
+
+// Întoarce { text, ms, model, thinking, usage }
+export async function generateDetailed(prompt, timeoutMs) {
+  const provider = (process.env.AI_PROVIDER || 'gemini').toLowerCase()
+  if (provider === 'gemini') return callGemini(prompt, timeoutMs)
+  throw new AiError(`Furnizor de AI necunoscut: ${provider}`, 500)
 }
 
 export async function generate(prompt) {
-  const provider = (process.env.AI_PROVIDER || 'gemini').toLowerCase()
-  if (provider === 'gemini') return callGemini(prompt)
-  throw new AiError(`Furnizor de AI necunoscut: ${provider}`, 500)
+  return (await generateDetailed(prompt)).text
 }
