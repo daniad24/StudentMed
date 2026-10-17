@@ -27,12 +27,20 @@ export function splitText(text, size = CHUNK_CHARS) {
   return parts
 }
 
+// Pagini care nu conțin materie: note de drepturi de autor, titlu, cuprins. Le scoatem înainte de generare.
+const BOILERPLATE = /drepturile? de autor|material intern al|reproducere(a)? sau utilizare|copyright|toate drepturile rezervate|cuprins\b/i
+export function isBoilerplatePage(pageText) {
+  const t = pageText.trim()
+  return t.length < 1500 && BOILERPLATE.test(t)
+}
+
 export function buildPrompt({ subjectName, text, questions = 8, cards = 8 }) {
   return `Ești asistent pentru un student la Medicină. Din TEXTUL de mai jos (curs la materia „${subjectName}”) fă grile și cartonașe de învățat, în limba română.
 
 Reguli:
 - Folosește DOAR informațiile din text. Nu adăuga nimic din cunoștințele tale și nu inventa.
 - Nu pune doze, valori numerice sau praguri decât dacă apar clar în text.
+- Ignoră părțile administrative din text (note despre drepturi de autor, pagina de titlu, autori, cuprins, bibliografie, mulțumiri) și nu face întrebări despre ele.
 - Fă ${questions} grile și ${cards} cartonașe.
 - Fiecare grilă are exact 5 variante. Poate avea unul sau mai multe răspunsuri corecte (complement simplu sau multiplu, ca la examenele din facultate).
 - „answer” = indicii variantelor corecte, începând de la 0.

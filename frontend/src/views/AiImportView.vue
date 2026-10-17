@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects, years } from '../data/mock'
 import { AI_IMPORT } from '../lib/flags'
-import { buildPrompt, parseAiResponse, splitText } from '../lib/aiimport'
+import { buildPrompt, isBoilerplatePage, parseAiResponse, splitText } from '../lib/aiimport'
 import { extractSlides } from '../lib/slides'
 import { correctTexts } from '../lib/quiz'
 import BackButton from '../components/BackButton.vue'
@@ -22,6 +22,7 @@ const prompt = computed(() => (parts.value.length ? buildPrompt({ subjectName: s
 const copied = ref(false)
 const reading = ref(false)
 const fileError = ref('')
+const skippedPages = ref(0)
 
 const generating = ref(false)
 const aiError = ref('')
@@ -141,7 +142,10 @@ async function onFile(e) {
   reading.value = true
   try {
     const slides = await extractSlides(file)
-    text.value = slides.map((s) => [s.title, ...s.lines.map((l) => l.text)].filter(Boolean).join('\n')).join('\n\n')
+    const pages = slides.map((s) => [s.title, ...s.lines.map((l) => l.text)].filter(Boolean).join('\n'))
+    const kept = pages.filter((t) => !isBoilerplatePage(t))
+    skippedPages.value = pages.length - kept.length
+    text.value = kept.join('\n\n')
     part.value = 0
     if (!text.value.trim()) fileError.value = 'Nu am găsit text în fișier.'
   } catch (err) {
@@ -216,6 +220,8 @@ function again() {
           <input type="file" accept=".pptx,.pdf" class="hidden" @change="onFile" />
         </label>
         <p v-if="fileError" class="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-600">{{ fileError }}</p>
+        <p v-if="skippedPages" class="text-sm font-semibold text-muted">Am lăsat deoparte {{ skippedPages }} {{ skippedPages === 1 ? 'pagină administrativă' : 'pagini administrative' }} (drepturi de autor, titlu, cuprins).</p>
+        <p class="rounded-xl bg-amber-50 px-3 py-2 text-xs font-bold text-amber-800">Folosește doar materiale pe care ai voie să le procesezi. Rezultatele rămân pe telefonul tău, dar textul se trimite la un serviciu de AI.</p>
         <textarea v-model="text" rows="6" class="input" placeholder="…sau lipește aici textul din curs"></textarea>
         <p v-if="parts.length > 1" class="text-sm font-semibold text-muted">
           Textul e lung, așa că îl împărțim în {{ parts.length }} părți ca să încapă într-un chatbot gratuit.
