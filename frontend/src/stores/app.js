@@ -62,7 +62,7 @@ const DEMO_RIVALS = [
 const KEYS = [
   'user', 'isAdmin', 'theme', 'streak', 'cardState', 'votes', 'recommendedOverrides', 'reports',
   'myMaterials', 'myCards', 'quizCards', 'quizHistory', 'examHistory', 'answerLog', 'activity', 'leaderboardOptIn',
-  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter', 'timerOn', 'quizPrefs', 'quizSessions',
+  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter', 'timerOn', 'quizPrefs', 'quizSessions', 'starred',
 ]
 
 // Carnetul de abilități practice: nivelul atins pentru fiecare manevră/examinare.
@@ -101,13 +101,14 @@ export const useAppStore = defineStore('app', () => {
   const timerOn = ref(saved.timerOn ?? true) // cronometru la grile și simulări (opțional)
   const quizPrefs = ref({ size: 10, mode: 'mix', ...(saved.quizPrefs ?? {}) }) // size 0 = toate; mode mix | new | wrong
   const quizSessions = ref(saved.quizSessions ?? {}) // quiz-uri lăsate la jumătate, pe materie
+  const starred = ref(saved.starred ?? []) // grile marcate cu ⭐ pentru revăzut
   const sourceFilter = ref(saved.sourceFilter ?? 'all') // all | steto | ai | mine – ce fel de conținut exersezi
   const aiCode = ref(saved.aiCode ?? null) // { code, label } – cod de invitație pentru generarea cu AI
 
   const refs = {
     user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
     myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter, timerOn, quizPrefs, quizSessions,
+    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter, timerOn, quizPrefs, quizSessions, starred,
   }
   watch(
     KEYS.map((k) => refs[k]),
@@ -480,6 +481,19 @@ export const useAppStore = defineStore('app', () => {
     return new Set(Object.entries(tm?.map ?? {}).filter(([, t]) => set.has(t)).map(([id]) => id))
   }
 
+  function toggleStar(qid) {
+    starred.value = starred.value.includes(qid) ? starred.value.filter((x) => x !== qid) : [...starred.value, qid]
+  }
+
+  // Cât ai rezolvat și cât ai nimerit din grilele generate dintr-un curs (după ultimul răspuns la fiecare).
+  function courseStats(courseId) {
+    const qs = myQuestions.value.filter((q) => q.courseId === courseId)
+    const last = {}
+    for (const a of answerLog.value) last[a.qid] = a.correct
+    const answered = qs.filter((q) => last[q.id] !== undefined)
+    return { total: qs.length, answered: answered.length, correct: answered.filter((q) => last[q.id]).length }
+  }
+
   // Ultimul răspuns dat fiecărei grile din materie: { qid: true|false }
   function lastAnswers(subjectId) {
     const last = {}
@@ -606,7 +620,7 @@ export const useAppStore = defineStore('app', () => {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     examDates, caseProgress, skillStatus, myQuestions, addAiContent, aiCountFor, removeAiCourse, clearAiContent,
-    sourceFilter, timerOn, quizPrefs, quizSessions, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
+    sourceFilter, timerOn, quizPrefs, quizSessions, starred, toggleStar, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
     targetSession, topicsFor, buildPlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,

@@ -20,10 +20,19 @@ const subject = subjects.find((s) => s.id === route.params.subjectId)
 const block = route.query.bloc ? store.targetSession?.blocks.find((b) => b.key === route.query.bloc) : null
 
 // --- Alegerea grilelor (ecranul de început) ---
+const topics = computed(() => store.topicsFor(subject.id).filter((t) => t.questions > 0))
+const pickedTopics = ref([])
+const toggleTopic = (id) => (pickedTopics.value = pickedTopics.value.includes(id) ? pickedTopics.value.filter((x) => x !== id) : [...pickedTopics.value, id])
 const pool = computed(() => {
   const filtered = store.questionsFor(subject.id, store.sourceFilter)
-  return filtered.length ? filtered : store.questionsFor(subject.id)
+  let list = filtered.length ? filtered : store.questionsFor(subject.id)
+  if (pickedTopics.value.length) {
+    const ids = store.idsInTopics(subject.id, pickedTopics.value)
+    list = list.filter((q) => ids.has(q.id))
+  }
+  return list
 })
+const starredPool = computed(() => pool.value.filter((q) => store.starred.includes(q.id)))
 const counts = computed(() => store.originCounts(subject.id).questions)
 const last = computed(() => store.lastAnswers(subject.id))
 const wrongPool = computed(() => pool.value.filter((q) => last.value[q.id] === false))
@@ -34,6 +43,7 @@ function pickQuestions() {
   const { size, mode } = prefs
   let list
   if (mode === 'wrong') list = shuffle(wrongPool.value)
+  else if (mode === 'starred') list = shuffle(starredPool.value)
   else if (mode === 'new') {
     // nevăzute, apoi greșite, apoi cele știute
     const rank = (q) => (last.value[q.id] === undefined ? 0 : last.value[q.id] === false ? 1 : 2)
@@ -42,7 +52,7 @@ function pickQuestions() {
   return size ? list.slice(0, size) : list
 }
 const plannedCount = computed(() => {
-  const n = prefs.mode === 'wrong' ? wrongPool.value.length : pool.value.length
+  const n = prefs.mode === 'wrong' ? wrongPool.value.length : prefs.mode === 'starred' ? starredPool.value.length : pool.value.length
   return prefs.size ? Math.min(prefs.size, n) : n
 })
 
@@ -67,6 +77,10 @@ const lastAnswer = computed(() => answers.value[answers.value.length - 1])
 const elapsed = computed(() => formatTime(usedSeconds.value))
 
 // Quiz lăsat la jumătate în materia asta
+function retryWrong() {
+  begin(shuffle(wrong.value.map((a) => store.questionsFor(subject.id).find((q) => q.id === a.question.id)).filter(Boolean)), { timed: false })
+}
+
 const savedSession = computed(() => (block ? null : store.quizSessions[subject.id] ?? null))
 
 function begin(list, opts = {}) {
@@ -209,7 +223,7 @@ function onReport(reason) {
   reported.value = true
 }
 
-const sizeLabel = (n) => (n ? String(n) : `Toate (${prefs.mode === 'wrong' ? wrongPool.value.length : pool.value.length})`)
+const sizeLabel = (n) => (n ? String(n) : `Toate (${prefs.mode === 'wrong' ? wrongPool.value.length : prefs.mode === 'starred' ? starredPool.value.length : pool.value.length})`)
 const ago = (t) => {
   const min = Math.round((Date.now() - t) / 60000)
   return min < 60 ? `acum ${Math.max(min, 1)} min` : min < 1440 ? `acum ${Math.round(min / 60)} h` : `acum ${Math.round(min / 1440)} zile`
@@ -255,6 +269,24 @@ const ago = (t) => {
             </button>
             <button class="btn justify-start text-left text-sm" :class="prefs.mode === 'wrong' ? 'btn-blue' : 'btn-white'" :disabled="!wrongPool.length" @click="prefs.mode = 'wrong'">
               ❌ Doar cele greșite <span class="opacity-70">({{ wrongPool.length }})</span>
+            </button>
+            <button class="btn justify-start text-left text-sm" :class="prefs.mode === 'starred' ? 'btn-blue' : 'btn-white'" :disabled="!starredPool.length" @click="prefs.mode = 'starred'">
+              ⭐ Doar cele marcate <span class="opacity-70">({{ starredPool.length }})</span>
+            </button>
+          </div>
+        </div>
+
+        <div v-if="topics.length">
+          <p class="label">Subiect <span class="font-semibold text-muted">(opțional)</span></p>
+          <div class="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+            <button
+              v-for="t in topics"
+              :key="t.id"
+              class="chip shrink-0 border-2 py-1.5 text-sm"
+              :class="pickedTopics.includes(t.id) ? 'border-sky-500 bg-sky-50 text-sky-700' : 'border-gray-200 bg-surface text-muted'"
+              @click="toggleTopic(t.id)"
+            >
+              {{ t.name }} <span class="opacity-60">{{ t.questions }}</span>
             </button>
           </div>
         </div>
@@ -304,9 +336,17 @@ const ago = (t) => {
 
       <!-- Întrebare -->
       <template v-if="!finished">
-        <p class="mt-5 mb-2 text-sm font-extrabold text-muted">
-          {{ subject.emoji }} {{ subject.name }} · Întrebarea {{ index + 1 }} din {{ questions.length }}
-        </p>
+        <div class="mt-5 mb-2 flex items-center gap-2">
+          <p class="flex-1 text-sm font-extrabold text-muted">
+            {{ subject.emoji }} {{ subject.name }} · Întrebarea {{ index + 1 }} din {{ questions.length }}
+          </p>
+          <button
+            class="px-2 text-2xl leading-none"
+            :class="store.starred.includes(current.id) ? '' : 'opacity-30 grayscale'"
+            :aria-label="store.starred.includes(current.id) ? 'Scoate marcajul' : 'Marchează grila pentru revăzut'"
+            @click="store.toggleStar(current.id)"
+          >⭐</button>
+        </div>
         <QuestionCard v-model:selected="selected" :question="current" :checked="checked" />
 
         <div class="flex-1"></div>
@@ -359,7 +399,8 @@ const ago = (t) => {
 
         <div class="mt-8 grid w-full gap-2">
           <button class="btn btn-blue w-full" @click="restart">{{ block ? 'Înapoi la plan' : 'Încă un quiz' }}</button>
-          <RouterLink v-if="wrong.length" :to="`/flashcards/${subject.id}`" class="btn btn-white w-full">🃏 Repetă greșelile</RouterLink>
+          <button v-if="wrong.length && !block" class="btn btn-white w-full" @click="retryWrong">🔁 Repetă acum doar ce ai greșit ({{ wrong.length }})</button>
+          <RouterLink v-if="wrong.length" :to="`/flashcards/${subject.id}`" class="btn btn-white w-full">🃏 Repetă greșelile ca cartonașe</RouterLink>
           <button class="btn btn-white w-full" @click="router.push('/')">Acasă</button>
         </div>
       </div>

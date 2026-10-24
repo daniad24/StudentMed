@@ -44,6 +44,7 @@ const refreshCourses = async () => (courses.value = await listCourses())
 onMounted(refreshCourses)
 
 const subjectName = (id) => subjects.find((s) => s.id === id)?.name ?? id
+const statsOf = (c) => store.courseStats(c.id)
 const partsOf = (c) => splitText(c.text, AI_CHUNK).length
 function courseStatus(c) {
   const total = partsOf(c)
@@ -303,6 +304,9 @@ function again() {
           <button class="min-w-0 flex-1 text-left" @click="openCourse(c)">
             <span class="block truncate font-extrabold">{{ c.name }}</span>
             <span class="block text-xs font-bold text-muted">{{ subjectName(c.subjectId) }} · {{ partsOf(c) }} {{ partsOf(c) === 1 ? 'parte' : 'părți' }} · <span :class="courseStatus(c).tone">{{ courseStatus(c).label }}</span></span>
+            <span v-if="statsOf(c).total" class="block text-xs font-bold text-muted">
+              ✅ {{ statsOf(c).answered ? `${Math.round((statsOf(c).correct / statsOf(c).answered) * 100)}% corecte din ${statsOf(c).answered} rezolvate` : 'nimic rezolvat încă' }} · {{ statsOf(c).total }} grile generate
+            </span>
           </button>
           <button class="shrink-0 px-2 text-sm font-bold text-muted" :aria-label="`Șterge ${c.name}`" @click="removeCourse(c)">✕</button>
         </div>
