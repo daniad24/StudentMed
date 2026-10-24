@@ -35,6 +35,7 @@ const selections = ref([])
 const index = ref(0)
 const totalSeconds = ref(0)
 const secondsLeft = ref(0)
+const usedSeconds = ref(0)
 const confirmFinish = ref(false)
 let timer = null
 
@@ -45,8 +46,11 @@ function start() {
   // 1 minut pe grilă, ca la colocviu
   totalSeconds.value = questions.value.length * 60
   secondsLeft.value = totalSeconds.value
+  usedSeconds.value = 0
   phase.value = 'running'
   timer = setInterval(() => {
+    usedSeconds.value++
+    if (!store.timerOn) return
     secondsLeft.value--
     if (secondsLeft.value <= 0) finish()
   }, 1000)
@@ -73,7 +77,7 @@ function finish() {
     store.recordAnswer(q, correct)
     return { question: q, chosen: selections.value[i].map((j) => q.shuffled[j].text), correct }
   })
-  store.recordExam(picked.value, score.value, questions.value.length, totalSeconds.value - Math.max(secondsLeft.value, 0))
+  store.recordExam(picked.value, score.value, questions.value.length, usedSeconds.value)
   phase.value = 'done'
 }
 
@@ -136,9 +140,14 @@ const wrong = computed(() => results.value.filter((r) => !r.correct))
       <header class="flex items-center gap-3">
         <button class="btn btn-white px-3 py-2 text-xs" @click="confirmFinish = true">Termină</button>
         <p class="flex-1 text-center text-sm font-black text-muted">{{ answeredCount }}/{{ questions.length }} răspunse</p>
-        <span class="chip text-sm" :class="secondsLeft <= 60 ? 'bg-red-100 text-red-600' : 'bg-sky-100 text-sky-700'">
-          ⏱ {{ formatTime(Math.max(secondsLeft, 0)) }}
-        </span>
+        <button
+          class="chip text-sm"
+          :class="!store.timerOn ? 'bg-gray-100 text-muted' : secondsLeft <= 60 ? 'bg-red-100 text-red-600' : 'bg-sky-100 text-sky-700'"
+          :aria-label="store.timerOn ? 'Oprește cronometrul' : 'Pornește cronometrul'"
+          @click="store.timerOn = !store.timerOn"
+        >
+          {{ store.timerOn ? `⏱ ${formatTime(Math.max(secondsLeft, 0))}` : '⏱ Fără timp' }}
+        </button>
       </header>
 
       <!-- Navigator -->
@@ -191,7 +200,7 @@ const wrong = computed(() => results.value.filter((r) => !r.correct))
         <p class="text-6xl">{{ percent >= 90 ? '🏆' : percent >= 70 ? '🎉' : percent >= 50 ? '💪' : '📖' }}</p>
         <h1 class="mt-2 text-4xl font-black">{{ percent }}%</h1>
         <p class="font-bold text-muted">
-          {{ score }} din {{ questions.length }} corecte · {{ formatTime(totalSeconds - Math.max(secondsLeft, 0)) }} min
+          {{ score }} din {{ questions.length }} corecte · {{ formatTime(usedSeconds) }} min
         </p>
         <p class="mt-2 chip bg-brand-100 text-brand-700">+{{ XP.exam }} XP bonus pentru simulare</p>
       </section>

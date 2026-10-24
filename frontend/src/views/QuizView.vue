@@ -32,10 +32,14 @@ const streakBefore = store.currentStreak
 const current = computed(() => questions[index.value])
 const score = computed(() => answers.value.filter((a) => a.correct).length)
 const lastAnswer = computed(() => answers.value[answers.value.length - 1])
-const elapsed = computed(() => formatTime((block ? 24 * 3600 : QUIZ_SECONDS) - secondsLeft.value))
+const usedSeconds = ref(0)
+const timed = computed(() => !block && store.timerOn)
+const elapsed = computed(() => formatTime(usedSeconds.value))
 
 const timer = setInterval(() => {
   if (finished.value) return
+  usedSeconds.value++
+  if (!timed.value) return
   secondsLeft.value--
   if (secondsLeft.value <= 0) finish()
 }, 1000)
@@ -99,9 +103,15 @@ function onReport(reason) {
           :style="{ width: `${((index + (checked || finished ? 1 : 0)) / questions.length) * 100}%` }"
         ></div>
       </div>
-      <span v-if="!block" class="chip text-sm" :class="secondsLeft <= 30 ? 'bg-red-100 text-red-600' : 'bg-sky-100 text-sky-700'">
-        ⏱ {{ formatTime(Math.max(secondsLeft, 0)) }}
-      </span>
+      <button
+        v-if="!block"
+        class="chip text-sm"
+        :class="!store.timerOn ? 'bg-gray-100 text-muted' : secondsLeft <= 30 ? 'bg-red-100 text-red-600' : 'bg-sky-100 text-sky-700'"
+        :aria-label="store.timerOn ? 'Oprește cronometrul' : 'Pornește cronometrul'"
+        @click="store.timerOn = !store.timerOn"
+      >
+        {{ store.timerOn ? `⏱ ${formatTime(Math.max(secondsLeft, 0))}` : '⏱ Fără timp' }}
+      </button>
     </header>
 
     <!-- Întrebare -->
@@ -139,7 +149,7 @@ function onReport(reason) {
     <div v-else class="mt-6 flex flex-1 flex-col items-center text-center">
       <p class="text-7xl pop-in">{{ resultEmoji }}</p>
       <h1 class="mt-3 text-3xl font-black">{{ score }} / {{ questions.length }}</h1>
-      <p class="font-semibold text-muted">{{ block ? 'Bloc terminat' : secondsLeft <= 0 ? 'Timpul a expirat!' : `Terminat în ${elapsed}` }}</p>
+      <p class="font-semibold text-muted">{{ block ? 'Bloc terminat' : timed && secondsLeft <= 0 ? 'Timpul a expirat!' : `Terminat în ${elapsed}` }}</p>
 
       <div v-if="store.currentStreak > streakBefore" class="mt-4 w-full rounded-3xl bg-orange-100 p-4 pop-in">
         <p class="font-black text-orange-600">

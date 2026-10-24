@@ -124,6 +124,15 @@ function logout() {
       <AppIcon name="forward" class="text-muted" />
     </RouterLink>
 
+    <label class="card flex w-full items-center gap-3 p-4">
+      <span class="text-3xl">⏱</span>
+      <span class="flex-1">
+        <span class="block font-black">Cronometru la grile și simulări</span>
+        <span class="block text-sm font-semibold text-muted">{{ store.timerOn ? 'Pornit: grilele au limită de timp' : 'Oprit: înveți fără presiunea timpului' }}</span>
+      </span>
+      <input v-model="store.timerOn" type="checkbox" class="h-6 w-6 accent-brand-600" />
+    </label>
+
     <button class="card flex w-full items-center gap-3 p-4 text-left transition-transform active:translate-y-[2px]" @click="store.startTour()">
       <span class="text-3xl">🧭</span>
       <span class="flex-1">

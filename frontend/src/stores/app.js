@@ -62,7 +62,7 @@ const DEMO_RIVALS = [
 const KEYS = [
   'user', 'isAdmin', 'theme', 'streak', 'cardState', 'votes', 'recommendedOverrides', 'reports',
   'myMaterials', 'myCards', 'quizCards', 'quizHistory', 'examHistory', 'answerLog', 'activity', 'leaderboardOptIn',
-  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter',
+  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter', 'timerOn',
 ]
 
 // Carnetul de abilități practice: nivelul atins pentru fiecare manevră/examinare.
@@ -98,13 +98,14 @@ export const useAppStore = defineStore('app', () => {
   const myQuestions = ref(saved.myQuestions ?? []) // grile importate cu chatbotul (neverificate)
   const tourDone = ref(saved.tourDone ?? false) // turul de prezentare a fost văzut
   const tourOpen = ref(false)
+  const timerOn = ref(saved.timerOn ?? true) // cronometru la grile și simulări (opțional)
   const sourceFilter = ref(saved.sourceFilter ?? 'all') // all | steto | ai | mine – ce fel de conținut exersezi
   const aiCode = ref(saved.aiCode ?? null) // { code, label } – cod de invitație pentru generarea cu AI
 
   const refs = {
     user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
     myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter,
+    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter, timerOn,
   }
   watch(
     KEYS.map((k) => refs[k]),
@@ -587,7 +588,7 @@ export const useAppStore = defineStore('app', () => {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     examDates, caseProgress, skillStatus, myQuestions, addAiContent, clearAiContent,
-    sourceFilter, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
+    sourceFilter, timerOn, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
     targetSession, topicsFor, buildPlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,

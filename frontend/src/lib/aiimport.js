@@ -41,6 +41,11 @@ Reguli:
 - Folosește DOAR informațiile din text. Nu adăuga nimic din cunoștințele tale și nu inventa.
 - Nu pune doze, valori numerice sau praguri decât dacă apar clar în text.
 - Ignoră părțile administrative din text (note despre drepturi de autor, pagina de titlu, autori, cuprins, bibliografie, mulțumiri) și nu face întrebări despre ele.
+- Dacă textul conține deja grile sau întrebări cu răspunsuri (cheie de răspuns, „răspuns corect: …”, variante marcate), PRELUAI-LE EXACT, cu aceleași răspunsuri corecte. Nu schimba, nu completa și nu „corecta” niciun răspuns. Dacă în text nu se vede clar care e răspunsul corect, nu face grila respectivă.
+- Răspunsurile corecte trebuie să rezulte direct din text. Nu marca drept corectă o variantă care nu e susținută de text, chiar dacă ți se pare adevărată.
+- Fiecare grilă are câmpul „evidence”: o propoziție copiată cuvânt cu cuvânt din text, care susține răspunsul corect. Fără o astfel de propoziție, nu face grila.
+- „explanation” trebuie să fie în acord cu „answer”: toate variantele corecte apar în explicație, iar cele greșite nu.
+- Nu face două grile despre același lucru.
 - Fă ${questions} grile și ${cards} cartonașe${summary ? ' și un rezumat al textului' : ''}.
 - Fiecare grilă are exact 5 variante. Poate avea unul sau mai multe răspunsuri corecte (complement simplu sau multiplu, ca la examenele din facultate).
 - „answer” = indicii variantelor corecte, începând de la 0.
@@ -48,7 +53,7 @@ Reguli:
 - Cartonașele: „front” = întrebare scurtă, „back” = răspuns scurt.
 ${summary ? '- „summary” = rezumat în Markdown (titluri cu ##, liste scurte, termenii-cheie cu **bold**), 100–200 de cuvinte, doar din text, fără informații noi.\n' : ''}
 Răspunde DOAR cu JSON valid, fără alt text înainte sau după, exact în forma:
-{"questions":[{"text":"…","options":["…","…","…","…","…"],"answer":[0],"explanation":"…"}],"cards":[{"front":"…","back":"…"}]${summary ? ',"summary":"…"' : ''}}
+{"questions":[{"text":"…","options":["…","…","…","…","…"],"answer":[0],"explanation":"…","evidence":"…"}],"cards":[{"front":"…","back":"…"}]${summary ? ',"summary":"…"' : ''}}
 
 TEXT:
 """
@@ -71,11 +76,36 @@ function extractJson(raw) {
   }
 }
 
+// Text comparabil: fără diacritice, litere mici, doar litere și cifre. Suportă rânduri rupte și cratime din PDF.
+const flat = (t) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+
+// Citatul trebuie să apară în text: întreg sau cel puțin 80% din secvențele de 3 cuvinte.
+export function quoteInText(quote, flatText) {
+  const q = flat(quote)
+  if (q.split(' ').length < 3) return false
+  if (flatText.includes(q)) return true
+  const w = q.split(' ')
+  let hit = 0
+  for (let i = 0; i + 3 <= w.length; i++) if (flatText.includes(w.slice(i, i + 3).join(' '))) hit++
+  return hit / Math.max(w.length - 2, 1) >= 0.8
+}
+
+// Două enunțuri aproape identice (de exemplu aceeași întrebare formulată puțin diferit).
+export function sameQuestion(a, b) {
+  const wa = new Set(flat(a).split(' ').filter((x) => x.length > 2))
+  const wb = new Set(flat(b).split(' ').filter((x) => x.length > 2))
+  if (!wa.size || !wb.size) return false
+  let inter = 0
+  for (const x of wa) if (wb.has(x)) inter++
+  return inter / (wa.size + wb.size - inter) >= 0.6
+}
+
 const str = (x) => (typeof x === 'string' ? x.trim() : '')
 
 // Întoarce { questions, cards, skipped: [motive] }; elementele invalide sunt omise, nu repară nimic pe ghicite.
-export function parseAiResponse(raw) {
+export function parseAiResponse(raw, sourceText = '') {
   const data = extractJson(raw)
+  const flatSource = sourceText ? flat(sourceText) : ''
   const skipped = []
   const questions = []
   ;(Array.isArray(data.questions) ? data.questions : []).forEach((q, i) => {
@@ -87,6 +117,7 @@ export function parseAiResponse(raw) {
     if (new Set(options).size !== 5) return skipped.push(`Grila ${i + 1}: variante identice`)
     if (!answer.length || answer.length > 4 || answer.some((a) => !Number.isInteger(a) || a < 0 || a > 4))
       return skipped.push(`Grila ${i + 1}: răspunsuri corecte invalide`)
+    if (flatSource && !quoteInText(str(q.evidence), flatSource)) return skipped.push(`Grila ${i + 1}: răspunsul nu e susținut de un citat din text`)
     questions.push({ text, options, answer: answer.sort(), type: answer.length > 1 ? 'multi' : 'single', explanation: str(q.explanation), keep: true })
   })
   const cards = []

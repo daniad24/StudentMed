@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects, years } from '../data/mock'
 import { AI_IMPORT } from '../lib/flags'
-import { buildPrompt, isBoilerplatePage, parseAiResponse, splitText } from '../lib/aiimport'
+import { buildPrompt, isBoilerplatePage, parseAiResponse, sameQuestion, splitText } from '../lib/aiimport'
 import { extractSlides } from '../lib/slides'
 import { correctTexts } from '../lib/quiz'
 import BackButton from '../components/BackButton.vue'
@@ -56,7 +56,7 @@ async function callGenerate(chunk, per) {
   const data = await r.json().catch(() => ({}))
   if (r.status === 401) store.clearAiCode()
   if (!r.ok) throw new ApiError(data.error || `Eroare ${r.status}`, r.status)
-  return parseAiResponse(data.raw)
+  return parseAiResponse(data.raw, chunk)
 }
 
 const norm = (s) => s.toLowerCase().replace(/\s+/g, ' ').trim()
@@ -99,7 +99,14 @@ async function generateChunks(chunks, per) {
         }
       }
       if (res) {
-        for (const q of res.questions) if (!seenQ.has(norm(q.text))) (seenQ.add(norm(q.text)), out.questions.push(q))
+        for (const q of res.questions) {
+          if (seenQ.has(norm(q.text)) || out.questions.some((o) => sameQuestion(o.text, q.text))) {
+            out.skipped.push('Grilă duplicat: ' + q.text.slice(0, 50))
+            continue
+          }
+          seenQ.add(norm(q.text))
+          out.questions.push(q)
+        }
         for (const c of res.cards) if (!seenC.has(norm(c.front))) (seenC.add(norm(c.front)), out.cards.push(c))
         out.skipped.push(...res.skipped)
         if (res.summary) sums.push({ i, text: res.summary })
