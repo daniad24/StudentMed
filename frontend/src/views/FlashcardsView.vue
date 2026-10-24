@@ -11,14 +11,19 @@ const route = useRoute()
 const router = useRouter()
 const store = useAppStore()
 
-const subject = subjects.find((s) => s.id === route.params.subjectId)
+// „azi” = cartonașele pe care nu le-ai știut azi, din toate materiile
+const mixed = route.params.subjectId === 'azi'
+const subject = mixed ? { id: 'azi', emoji: '🔁', name: 'Ce n-ai știut azi' } : subjects.find((s) => s.id === route.params.subjectId)
 const block = route.query.bloc ? store.targetSession?.blocks.find((b) => b.key === route.query.bloc) : null
-const source = block
+const source = mixed
+  ? store.missedToday.map((id) => store.allCards.find((c) => c.id === id)).filter(Boolean)
+  : block
   ? block.cardIds.map((id) => store.allCards.find((c) => c.id === id)).filter(Boolean)
   : route.query.toate ? store.cardsFor(subject.id, store.sourceFilter) : store.dueCardsFor(subject.id, store.sourceFilter)
-const backTo = block ? '/tinta/plan' : `/materie/${subject.id}?tab=flashcards`
+const backTo = block ? '/tinta/plan' : mixed ? '/' : `/materie/${subject.id}?tab=flashcards`
+const practice = ref(mixed) // repetare în aceeași zi: nu schimbă calendarul de repetiție
 const queue = ref([...source].sort(() => Math.random() - 0.5))
-const initialCount = queue.value.length
+const initialCount = ref(queue.value.length)
 
 const flipped = ref(false)
 const done = ref(0)
@@ -32,10 +37,10 @@ const tally = computed(() => {
 const streakBefore = store.currentStreak
 
 const current = computed(() => queue.value[0])
-const progress = computed(() => (initialCount ? (done.value / initialCount) * 100 : 100))
+const progress = computed(() => (initialCount.value ? (done.value / initialCount.value) * 100 : 100))
 const finished = computed(() => !current.value)
 watch(finished, (f) => {
-  if (f && block && initialCount) store.completeBlock(block.key)
+  if (f && block && initialCount.value) store.completeBlock(block.key)
 })
 
 function nextIntervalLabel(rating) {
@@ -48,11 +53,24 @@ function nextIntervalLabel(rating) {
 
 function rate(rating) {
   const card = queue.value.shift()
-  store.rateCard(card.id, rating)
+  if (practice.value) store.practiceCard(card.id, rating)
+  else store.rateCard(card.id, rating)
   if (!firstRatings.value[card.id]) firstRatings.value[card.id] = rating
   // Cartonașele roșii reapar la finalul sesiunii.
   if (rating === 'red') queue.value.push(card)
   else done.value++
+  flipped.value = false
+}
+
+// Cartonașele la care prima notă din sesiune a fost „Mai repetă” sau „Mediu”, și care mai sunt în lista de azi.
+const notKnown = computed(() => Object.keys(firstRatings.value).filter((id) => firstRatings.value[id] !== 'green' && store.missedToday.includes(id)))
+function repeatMissed() {
+  const cards = notKnown.value.map((id) => store.allCards.find((c) => c.id === id)).filter(Boolean)
+  practice.value = true
+  queue.value = cards.sort(() => Math.random() - 0.5)
+  initialCount.value = cards.length
+  done.value = 0
+  firstRatings.value = {}
   flipped.value = false
 }
 
@@ -131,6 +149,7 @@ function onReport(reason) {
       </div>
       <h1 class="mt-4 text-3xl font-black">{{ initialCount ? 'Sesiune terminată!' : 'Nimic de repetat' }}</h1>
       <p v-if="initialCount" class="mt-1 font-semibold text-muted">Ai trecut prin {{ initialCount }} cartonașe.</p>
+      <p v-if="practice && initialCount" class="mt-1 text-sm font-semibold text-muted">Repetarea de azi nu schimbă calendarul de repetiție, doar scoate din listă ce știi acum.</p>
 
       <div v-if="initialCount" class="mt-6 grid w-full grid-cols-3 gap-2">
         <div class="card p-3"><p class="text-2xl font-black text-red-500">{{ tally.red }}</p><p class="text-xs font-bold text-muted">de repetat</p></div>
@@ -143,7 +162,8 @@ function onReport(reason) {
         <p class="font-black text-orange-600">Seria ta a crescut la {{ store.currentStreak }} {{ store.currentStreak === 1 ? 'zi' : 'zile' }}!</p>
       </div>
 
-      <button class="btn btn-primary mt-8 w-full" @click="router.push(block ? '/tinta/plan' : '/')">{{ block ? 'Înapoi la plan' : 'Continuă' }}</button>
+      <button v-if="notKnown.length" class="btn btn-yellow mt-8 w-full" @click="repeatMissed">🔁 Repetă acum ce nu ai știut ({{ notKnown.length }})</button>
+      <button class="btn btn-primary w-full" :class="notKnown.length ? 'mt-2' : 'mt-8'" @click="router.push(block ? '/tinta/plan' : '/')">{{ block ? 'Înapoi la plan' : 'Continuă' }}</button>
     </div>
 
     <ReportDialog v-if="reporting" @close="reporting = false" @submit="onReport" />

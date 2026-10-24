@@ -179,6 +179,20 @@ const unfinished = computed(() =>
       </div>
     </RouterLink>
 
+    <!-- Ce n-ai știut azi -->
+    <RouterLink
+      v-if="store.missedToday.length"
+      to="/flashcards/azi"
+      class="card flex items-center gap-4 border-amber-400 p-4 transition-transform active:translate-y-[2px] slide-up"
+    >
+      <span class="text-3xl">🔁</span>
+      <div class="flex-1">
+        <p class="font-black">Repetă ce n-ai știut azi</p>
+        <p class="text-sm font-semibold text-muted">{{ store.missedToday.length }} {{ store.missedToday.length === 1 ? 'cartonaș' : 'cartonașe' }} · o rundă rapidă înainte să închizi</p>
+      </div>
+      <AppIcon name="forward" class="text-amber-500" />
+    </RouterLink>
+
     <!-- Quiz-uri lăsate la jumătate -->
     <RouterLink
       v-for="r in unfinished"

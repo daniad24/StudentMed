@@ -62,7 +62,7 @@ const DEMO_RIVALS = [
 const KEYS = [
   'user', 'isAdmin', 'theme', 'streak', 'cardState', 'votes', 'recommendedOverrides', 'reports',
   'myMaterials', 'myCards', 'quizCards', 'quizHistory', 'examHistory', 'answerLog', 'activity', 'leaderboardOptIn',
-  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter', 'timerOn', 'quizPrefs', 'quizSessions', 'starred',
+  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter', 'timerOn', 'quizPrefs', 'quizSessions', 'starred', 'missed',
 ]
 
 // Carnetul de abilități practice: nivelul atins pentru fiecare manevră/examinare.
@@ -102,13 +102,14 @@ export const useAppStore = defineStore('app', () => {
   const quizPrefs = ref({ size: 10, mode: 'mix', ...(saved.quizPrefs ?? {}) }) // size 0 = toate; mode mix | new | wrong
   const quizSessions = ref(saved.quizSessions ?? {}) // quiz-uri lăsate la jumătate, pe materie
   const starred = ref(saved.starred ?? []) // grile marcate cu ⭐ pentru revăzut
+  const missed = ref(saved.missed ?? { date: '', ids: [] }) // cartonașe pe care nu le-ai știut azi
   const sourceFilter = ref(saved.sourceFilter ?? 'all') // all | steto | ai | mine – ce fel de conținut exersezi
   const aiCode = ref(saved.aiCode ?? null) // { code, label } – cod de invitație pentru generarea cu AI
 
   const refs = {
     user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
     myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter, timerOn, quizPrefs, quizSessions, starred,
+    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter, timerOn, quizPrefs, quizSessions, starred, missed,
   }
   watch(
     KEYS.map((k) => refs[k]),
@@ -266,8 +267,21 @@ export const useAppStore = defineStore('app', () => {
       days = GREEN_INTERVALS[box - 3]
     }
     cardState.value = { ...cardState.value, [cardId]: { box, due: addDays(today(), days) } }
+    if (rating !== 'green') markMissed(cardId)
     addXp(XP.card)
     return days
+  }
+
+  // Cartonașele pe care nu le-ai știut azi (lista se golește singură a doua zi).
+  const missedToday = computed(() => (missed.value.date === today() ? missed.value.ids : []))
+  function markMissed(cardId) {
+    const ids = missedToday.value
+    if (!ids.includes(cardId)) missed.value = { date: today(), ids: [...ids, cardId] }
+  }
+  // Repetare în aceeași zi: nu mută cartonașul în calendarul de repetiție, doar scoate din listă ce știi acum.
+  function practiceCard(cardId, rating) {
+    if (rating === 'red') rateCard(cardId, 'red')
+    else if (rating === 'green') missed.value = { date: today(), ids: missedToday.value.filter((x) => x !== cardId) }
   }
 
   function cardStats(subjectId, origin = 'all') {
@@ -326,6 +340,7 @@ export const useAppStore = defineStore('app', () => {
   // Întoarce true dacă s-a creat un cartonaș nou.
   function addQuizCard(q) {
     const id = 'qc-' + q.id
+    markMissed(id)
     if (quizCards.value.some((c) => c.id === id)) {
       // deja există: îl readucem la repetare de azi
       cardState.value = { ...cardState.value, [id]: { box: 1, due: today() } }
@@ -620,7 +635,7 @@ export const useAppStore = defineStore('app', () => {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     examDates, caseProgress, skillStatus, myQuestions, addAiContent, aiCountFor, removeAiCourse, clearAiContent,
-    sourceFilter, timerOn, quizPrefs, quizSessions, starred, toggleStar, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
+    sourceFilter, timerOn, quizPrefs, quizSessions, starred, toggleStar, missedToday, practiceCard, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
     targetSession, topicsFor, buildPlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,

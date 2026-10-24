@@ -7,6 +7,7 @@ import { AI_IMPORT } from '../lib/flags'
 import { PROMPT_VERSION, buildPrompt, isBoilerplatePage, parseAiResponse, sameQuestion, splitText } from '../lib/aiimport'
 import { deleteCourse, listCourses, newCourseId, putCourse } from '../lib/courses'
 import { extractSlides } from '../lib/slides'
+import { slideText, slidesToText } from '../lib/slidesText'
 import { correctTexts } from '../lib/quiz'
 import BackButton from '../components/BackButton.vue'
 
@@ -203,33 +204,69 @@ const error = ref('')
 const saved = ref(0)
 const phase = ref('edit') // edit | review | saved
 
+let loadedSlides = [] // slide-urile fișierului curent (fără paginile administrative)
+let loadedFile = null
+const scanned = ref([]) // paginile fără text, de citit cu OCR
+const ocr = ref({ running: false, done: 0, total: 0, error: '' })
+let ocrStop = false
+const stopOcr = () => (ocrStop = true)
+
 async function onFile(e) {
   const file = e.target.files?.[0]
   e.target.value = ''
   if (!file) return
   fileError.value = ''
   reading.value = true
+  scanned.value = []
   try {
     const slides = await extractSlides(file)
-    const pages = slides.map((s) => [s.title, ...s.lines.map((l) => l.text)].filter(Boolean).join('\n'))
-    const kept = pages.filter((t) => !isBoilerplatePage(t))
-    skippedPages.value = pages.length - kept.length
-    text.value = kept.join('\n\n')
+    const kept = slides.filter((sl) => sl.empty || !isBoilerplatePage(slideText(sl)))
+    skippedPages.value = slides.length - kept.length
+    loadedSlides = kept
+    loadedFile = file
+    scanned.value = kept.filter((sl) => sl.empty).map((sl) => sl.index)
+    text.value = slidesToText(kept)
     part.value = 0
     course.value = null
-    if (!text.value.trim()) fileError.value = 'Nu am găsit text în fișier.'
-    else {
-      const c = { id: newCourseId(), name: file.name.replace(/\.(pdf|pptx)$/i, ''), subjectId: subjectId.value, text: text.value, createdAt: Date.now(), gen: null }
-      if (await putCourse(c)) {
-        course.value = c
-        courseNote.value = 'Am păstrat cursul în telefon. Data viitoare îl găsești la „Cursurile tale”, fără să-l mai încarci.'
-        refreshCourses()
-      }
-    }
+    if (!text.value.trim() && !scanned.value.length) fileError.value = 'Nu am găsit text în fișier.'
+    else if (text.value.trim()) await saveAsCourse(file)
   } catch (err) {
     fileError.value = err.message || 'Nu am putut citi fișierul.'
   } finally {
     reading.value = false
+  }
+}
+
+async function saveAsCourse(file) {
+  const c = { id: newCourseId(), name: file.name.replace(/\.(pdf|pptx)$/i, ''), subjectId: subjectId.value, text: text.value, createdAt: Date.now(), gen: null }
+  if (await putCourse(c)) {
+    course.value = c
+    courseNote.value = 'Am păstrat cursul în telefon. Data viitoare îl găsești la „Cursurile tale”, fără să-l mai încarci.'
+    refreshCourses()
+  }
+}
+
+async function runOcr() {
+  ocr.value = { running: true, done: 0, total: scanned.value.length, error: '' }
+  ocrStop = false
+  try {
+    const { ocrPdfPages } = await import('../lib/ocr')
+    const res = await ocrPdfPages(loadedFile, scanned.value, { onProgress: (done, total) => (ocr.value = { ...ocr.value, done, total }), shouldStop: () => ocrStop })
+    const recognized = Object.keys(res).map(Number)
+    loadedSlides = loadedSlides.map((sl) => (res[sl.index] ? { ...res[sl.index] } : sl))
+    scanned.value = scanned.value.filter((n) => !recognized.includes(n))
+    text.value = slidesToText(loadedSlides)
+    if (recognized.length && text.value.trim()) {
+      if (course.value) {
+        course.value = { ...course.value, text: text.value, gen: null }
+        await putCourse(JSON.parse(JSON.stringify(course.value)))
+        refreshCourses()
+      } else await saveAsCourse(loadedFile)
+    }
+  } catch (err) {
+    ocr.value = { ...ocr.value, error: err.message || 'Citirea a eșuat.' }
+  } finally {
+    ocr.value = { ...ocr.value, running: false }
   }
 }
 
@@ -329,6 +366,21 @@ function again() {
         </label>
         <p v-if="fileError" class="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-600">{{ fileError }}</p>
         <p v-if="courseNote" class="text-sm font-semibold text-brand-700">{{ courseNote }}</p>
+        <div v-if="scanned.length || ocr.running" class="space-y-2 rounded-xl bg-sky-50 p-3">
+          <p class="text-sm font-bold text-sky-800">
+            📷 {{ scanned.length }} {{ scanned.length === 1 ? 'pagină nu are text' : 'pagini nu au text' }} (par scanate). Le pot citi din poză cu OCR.
+          </p>
+          <p class="text-xs font-semibold text-sky-800">Durează cam 5–15 secunde pe pagină și prima dată descarcă motorul de citire (câțiva MB), deci ai nevoie de internet. Ține ecranul deschis.</p>
+          <div v-if="ocr.running" class="space-y-2">
+            <div class="h-3 overflow-hidden rounded-full bg-white">
+              <div class="h-full rounded-full bg-sky-500 transition-all" :style="{ width: `${(ocr.done / Math.max(ocr.total, 1)) * 100}%` }"></div>
+            </div>
+            <p class="text-sm font-bold text-sky-800">Pagina {{ Math.min(ocr.done + 1, ocr.total) }} din {{ ocr.total }}</p>
+            <button class="btn btn-white w-full" @click="stopOcr">Oprește și păstrează ce s-a citit</button>
+          </div>
+          <button v-else class="btn btn-blue w-full" @click="runOcr">📷 Citește paginile scanate</button>
+          <p v-if="ocr.error" class="text-sm font-bold text-red-600">{{ ocr.error }}</p>
+        </div>
         <p v-if="skippedPages" class="text-sm font-semibold text-muted">Am lăsat deoparte {{ skippedPages }} {{ skippedPages === 1 ? 'pagină administrativă' : 'pagini administrative' }} (drepturi de autor, titlu, cuprins).</p>
         <p class="rounded-xl bg-amber-50 px-3 py-2 text-xs font-bold text-amber-800">Folosește doar materiale pe care ai voie să le procesezi. Rezultatele rămân pe telefonul tău, dar textul se trimite la un serviciu de AI.</p>
         <textarea v-model="text" rows="6" class="input" placeholder="…sau lipește aici textul din curs" @input="onTextInput"></textarea>
