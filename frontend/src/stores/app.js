@@ -62,7 +62,7 @@ const DEMO_RIVALS = [
 const KEYS = [
   'user', 'isAdmin', 'theme', 'streak', 'cardState', 'votes', 'recommendedOverrides', 'reports',
   'myMaterials', 'myCards', 'quizCards', 'quizHistory', 'examHistory', 'answerLog', 'activity', 'leaderboardOptIn',
-  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter', 'timerOn',
+  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter', 'timerOn', 'quizPrefs', 'quizSessions',
 ]
 
 // Carnetul de abilități practice: nivelul atins pentru fiecare manevră/examinare.
@@ -99,13 +99,15 @@ export const useAppStore = defineStore('app', () => {
   const tourDone = ref(saved.tourDone ?? false) // turul de prezentare a fost văzut
   const tourOpen = ref(false)
   const timerOn = ref(saved.timerOn ?? true) // cronometru la grile și simulări (opțional)
+  const quizPrefs = ref({ size: 10, mode: 'mix', ...(saved.quizPrefs ?? {}) }) // size 0 = toate; mode mix | new | wrong
+  const quizSessions = ref(saved.quizSessions ?? {}) // quiz-uri lăsate la jumătate, pe materie
   const sourceFilter = ref(saved.sourceFilter ?? 'all') // all | steto | ai | mine – ce fel de conținut exersezi
   const aiCode = ref(saved.aiCode ?? null) // { code, label } – cod de invitație pentru generarea cu AI
 
   const refs = {
     user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
     myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter, timerOn,
+    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter, timerOn, quizPrefs, quizSessions,
   }
   watch(
     KEYS.map((k) => refs[k]),
@@ -287,14 +289,30 @@ export const useAppStore = defineStore('app', () => {
   }
 
   // Grile și cartonașe făcute cu un chatbot din cursul studentului; rămân marcate „neverificat”.
-  function addAiContent(subjectId, questions, cards, summary = null) {
+  // meta: { courseId, promptVersion, replace } – replace șterge întâi ce s-a generat înainte din același curs.
+  function addAiContent(subjectId, questions, cards, summary = null, meta = {}) {
     const stamp = Date.now()
     const author = user.value?.name ?? 'Tu'
+    const tag = meta.courseId ? { courseId: meta.courseId, promptVersion: meta.promptVersion } : {}
+    if (meta.courseId && meta.replace) removeAiCourse(meta.courseId)
     myQuestions.value.push(
-      ...questions.map((q, i) => ({ id: `ai${stamp}-q${i}`, subjectId, type: q.type, text: q.text, options: q.options, answer: q.answer, explanation: q.explanation, source: 'ai', author })),
+      ...questions.map((q, i) => ({ id: `ai${stamp}-q${i}`, subjectId, type: q.type, text: q.text, options: q.options, answer: q.answer, explanation: q.explanation, source: 'ai', author, ...tag })),
     )
-    myCards.value.push(...cards.map((c, i) => ({ id: `ai${stamp}-c${i}`, subjectId, front: c.front, back: c.back, source: 'ai', ai: true, author })))
-    if (summary?.content) addMaterial({ type: 'summary', subjectId, title: summary.title || 'Rezumat generat de AI', content: summary.content, source: 'ai', ai: true, readMinutes: Math.max(1, Math.round(summary.content.split(/\s+/).length / 150)) })
+    myCards.value.push(...cards.map((c, i) => ({ id: `ai${stamp}-c${i}`, subjectId, front: c.front, back: c.back, source: 'ai', ai: true, author, ...tag })))
+    if (summary?.content) addMaterial({ type: 'summary', subjectId, title: summary.title || 'Rezumat generat de AI', content: summary.content, source: 'ai', ai: true, readMinutes: Math.max(1, Math.round(summary.content.split(/\s+/).length / 150)), ...tag })
+  }
+
+  // Câte grile/cartonașe/rezumate există deja dintr-un curs anume.
+  function aiCountFor(courseId) {
+    const has = (x) => x.courseId === courseId
+    return myQuestions.value.filter(has).length + myCards.value.filter(has).length + myMaterials.value.filter(has).length
+  }
+
+  function removeAiCourse(courseId) {
+    const keep = (x) => x.courseId !== courseId
+    myQuestions.value = myQuestions.value.filter(keep)
+    myCards.value = myCards.value.filter(keep)
+    myMaterials.value = myMaterials.value.filter(keep)
   }
 
   function clearAiContent() {
@@ -587,8 +605,8 @@ export const useAppStore = defineStore('app', () => {
   return {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus, myQuestions, addAiContent, clearAiContent,
-    sourceFilter, timerOn, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
+    examDates, caseProgress, skillStatus, myQuestions, addAiContent, aiCountFor, removeAiCourse, clearAiContent,
+    sourceFilter, timerOn, quizPrefs, quizSessions, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
     targetSession, topicsFor, buildPlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,

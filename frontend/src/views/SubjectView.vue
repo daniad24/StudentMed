@@ -257,10 +257,10 @@ const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
         <p class="text-5xl">✅</p>
         <p class="mt-2 text-xl font-black">{{ questionCount }} grile disponibile</p>
         <p class="text-sm font-semibold text-muted">
-          {{ multiCount }} cu complement multiplu · primești 10 aleatorii, ai 3 minute.
+          {{ multiCount }} cu complement multiplu · alegi câte, ce fel și dacă vrei cronometru.
         </p>
         <p v-if="origin === 'ai'" class="mt-2 text-xs font-bold text-amber-700">🤖 Grile generate de AI: pot conține greșeli, compară cu cursul.</p>
-        <RouterLink v-if="questionCount" :to="`/pauza/${subject.id}`" class="btn btn-blue mt-4 w-full">⏱️ Începe quiz-ul</RouterLink>
+        <RouterLink v-if="questionCount" :to="`/pauza/${subject.id}`" class="btn btn-blue mt-4 w-full">{{ store.quizSessions[subject.id] ? '▶️ Continuă quiz-ul' : '⏱️ Începe quiz-ul' }}</RouterLink>
         <RouterLink v-if="questionCount" :to="`/simulare?materie=${subject.id}`" class="btn btn-white mt-2 w-full">🎓 Simulare de colocviu</RouterLink>
         <p v-else class="mt-3 text-sm font-bold text-muted">Nicio grilă în această categorie. Alege altă categorie sus.</p>
       </div>

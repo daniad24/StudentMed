@@ -37,6 +37,7 @@ const totalSeconds = ref(0)
 const secondsLeft = ref(0)
 const usedSeconds = ref(0)
 const confirmFinish = ref(false)
+const timeUp = ref(false)
 let timer = null
 
 function start() {
@@ -49,10 +50,12 @@ function start() {
   usedSeconds.value = 0
   phase.value = 'running'
   timer = setInterval(() => {
+    if (timeUp.value || document.hidden) return
     usedSeconds.value++
     if (!store.timerOn) return
     secondsLeft.value--
-    if (secondsLeft.value <= 0) finish()
+    // nu predăm singuri: studentul alege dacă termină sau continuă fără timp
+    if (secondsLeft.value <= 0) timeUp.value = true
   }, 1000)
 }
 onUnmounted(() => clearInterval(timer))
@@ -72,6 +75,7 @@ function finish() {
   if (phase.value !== 'running') return
   clearInterval(timer)
   confirmFinish.value = false
+  timeUp.value = false
   results.value = questions.value.map((q, i) => {
     const correct = isCorrectSelection(q, selections.value[i])
     store.recordAnswer(q, correct)
@@ -176,6 +180,18 @@ const wrong = computed(() => results.value.filter((r) => !r.correct))
         <button class="btn btn-white" :disabled="index === 0" @click="index--"><AppIcon name="back" :size="18" /> Înapoi</button>
         <button v-if="index < questions.length - 1" class="btn btn-blue" @click="index++">Următoarea <AppIcon name="forward" :size="18" /></button>
         <button v-else class="btn btn-primary" @click="confirmFinish = true">Predă</button>
+      </div>
+
+      <div v-if="timeUp" class="fixed inset-0 z-30 flex items-end justify-center bg-black/40 p-4 sm:items-center">
+        <div class="card w-full max-w-md p-5 text-center slide-up">
+          <p class="text-4xl">⏰</p>
+          <h2 class="mt-2 text-xl font-black">Timpul a expirat</h2>
+          <p class="font-semibold text-muted">Ai răspuns la {{ answeredCount }} din {{ questions.length }} grile.</p>
+          <div class="mt-4 grid grid-cols-2 gap-2">
+            <button class="btn btn-white" @click="store.timerOn = false; timeUp = false">Continuă fără timp</button>
+            <button class="btn btn-primary" @click="finish">Predă</button>
+          </div>
+        </div>
       </div>
 
       <div v-if="confirmFinish" class="fixed inset-0 z-30 flex items-end justify-center bg-black/40 p-4 sm:items-center" @click.self="confirmFinish = false">

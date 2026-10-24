@@ -16,3 +16,6 @@ Variabile de mediu (Vercel › Settings › Environment Variables). **Nu le pune
 
 Rute: `POST /api/check-code` (verifică un cod), `POST /api/generate` (text → grile și cartonașe, răspunsul îl validează aplicația).
 Un cod se revocă scoțându-l din `INVITE_CODES` și redeploy.
+
+Limită proprie pe cod: adaugă la final `:număr` (generări pe zi) sau `:*` (fără limită pe cod), de exemplu
+`ABCD-1234:Test 3:*,EFGH-5678:Grupa 2:300`. Plafonul total `AI_DAILY_TOTAL` rămâne valabil pentru toate codurile.

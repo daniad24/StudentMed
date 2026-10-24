@@ -54,6 +54,13 @@ const recommended = computed(() => {
 })
 
 const subjectById = (id) => subjects.find((s) => s.id === id)
+const unfinished = computed(() =>
+  Object.entries(store.quizSessions)
+    .map(([id, s]) => ({ id, name: subjectById(id)?.name, done: s.answers.length, total: s.ids.length, at: s.savedAt }))
+    .filter((r) => r.name)
+    .sort((a, b) => b.at - a.at)
+    .slice(0, 2),
+)
 </script>
 
 <template>
@@ -172,6 +179,21 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
       </div>
     </RouterLink>
 
+    <!-- Quiz-uri lăsate la jumătate -->
+    <RouterLink
+      v-for="r in unfinished"
+      :key="r.id"
+      :to="`/pauza/${r.id}`"
+      class="card flex items-center gap-4 border-sky-400 p-4 transition-transform active:translate-y-[2px] slide-up"
+    >
+      <span class="text-3xl">⏸</span>
+      <div class="flex-1">
+        <p class="font-black">Continuă grilele: {{ r.name }}</p>
+        <p class="text-sm font-semibold text-muted">{{ r.done }} din {{ r.total }} răspunse</p>
+      </div>
+      <AppIcon name="forward" class="text-sky-500" />
+    </RouterLink>
+
     <!-- Pauza de gardă -->
     <RouterLink
       to="/pauza"
@@ -182,7 +204,7 @@ const subjectById = (id) => subjects.find((s) => s.id === id)
         <div class="text-5xl">⏱️</div>
         <div class="flex-1">
           <p class="text-xl font-black">Pauza de gardă</p>
-          <p class="text-sm font-semibold text-white/90">10 grile rapide în 3 minute. Ideal la stagiu sau în tramvai.</p>
+          <p class="text-sm font-semibold text-white/90">Grile rapide, cu sau fără cronometru. Ideal la stagiu sau în tramvai.</p>
         </div>
         <AppIcon name="forward" :size="28" />
       </div>

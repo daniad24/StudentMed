@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { hardRefresh } from '../lib/refresh'
@@ -26,6 +26,19 @@ const updating = ref(false)
 const codeInput = ref('')
 const codeBusy = ref(false)
 const codeMsg = ref('')
+// Consumul de azi al codului activ (doar informativ)
+const usage = ref(null)
+async function loadUsage() {
+  if (!AI_IMPORT || !store.aiCode) return
+  try {
+    const r = await fetch('/api/check-code', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: store.aiCode.code }) })
+    if (r.ok) usage.value = await r.json()
+  } catch {
+    // fără internet: nu arătăm nimic
+  }
+}
+onMounted(loadUsage)
+
 async function activateCode() {
   codeBusy.value = true
   codeMsg.value = ''
@@ -34,6 +47,7 @@ async function activateCode() {
     const data = await r.json().catch(() => ({}))
     if (!r.ok) throw new Error(data.error || 'Nu am putut verifica codul.')
     store.setAiCode(codeInput.value.trim().toUpperCase(), data.label)
+    usage.value = data
     codeInput.value = ''
   } catch (e) {
     codeMsg.value = e.message === 'Failed to fetch' ? 'Nu am putut contacta serverul. Verifică internetul.' : e.message
@@ -204,6 +218,10 @@ function logout() {
       <template v-if="store.aiCode">
         <p class="text-sm font-semibold text-muted">
           Activ: <b class="text-ink">{{ store.aiCode.label }}</b>. În Adaugă › „Grile din curs” ai acum butonul de generare cu AI.
+        </p>
+        <p v-if="usage" class="rounded-xl bg-gray-100 px-3 py-2 text-sm font-bold text-muted">
+          Azi: {{ usage.used }} {{ usage.used === 1 ? 'generare' : 'generări' }}{{ usage.limit ? ` din ${usage.limit}` : ' · fără limită pe cod' }}
+          <span class="block text-xs font-semibold">O generare = o parte de curs (câteva pagini de text).</span>
         </p>
         <button class="btn btn-white w-full" @click="store.clearAiCode()">Elimină codul</button>
       </template>

@@ -1,10 +1,9 @@
-import { clientIp, findCode } from './_auth.js'
+import { clientIp, findCode, int, limitFor } from './_auth.js'
 import { AiError, generate } from './_ai.js'
 import { decr, incr, today } from './_store.js'
 import { buildPrompt } from '../src/lib/aiimport.js'
 
 const MAX_CHARS = 24000
-const int = (v, d) => (Number.isFinite(Number(v)) && Number(v) > 0 ? Math.floor(Number(v)) : d)
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store')
@@ -23,7 +22,7 @@ export default async function handler(req, res) {
   const subjectName = String(body.subjectName ?? 'Medicină').slice(0, 80)
 
   // limite: pe cod și total, pe zi
-  const perCode = int(process.env.AI_DAILY_PER_CODE, 120)
+  const perCode = limitFor(found)
   const total = int(process.env.AI_DAILY_TOTAL, 1500)
   const day = today()
   if ((await incr(`ai:use:${day}:${found.code}`)) > perCode) return res.status(429).json({ error: `Ai folosit toate cele ${perCode} apeluri de azi. Revino mâine.` })

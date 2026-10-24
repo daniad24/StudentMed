@@ -15,7 +15,7 @@ const list = computed(() =>
     <header class="rounded-3xl border-b-4 border-[#0369a1] bg-gradient-to-br from-sky-400 to-sky-600 p-6 text-center text-white slide-up">
       <p class="text-5xl">⏱️</p>
       <h1 class="mt-2 text-2xl font-black">Pauza de gardă</h1>
-      <p class="font-semibold text-white/90">10 grile aleatorii · 3 minute. Alege materia:</p>
+      <p class="font-semibold text-white/90">Alegi materia, apoi câte grile vrei și dacă ai cronometru.</p>
     </header>
 
     <div class="grid gap-2 sm:grid-cols-2">

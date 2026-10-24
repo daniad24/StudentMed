@@ -1,10 +1,11 @@
 <script setup>
-import { computed, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects, years } from '../data/mock'
 import { AI_IMPORT } from '../lib/flags'
-import { buildPrompt, isBoilerplatePage, parseAiResponse, sameQuestion, splitText } from '../lib/aiimport'
+import { PROMPT_VERSION, buildPrompt, isBoilerplatePage, parseAiResponse, sameQuestion, splitText } from '../lib/aiimport'
+import { deleteCourse, listCourses, newCourseId, putCourse } from '../lib/courses'
 import { extractSlides } from '../lib/slides'
 import { correctTexts } from '../lib/quiz'
 import BackButton from '../components/BackButton.vue'
@@ -35,6 +36,56 @@ let wakeLock = null
 const AI_CHUNK = 16000
 const aiChunks = computed(() => splitText(text.value, AI_CHUNK))
 
+// --- Cursurile tale (păstrate în telefon) ---
+const courses = ref([])
+const course = ref(null) // cursul deschis acum; null pentru text lipit de mână
+const courseNote = ref('')
+const refreshCourses = async () => (courses.value = await listCourses())
+onMounted(refreshCourses)
+
+const subjectName = (id) => subjects.find((s) => s.id === id)?.name ?? id
+const partsOf = (c) => splitText(c.text, AI_CHUNK).length
+function courseStatus(c) {
+  const total = partsOf(c)
+  if (!c.gen) return { label: 'negenerat', tone: 'text-muted' }
+  if (c.gen.version < PROMPT_VERSION) return { label: 'generat cu reguli mai vechi', tone: 'text-amber-700' }
+  const done = c.gen.done.length
+  return done >= total ? { label: 'generat complet', tone: 'text-brand-700' } : { label: `generat ${done} din ${total} părți`, tone: 'text-sky-700' }
+}
+
+function openCourse(c) {
+  course.value = c
+  subjectId.value = c.subjectId
+  text.value = c.text
+  part.value = 0
+  skippedPages.value = 0
+  fileError.value = ''
+  courseNote.value = ''
+}
+
+async function removeCourse(c) {
+  await deleteCourse(c.id)
+  if (course.value?.id === c.id) course.value = null
+  refreshCourses()
+}
+
+// Dacă studentul editează textul de mână, nu mai e „cursul salvat”.
+function onTextInput() {
+  if (course.value && text.value !== course.value.text) course.value = null
+}
+
+// Părțile încă negenerate din cursul deschis, cu regulile de acum.
+const missingParts = computed(() => {
+  const c = course.value
+  if (!c?.gen || c.gen.version < PROMPT_VERSION) return []
+  const done = new Set(c.gen.done)
+  return aiChunks.value.map((_, i) => i).filter((i) => !done.has(i))
+})
+const oldRules = computed(() => !!course.value?.gen && course.value.gen.version < PROMPT_VERSION)
+const lastRun = ref({ indices: [], full: false }) // ce părți a acoperit ultima generare
+const replaceOld = ref(false)
+const previousCount = computed(() => (course.value ? store.aiCountFor(course.value.id) : 0))
+
 class ApiError extends Error {
   constructor(message, status) {
     super(message)
@@ -62,7 +113,7 @@ async function callGenerate(chunk, per) {
 const norm = (s) => s.toLowerCase().replace(/\s+/g, ' ').trim()
 
 // Procesează părțile (una sau tot cursul) cu 3 cereri în paralel; ce a ieșit până la o eroare se păstrează.
-async function generateChunks(chunks, per) {
+async function generateChunks(chunks, per, indices = null) {
   aiError.value = ''
   aiNote.value = ''
   generating.value = true
@@ -77,6 +128,7 @@ async function generateChunks(chunks, per) {
   const sums = []
   const seenQ = new Set()
   const seenC = new Set()
+  const okParts = []
   let next = 0
   let fatal = ''
   async function worker() {
@@ -109,7 +161,8 @@ async function generateChunks(chunks, per) {
         }
         for (const c of res.cards) if (!seenC.has(norm(c.front))) (seenC.add(norm(c.front)), out.cards.push(c))
         out.skipped.push(...res.skipped)
-        if (res.summary) sums.push({ i, text: res.summary })
+        if (res.summary) sums.push({ i, n: indices ? indices[i] + 1 : i + 1, text: res.summary })
+        if (indices) okParts.push(indices[i])
       }
       progress.value.done++
     }
@@ -122,7 +175,10 @@ async function generateChunks(chunks, per) {
     // nimic
   }
   sums.sort((a, b) => a.i - b.i)
-  out.summary = sums.length > 1 ? sums.map((x, n) => `## Partea ${n + 1}\n\n${x.text}`).join('\n\n') : (sums[0]?.text ?? '')
+  out.summary = sums.length > 1 || indices?.length > 1 ? sums.map((x) => `## Partea ${x.n}\n\n${x.text}`).join('\n\n') : (sums[0]?.text ?? '')
+  lastRun.value = { indices: okParts, full: !!indices && indices.length === aiChunks.value.length }
+  // o regenerare completă înlocuiește implicit ce era înainte din curs; continuarea doar adaugă
+  replaceOld.value = lastRun.value.full && previousCount.value > 0
   if (out.questions.length || out.cards.length || out.summary) {
     result.value = out
     phase.value = 'review'
@@ -135,7 +191,8 @@ async function generateChunks(chunks, per) {
 }
 
 const generateWithAi = () => generateChunks([parts.value[part.value] ?? parts.value[0]], 8)
-const generateAll = () => generateChunks(aiChunks.value, 6)
+const generateAll = () => generateChunks(aiChunks.value, 6, aiChunks.value.map((_, i) => i))
+const generateMissing = () => generateChunks(missingParts.value.map((i) => aiChunks.value[i]), 6, missingParts.value)
 const cancelAll = () => (cancelled = true)
 onUnmounted(() => (cancelled = true))
 
@@ -158,7 +215,16 @@ async function onFile(e) {
     skippedPages.value = pages.length - kept.length
     text.value = kept.join('\n\n')
     part.value = 0
+    course.value = null
     if (!text.value.trim()) fileError.value = 'Nu am găsit text în fișier.'
+    else {
+      const c = { id: newCourseId(), name: file.name.replace(/\.(pdf|pptx)$/i, ''), subjectId: subjectId.value, text: text.value, createdAt: Date.now(), gen: null }
+      if (await putCourse(c)) {
+        course.value = c
+        courseNote.value = 'Am păstrat cursul în telefon. Data viitoare îl găsești la „Cursurile tale”, fără să-l mai încarci.'
+        refreshCourses()
+      }
+    }
   } catch (err) {
     fileError.value = err.message || 'Nu am putut citi fișierul.'
   } finally {
@@ -193,9 +259,19 @@ const keepSummary = ref(true)
 const summaryTitle = ref('')
 const summaryOn = computed(() => !!result.value?.summary && keepSummary.value)
 
-function save() {
+async function save() {
   const summary = summaryOn.value ? { title: summaryTitle.value.trim() || `Rezumat AI – ${subject.value.name}`, content: result.value.summary } : null
-  store.addAiContent(subjectId.value, keptQ.value, keptC.value, summary)
+  const c = course.value
+  const fromCourse = c && lastRun.value.indices.length
+  store.addAiContent(subjectId.value, keptQ.value, keptC.value, summary, fromCourse ? { courseId: c.id, promptVersion: PROMPT_VERSION, replace: replaceOld.value } : {})
+  if (fromCourse) {
+    const sameRules = c.gen?.version === PROMPT_VERSION && !replaceOld.value
+    const done = [...new Set([...(sameRules ? c.gen.done : []), ...lastRun.value.indices])].sort((a, b) => a - b)
+    course.value = { ...c, subjectId: subjectId.value, gen: { version: PROMPT_VERSION, done } }
+    await putCourse(JSON.parse(JSON.stringify(course.value)))
+    refreshCourses()
+  }
+  lastRun.value = { indices: [], full: false }
   saved.value = keptQ.value.length + keptC.value.length + (summary ? 1 : 0)
   phase.value = 'saved'
 }
@@ -220,8 +296,21 @@ function again() {
     </header>
 
     <template v-if="phase === 'edit'">
+      <section v-if="courses.length" class="card space-y-2 p-5">
+        <h2 class="font-black">📚 Cursurile tale</h2>
+        <p class="text-xs font-semibold text-muted">Păstrate doar pe acest telefon. Le poți genera din nou fără să le mai încarci.</p>
+        <div v-for="c in courses" :key="c.id" class="flex items-center gap-2 rounded-xl border-2 p-3" :class="course?.id === c.id ? 'border-brand-500 bg-brand-50' : 'border-gray-200'">
+          <button class="min-w-0 flex-1 text-left" @click="openCourse(c)">
+            <span class="block truncate font-extrabold">{{ c.name }}</span>
+            <span class="block text-xs font-bold text-muted">{{ subjectName(c.subjectId) }} · {{ partsOf(c) }} {{ partsOf(c) === 1 ? 'parte' : 'părți' }} · <span :class="courseStatus(c).tone">{{ courseStatus(c).label }}</span></span>
+          </button>
+          <button class="shrink-0 px-2 text-sm font-bold text-muted" :aria-label="`Șterge ${c.name}`" @click="removeCourse(c)">✕</button>
+        </div>
+      </section>
+
       <section class="card space-y-3 p-5">
         <h2 class="font-black">1. Textul din curs</h2>
+        <p v-if="course" class="rounded-xl bg-brand-50 px-3 py-2 text-sm font-bold text-brand-700">📘 {{ course.name }}</p>
         <div>
           <label class="label" for="subject">Materia</label>
           <select id="subject" v-model="subjectId" class="input">
@@ -235,9 +324,10 @@ function again() {
           <input type="file" accept=".pptx,.pdf" class="hidden" @change="onFile" />
         </label>
         <p v-if="fileError" class="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-600">{{ fileError }}</p>
+        <p v-if="courseNote" class="text-sm font-semibold text-brand-700">{{ courseNote }}</p>
         <p v-if="skippedPages" class="text-sm font-semibold text-muted">Am lăsat deoparte {{ skippedPages }} {{ skippedPages === 1 ? 'pagină administrativă' : 'pagini administrative' }} (drepturi de autor, titlu, cuprins).</p>
         <p class="rounded-xl bg-amber-50 px-3 py-2 text-xs font-bold text-amber-800">Folosește doar materiale pe care ai voie să le procesezi. Rezultatele rămân pe telefonul tău, dar textul se trimite la un serviciu de AI.</p>
-        <textarea v-model="text" rows="6" class="input" placeholder="…sau lipește aici textul din curs"></textarea>
+        <textarea v-model="text" rows="6" class="input" placeholder="…sau lipește aici textul din curs" @input="onTextInput"></textarea>
         <p v-if="parts.length > 1" class="text-sm font-semibold text-muted">
           Textul e lung, așa că îl împărțim în {{ parts.length }} părți ca să încapă într-un chatbot gratuit.
         </p>
@@ -249,6 +339,12 @@ function again() {
           Textul de mai sus (partea selectată) se trimite la un serviciu de AI, care întoarce 8 grile și 8 cartonașe. Nu trimite materiale pe care nu ai voie să le dai mai departe.
         </p>
         <p v-if="aiError" class="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-600 shake">{{ aiError }}</p>
+        <p v-if="oldRules" class="rounded-xl bg-amber-50 px-3 py-2 text-sm font-bold text-amber-800">
+          Între timp am îmbunătățit regulile AI-ului (grile luate strict din curs, fără duplicate). Poți genera din nou cursul; la salvare, ce era generat înainte din el se înlocuiește.
+        </p>
+        <button v-if="!generating && missingParts.length && missingParts.length < aiChunks.length" class="btn btn-primary w-full" @click="generateMissing">
+          ▶️ Continuă: generează restul ({{ missingParts.length }} {{ missingParts.length === 1 ? 'parte' : 'părți' }})
+        </button>
         <div v-if="generating && progress.total > 1" class="space-y-2">
           <div class="h-3 overflow-hidden rounded-full bg-gray-200">
             <div class="h-full rounded-full bg-brand-500 transition-all" :style="{ width: `${(progress.done / progress.total) * 100}%` }"></div>
@@ -256,8 +352,8 @@ function again() {
           <p class="text-sm font-bold text-muted">Partea {{ Math.min(progress.done + 1, progress.total) }} din {{ progress.total }} · ține ecranul deschis</p>
           <button class="btn btn-white w-full" @click="cancelAll">Oprește și păstrează ce s-a generat</button>
         </div>
-        <button v-else class="btn btn-primary w-full" :disabled="generating" @click="aiChunks.length > 1 ? generateAll() : generateWithAi()">
-          {{ generating ? '⏳ Generez… (până la un minut)' : aiChunks.length > 1 ? `✨ Generează din tot cursul (${aiChunks.length} părți)` : '✨ Generează grile și cartonașe' }}
+        <button v-else class="btn w-full" :class="missingParts.length && missingParts.length < aiChunks.length ? 'btn-white' : 'btn-primary'" :disabled="generating" @click="aiChunks.length > 1 || course ? generateAll() : generateWithAi()">
+          {{ generating ? '⏳ Generez… (până la un minut)' : course?.gen ? `🔁 Generează din nou tot cursul (${aiChunks.length} ${aiChunks.length === 1 ? 'parte' : 'părți'})` : aiChunks.length > 1 ? `✨ Generează din tot cursul (${aiChunks.length} părți)` : '✨ Generează grile și cartonașe' }}
         </button>
         <button v-if="aiChunks.length > 1 && !generating" class="btn btn-white w-full text-sm" @click="generateWithAi">Doar partea {{ part + 1 }} (încercare rapidă)</button>
         <p v-if="aiChunks.length > 1" class="text-xs font-semibold text-muted">Tot cursul = {{ aiChunks.length }} apeluri, cam {{ Math.ceil(aiChunks.length / 3) }}–{{ Math.ceil(aiChunks.length / 3) * 2 }} minute. Fiecare parte dă ~6 grile și ~6 cartonașe; la final alegi ce păstrezi.</p>
@@ -335,6 +431,14 @@ function again() {
           <span class="text-sm"><span class="block font-extrabold">{{ c.front }}</span><span class="block font-semibold text-muted">{{ c.back }}</span></span>
         </label>
       </section>
+
+      <label v-if="course && lastRun.indices.length && previousCount" class="card flex items-start gap-3 p-4">
+        <input v-model="replaceOld" type="checkbox" class="mt-1 h-5 w-5 accent-brand-600" />
+        <span class="text-sm">
+          <span class="block font-extrabold">Înlocuiește ce am generat înainte din „{{ course.name }}”</span>
+          <span class="block font-semibold text-muted">{{ previousCount }} elemente vechi. Debifat, cele noi se adaugă lângă ele.</span>
+        </span>
+      </label>
 
       <div class="grid gap-2">
         <button class="btn btn-primary w-full" :disabled="!keptQ.length && !keptC.length && !summaryOn" @click="save">Salvează {{ keptQ.length + keptC.length + (summaryOn ? 1 : 0) }} în {{ subject.name }}</button>
