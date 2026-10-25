@@ -22,8 +22,17 @@ const source = mixed
   : route.query.toate ? store.cardsFor(subject.id, store.sourceFilter) : store.dueCardsFor(subject.id, store.sourceFilter)
 const backTo = block ? '/tinta/plan' : mixed ? '/' : `/materie/${subject.id}?tab=flashcards`
 const practice = ref(mixed) // repetare în aceeași zi: nu schimbă calendarul de repetiție
-const queue = ref([...source].sort(() => Math.random() - 0.5))
+const all = [...source].sort(() => Math.random() - 0.5)
+// Sesiune lungă: studentul alege câte cartonașe face acum (restul rămân pentru mai târziu).
+const BIG = 30
+const choosing = ref(!block && !mixed && all.length > BIG)
+const queue = ref(choosing.value ? [] : all)
 const initialCount = ref(queue.value.length)
+function startWith(n) {
+  queue.value = n ? all.slice(0, n) : all
+  initialCount.value = queue.value.length
+  choosing.value = false
+}
 
 const flipped = ref(false)
 const done = ref(0)
@@ -94,8 +103,19 @@ function onReport(reason) {
       <span class="text-sm font-black text-muted">{{ done }}/{{ initialCount }}</span>
     </header>
 
+    <!-- Alegerea mărimii sesiunii -->
+    <div v-if="choosing" class="flex flex-1 flex-col items-center justify-center text-center">
+      <p class="text-6xl">🃏</p>
+      <h1 class="mt-3 text-2xl font-black">{{ all.length }} cartonașe de repetat</h1>
+      <p class="mt-1 text-sm font-semibold text-muted">Câte faci acum? Restul rămân la rând pentru altă dată.</p>
+      <div class="mt-6 grid w-full gap-2">
+        <button v-for="n in [10, 20, 50].filter((x) => x < all.length)" :key="n" class="btn btn-white w-full" @click="startWith(n)">{{ n }} cartonașe</button>
+        <button class="btn btn-primary w-full" @click="startWith(0)">Toate ({{ all.length }})</button>
+      </div>
+    </div>
+
     <!-- Sesiune -->
-    <template v-if="!finished">
+    <template v-else-if="!finished">
       <p class="mt-4 text-center font-extrabold text-muted">{{ subject.emoji }} {{ subject.name }}</p>
 
       <div class="flip-scene my-6 flex-1">

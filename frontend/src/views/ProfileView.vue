@@ -213,6 +213,10 @@ function logout() {
       </div>
     </section>
 
+    <p v-if="store.saveFailed" class="rounded-2xl border-2 border-red-300 bg-red-50 p-4 text-sm font-bold text-red-700">
+      ⚠️ Telefonul nu mai are loc pentru datele aplicației, deci progresul nou nu se salvează. Salvează un backup mai jos, apoi șterge ce nu mai folosești (de exemplu grilele generate cu AI din cursuri vechi).
+    </p>
+
     <section v-if="AI_IMPORT" class="card space-y-3 p-5">
       <h2 class="font-black">🔑 Cod de invitație</h2>
       <template v-if="store.aiCode">

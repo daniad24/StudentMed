@@ -308,6 +308,9 @@ function check() {
 const setAll = (list, v) => list.forEach((x) => (x.keep = v))
 const keptQ = computed(() => result.value?.questions.filter((q) => q.keep) ?? [])
 const keptC = computed(() => result.value?.cards.filter((c) => c.keep) ?? [])
+// Pe telefon, sute de carduri deodată încetinesc ecranul: arătăm câte 60 (selecția se aplică oricum tuturor).
+const qShown = ref(60)
+const cShown = ref(60)
 const keepSummary = ref(true)
 const summaryTitle = ref('')
 const summaryOn = computed(() => !!result.value?.summary && keepSummary.value)
@@ -487,7 +490,7 @@ function again() {
           <h2 class="font-black">Grile ({{ keptQ.length }}/{{ result.questions.length }})</h2>
           <button class="text-sm font-bold text-brand-600" @click="setAll(result.questions, keptQ.length !== result.questions.length)">{{ keptQ.length === result.questions.length ? 'Deselectează tot' : 'Selectează tot' }}</button>
         </div>
-        <div v-for="(q, i) in result.questions" :key="i" class="card space-y-1 p-4" :class="!q.keep && 'opacity-50'">
+        <div v-for="(q, i) in result.questions.slice(0, qShown)" :key="i" class="card space-y-1 p-4" :class="!q.keep && 'opacity-50'">
           <label class="flex items-start gap-3">
             <input v-model="q.keep" type="checkbox" class="mt-1 h-5 w-5 accent-brand-600" />
             <span class="font-extrabold">{{ q.text }}</span>
@@ -499,6 +502,7 @@ function again() {
           </ul>
           <p v-if="q.explanation" class="pl-8 text-sm font-semibold text-muted">💡 {{ q.explanation }}</p>
         </div>
+      <button v-if="result.questions.length > qShown" class="btn btn-white w-full" @click="qShown += 60">Arată mai multe grile ({{ result.questions.length - qShown }})</button>
       </section>
 
       <section v-if="result.cards.length" class="space-y-2">
@@ -506,10 +510,11 @@ function again() {
           <h2 class="font-black">Cartonașe ({{ keptC.length }}/{{ result.cards.length }})</h2>
           <button class="text-sm font-bold text-brand-600" @click="setAll(result.cards, keptC.length !== result.cards.length)">{{ keptC.length === result.cards.length ? 'Deselectează tot' : 'Selectează tot' }}</button>
         </div>
-        <label v-for="(c, i) in result.cards" :key="i" class="card flex items-start gap-3 p-4" :class="!c.keep && 'opacity-50'">
+        <label v-for="(c, i) in result.cards.slice(0, cShown)" :key="i" class="card flex items-start gap-3 p-4" :class="!c.keep && 'opacity-50'">
           <input v-model="c.keep" type="checkbox" class="mt-1 h-5 w-5 accent-brand-600" />
           <span class="text-sm"><span class="block font-extrabold">{{ c.front }}</span><span class="block font-semibold text-muted">{{ c.back }}</span></span>
         </label>
+      <button v-if="result.cards.length > cShown" class="btn btn-white w-full" @click="cShown += 60">Arată mai multe cartonașe ({{ result.cards.length - cShown }})</button>
       </section>
 
       <label v-if="course && lastRun.indices.length && previousCount" class="card flex items-start gap-3 p-4">

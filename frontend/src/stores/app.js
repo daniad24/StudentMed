@@ -17,8 +17,10 @@ function load() {
 function save(state) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+    return true
   } catch {
-    // stocare indisponibilă (ex. navigare privată) – aplicația merge și fără
+    // stocare indisponibilă (ex. navigare privată) sau plină – aplicația merge și fără, dar anunțăm studentul
+    return false
   }
 }
 
@@ -107,6 +109,8 @@ export const useAppStore = defineStore('app', () => {
   const sourceFilter = ref(saved.sourceFilter ?? 'all') // all | steto | ai | mine – ce fel de conținut exersezi
   const aiCode = ref(saved.aiCode ?? null) // { code, label } – cod de invitație pentru generarea cu AI
 
+  const saveFailed = ref(false) // true când telefonul nu mai are loc pentru datele aplicației
+
   const refs = {
     user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
     myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
@@ -114,7 +118,7 @@ export const useAppStore = defineStore('app', () => {
   }
   watch(
     KEYS.map((k) => refs[k]),
-    () => save(Object.fromEntries(KEYS.map((k) => [k, refs[k].value]))),
+    () => (saveFailed.value = !save(Object.fromEntries(KEYS.map((k) => [k, refs[k].value])))),
     { deep: true },
   )
 
@@ -361,7 +365,7 @@ export const useAppStore = defineStore('app', () => {
 
   function recordAnswer(q, correct) {
     answerLog.value.push({ qid: q.id, subjectId: q.subjectId, correct, date: today() })
-    if (answerLog.value.length > 2000) answerLog.value.splice(0, answerLog.value.length - 2000)
+    if (answerLog.value.length > 12000) answerLog.value.splice(0, answerLog.value.length - 12000)
     addXp(correct ? XP.correct : XP.wrong)
     if (!correct) addQuizCard(q)
   }
@@ -636,7 +640,7 @@ export const useAppStore = defineStore('app', () => {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     examDates, caseProgress, skillStatus, myQuestions, addAiContent, aiCountFor, removeAiCourse, clearAiContent,
-    sourceFilter, timerOn, quizPrefs, quizSessions, starred, aiDensity, toggleStar, missedToday, practiceCard, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
+    sourceFilter, timerOn, quizPrefs, quizSessions, starred, aiDensity, saveFailed, toggleStar, missedToday, practiceCard, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
     targetSession, topicsFor, buildPlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,

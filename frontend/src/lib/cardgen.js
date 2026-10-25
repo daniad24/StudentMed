@@ -6,7 +6,7 @@
 
 const SKIP_TITLES = /^(cuprins|bibliografie|referin|mulțum|întrebări|intrebari|obiective|curs\s*\d+|plan(ul)?\s+cursului)/i
 const DEF_RE = /^(.{2,60}?)\s+[-–—:=]\s+(.{6,})$|^(.{2,60}?):\s+(.{6,})$/
-const MAX_CARDS = 60
+const MAX_CARDS = 400
 
 const sentence = (s) => s.replace(/\s+/g, ' ').trim()
 const ends = (s) => (/[.!?]$/.test(s) ? s : s + '.')

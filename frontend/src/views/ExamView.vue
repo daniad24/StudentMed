@@ -23,6 +23,7 @@ const onlySubject = available.find((s) => s.id === route.query.materie)?.id
 const picked = ref(onlySubject ? [onlySubject] : available.map((s) => s.id))
 const size = ref(rezMode ? 50 : 30)
 const pool = computed(() => picked.value.flatMap((id) => store.questionsFor(id, store.sourceFilter)))
+const count = computed(() => (size.value ? Math.min(size.value, pool.value.length) : pool.value.length))
 
 function togglePick(id) {
   picked.value = picked.value.includes(id) ? picked.value.filter((x) => x !== id) : [...picked.value, id]
@@ -41,7 +42,7 @@ const timeUp = ref(false)
 let timer = null
 
 function start() {
-  questions.value = shuffle(pool.value).slice(0, size.value).map(prepareQuestion)
+  questions.value = shuffle(pool.value).slice(0, size.value || undefined).map(prepareQuestion)
   selections.value = questions.value.map(() => [])
   index.value = 0
   // 1 minut pe grilă, ca la colocviu
@@ -125,15 +126,19 @@ const wrong = computed(() => results.value.filter((r) => !r.correct))
         </div>
 
         <h2 class="pt-2 font-black">Număr de grile</h2>
-        <div class="grid grid-cols-3 gap-2">
-          <button v-for="n in rezMode ? [50, 100, 200] : [20, 30, 50]" :key="n" class="btn py-2" :class="size === n ? 'btn-primary' : 'btn-white'" @click="size = n">
-            {{ n }}
+        <div class="grid grid-cols-4 gap-2">
+          <button v-for="n in rezMode ? [50, 100, 200, 0] : [20, 30, 50, 0]" :key="n" class="btn px-1 py-2 text-sm" :class="size === n ? 'btn-primary' : 'btn-white'" @click="size = n">
+            {{ n || `Toate (${pool.length})` }}
           </button>
         </div>
         <p class="text-sm font-bold text-muted">
-          {{ Math.min(size, pool.length) }} grile · {{ Math.min(size, pool.length) }} minute
-          <span v-if="pool.length < size"> (doar {{ pool.length }} disponibile în materiile alese)</span>
+          {{ count }} grile{{ store.timerOn ? ` · ${count} minute` : ' · fără limită de timp' }}
+          <span v-if="size && pool.length < size"> (doar {{ pool.length }} disponibile în materiile alese)</span>
         </p>
+        <label class="flex items-center gap-3">
+          <input v-model="store.timerOn" type="checkbox" class="h-6 w-6 accent-brand-600" />
+          <span class="text-sm font-extrabold">Cu cronometru <span class="font-semibold text-muted">(1 minut pe grilă; la final poți continua fără timp)</span></span>
+        </label>
       </section>
 
       <button class="btn btn-primary w-full" :disabled="!pool.length" @click="start">Începe simularea</button>

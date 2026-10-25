@@ -18,7 +18,10 @@ onMounted(() => input.value?.focus())
 watch(query, (q) => router.replace({ query: q ? { q } : {} }))
 
 const subjectById = (id) => subjects.find((s) => s.id === id)
-const LIMIT = 20
+const PAGE = 20
+const shown = ref({ materials: PAGE, cards: PAGE, questions: PAGE })
+watch(() => query.value, () => (shown.value = { materials: PAGE, cards: PAGE, questions: PAGE }))
+const more = (k) => (shown.value[k] += 40)
 
 const results = computed(() => {
   const q = normalize(query.value.trim())
@@ -74,30 +77,32 @@ const suggestions = ['nervul frenic', 'glicoliza', 'surfactant', 'Gram', 'beta-b
       <section v-if="results.materials.length">
         <h2 class="mb-2 font-black">📚 Materiale <span class="text-muted">({{ results.materials.length }})</span></h2>
         <div class="space-y-2">
-          <RouterLink v-for="m in results.materials.slice(0, LIMIT)" :key="m.id" :to="`/material/${m.id}`" class="card block p-4">
+          <RouterLink v-for="m in results.materials.slice(0, shown.materials)" :key="m.id" :to="`/material/${m.id}`" class="card block p-4">
             <p class="text-xs font-bold text-muted">{{ subjectById(m.subjectId)?.emoji }} {{ subjectById(m.subjectId)?.name }} · ▲ {{ m.votes }}</p>
             <MaterialBadges :material="m" class="my-1" />
             <p class="font-extrabold">{{ m.title }}</p>
             <p v-if="m.content" class="mt-1 text-sm font-semibold text-muted">{{ snippet(m.content, query.trim()) }}</p>
           </RouterLink>
+          <button v-if="results.materials.length > shown.materials" class="btn btn-white w-full" @click="more('materials')">Arată mai multe ({{ results.materials.length - shown.materials }})</button>
         </div>
       </section>
 
       <section v-if="results.cards.length">
         <h2 class="mb-2 font-black">🃏 Cartonașe <span class="text-muted">({{ results.cards.length }})</span></h2>
         <div class="space-y-2">
-          <RouterLink v-for="c in results.cards.slice(0, LIMIT)" :key="c.id" :to="`/materie/${c.subjectId}?tab=flashcards`" class="card block p-4">
+          <RouterLink v-for="c in results.cards.slice(0, shown.cards)" :key="c.id" :to="`/materie/${c.subjectId}?tab=flashcards`" class="card block p-4">
             <p class="text-xs font-bold text-muted">{{ subjectById(c.subjectId)?.emoji }} {{ subjectById(c.subjectId)?.name }}</p>
             <p class="font-extrabold">{{ c.front }}</p>
             <p class="text-sm font-semibold text-brand-700">{{ c.back }}</p>
           </RouterLink>
+          <button v-if="results.cards.length > shown.cards" class="btn btn-white w-full" @click="more('cards')">Arată mai multe ({{ results.cards.length - shown.cards }})</button>
         </div>
       </section>
 
       <section v-if="results.questions.length">
         <h2 class="mb-2 font-black">✅ Grile <span class="text-muted">({{ results.questions.length }})</span></h2>
         <div class="space-y-2">
-          <details v-for="q in results.questions.slice(0, LIMIT)" :key="q.id" class="card p-4">
+          <details v-for="q in results.questions.slice(0, shown.questions)" :key="q.id" class="card p-4">
             <summary class="cursor-pointer list-none">
               <p class="text-xs font-bold text-muted">{{ subjectById(q.subjectId)?.emoji }} {{ subjectById(q.subjectId)?.name }} · atinge pentru răspuns</p>
               <p class="font-extrabold">{{ q.text }}</p>
@@ -105,6 +110,7 @@ const suggestions = ['nervul frenic', 'glicoliza', 'surfactant', 'Gram', 'beta-b
             <p class="mt-2 text-sm font-bold text-brand-700">✓ {{ correctTexts(q).join(' · ') }}</p>
             <p v-if="q.explanation" class="mt-1 text-sm font-semibold text-muted">💡 {{ q.explanation }}</p>
           </details>
+          <button v-if="results.questions.length > shown.questions" class="btn btn-white w-full" @click="more('questions')">Arată mai multe ({{ results.questions.length - shown.questions }})</button>
         </div>
       </section>
     </template>
