@@ -17,6 +17,9 @@ const router = useRouter()
 const store = useAppStore()
 
 const subject = subjects.find((s) => s.id === route.params.subjectId)
+// ?curs=<id>: grile doar din cursul încărcat de student
+const cursId = route.query.curs ? String(route.query.curs) : ''
+const cursName = cursId ? store.courses[cursId]?.name ?? 'cursul tău' : ''
 const block = route.query.bloc ? store.targetSession?.blocks.find((b) => b.key === route.query.bloc) : null
 
 // --- Alegerea grilelor (ecranul de început) ---
@@ -24,6 +27,7 @@ const topics = computed(() => store.topicsFor(subject.id).filter((t) => t.questi
 const pickedTopics = ref([])
 const toggleTopic = (id) => (pickedTopics.value = pickedTopics.value.includes(id) ? pickedTopics.value.filter((x) => x !== id) : [...pickedTopics.value, id])
 const pool = computed(() => {
+  if (cursId) return store.questionsFor(subject.id).filter((q) => q.courseId === cursId)
   const filtered = store.questionsFor(subject.id, store.sourceFilter)
   let list = filtered.length ? filtered : store.questionsFor(subject.id)
   if (pickedTopics.value.length) {
@@ -81,7 +85,8 @@ function retryWrong() {
   begin(shuffle(wrong.value.map((a) => store.questionsFor(subject.id).find((q) => q.id === a.question.id)).filter(Boolean)), { timed: false })
 }
 
-const savedSession = computed(() => (block ? null : store.quizSessions[subject.id] ?? null))
+const sessKey = cursId ? `${subject.id}#${cursId}` : subject.id
+const savedSession = computed(() => (block ? null : store.quizSessions[sessKey] ?? null))
 
 function begin(list, opts = {}) {
   questions.value = list.map(prepareQuestion)
@@ -122,7 +127,7 @@ function saveSession() {
   if (block || phase.value !== 'running') return
   store.quizSessions = {
     ...store.quizSessions,
-    [subject.id]: {
+    [sessKey]: {
       ids: questions.value.map((q) => q.id),
       answers: answers.value.map((a) => ({ qid: a.question.id, chosen: a.chosen, correct: a.correct })),
       usedSeconds: usedSeconds.value,
@@ -134,7 +139,7 @@ function saveSession() {
 }
 function dropSession() {
   const rest = { ...store.quizSessions }
-  delete rest[subject.id]
+  delete rest[sessKey]
   store.quizSessions = rest
 }
 
@@ -197,7 +202,7 @@ function finish() {
 
 function exitQuiz() {
   saveSession()
-  router.push(block ? '/tinta/plan' : `/materie/${subject.id}?tab=grile`)
+  router.push(block ? '/tinta/plan' : cursId ? '/cursuri' : `/materie/${subject.id}?tab=grile`)
 }
 
 function restart() {
@@ -235,10 +240,10 @@ const ago = (t) => {
     <!-- Alegerea grilelor -->
     <template v-if="phase === 'setup'">
       <header class="flex items-center gap-3">
-        <BackButton :to="`/materie/${subject.id}?tab=grile`" history />
+        <BackButton :to="cursId ? '/cursuri' : `/materie/${subject.id}?tab=grile`" history />
         <div>
           <h1 class="text-2xl font-black">{{ subject.emoji }} Grile</h1>
-          <p class="text-sm font-semibold text-muted">{{ subject.name }}</p>
+          <p class="text-sm font-semibold text-muted">{{ cursId ? `📘 ${cursName}` : subject.name }}</p>
         </div>
       </header>
 
@@ -276,7 +281,7 @@ const ago = (t) => {
           </div>
         </div>
 
-        <div v-if="topics.length">
+        <div v-if="topics.length && !cursId">
           <p class="label">Subiect <span class="font-semibold text-muted">(opțional)</span></p>
           <div class="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
             <button
@@ -291,7 +296,7 @@ const ago = (t) => {
           </div>
         </div>
 
-        <div>
+        <div v-if="!cursId">
           <p class="label">Sursa</p>
           <SourceChips :counts="counts" />
         </div>
@@ -315,7 +320,7 @@ const ago = (t) => {
 
     <template v-else>
       <header class="flex items-center gap-3">
-        <BackButton v-if="finished" icon="close" :to="block ? '/tinta/plan' : `/materie/${subject.id}?tab=grile`" />
+        <BackButton v-if="finished" icon="close" :to="block ? '/tinta/plan' : cursId ? '/cursuri' : `/materie/${subject.id}?tab=grile`" />
         <button v-else class="btn btn-white px-3 py-2" aria-label="Pauză" @click="paused = true">⏸</button>
         <div class="h-4 flex-1 overflow-hidden rounded-full bg-gray-200">
           <div

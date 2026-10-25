@@ -87,10 +87,10 @@ function submit() {
       :to="`/import-ai?materie=${subjectId}`"
       class="card flex items-center gap-3 p-4 transition-transform active:translate-y-[2px]"
     >
-      <span class="text-3xl">🤖</span>
+      <span class="text-3xl">📚</span>
       <span class="flex-1">
-        <span class="block font-black">Grile din curs, cu chatbotul tău <span class="chip bg-amber-100 text-amber-700">test</span></span>
-        <span class="block text-sm font-semibold text-muted">Copiezi un prompt în ChatGPT/Gemini/Claude și lipești răspunsul</span>
+        <span class="block font-black">Încarcă un curs (PDF / PPTX)</span>
+        <span class="block text-sm font-semibold text-muted">Grile, cartonașe și rezumat din cursul tău, cu AI (cu cod de invitație) sau cu chatbotul tău</span>
       </span>
       <AppIcon name="forward" class="text-muted" />
     </RouterLink>

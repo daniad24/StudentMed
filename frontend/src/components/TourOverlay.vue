@@ -7,6 +7,7 @@ import { useAppStore } from '../stores/app'
 // `target` = valoarea atributului data-tour; fără target, cardul apare în mijlocul ecranului.
 const STEPS = [
   { route: '/', title: 'Bun venit în Steto! 👋', text: 'Îți arătăm în aproximativ un minut ce poți face aici. Poți sări oricând peste tur.' },
+  { route: '/', target: 'cursuri', title: 'Cursurile tale 📚', text: 'Încarci PDF-ul sau PPT-ul de la facultate și primești grile, cartonașe și rezumat din el. Rămân pe telefonul tău și le poți regenera oricând, fără să-l mai încarci.' },
   { route: '/', target: 'streak', title: 'Seria ta 🔥', text: 'Câte zile la rând ai învățat. Câteva cartonașe pe zi sunt de ajuns ca s-o păstrezi.' },
   { route: '/', target: 'tinta', title: 'Ai test? Pregătește-te la țintă 🎯', text: 'Alegi materia, subiectele din test și cât timp ai, iar aplicația îți face un plan: rezumate, cartonașe, grile și un caz clinic. Pentru ultima seară există modul „Seara dinainte”.' },
   { route: '/', target: 'pauza', title: 'Pauza de gardă ⏱️', text: '10 grile în 3 minute, cu explicații. Grilele greșite devin automat cartonașe de repetat.' },

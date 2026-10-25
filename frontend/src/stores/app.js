@@ -64,7 +64,7 @@ const DEMO_RIVALS = [
 const KEYS = [
   'user', 'isAdmin', 'theme', 'streak', 'cardState', 'votes', 'recommendedOverrides', 'reports',
   'myMaterials', 'myCards', 'quizCards', 'quizHistory', 'examHistory', 'answerLog', 'activity', 'leaderboardOptIn',
-  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter', 'timerOn', 'quizPrefs', 'quizSessions', 'starred', 'missed', 'aiDensity',
+  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter', 'timerOn', 'quizPrefs', 'quizSessions', 'starred', 'missed', 'aiDensity', 'courses',
 ]
 
 // Carnetul de abilități practice: nivelul atins pentru fiecare manevră/examinare.
@@ -104,6 +104,7 @@ export const useAppStore = defineStore('app', () => {
   const quizPrefs = ref({ size: 10, mode: 'mix', ...(saved.quizPrefs ?? {}) }) // size 0 = toate; mode mix | new | wrong
   const quizSessions = ref(saved.quizSessions ?? {}) // quiz-uri lăsate la jumătate, pe materie
   const starred = ref(saved.starred ?? []) // grile marcate cu ⭐ pentru revăzut
+  const courses = ref(saved.courses ?? {}) // cursurile încărcate de student: { id: { name, subjectId, createdAt } } (textul stă în IndexedDB)
   const aiDensity = ref(saved.aiDensity ?? 'standard') // câte grile și cartonașe cere de la AI: rapid | standard | complet
   const missed = ref(saved.missed ?? { date: '', ids: [] }) // cartonașe pe care nu le-ai știut azi
   const sourceFilter = ref(saved.sourceFilter ?? 'all') // all | steto | ai | mine – ce fel de conținut exersezi
@@ -114,7 +115,7 @@ export const useAppStore = defineStore('app', () => {
   const refs = {
     user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
     myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter, timerOn, quizPrefs, quizSessions, starred, missed, aiDensity,
+    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter, timerOn, quizPrefs, quizSessions, starred, missed, aiDensity, courses,
   }
   watch(
     KEYS.map((k) => refs[k]),
@@ -505,6 +506,27 @@ export const useAppStore = defineStore('app', () => {
     starred.value = starred.value.includes(qid) ? starred.value.filter((x) => x !== qid) : [...starred.value, qid]
   }
 
+  function registerCourse(id, name, subjectId, createdAt = Date.now()) {
+    courses.value = { ...courses.value, [id]: { name, subjectId, createdAt } }
+  }
+  function renameCourse(id, name) {
+    if (courses.value[id]) courses.value = { ...courses.value, [id]: { ...courses.value[id], name } }
+  }
+  // alsoContent: șterge și grilele, cartonașele și rezumatele generate din curs
+  function forgetCourse(id, alsoContent = false) {
+    const rest = { ...courses.value }
+    delete rest[id]
+    courses.value = rest
+    if (alsoContent) removeAiCourse(id)
+  }
+  // Tot ce s-a generat dintr-un curs, pentru cardul lui.
+  function courseContent(courseId) {
+    const qs = myQuestions.value.filter((q) => q.courseId === courseId)
+    const cards = myCards.value.filter((c) => c.courseId === courseId)
+    const sums = myMaterials.value.filter((m) => m.courseId === courseId && m.type === 'summary')
+    return { questions: qs.length, cards: cards.length, summaries: sums, ...courseStats(courseId) }
+  }
+
   // Cât ai rezolvat și cât ai nimerit din grilele generate dintr-un curs (după ultimul răspuns la fiecare).
   function courseStats(courseId) {
     const qs = myQuestions.value.filter((q) => q.courseId === courseId)
@@ -521,6 +543,7 @@ export const useAppStore = defineStore('app', () => {
     return last
   }
 
+  // Planul „la țintă” pe subiectele alese din conținutul Steto.
   // mode: 'tinta' (timp în minute) | 'seara' (esențial + greșeli + cartonașe slabe + test final)
   function buildPlan(subjectId, topicIds, mode, minutes = 60) {
     const ids = idsInTopics(subjectId, topicIds)
@@ -533,6 +556,21 @@ export const useAppStore = defineStore('app', () => {
       .sort((a, b) => cardRank(a) - cardRank(b))
     const summaries = mock.materials.filter((m) => m.type === 'summary' && ids.has(m.id))
     const cases = mock.clinical[subjectId]?.cases.filter((c) => ids.has(c.id)) ?? []
+    return makePlan({ subjectId, topicIds }, qs, cards, summaries, cases, mode, minutes, last)
+  }
+
+  // Planul „la țintă” din cursul încărcat de student: grilele, cartonașele și rezumatul generate din el.
+  function buildCoursePlan(courseId, subjectId, courseName, mode, minutes = 60) {
+    const last = lastAnswers(subjectId)
+    const rank = (q) => (last[q.id] === false ? 0 : last[q.id] === undefined ? 1 : 2)
+    const qs = myQuestions.value.filter((q) => q.courseId === courseId).sort((a, b) => rank(a) - rank(b) || Math.random() - 0.5)
+    const cards = allCards.value.filter((c) => c.courseId === courseId).sort((a, b) => (cardState.value[a.id]?.box ?? 0) - (cardState.value[b.id]?.box ?? 0))
+    const summaries = allMaterials.value.filter((m) => m.type === 'summary' && m.courseId === courseId)
+    return makePlan({ subjectId, topicIds: [], courseId, courseName }, qs, cards, summaries, [], mode, minutes, last)
+  }
+
+  function makePlan(meta, qs, cards, summaries, cases, mode, minutes, last) {
+    const { subjectId, topicIds } = meta
     const blocks = []
     if (mode === 'seara') {
       const wrongQs = qs.filter((q) => last[q.id] === false)
@@ -564,7 +602,7 @@ export const useAppStore = defineStore('app', () => {
       if (nQ) blocks.push({ key: 'quiz', kind: 'quiz', title: 'Grile', note: `${nQ} grile, întâi cele greșite sau nevăzute`, minutes: nQ, questionIds: qs.slice(0, nQ).map((q) => q.id) })
       if (useCase) blocks.push({ key: 'case', kind: 'case', title: 'Caz clinic', note: useCase.title, minutes: caseMin, caseId: useCase.id })
     }
-    targetSession.value = { subjectId, mode, minutes, topicIds, blocks, done: [], rewarded: false }
+    targetSession.value = { ...meta, mode, minutes, blocks, done: [], rewarded: false }
     return targetSession.value
   }
 
@@ -640,8 +678,8 @@ export const useAppStore = defineStore('app', () => {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     examDates, caseProgress, skillStatus, myQuestions, addAiContent, aiCountFor, removeAiCourse, clearAiContent,
-    sourceFilter, timerOn, quizPrefs, quizSessions, starred, aiDensity, saveFailed, toggleStar, missedToday, practiceCard, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
-    targetSession, topicsFor, buildPlan, completeBlock, toggleBlock,
+    sourceFilter, timerOn, quizPrefs, quizSessions, starred, aiDensity, courses, registerCourse, renameCourse, forgetCourse, courseContent, saveFailed, toggleStar, missedToday, practiceCard, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
+    targetSession, topicsFor, buildPlan, buildCoursePlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,
     currentStreak, studiedToday, markStudied, totalXp, weekXp, leaderboard,

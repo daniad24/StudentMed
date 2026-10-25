@@ -37,14 +37,15 @@ function link(b) {
 <template>
   <div v-if="session" class="space-y-4">
     <header class="flex items-center gap-3 slide-up">
-      <BackButton to="/tinta" />
+      <BackButton :to="session.courseId ? '/cursuri' : '/tinta'" />
       <div class="min-w-0">
         <h1 class="truncate text-xl font-black">{{ session.mode === 'seara' ? '🌙 Seara dinainte' : '🎯 Planul tău' }}</h1>
-        <p class="truncate text-sm font-semibold text-muted">{{ subject?.emoji }} {{ subject?.name }} · ~{{ totalMinutes }} min</p>
+        <p class="truncate text-sm font-semibold text-muted">{{ subject?.emoji }} {{ session.courseName ?? subject?.name }} · ~{{ totalMinutes }} min</p>
       </div>
     </header>
 
-    <p class="text-xs font-semibold text-muted">Subiecte: {{ topicNames.join(' · ') }}</p>
+    <p v-if="session.courseId" class="text-xs font-semibold text-muted">📘 Din cursul tău, cu grilele și cartonașele generate din el.</p>
+    <p v-else class="text-xs font-semibold text-muted">Subiecte: {{ topicNames.join(' · ') }}</p>
 
     <div v-if="!session.blocks.length" class="card p-5 text-center">
       <p class="text-3xl">🤷</p>

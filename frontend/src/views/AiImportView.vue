@@ -42,7 +42,12 @@ const courses = ref([])
 const course = ref(null) // cursul deschis acum; null pentru text lipit de mână
 const courseNote = ref('')
 const refreshCourses = async () => (courses.value = await listCourses())
-onMounted(refreshCourses)
+onMounted(async () => {
+  await refreshCourses()
+  // ?curs=<id>: deschis din „Cursurile mele”
+  const wanted = courses.value.find((c) => c.id === route.query.curs)
+  if (wanted) openCourse(wanted)
+})
 
 const subjectName = (id) => subjects.find((s) => s.id === id)?.name ?? id
 const statsOf = (c) => store.courseStats(c.id)
@@ -255,8 +260,9 @@ async function onFile(e) {
 async function saveAsCourse(file) {
   const c = { id: newCourseId(), name: file.name.replace(/\.(pdf|pptx)$/i, ''), subjectId: subjectId.value, text: text.value, createdAt: Date.now(), gen: null }
   if (await putCourse(c)) {
+    store.registerCourse(c.id, c.name, c.subjectId, c.createdAt)
     course.value = c
-    courseNote.value = 'Am păstrat cursul în telefon. Data viitoare îl găsești la „Cursurile tale”, fără să-l mai încarci.'
+    courseNote.value = 'Am păstrat cursul în telefon. Îl găsești oricând la „Cursurile mele” de pe Acasă, fără să-l mai încarci.'
     refreshCourses()
   }
 }
@@ -299,6 +305,8 @@ function check() {
   error.value = ''
   try {
     result.value = parseAiResponse(raw.value)
+    lastRun.value = { indices: [], full: false, chatbot: true }
+    replaceOld.value = false
     phase.value = 'review'
   } catch (err) {
     error.value = err.message
@@ -319,7 +327,7 @@ async function save() {
   const summary = summaryOn.value ? { title: summaryTitle.value.trim() || `Rezumat AI – ${subject.value.name}`, content: result.value.summary } : null
   const c = course.value
   const fromCourse = c && lastRun.value.indices.length
-  store.addAiContent(subjectId.value, keptQ.value, keptC.value, summary, fromCourse ? { courseId: c.id, promptVersion: PROMPT_VERSION, replace: replaceOld.value } : {})
+  store.addAiContent(subjectId.value, keptQ.value, keptC.value, summary, c && (fromCourse || lastRun.value.chatbot) ? { courseId: c.id, promptVersion: PROMPT_VERSION, replace: replaceOld.value } : {})
   if (fromCourse) {
     const sameRules = c.gen?.version === PROMPT_VERSION && !replaceOld.value
     const done = [...new Set([...(sameRules ? c.gen.done : []), ...lastRun.value.indices])].sort((a, b) => a - b)
@@ -346,14 +354,14 @@ function again() {
     <header class="flex items-center gap-3 slide-up">
       <BackButton to="/adauga" history />
       <div>
-        <h1 class="text-2xl font-black">🤖 Grile cu chatbotul tău</h1>
-        <p class="text-sm font-semibold text-muted">Funcție de test. Nimic nu pleacă din aplicație: tu duci textul în chatbot.</p>
+        <h1 class="text-2xl font-black">📚 Încarcă un curs</h1>
+        <p class="text-sm font-semibold text-muted">PDF sau PPTX → grile, cartonașe și rezumat. Cursul rămâne pe telefonul tău.</p>
       </div>
     </header>
 
     <template v-if="phase === 'edit'">
       <section v-if="courses.length" class="card space-y-2 p-5">
-        <h2 class="font-black">📚 Cursurile tale</h2>
+        <h2 class="flex items-baseline justify-between font-black">📚 Cursurile tale <RouterLink to="/cursuri" class="text-sm text-brand-600">Deschide lista ›</RouterLink></h2>
         <p class="text-xs font-semibold text-muted">Păstrate doar pe acest telefon. Le poți genera din nou fără să le mai încarci.</p>
         <div v-for="c in courses" :key="c.id" class="flex items-center gap-2 rounded-xl border-2 p-3" :class="course?.id === c.id ? 'border-brand-500 bg-brand-50' : 'border-gray-200'">
           <button class="min-w-0 flex-1 text-left" @click="openCourse(c)">

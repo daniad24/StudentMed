@@ -54,9 +54,13 @@ const recommended = computed(() => {
 })
 
 const subjectById = (id) => subjects.find((s) => s.id === id)
+const courseCount = computed(() => Object.keys(store.courses).length)
 const unfinished = computed(() =>
   Object.entries(store.quizSessions)
-    .map(([id, s]) => ({ id, name: subjectById(id)?.name, done: s.answers.length, total: s.ids.length, at: s.savedAt }))
+    .map(([key, s]) => {
+      const [id, curs] = key.split('#')
+      return { key, id, curs, name: curs ? store.courses[curs]?.name : subjectById(id)?.name, done: s.answers.length, total: s.ids.length, at: s.savedAt }
+    })
     .filter((r) => r.name)
     .sort((a, b) => b.at - a.at)
     .slice(0, 2),
@@ -179,6 +183,24 @@ const unfinished = computed(() =>
       </div>
     </RouterLink>
 
+    <!-- Cursurile studentului: ce a încărcat el e miezul aplicației -->
+    <RouterLink
+      to="/cursuri"
+      data-tour="cursuri"
+      class="block rounded-3xl border-b-4 border-[#15803d] bg-gradient-to-br from-brand-500 to-brand-600 p-5 text-white transition-transform active:translate-y-[2px] slide-up"
+    >
+      <div class="flex items-center gap-4">
+        <div class="text-5xl">📚</div>
+        <div class="flex-1">
+          <p class="text-xl font-black">{{ courseCount ? 'Cursurile mele' : 'Încarcă primul tău curs' }}</p>
+          <p class="text-sm font-semibold text-white/90">
+            {{ courseCount ? `${courseCount} ${courseCount === 1 ? 'curs' : 'cursuri'} · grile, cartonașe și rezumate din PDF-urile și PPT-urile tale` : 'PDF sau PPT de la facultate → grile, cartonașe și rezumat, gata de învățat.' }}
+          </p>
+        </div>
+        <AppIcon name="forward" :size="28" />
+      </div>
+    </RouterLink>
+
     <!-- Ce n-ai știut azi -->
     <RouterLink
       v-if="store.missedToday.length"
@@ -196,8 +218,8 @@ const unfinished = computed(() =>
     <!-- Quiz-uri lăsate la jumătate -->
     <RouterLink
       v-for="r in unfinished"
-      :key="r.id"
-      :to="`/pauza/${r.id}`"
+      :key="r.key"
+      :to="`/pauza/${r.id}${r.curs ? `?curs=${r.curs}` : ''}`"
       class="card flex items-center gap-4 border-sky-400 p-4 transition-transform active:translate-y-[2px] slide-up"
     >
       <span class="text-3xl">⏸</span>

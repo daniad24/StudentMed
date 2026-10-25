@@ -12,15 +12,18 @@ const router = useRouter()
 const store = useAppStore()
 
 // „azi” = cartonașele pe care nu le-ai știut azi, din toate materiile
+const cursId = route.query.curs ? String(route.query.curs) : ''
 const mixed = route.params.subjectId === 'azi'
 const subject = mixed ? { id: 'azi', emoji: '🔁', name: 'Ce n-ai știut azi' } : subjects.find((s) => s.id === route.params.subjectId)
 const block = route.query.bloc ? store.targetSession?.blocks.find((b) => b.key === route.query.bloc) : null
-const source = mixed
+const source = cursId
+  ? store.cardsFor(subject.id).filter((c) => c.courseId === cursId)
+  : mixed
   ? store.missedToday.map((id) => store.allCards.find((c) => c.id === id)).filter(Boolean)
   : block
   ? block.cardIds.map((id) => store.allCards.find((c) => c.id === id)).filter(Boolean)
   : route.query.toate ? store.cardsFor(subject.id, store.sourceFilter) : store.dueCardsFor(subject.id, store.sourceFilter)
-const backTo = block ? '/tinta/plan' : mixed ? '/' : `/materie/${subject.id}?tab=flashcards`
+const backTo = block ? '/tinta/plan' : cursId ? '/cursuri' : mixed ? '/' : `/materie/${subject.id}?tab=flashcards`
 const practice = ref(mixed) // repetare în aceeași zi: nu schimbă calendarul de repetiție
 const all = [...source].sort(() => Math.random() - 0.5)
 // Sesiune lungă: studentul alege câte cartonașe face acum (restul rămân pentru mai târziu).
