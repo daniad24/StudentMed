@@ -28,8 +28,8 @@ export default async function handler(req, res) {
   if ((await incr(`ai:use:${day}:${found.code}`)) > perCode) return res.status(429).json({ error: `Ai folosit toate cele ${perCode} apeluri de azi. Revino mâine.` })
   if ((await incr(`ai:use:${day}:ALL`)) > total) return res.status(429).json({ error: 'Limita zilnică a aplicației a fost atinsă. Revino mâine.' })
 
-  const questions = Math.min(int(body.questions, 8), 15)
-  const cards = Math.min(int(body.cards, 8), 15)
+  const questions = Math.min(int(body.questions, 8), 25)
+  const cards = Math.min(int(body.cards, 8), 25)
   try {
     const raw = await generate(buildPrompt({ subjectName, text, questions, cards }))
     return res.status(200).json({ raw, label: found.label })

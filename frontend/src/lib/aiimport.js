@@ -4,7 +4,7 @@
 export const CHUNK_CHARS = 9000
 
 // Crește când schimbăm regulile promptului; cursurile generate cu o versiune mai veche pot fi regenerate.
-export const PROMPT_VERSION = 2
+export const PROMPT_VERSION = 3
 
 export function splitText(text, size = CHUNK_CHARS) {
   const clean = text.replace(/\r/g, '').replace(/\n{3,}/g, '\n\n').trim()
@@ -49,7 +49,7 @@ Reguli:
 - Fiecare grilă are câmpul „evidence”: o propoziție copiată cuvânt cu cuvânt din text, care susține răspunsul corect. Fără o astfel de propoziție, nu face grila.
 - „explanation” trebuie să fie în acord cu „answer”: toate variantele corecte apar în explicație, iar cele greșite nu.
 - Nu face două grile despre același lucru.
-- Fă ${questions} grile și ${cards} cartonașe${summary ? ' și un rezumat al textului' : ''}.
+- Fă aproximativ ${questions} grile și ${cards} cartonașe${summary ? ' și un rezumat al textului' : ''}. Acoperă toate ideile importante din text, una câte una, fără să repeți. Dacă textul nu are destul conținut, fă mai puține în loc să inventezi.
 - Fiecare grilă are exact 5 variante. Poate avea unul sau mai multe răspunsuri corecte (complement simplu sau multiplu, ca la examenele din facultate).
 - „answer” = indicii variantelor corecte, începând de la 0.
 - „explanation” = o propoziție care spune de ce e corect, bazată pe text.

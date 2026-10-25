@@ -34,7 +34,7 @@ let cancelled = false
 let wakeLock = null
 
 // Pentru AI folosim bucăți mai mari decât pentru chatbot (AI-ul primește mult text deodată).
-const AI_CHUNK = 16000
+const AI_CHUNK = 8000
 const aiChunks = computed(() => splitText(text.value, AI_CHUNK))
 
 // --- Cursurile tale (păstrate în telefon) ---
@@ -96,12 +96,13 @@ class ApiError extends Error {
 }
 
 async function callGenerate(chunk, per) {
+  // per = { q, c }: câte grile și cartonașe cerem pentru bucata asta
   let r
   try {
     r = await fetch('/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: store.aiCode.code, text: chunk, subjectName: subject.value.name, questions: per, cards: per }),
+      body: JSON.stringify({ code: store.aiCode.code, text: chunk, subjectName: subject.value.name, questions: per.q, cards: per.c }),
     })
   } catch {
     throw new ApiError('Nu am putut contacta serverul. Verifică internetul.', 0)
@@ -139,7 +140,7 @@ async function generateChunks(chunks, per, indices = null) {
       let res
       for (let attempt = 0; attempt < 2 && !res; attempt++) {
         try {
-          res = await callGenerate(chunks[i], per)
+          res = await callGenerate(chunks[i], per(chunks[i]))
         } catch (e) {
           // cod invalid / limită atinsă / lipsă cheie: nu are rost să continuăm
           if (e.status === 401 || e.status === 429 || (e.status === 503 && /cheie/.test(e.message))) {
@@ -192,9 +193,23 @@ async function generateChunks(chunks, per, indices = null) {
   }
 }
 
-const generateWithAi = () => generateChunks([parts.value[part.value] ?? parts.value[0]], 8)
-const generateAll = () => generateChunks(aiChunks.value, 6, aiChunks.value.map((_, i) => i))
-const generateMissing = () => generateChunks(missingParts.value.map((i) => aiChunks.value[i]), 6, missingParts.value)
+// Câte elemente cerem depinde de cât text e în bucată: mai mult text = mai multe grile și cartonașe.
+const DENSITY = {
+  rapid: { label: 'Rapid', hint: 'cele mai importante', per: 1400 },
+  standard: { label: 'Standard', hint: 'echilibrat', per: 700 },
+  complet: { label: 'Complet', hint: 'cât mai mult din curs', per: 400 },
+}
+const perFor = (chunk) => {
+  const q = Math.min(25, Math.max(3, Math.round(chunk.length / DENSITY[store.aiDensity].per)))
+  return { q, c: Math.min(25, Math.round(q * 1.3)) }
+}
+const estimate = computed(() => {
+  const chunks = aiChunks.value.length ? aiChunks.value : parts.value
+  return chunks.reduce((t, ch) => ({ q: t.q + perFor(ch).q, c: t.c + perFor(ch).c }), { q: 0, c: 0 })
+})
+const generateWithAi = () => generateChunks([parts.value[part.value] ?? parts.value[0]], perFor)
+const generateAll = () => generateChunks(aiChunks.value, perFor, aiChunks.value.map((_, i) => i))
+const generateMissing = () => generateChunks(missingParts.value.map((i) => aiChunks.value[i]), perFor, missingParts.value)
 const cancelAll = () => (cancelled = true)
 onUnmounted(() => (cancelled = true))
 
@@ -392,9 +407,18 @@ function again() {
       <section v-if="prompt && store.aiCode" class="card space-y-3 border-brand-500 p-5">
         <h2 class="font-black">2. Generează cu AI <span class="chip bg-brand-100 text-brand-700">cod: {{ store.aiCode.label }}</span></h2>
         <p class="text-sm font-semibold text-muted">
-          Textul de mai sus (partea selectată) se trimite la un serviciu de AI, care întoarce 8 grile și 8 cartonașe. Nu trimite materiale pe care nu ai voie să le dai mai departe.
+          Textul de mai sus se trimite la un serviciu de AI, care îți întoarce grile, cartonașe și un rezumat. Nu trimite materiale pe care nu ai voie să le dai mai departe.
         </p>
         <p v-if="aiError" class="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-600 shake">{{ aiError }}</p>
+        <div class="space-y-2">
+          <p class="label">Câte grile și cartonașe</p>
+          <div class="grid grid-cols-3 gap-2">
+            <button v-for="(d, id) in DENSITY" :key="id" class="btn flex-col gap-0 px-2 py-2 text-sm" :class="store.aiDensity === id ? 'btn-primary' : 'btn-white'" @click="store.aiDensity = id">
+              {{ d.label }}<span class="text-[10px] font-bold normal-case opacity-80">{{ d.hint }}</span>
+            </button>
+          </div>
+          <p class="text-sm font-bold text-muted">≈ {{ estimate.q }} grile și {{ estimate.c }} cartonașe din {{ aiChunks.length > 1 ? 'tot cursul' : 'text' }}, înainte de filtrare.</p>
+        </div>
         <p v-if="oldRules" class="rounded-xl bg-amber-50 px-3 py-2 text-sm font-bold text-amber-800">
           Între timp am îmbunătățit regulile AI-ului (grile luate strict din curs, fără duplicate). Poți genera din nou cursul; la salvare, ce era generat înainte din el se înlocuiește.
         </p>
@@ -412,7 +436,7 @@ function again() {
           {{ generating ? '⏳ Generez… (până la un minut)' : course?.gen ? `🔁 Generează din nou tot cursul (${aiChunks.length} ${aiChunks.length === 1 ? 'parte' : 'părți'})` : aiChunks.length > 1 ? `✨ Generează din tot cursul (${aiChunks.length} părți)` : '✨ Generează grile și cartonașe' }}
         </button>
         <button v-if="aiChunks.length > 1 && !generating" class="btn btn-white w-full text-sm" @click="generateWithAi">Doar partea {{ part + 1 }} (încercare rapidă)</button>
-        <p v-if="aiChunks.length > 1" class="text-xs font-semibold text-muted">Tot cursul = {{ aiChunks.length }} apeluri, cam {{ Math.ceil(aiChunks.length / 3) }}–{{ Math.ceil(aiChunks.length / 3) * 2 }} minute. Fiecare parte dă ~6 grile și ~6 cartonașe; la final alegi ce păstrezi.</p>
+        <p v-if="aiChunks.length > 1" class="text-xs font-semibold text-muted">Tot cursul = {{ aiChunks.length }} apeluri, cam {{ Math.ceil(aiChunks.length / 3) }}–{{ Math.ceil(aiChunks.length / 3) * 2 }} minute. La final alegi ce păstrezi; grilele fără citat din text sunt omise.</p>
       </section>
       <p v-else-if="prompt" class="rounded-xl bg-gray-100 px-3 py-2 text-sm font-semibold text-muted">
         Ai cod de invitație? Îl introduci în Profil și apare aici butonul de generare cu AI. Fără cod, folosește chatbotul tău, mai jos.
