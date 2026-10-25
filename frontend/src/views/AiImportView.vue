@@ -7,6 +7,7 @@ import { AI_IMPORT } from '../lib/flags'
 import { PROMPT_VERSION, buildPrompt, isBoilerplatePage, parseAiResponse, sameQuestion, splitText } from '../lib/aiimport'
 import { deleteCourse, listCourses, newCourseId, putCourse } from '../lib/courses'
 import { extractSlides } from '../lib/slides'
+import { MAX_MB, sizeError } from '../lib/limits'
 import { slideText, slidesToText } from '../lib/slidesText'
 import { correctTexts } from '../lib/quiz'
 import BackButton from '../components/BackButton.vue'
@@ -23,6 +24,7 @@ const parts = computed(() => splitText(text.value))
 const prompt = computed(() => (parts.value.length ? buildPrompt({ subjectName: subject.value.name, text: parts.value[part.value] ?? parts.value[0] }) : ''))
 const copied = ref(false)
 const reading = ref(false)
+const readProgress = ref({ done: 0, total: 0 })
 const fileError = ref('')
 const skippedPages = ref(0)
 
@@ -34,7 +36,7 @@ let cancelled = false
 let wakeLock = null
 
 // Pentru AI folosim bucăți mai mari decât pentru chatbot (AI-ul primește mult text deodată).
-const AI_CHUNK = 8000
+const AI_CHUNK = 12000
 const aiChunks = computed(() => splitText(text.value, AI_CHUNK))
 
 // --- Cursurile tale (păstrate în telefon) ---
@@ -42,7 +44,24 @@ const courses = ref([])
 const course = ref(null) // cursul deschis acum; null pentru text lipit de mână
 const courseNote = ref('')
 const refreshCourses = async () => (courses.value = await listCourses())
+
+// Cât mai poate genera codul azi (ca să avertizăm înainte de un curs foarte mare)
+const usage = ref(null)
+async function loadUsage() {
+  if (!store.aiCode) return
+  try {
+    const r = await fetch('/api/check-code', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: store.aiCode.code }) })
+    if (r.ok) usage.value = await r.json()
+  } catch {
+    // fără internet: fără avertisment
+  }
+}
+const remainingToday = computed(() => (usage.value?.limit ? Math.max(usage.value.limit - usage.value.used, 0) : null))
+// text foarte lung (sute de pagini): nu îl afișăm în casetă, ca să nu încetinim telefonul
+const isLong = computed(() => text.value.length > 120000)
+
 onMounted(async () => {
+  loadUsage()
   await refreshCourses()
   // ?curs=<id>: deschis din „Cursurile mele”
   const wanted = courses.value.find((c) => c.id === route.query.curs)
@@ -235,11 +254,13 @@ async function onFile(e) {
   const file = e.target.files?.[0]
   e.target.value = ''
   if (!file) return
-  fileError.value = ''
+  fileError.value = sizeError(file)
+  if (fileError.value) return
   reading.value = true
   scanned.value = []
   try {
-    const slides = await extractSlides(file)
+    readProgress.value = { done: 0, total: 0 }
+    const slides = await extractSlides(file, (done, total) => (readProgress.value = { done, total }))
     const kept = slides.filter((sl) => sl.empty || !isBoilerplatePage(slideText(sl)))
     skippedPages.value = slides.length - kept.length
     loadedSlides = kept
@@ -387,9 +408,10 @@ function again() {
           </select>
         </div>
         <label class="btn btn-white block w-full cursor-pointer text-center" :class="reading && 'pointer-events-none opacity-60'">
-          {{ reading ? '⏳ Citesc fișierul…' : '📤 Ia textul dintr-un PPTX/PDF' }}
+          {{ reading ? `⏳ Citesc ${readProgress.total ? `pagina ${readProgress.done} din ${readProgress.total}` : 'fișierul'}…` : '📤 Alege un PDF sau PPTX' }}
           <input type="file" accept=".pptx,.pdf" class="hidden" @change="onFile" />
         </label>
+        <p class="text-xs font-semibold text-muted">PDF până la {{ MAX_MB.pdf }} MB (cam 300 de pagini pline) · PPTX până la {{ MAX_MB.pptx }} MB. Fișierul nu pleacă de pe telefon.</p>
         <p v-if="fileError" class="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-600">{{ fileError }}</p>
         <p v-if="courseNote" class="text-sm font-semibold text-brand-700">{{ courseNote }}</p>
         <div v-if="scanned.length || ocr.running" class="space-y-2 rounded-xl bg-sky-50 p-3">
@@ -409,7 +431,11 @@ function again() {
         </div>
         <p v-if="skippedPages" class="text-sm font-semibold text-muted">Am lăsat deoparte {{ skippedPages }} {{ skippedPages === 1 ? 'pagină administrativă' : 'pagini administrative' }} (drepturi de autor, titlu, cuprins).</p>
         <p class="rounded-xl bg-amber-50 px-3 py-2 text-xs font-bold text-amber-800">Folosește doar materiale pe care ai voie să le procesezi. Rezultatele rămân pe telefonul tău, dar textul se trimite la un serviciu de AI.</p>
-        <textarea v-model="text" rows="6" class="input" placeholder="…sau lipește aici textul din curs" @input="onTextInput"></textarea>
+        <div v-if="isLong" class="flex items-center gap-3 rounded-xl bg-gray-100 p-3">
+          <p class="flex-1 text-sm font-bold text-muted">Textul extras are {{ text.length.toLocaleString('ro-RO') }} de caractere ({{ aiChunks.length }} părți). Nu îl afișăm întreg, ca să meargă repede.</p>
+          <button class="shrink-0 text-sm font-bold text-brand-600" @click="text = ''; course = null">Șterge</button>
+        </div>
+        <textarea v-else v-model="text" rows="6" class="input" placeholder="…sau lipește aici textul din curs" @input="onTextInput"></textarea>
         <p v-if="parts.length > 1" class="text-sm font-semibold text-muted">
           Textul e lung, așa că îl împărțim în {{ parts.length }} părți ca să încapă într-un chatbot gratuit.
         </p>
@@ -430,6 +456,9 @@ function again() {
           </div>
           <p class="text-sm font-bold text-muted">≈ {{ estimate.q }} grile și {{ estimate.c }} cartonașe din {{ aiChunks.length > 1 ? 'tot cursul' : 'text' }}, înainte de filtrare.</p>
         </div>
+        <p v-if="remainingToday !== null && aiChunks.length > remainingToday" class="rounded-xl bg-amber-50 px-3 py-2 text-sm font-bold text-amber-800">
+          Cursul are {{ aiChunks.length }} părți, iar azi mai ai {{ remainingToday }} generări. Se oprește singur când se termină; mâine apeși „Continuă” și face restul, fără să încarci din nou fișierul.
+        </p>
         <p v-if="oldRules" class="rounded-xl bg-amber-50 px-3 py-2 text-sm font-bold text-amber-800">
           Între timp am îmbunătățit regulile AI-ului (grile luate strict din curs, fără duplicate). Poți genera din nou cursul; la salvare, ce era generat înainte din el se înlocuiește.
         </p>

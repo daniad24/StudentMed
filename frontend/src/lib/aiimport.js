@@ -4,7 +4,7 @@
 export const CHUNK_CHARS = 9000
 
 // Crește când schimbăm regulile promptului; cursurile generate cu o versiune mai veche pot fi regenerate.
-export const PROMPT_VERSION = 3
+export const PROMPT_VERSION = 4
 
 export function splitText(text, size = CHUNK_CHARS) {
   const clean = text.replace(/\r/g, '').replace(/\n{3,}/g, '\n\n').trim()

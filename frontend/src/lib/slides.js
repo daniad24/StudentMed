@@ -175,22 +175,40 @@ export async function loadPdfjs() {
   }
 }
 
+// Deschide PDF-ul fără să-l aducă întreg în memoria paginii: pdf.js citește bucăți din fișier (blob), după nevoie.
+// Dacă browserul nu permite asta, citim fișierul întreg (merge pentru PDF-uri mai mici).
+export async function openPdf(pdfjs, file) {
+  const url = URL.createObjectURL(file)
+  const attempts = [
+    () => pdfjs.getDocument({ url, rangeChunkSize: 1 << 20, disableAutoFetch: true }),
+    async () => pdfjs.getDocument({ data: await file.arrayBuffer() }),
+  ]
+  let lastErr
+  for (const make of attempts) {
+    let task
+    try {
+      task = await make()
+      const pdf = await task.promise
+      return { pdf, close: () => (task.destroy(), URL.revokeObjectURL(url)) }
+    } catch (err) {
+      task?.destroy()
+      lastErr = err
+      if (err?.name === 'PasswordException') break
+    }
+  }
+  URL.revokeObjectURL(url)
+  if (lastErr?.name === 'PasswordException') throw new ImportError('PDF-ul e protejat cu parolă.')
+  if (lastErr instanceof RangeError || /memory|allocation/i.test(lastErr?.message ?? '')) throw lastErr
+  throw new ImportError('PDF-ul nu a putut fi deschis (poate e deteriorat).')
+}
+
 async function extractPdf(file, onProgress) {
   const pdfjs = await loadPdfjs()
-
-  const task = pdfjs.getDocument({ data: await file.arrayBuffer() })
-  let pdf
-  try {
-    pdf = await task.promise
-  } catch (err) {
-    task.destroy()
-    if (err?.name === 'PasswordException') throw new ImportError('PDF-ul e protejat cu parolă.')
-    throw new ImportError('PDF-ul nu a putut fi deschis (poate e deteriorat).')
-  }
+  const { pdf, close } = await openPdf(pdfjs, file)
   try {
     return await readPdfPages(pdf, onProgress)
   } finally {
-    task.destroy()
+    close()
   }
 }
 

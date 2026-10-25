@@ -4,11 +4,12 @@ import { useRoute } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects, years } from '../data/mock'
 import { extractSlides } from '../lib/slides'
+import { MAX_MB, sizeError } from '../lib/limits'
 import { generateCards } from '../lib/cardgen'
 import BackButton from '../components/BackButton.vue'
 
 // PPTX se citește pe bucăți (memorie mică); PDF se citește întreg, deci limita e mai mică.
-const MAX_MB = { pptx: 500, pdf: 150 }
+
 const KIND_LABEL = { cloze: '✏️ Completează', definition: '📖 Definiție', list: '📋 Enumerare', manual: '✍️ Manual' }
 
 const route = useRoute()
@@ -34,13 +35,8 @@ async function onFile(e) {
   e.target.value = ''
   if (!file) return
   error.value = ''
-  const kind = file.name.toLowerCase().endsWith('.pdf') ? 'pdf' : 'pptx'
-  if (file.size > MAX_MB[kind] * 1024 * 1024) {
-    return (error.value =
-      kind === 'pdf'
-        ? `PDF-ul are ${Math.round(file.size / 1048576)} MB, iar limita e ${MAX_MB.pdf} MB. Salvează cursul ca .pptx (merge până la ${MAX_MB.pptx} MB) sau comprimă PDF-ul.`
-        : `Prezentarea are ${Math.round(file.size / 1048576)} MB, iar limita e ${MAX_MB.pptx} MB.`)
-  }
+  const tooBig = sizeError(file)
+  if (tooBig) return (error.value = tooBig)
 
   fileName.value = file.name
   progress.value = { done: 0, total: 0 }

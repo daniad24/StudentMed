@@ -10,7 +10,7 @@ import AppIcon from '../components/AppIcon.vue'
 
 const store = useAppStore()
 const router = useRouter()
-const AI_CHUNK = 8000 // aceeași mărime de bucată ca la generare
+const AI_CHUNK = 12000 // aceeași mărime de bucată ca la generare
 
 const stored = ref({}) // id -> curs din telefon (cu text și starea generării)
 const loading = ref(true)

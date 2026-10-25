@@ -1,6 +1,6 @@
 // Citirea paginilor scanate (poze fără text) cu OCR în română, direct în telefon.
 // Încărcat doar când studentul îl cere: motorul și datele limbii se descarcă o dată (câțiva MB) și cer internet.
-import { ImportError, loadPdfjs } from './slides'
+import { ImportError, loadPdfjs, openPdf } from './slides'
 
 const clean = (s) => s.replace(/\s+/g, ' ').trim()
 const BULLET = /^(?:[•▪●◦○■□▫‣·]|[-–—*]\s|\d{1,2}[.)]\s)/
@@ -34,9 +34,11 @@ export async function ocrPdfPages(file, pageNumbers, { onProgress = () => {}, sh
   const pdfjs = await loadPdfjs()
   let worker
   const out = {}
-  const task = pdfjs.getDocument({ data: await file.arrayBuffer() })
+  let closePdf = () => {}
   try {
-    const pdf = await task.promise
+    const opened = await openPdf(pdfjs, file)
+    const pdf = opened.pdf
+    closePdf = opened.close
     let tess
     try {
       tess = await import('tesseract.js')
@@ -62,7 +64,7 @@ export async function ocrPdfPages(file, pageNumbers, { onProgress = () => {}, sh
     }
   } finally {
     await worker?.terminate()
-    task.destroy()
+    closePdf()
   }
   return out
 }
