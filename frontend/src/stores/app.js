@@ -535,6 +535,14 @@ export const useAppStore = defineStore('app', () => {
   function registerCourse(id, name, subjectId, createdAt = Date.now()) {
     courses.value = { ...courses.value, [id]: { name, subjectId, createdAt } }
   }
+  // Cursul (și grilele, cartonașele, rezumatele din el) trece la altă materie.
+  function moveCourse(id, subjectId) {
+    if (courses.value[id]) courses.value = { ...courses.value, [id]: { ...courses.value[id], subjectId } }
+    const move = (x) => (x.courseId === id ? { ...x, subjectId } : x)
+    myQuestions.value = myQuestions.value.map(move)
+    myCards.value = myCards.value.map(move)
+    myMaterials.value = myMaterials.value.map(move)
+  }
   function renameCourse(id, name) {
     if (courses.value[id]) courses.value = { ...courses.value, [id]: { ...courses.value[id], name } }
   }
@@ -704,7 +712,7 @@ export const useAppStore = defineStore('app', () => {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     examDates, caseProgress, skillStatus, myQuestions, addAiContent, aiCountFor, removeAiCourse, clearAiContent,
-    sourceFilter, timerOn, quizPrefs, quizSessions, starred, aiDensity, courses, sourceKeyOf, sourceLabel, sourcesFor, registerCourse, renameCourse, forgetCourse, courseContent, saveFailed, toggleStar, missedToday, practiceCard, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
+    sourceFilter, timerOn, quizPrefs, quizSessions, starred, aiDensity, courses, sourceKeyOf, sourceLabel, sourcesFor, registerCourse, moveCourse, renameCourse, forgetCourse, courseContent, saveFailed, toggleStar, missedToday, practiceCard, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
     targetSession, topicsFor, buildPlan, buildCoursePlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,

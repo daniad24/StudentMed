@@ -100,19 +100,62 @@ ${text}
 """${key ? `\n\nCHEIA DE RĂSPUNSURI DIN CURS (pentru grilele numerotate din text): ${key}` : ''}`
 }
 
+// Un răspuns tăiat la mijloc (limita de lungime): păstrăm grilele și cartonașele complete de până acolo.
+export function repairTruncated(s) {
+  const stack = []
+  let inStr = false
+  let esc = false
+  let cut = -1 // după ultimul obiect complet dintr-o listă
+  let cutStack = null
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i]
+    if (inStr) {
+      if (esc) esc = false
+      else if (ch === '\\') esc = true
+      else if (ch === '"') inStr = false
+      continue
+    }
+    if (ch === '"') inStr = true
+    else if (ch === '{' || ch === '[') stack.push(ch)
+    else if (ch === '}' || ch === ']') {
+      stack.pop()
+      if (ch === '}' && stack[stack.length - 1] === '[') {
+        cut = i + 1
+        cutStack = [...stack]
+      }
+    }
+  }
+  if (cut === -1) return null
+  const closers = cutStack.reverse().map((c) => (c === '[' ? ']' : '}')).join('')
+  return s.slice(0, cut) + closers
+}
+
 function extractJson(raw) {
   let s = raw.trim()
   const fence = s.match(/```(?:json)?\s*([\s\S]*?)```/i)
   if (fence) s = fence[1].trim()
   const a = s.indexOf('{')
+  if (a === -1) throw new Error('Nu am găsit JSON în răspuns. Copiază tot răspunsul chatbotului, de la { până la }.')
   const b = s.lastIndexOf('}')
-  if (a === -1 || b <= a) throw new Error('Nu am găsit JSON în răspuns. Copiază tot răspunsul chatbotului, de la { până la }.')
-  s = s.slice(a, b + 1).replace(/[“”]/g, '"').replace(/,\s*([}\]])/g, '$1')
-  try {
-    return JSON.parse(s)
-  } catch {
-    throw new Error('Răspunsul nu e JSON valid (probabil a fost tăiat). Cere chatbotului: „continuă” sau „dă-mi din nou doar JSON-ul”, apoi lipește-l.')
+  const body = b > a ? s.slice(a, b + 1) : s.slice(a)
+  // Încercăm întâi textul exact. Ghilimelele românești („…”) din interiorul textelor sunt valide și nu trebuie atinse.
+  const attempts = [
+    () => body,
+    () => body.replace(/,\s*([}\]])/g, '$1'),
+    // chatboturile pun uneori ghilimele „inteligente” chiar ca delimitatori JSON
+    () => body.replace(/[“”]/g, '"').replace(/,\s*([}\]])/g, '$1'),
+    () => repairTruncated(s.slice(a)),
+  ]
+  for (const attempt of attempts) {
+    const t = attempt()
+    if (!t) continue
+    try {
+      return JSON.parse(t)
+    } catch {
+      // următoarea încercare
+    }
   }
+  throw new Error('Răspunsul nu e JSON valid (probabil a fost tăiat). Încearcă din nou; dacă se repetă, alege „Rapid” sau „Standard”.')
 }
 
 // Text comparabil: fără diacritice, litere mici, doar litere și cifre. Suportă rânduri rupte și cratime din PDF.

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects, years } from '../data/mock'
@@ -15,13 +15,15 @@ import BackButton from '../components/BackButton.vue'
 const route = useRoute()
 const store = useAppStore()
 
-const subjectId = ref(route.query.materie || subjects[0].id)
+// Fără materie aleasă nu încărcăm: altfel un curs de ortopedie ajunge din greșeală la prima materie din listă.
+const subjectId = ref(route.query.materie || '')
 const subject = computed(() => subjects.find((s) => s.id === subjectId.value))
+const subjectName = computed(() => subject.value?.name ?? 'Medicină')
 
 const text = ref('')
 const part = ref(0)
 const parts = computed(() => splitText(text.value))
-const prompt = computed(() => (parts.value.length ? buildPrompt({ subjectName: subject.value.name, text: parts.value[part.value] ?? parts.value[0] }) : ''))
+const prompt = computed(() => (parts.value.length ? buildPrompt({ subjectName: subjectName.value, text: parts.value[part.value] ?? parts.value[0] }) : ''))
 const copied = ref(false)
 const reading = ref(false)
 const readProgress = ref({ done: 0, total: 0 })
@@ -68,7 +70,7 @@ onMounted(async () => {
   if (wanted) openCourse(wanted)
 })
 
-const subjectName = (id) => subjects.find((s) => s.id === id)?.name ?? id
+const nameOfSubject = (id) => subjects.find((s) => s.id === id)?.name ?? id
 const statsOf = (c) => store.courseStats(c.id)
 const partsOf = (c) => splitText(c.text, AI_CHUNK).length
 function courseStatus(c) {
@@ -78,6 +80,16 @@ function courseStatus(c) {
   const done = c.gen.done.length
   return done >= total ? { label: 'generat complet', tone: 'text-brand-700' } : { label: `generat ${done} din ${total} părți`, tone: 'text-sky-700' }
 }
+
+// Materia schimbată la un curs deschis: mutăm cursul și tot ce s-a generat din el la materia nouă.
+watch(subjectId, async (id) => {
+  const c = course.value
+  if (!c || !id || c.subjectId === id) return
+  course.value = { ...c, subjectId: id }
+  await putCourse(JSON.parse(JSON.stringify(course.value)))
+  store.moveCourse(c.id, id)
+  refreshCourses()
+})
 
 function openCourse(c) {
   course.value = c
@@ -126,7 +138,7 @@ async function callGenerate(chunk, per, extra = {}) {
     r = await fetch('/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: store.aiCode.code, text: chunk, subjectName: subject.value.name, questions: per.q, cards: per.c, key: extra.key, avoid: extra.avoid }),
+      body: JSON.stringify({ code: store.aiCode.code, text: chunk, subjectName: subjectName.value, questions: per.q, cards: per.c, key: extra.key, avoid: extra.avoid }),
     })
   } catch {
     throw new ApiError('Nu am putut contacta serverul. Verifică internetul.', 0)
@@ -382,7 +394,7 @@ const summaryTitle = ref('')
 const summaryOn = computed(() => !!result.value?.summary && keepSummary.value)
 
 async function save() {
-  const summary = summaryOn.value ? { title: summaryTitle.value.trim() || `Rezumat AI – ${subject.value.name}`, content: result.value.summary } : null
+  const summary = summaryOn.value ? { title: summaryTitle.value.trim() || `Rezumat AI – ${subjectName.value}`, content: result.value.summary } : null
   const c = course.value
   const fromCourse = c && lastRun.value.indices.length
   store.addAiContent(subjectId.value, keptQ.value, keptC.value, summary, c && (fromCourse || lastRun.value.chatbot) ? { courseId: c.id, promptVersion: PROMPT_VERSION, replace: replaceOld.value } : {})
@@ -424,7 +436,7 @@ function again() {
         <div v-for="c in courses" :key="c.id" class="flex items-center gap-2 rounded-xl border-2 p-3" :class="course?.id === c.id ? 'border-brand-500 bg-brand-50' : 'border-gray-200'">
           <button class="min-w-0 flex-1 text-left" @click="openCourse(c)">
             <span class="block truncate font-extrabold">{{ c.name }}</span>
-            <span class="block text-xs font-bold text-muted">{{ subjectName(c.subjectId) }} · {{ partsOf(c) }} {{ partsOf(c) === 1 ? 'parte' : 'părți' }} · <span :class="courseStatus(c).tone">{{ courseStatus(c).label }}</span></span>
+            <span class="block text-xs font-bold text-muted">{{ nameOfSubject(c.subjectId) }} · {{ partsOf(c) }} {{ partsOf(c) === 1 ? 'parte' : 'părți' }} · <span :class="courseStatus(c).tone">{{ courseStatus(c).label }}</span></span>
             <span v-if="statsOf(c).total" class="block text-xs font-bold text-muted">
               ✅ {{ statsOf(c).answered ? `${Math.round((statsOf(c).correct / statsOf(c).answered) * 100)}% corecte din ${statsOf(c).answered} rezolvate` : 'nimic rezolvat încă' }} · {{ statsOf(c).total }} grile generate
             </span>
@@ -438,13 +450,15 @@ function again() {
         <p v-if="course" class="rounded-xl bg-brand-50 px-3 py-2 text-sm font-bold text-brand-700">📘 {{ course.name }}</p>
         <div>
           <label class="label" for="subject">Materia</label>
-          <select id="subject" v-model="subjectId" class="input">
+          <select id="subject" v-model="subjectId" class="input" :class="!subjectId && 'border-amber-400'">
+            <option value="" disabled>Alege materia cursului…</option>
             <optgroup v-for="y in years" :key="y.id" :label="y.name">
               <option v-for="s in subjects.filter((x) => x.years[0] === y.id)" :key="s.id" :value="s.id">{{ s.emoji }} {{ s.name }}</option>
             </optgroup>
           </select>
         </div>
-        <label class="btn btn-white block w-full cursor-pointer text-center" :class="reading && 'pointer-events-none opacity-60'">
+        <p v-if="!subjectId" class="text-sm font-bold text-amber-700">Alege întâi materia, ca grilele să ajungă unde trebuie.</p>
+        <label class="btn btn-white block w-full cursor-pointer text-center" :class="(reading || !subjectId) && 'pointer-events-none opacity-60'">
           {{ reading ? `⏳ Citesc ${readProgress.total ? `pagina ${readProgress.done} din ${readProgress.total}` : 'fișierul'}…` : '📤 Alege un PDF sau PPTX' }}
           <input type="file" accept=".pptx,.pdf" class="hidden" @change="onFile" />
         </label>
@@ -560,7 +574,7 @@ function again() {
           <label class="flex items-center gap-3 text-sm font-extrabold">
             <input v-model="keepSummary" type="checkbox" class="h-5 w-5 accent-brand-600" /> Salvează rezumatul în Materiale
           </label>
-          <input v-model="summaryTitle" class="w-full rounded-xl border-2 border-gray-200 px-3 py-2 text-sm font-bold" :placeholder="`Rezumat AI – ${subject.name}`" />
+          <input v-model="summaryTitle" class="w-full rounded-xl border-2 border-gray-200 px-3 py-2 text-sm font-bold" :placeholder="`Rezumat AI – ${subjectName}`" />
           <p class="max-h-48 overflow-y-auto whitespace-pre-line text-sm font-semibold text-muted">{{ result.summary }}</p>
         </div>
       </section>
@@ -606,7 +620,7 @@ function again() {
       </label>
 
       <div class="grid gap-2">
-        <button class="btn btn-primary w-full" :disabled="!keptQ.length && !keptC.length && !summaryOn" @click="save">Salvează {{ keptQ.length + keptC.length + (summaryOn ? 1 : 0) }} în {{ subject.name }}</button>
+        <button class="btn btn-primary w-full" :disabled="!keptQ.length && !keptC.length && !summaryOn" @click="save">Salvează {{ keptQ.length + keptC.length + (summaryOn ? 1 : 0) }} în {{ subjectName }}</button>
         <button class="btn btn-white w-full" @click="phase = 'edit'">Înapoi</button>
       </div>
     </template>

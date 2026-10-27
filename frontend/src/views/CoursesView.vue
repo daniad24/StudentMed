@@ -2,8 +2,8 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
-import { subjects } from '../data/mock'
-import { deleteCourse, listCourses } from '../lib/courses'
+import { subjects, years } from '../data/mock'
+import { deleteCourse, listCourses, putCourse } from '../lib/courses'
 import { PROMPT_VERSION, splitText } from '../lib/aiimport'
 import BackButton from '../components/BackButton.vue'
 import AppIcon from '../components/AppIcon.vue'
@@ -50,13 +50,23 @@ function startPlan(c, mode, minutes) {
 // Redenumire și ștergere
 const renaming = ref(null)
 const newName = ref('')
+const newSubject = ref('')
 function startRename(c) {
   renaming.value = c.id
   newName.value = c.name
+  newSubject.value = c.subjectId
 }
-function saveRename(c) {
+async function saveRename(c) {
   const n = newName.value.trim()
   if (n) store.renameCourse(c.id, n)
+  if (newSubject.value && newSubject.value !== c.subjectId) {
+    // mută cursul și tot ce s-a generat din el la materia aleasă
+    store.moveCourse(c.id, newSubject.value)
+    if (stored.value[c.id]) {
+      stored.value[c.id] = { ...stored.value[c.id], subjectId: newSubject.value }
+      await putCourse(JSON.parse(JSON.stringify(stored.value[c.id])))
+    }
+  }
   renaming.value = null
 }
 const deleting = ref(null)
@@ -96,6 +106,11 @@ const pct = (s) => (s.answered ? Math.round((s.correct / s.answered) * 100) : nu
         <div class="min-w-0 flex-1">
           <template v-if="renaming === c.id">
             <input v-model="newName" class="input w-full py-1.5" maxlength="80" @keyup.enter="saveRename(c)" />
+            <select v-model="newSubject" class="input mt-2 w-full py-1.5 text-sm" aria-label="Materia cursului">
+              <optgroup v-for="y in years" :key="y.id" :label="y.name">
+                <option v-for="s in subjects.filter((x) => x.years[0] === y.id)" :key="s.id" :value="s.id">{{ s.emoji }} {{ s.name }}</option>
+              </optgroup>
+            </select>
             <div class="mt-2 flex gap-2">
               <button class="btn btn-primary px-3 py-1.5 text-sm" @click="saveRename(c)">Salvează</button>
               <button class="btn btn-white px-3 py-1.5 text-sm" @click="renaming = null">Renunță</button>
