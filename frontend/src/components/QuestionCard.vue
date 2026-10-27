@@ -34,7 +34,8 @@ function optionClass(opt, i) {
     >
       {{ isMulti(question) ? 'Complement multiplu · bifează toate răspunsurile corecte' : 'Complement simplu · un singur răspuns' }}
     </span>
-    <span v-if="question.source === 'ai'" class="chip mb-2 ml-1 whitespace-normal bg-amber-100 text-amber-700">🤖 generată de AI · neverificată</span>
+    <span v-if="question.fromSource" class="chip mb-2 ml-1 whitespace-normal bg-sky-100 text-sky-700">📄 grilă din curs · răspuns din cheia cursului</span>
+    <span v-else-if="question.source === 'ai'" class="chip mb-2 ml-1 whitespace-normal bg-amber-100 text-amber-700">🤖 generată de AI · neverificată</span>
     <h1 :key="question.id" class="text-xl font-black leading-snug sm:text-2xl slide-up">{{ question.text }}</h1>
 
     <ZoomImage v-if="question.image" :src="question.image.src" :alt="question.image.alt" :credit="question.image.credit" />

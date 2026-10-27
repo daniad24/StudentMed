@@ -28,10 +28,13 @@ export default async function handler(req, res) {
   if ((await incr(`ai:use:${day}:${found.code}`)) > perCode) return res.status(429).json({ error: `Ai folosit toate cele ${perCode} apeluri de azi. Revino mâine.` })
   if ((await incr(`ai:use:${day}:ALL`)) > total) return res.status(429).json({ error: 'Limita zilnică a aplicației a fost atinsă. Revino mâine.' })
 
-  const questions = Math.min(int(body.questions, 8), 25)
-  const cards = Math.min(int(body.cards, 8), 25)
+  const questions = Math.min(int(body.questions, 8), 30)
+  const cards = Math.min(int(body.cards, 8), 30)
+  // cheia de răspunsuri din curs pentru grilele din această bucată, și grilele deja făcute (de evitat)
+  const key = String(body.key ?? '').slice(0, 3000)
+  const avoid = (Array.isArray(body.avoid) ? body.avoid : []).slice(0, 120).map((a) => String(a).slice(0, 160)).filter(Boolean)
   try {
-    const raw = await generate(buildPrompt({ subjectName, text, questions, cards }))
+    const raw = await generate(buildPrompt({ subjectName, text, questions, cards, key, avoid }))
     return res.status(200).json({ raw, label: found.label })
   } catch (e) {
     // o generare eșuată nu se numără în limită

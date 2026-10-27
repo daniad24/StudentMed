@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects, years } from '../data/mock'
 import { AI_IMPORT } from '../lib/flags'
-import { PROMPT_VERSION, buildPrompt, isBoilerplatePage, parseAiResponse, sameQuestion, splitText } from '../lib/aiimport'
+import { PROMPT_VERSION, buildPrompt, detectGrile, grileInChunk, isBoilerplatePage, keyForChunk, parseAiResponse, similarSets, splitText, wordSet } from '../lib/aiimport'
 import { deleteCourse, listCourses, newCourseId, putCourse } from '../lib/courses'
 import { extractSlides } from '../lib/slides'
 import { MAX_MB, sizeError } from '../lib/limits'
@@ -119,14 +119,14 @@ class ApiError extends Error {
   }
 }
 
-async function callGenerate(chunk, per) {
-  // per = { q, c }: câte grile și cartonașe cerem pentru bucata asta
+async function callGenerate(chunk, per, extra = {}) {
+  // per = { q, c }: câte grile și cartonașe cerem pentru bucata asta; extra = { key, avoid }
   let r
   try {
     r = await fetch('/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: store.aiCode.code, text: chunk, subjectName: subject.value.name, questions: per.q, cards: per.c }),
+      body: JSON.stringify({ code: store.aiCode.code, text: chunk, subjectName: subject.value.name, questions: per.q, cards: per.c, key: extra.key, avoid: extra.avoid }),
     })
   } catch {
     throw new ApiError('Nu am putut contacta serverul. Verifică internetul.', 0)
@@ -140,7 +140,21 @@ async function callGenerate(chunk, per) {
 const norm = (s) => s.toLowerCase().replace(/\s+/g, ' ').trim()
 
 // Procesează părțile (una sau tot cursul) cu 3 cereri în paralel; ce a ieșit până la o eroare se păstrează.
-async function generateChunks(chunks, per, indices = null) {
+// Grilele gata făcute din curs și cheia lor de răspunsuri (adesea la final, deci o trimitem la fiecare bucată).
+const grileInfo = computed(() => detectGrile(text.value))
+
+// Grilele deja generate din același curs și aceeași parte: le trimitem ca „de evitat” la un set nou.
+function avoidFor(part) {
+  if (!course.value || part === undefined) return []
+  const mine = store.myQuestions.filter((q) => q.courseId === course.value.id)
+  const same = mine.filter((q) => q.part === part)
+  // grilele vechi nu știu din ce parte sunt; la un curs mic le trimitem pe toate
+  const list = same.length ? same : mine.length <= 60 ? mine : []
+  return list.slice(0, 120).map((q) => q.text.slice(0, 140))
+}
+
+// mode: 'replace' = generare din nou (înlocuiește), 'extra' = încă un set (fără repetări), altfel normal
+async function generateChunks(chunks, per, indices = null, mode = '') {
   aiError.value = ''
   aiNote.value = ''
   generating.value = true
@@ -153,8 +167,13 @@ async function generateChunks(chunks, per, indices = null) {
   }
   const out = { questions: [], cards: [], skipped: [], summary: '' }
   const sums = []
-  const seenQ = new Set()
-  const seenC = new Set()
+  // Duplicatele se caută și printre grilele deja salvate la materie (mai puțin cele care se înlocuiesc acum).
+  const replacing = mode === 'replace' && course.value
+  const existing = store.questionsFor(subjectId.value).filter((q) => q.source === 'ai' && !(replacing && q.courseId === course.value.id))
+  const seenSets = existing.map((q) => wordSet(q.text))
+  const seenQ = new Set(existing.map((q) => norm(q.text)))
+  const seenC = new Set(store.cardsFor(subjectId.value).filter((c) => c.ai && !(replacing && c.courseId === course.value.id)).map((c) => norm(c.front)))
+  let dupes = 0
   const okParts = []
   let next = 0
   let fatal = ''
@@ -164,7 +183,8 @@ async function generateChunks(chunks, per, indices = null) {
       let res
       for (let attempt = 0; attempt < 2 && !res; attempt++) {
         try {
-          res = await callGenerate(chunks[i], per(chunks[i]))
+          const part = indices ? indices[i] : undefined
+          res = await callGenerate(chunks[i], per(chunks[i]), { key: keyForChunk(chunks[i], grileInfo.value.key), avoid: mode === 'replace' ? [] : avoidFor(part) })
         } catch (e) {
           // cod invalid / limită atinsă / lipsă cheie: nu are rost să continuăm
           if (e.status === 401 || e.status === 429 || (e.status === 503 && /cheie/.test(e.message))) {
@@ -179,11 +199,15 @@ async function generateChunks(chunks, per, indices = null) {
       }
       if (res) {
         for (const q of res.questions) {
-          if (seenQ.has(norm(q.text)) || out.questions.some((o) => sameQuestion(o.text, q.text))) {
-            out.skipped.push('Grilă duplicat: ' + q.text.slice(0, 50))
+          const ws = wordSet(q.text)
+          // grilele preluate din curs se compară doar exact (două grile reale pot semăna mult)
+          if (seenQ.has(norm(q.text)) || (!q.fromSource && seenSets.some((s) => similarSets(s, ws)))) {
+            dupes++
             continue
           }
           seenQ.add(norm(q.text))
+          seenSets.push(ws)
+          q.part = indices ? indices[i] : undefined
           out.questions.push(q)
         }
         for (const c of res.cards) if (!seenC.has(norm(c.front))) (seenC.add(norm(c.front)), out.cards.push(c))
@@ -203,9 +227,10 @@ async function generateChunks(chunks, per, indices = null) {
   }
   sums.sort((a, b) => a.i - b.i)
   out.summary = sums.length > 1 || indices?.length > 1 ? sums.map((x) => `## Partea ${x.n}\n\n${x.text}`).join('\n\n') : (sums[0]?.text ?? '')
-  lastRun.value = { indices: okParts, full: !!indices && indices.length === aiChunks.value.length }
-  // o regenerare completă înlocuiește implicit ce era înainte din curs; continuarea doar adaugă
-  replaceOld.value = lastRun.value.full && previousCount.value > 0
+  if (dupes) out.skipped.unshift(`${dupes} ${dupes === 1 ? 'grilă care exista deja' : 'grile care existau deja'}`)
+  lastRun.value = { indices: okParts, full: !!indices && indices.length === aiChunks.value.length, extra: mode === 'extra' }
+  // o regenerare completă înlocuiește implicit ce era înainte din curs; continuarea și „încă un set” doar adaugă
+  replaceOld.value = mode === 'replace' && previousCount.value > 0
   if (out.questions.length || out.cards.length || out.summary) {
     result.value = out
     phase.value = 'review'
@@ -221,18 +246,30 @@ async function generateChunks(chunks, per, indices = null) {
 const DENSITY = {
   rapid: { label: 'Rapid', hint: 'cele mai importante', per: 1400 },
   standard: { label: 'Standard', hint: 'echilibrat', per: 700 },
-  complet: { label: 'Complet', hint: 'cât mai mult din curs', per: 400 },
+  complet: { label: 'Complet', hint: 'mult din curs', per: 450 },
+  maxim: { label: 'Maxim', hint: 'până la 30/parte', per: 300 },
 }
+const MAX_PER_CALL = 30
 const perFor = (chunk) => {
-  const q = Math.min(25, Math.max(3, Math.round(chunk.length / DENSITY[store.aiDensity].per)))
-  return { q, c: Math.min(25, Math.round(q * 1.3)) }
+  let q = Math.min(MAX_PER_CALL, Math.max(3, Math.round(chunk.length / DENSITY[store.aiDensity].per)))
+  // o parte plină de grile gata făcute: le preia pe acelea; grile noi facem puține, din restul textului
+  const ready = grileInChunk(chunk)
+  if (ready >= 5) q = Math.min(q, Math.max(3, MAX_PER_CALL - ready))
+  return { q, c: Math.min(MAX_PER_CALL, Math.round(q * 1.3)), ready }
 }
 const estimate = computed(() => {
   const chunks = aiChunks.value.length ? aiChunks.value : parts.value
-  return chunks.reduce((t, ch) => ({ q: t.q + perFor(ch).q, c: t.c + perFor(ch).c }), { q: 0, c: 0 })
+  return chunks.reduce((t, ch) => {
+    const p = perFor(ch)
+    return { q: t.q + p.q, c: t.c + p.c, ready: t.ready + p.ready }
+  }, { q: 0, c: 0, ready: 0 })
 })
 const generateWithAi = () => generateChunks([parts.value[part.value] ?? parts.value[0]], perFor)
-const generateAll = () => generateChunks(aiChunks.value, perFor, aiChunks.value.map((_, i) => i))
+const allIdx = () => aiChunks.value.map((_, i) => i)
+const generateAll = () => generateChunks(aiChunks.value, perFor, allIdx(), course.value?.gen ? 'replace' : '')
+// „Încă un set”: cursul are deja grile generate cu regulile de acum
+const canExtra = computed(() => !!course.value && previousCount.value > 0 && !oldRules.value)
+const generateExtra = () => generateChunks(aiChunks.value, perFor, allIdx(), 'extra')
 const generateMissing = () => generateChunks(missingParts.value.map((i) => aiChunks.value[i]), perFor, missingParts.value)
 const cancelAll = () => (cancelled = true)
 onUnmounted(() => (cancelled = true))
@@ -449,12 +486,15 @@ function again() {
         <p v-if="aiError" class="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-600 shake">{{ aiError }}</p>
         <div class="space-y-2">
           <p class="label">Câte grile și cartonașe</p>
-          <div class="grid grid-cols-3 gap-2">
+          <div class="grid grid-cols-2 gap-2">
             <button v-for="(d, id) in DENSITY" :key="id" class="btn flex-col gap-0 px-2 py-2 text-sm" :class="store.aiDensity === id ? 'btn-primary' : 'btn-white'" @click="store.aiDensity = id">
               {{ d.label }}<span class="text-[10px] font-bold normal-case opacity-80">{{ d.hint }}</span>
             </button>
           </div>
-          <p class="text-sm font-bold text-muted">≈ {{ estimate.q }} grile și {{ estimate.c }} cartonașe din {{ aiChunks.length > 1 ? 'tot cursul' : 'text' }}, înainte de filtrare.</p>
+          <p class="text-sm font-bold text-muted">≈ {{ estimate.q }} grile noi și {{ estimate.c }} cartonașe din {{ aiChunks.length > 1 ? 'tot cursul' : 'text' }}, înainte de filtrare.</p>
+          <p v-if="grileInfo.hasGrile" class="rounded-xl bg-sky-50 px-3 py-2 text-sm font-bold text-sky-800">
+            📄 Cursul are deja grile (~{{ estimate.ready }}){{ Object.keys(grileInfo.key).length ? `, cu cheie de răspunsuri pentru ${Object.keys(grileInfo.key).length}` : '' }}. Le preiau exact cum sunt, cu răspunsurile din curs; cele fără răspuns în text sunt lăsate deoparte.
+          </p>
         </div>
         <p v-if="remainingToday !== null && aiChunks.length > remainingToday" class="rounded-xl bg-amber-50 px-3 py-2 text-sm font-bold text-amber-800">
           Cursul are {{ aiChunks.length }} părți, iar azi mai ai {{ remainingToday }} generări. Se oprește singur când se termină; mâine apeși „Continuă” și face restul, fără să încarci din nou fișierul.
@@ -465,6 +505,9 @@ function again() {
         <button v-if="!generating && missingParts.length && missingParts.length < aiChunks.length" class="btn btn-primary w-full" @click="generateMissing">
           ▶️ Continuă: generează restul ({{ missingParts.length }} {{ missingParts.length === 1 ? 'parte' : 'părți' }})
         </button>
+        <button v-if="!generating && canExtra" class="btn btn-primary w-full" @click="generateExtra">
+          ➕ Încă un set de grile și cartonașe (fără repetări)
+        </button>
         <div v-if="generating && progress.total > 1" class="space-y-2">
           <div class="h-3 overflow-hidden rounded-full bg-gray-200">
             <div class="h-full rounded-full bg-brand-500 transition-all" :style="{ width: `${(progress.done / progress.total) * 100}%` }"></div>
@@ -472,7 +515,7 @@ function again() {
           <p class="text-sm font-bold text-muted">Partea {{ Math.min(progress.done + 1, progress.total) }} din {{ progress.total }} · ține ecranul deschis</p>
           <button class="btn btn-white w-full" @click="cancelAll">Oprește și păstrează ce s-a generat</button>
         </div>
-        <button v-else class="btn w-full" :class="missingParts.length && missingParts.length < aiChunks.length ? 'btn-white' : 'btn-primary'" :disabled="generating" @click="aiChunks.length > 1 || course ? generateAll() : generateWithAi()">
+        <button v-else class="btn w-full" :class="(missingParts.length && missingParts.length < aiChunks.length) || canExtra ? 'btn-white' : 'btn-primary'" :disabled="generating" @click="aiChunks.length > 1 || course ? generateAll() : generateWithAi()">
           {{ generating ? '⏳ Generez… (până la un minut)' : course?.gen ? `🔁 Generează din nou tot cursul (${aiChunks.length} ${aiChunks.length === 1 ? 'parte' : 'părți'})` : aiChunks.length > 1 ? `✨ Generează din tot cursul (${aiChunks.length} părți)` : '✨ Generează grile și cartonașe' }}
         </button>
         <button v-if="aiChunks.length > 1 && !generating" class="btn btn-white w-full text-sm" @click="generateWithAi">Doar partea {{ part + 1 }} (încercare rapidă)</button>
@@ -530,7 +573,7 @@ function again() {
         <div v-for="(q, i) in result.questions.slice(0, qShown)" :key="i" class="card space-y-1 p-4" :class="!q.keep && 'opacity-50'">
           <label class="flex items-start gap-3">
             <input v-model="q.keep" type="checkbox" class="mt-1 h-5 w-5 accent-brand-600" />
-            <span class="font-extrabold">{{ q.text }}</span>
+            <span class="font-extrabold"><span v-if="q.fromSource" class="chip mr-1 bg-sky-100 align-middle text-[10px] text-sky-700">📄 din curs</span>{{ q.text }}</span>
           </label>
           <ul class="pl-8 text-sm font-semibold">
             <li v-for="(o, j) in q.options" :key="j" :class="q.answer.includes(j) ? 'text-brand-700' : 'text-muted'">

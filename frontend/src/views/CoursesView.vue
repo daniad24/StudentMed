@@ -134,7 +134,7 @@ const pct = (s) => (s.answered ? Math.round((s.correct / s.answered) * 100) : nu
       <p v-else class="text-sm font-semibold text-muted">Încă nu ai generat nimic din acest curs.</p>
 
       <RouterLink :to="`/import-ai?curs=${c.id}`" class="btn btn-white block w-full py-2.5 text-center text-sm">
-        {{ c.stats.questions || c.stats.cards ? '✨ Generează mai mult sau din nou' : '✨ Generează grile și cartonașe' }}
+        {{ c.stats.questions || c.stats.cards ? '➕ Încă un set (fără repetări) sau regenerează' : '✨ Generează grile și cartonașe' }}
       </RouterLink>
 
       <div class="text-right">

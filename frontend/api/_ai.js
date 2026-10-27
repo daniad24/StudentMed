@@ -9,7 +9,7 @@ export class AiError extends Error {
 
 // Gemini apelat o dată; `thinking` = nivelul de „gândire” cerut (null = nu trimitem câmpul).
 async function geminiRequest(prompt, model, key, thinking, signal) {
-  const generationConfig = { responseMimeType: 'application/json', temperature: 0.3, maxOutputTokens: 8192 }
+  const generationConfig = { responseMimeType: 'application/json', temperature: 0.3, maxOutputTokens: 16384 }
   if (thinking) generationConfig.thinkingConfig = { thinkingLevel: thinking }
   return fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
     method: 'POST',

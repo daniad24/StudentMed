@@ -343,7 +343,7 @@ export const useAppStore = defineStore('app', () => {
     const tag = meta.courseId ? { courseId: meta.courseId, promptVersion: meta.promptVersion } : {}
     if (meta.courseId && meta.replace) removeAiCourse(meta.courseId)
     myQuestions.value.push(
-      ...questions.map((q, i) => ({ id: `ai${stamp}-q${i}`, subjectId, type: q.type, text: q.text, options: q.options, answer: q.answer, explanation: q.explanation, source: 'ai', author, ...tag })),
+      ...questions.map((q, i) => ({ id: `ai${stamp}-q${i}`, subjectId, type: q.type, text: q.text, options: q.options, answer: q.answer, explanation: q.explanation, source: 'ai', author, ...(q.fromSource ? { fromSource: true } : {}), ...(q.part !== undefined && tag.courseId ? { part: q.part } : {}), ...tag })),
     )
     myCards.value.push(...cards.map((c, i) => ({ id: `ai${stamp}-c${i}`, subjectId, front: c.front, back: c.back, source: 'ai', ai: true, author, ...tag })))
     if (summary?.content) addMaterial({ type: 'summary', subjectId, title: summary.title || 'Rezumat generat de AI', content: summary.content, source: 'ai', ai: true, readMinutes: Math.max(1, Math.round(summary.content.split(/\s+/).length / 150)), ...tag })

@@ -96,13 +96,14 @@ export function readingRows(items, pageWidth) {
 // Întoarce mărimea textului obișnuit.
 export function cleanPages(pages) {
   const n = pages.length
-  const key = (t) => t.toLowerCase().replace(/\d+/g, '#').replace(/\s+/g, ' ').trim()
+  // la rândurile scurte (antete, „Pagina 7”) cifrele nu contează; rândurile lungi trebuie să fie identice
+  const key = (t) => (t.length <= 60 ? t.toLowerCase().replace(/\d+/g, '#') : t.toLowerCase()).replace(/\s+/g, ' ').trim()
 
   const bySize = new Map()
   for (const p of pages) for (const r of p.rows) bySize.set(r.size, (bySize.get(r.size) ?? 0) + r.chars)
   const body = [...bySize.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? 12
 
-  const inMargin = (r, p) => !p.height || r.y > p.height * 0.91 || r.y < p.height * 0.09
+  const inMargin = (r, p) => !p.height || r.y > p.height * 0.94 || r.y < p.height * 0.06
   const counts = new Map()
   for (const p of pages) for (const k of new Set(p.rows.filter((r) => inMargin(r, p) && r.size <= body * 1.1).map((r) => key(r.text)))) counts.set(k, (counts.get(k) ?? 0) + 1)
   const repeated = (r) => n >= 3 && (counts.get(key(r.text)) ?? 0) >= Math.max(3, n * 0.4)
@@ -132,14 +133,16 @@ export function toBlocks(rows, body, maxLine) {
       prev = r
       continue
     }
-    const bullet = BULLET.test(r.text)
+    // enunțuri numerotate („12. …”) și variante de grilă („B) …”) încep mereu un rând nou și rămân cum sunt scrise
+    const numbered = /^(?:\d{1,3}|[A-Ea-e])[.)]\s/.test(r.text)
+    const bullet = BULLET.test(r.text) && !numbered
     const text = bullet ? r.text.replace(/^(?:[•▪●◦○■□▫‣·]|[-–—*])\s*/, '') : r.text
     const close = prev && prev.y - r.y <= Math.max(prev.size, r.size) * 1.8
     const sameSize = prev && Math.abs(prev.size - r.size) < 1
     const prevEnds = last && SENTENCE_END.test(last.text)
     const prevShort = prev && prev.xEnd - prev.x < maxLine * 0.6 * (prev.size / body)
     const lower = /^[a-zăâîșțß(„"]/.test(r.text)
-    const continues = last && !last.heading && !bullet && close && sameSize && (lower || (!prevEnds && !prevShort))
+    const continues = last && !last.heading && !bullet && !numbered && close && sameSize && (lower || (!prevEnds && !prevShort))
     if (continues) {
       last.text = /[a-zăâîșț]-$/.test(last.text) && lower ? last.text.slice(0, -1) + r.text : last.text + ' ' + r.text
     } else {
