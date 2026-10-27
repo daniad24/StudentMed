@@ -7,7 +7,7 @@ import { correctTexts, formatTime, isCorrectSelection, prepareQuestion, shuffle 
 import BackButton from '../components/BackButton.vue'
 import QuestionCard from '../components/QuestionCard.vue'
 import ReportDialog from '../components/ReportDialog.vue'
-import SourceChips from '../components/SourceChips.vue'
+import SourcePicker from '../components/SourcePicker.vue'
 
 const SECONDS_PER_QUESTION = 18 // 10 grile = 3 minute, ca „Pauza de gardă” dintotdeauna
 const SIZES = [10, 20, 50, 0] // 0 = toate
@@ -19,29 +19,47 @@ const store = useAppStore()
 const subject = subjects.find((s) => s.id === route.params.subjectId)
 // ?curs=<id>: grile doar din cursul încărcat de student
 const cursId = route.query.curs ? String(route.query.curs) : ''
-const cursName = cursId ? store.courses[cursId]?.name ?? 'cursul tău' : ''
 const block = route.query.bloc ? store.targetSession?.blocks.find((b) => b.key === route.query.bloc) : null
 
 // --- Alegerea grilelor (ecranul de început) ---
 const topics = computed(() => store.topicsFor(subject.id).filter((t) => t.questions > 0))
 const pickedTopics = ref([])
 const toggleTopic = (id) => (pickedTopics.value = pickedTopics.value.includes(id) ? pickedTopics.value.filter((x) => x !== id) : [...pickedTopics.value, id])
+// Din ce surse (documente) vin grilele; alegerea se ține minte pe materie.
+const sources = computed(() => store.sourcesFor(subject.id, 'questions'))
+const prefs = store.quizPrefs
+if (cursId) prefs.sources = { ...prefs.sources, [subject.id]: ['c:' + cursId] }
+const pickedSources = computed({
+  get: () => prefs.sources?.[subject.id] ?? null,
+  set: (v) => (prefs.sources = { ...prefs.sources, [subject.id]: v }),
+})
+const activeSources = computed(() => {
+  const keys = (pickedSources.value ?? []).filter((k) => sources.value.some((s) => s.key === k))
+  return keys.length ? new Set(keys) : null
+})
+const stetoOn = computed(() => !activeSources.value || activeSources.value.has('steto'))
+const bySource = computed(() => store.questionsFor(subject.id).filter((q) => !activeSources.value || activeSources.value.has(store.sourceKeyOf(q))))
+const typeCounts = computed(() => ({
+  all: bySource.value.length,
+  single: bySource.value.filter((q) => q.type !== 'multi').length,
+  multi: bySource.value.filter((q) => q.type === 'multi').length,
+}))
 const pool = computed(() => {
-  if (cursId) return store.questionsFor(subject.id).filter((q) => q.courseId === cursId)
-  const filtered = store.questionsFor(subject.id, store.sourceFilter)
-  let list = filtered.length ? filtered : store.questionsFor(subject.id)
-  if (pickedTopics.value.length) {
+  let list = bySource.value
+  if (prefs.qtype === 'single') list = list.filter((q) => q.type !== 'multi')
+  else if (prefs.qtype === 'multi') list = list.filter((q) => q.type === 'multi')
+  if (pickedTopics.value.length && stetoOn.value) {
+    // subiectele țin doar de grilele Steto; grilele din cursuri rămân în listă
     const ids = store.idsInTopics(subject.id, pickedTopics.value)
-    list = list.filter((q) => ids.has(q.id))
+    list = list.filter((q) => store.sourceKeyOf(q) !== 'steto' || ids.has(q.id))
   }
   return list
 })
+const sourceSummary = computed(() => (activeSources.value ? [...activeSources.value].map((k) => sources.value.find((s) => s.key === k)?.label).filter(Boolean).join(' + ') : 'toate sursele'))
 const starredPool = computed(() => pool.value.filter((q) => store.starred.includes(q.id)))
-const counts = computed(() => store.originCounts(subject.id).questions)
 const last = computed(() => store.lastAnswers(subject.id))
 const wrongPool = computed(() => pool.value.filter((q) => last.value[q.id] === false))
 const unseenCount = computed(() => pool.value.filter((q) => last.value[q.id] === undefined).length)
-const prefs = store.quizPrefs
 
 function pickQuestions() {
   const { size, mode } = prefs
@@ -243,7 +261,7 @@ const ago = (t) => {
         <BackButton :to="cursId ? '/cursuri' : `/materie/${subject.id}?tab=grile`" history />
         <div>
           <h1 class="text-2xl font-black">{{ subject.emoji }} Grile</h1>
-          <p class="text-sm font-semibold text-muted">{{ cursId ? `📘 ${cursName}` : subject.name }}</p>
+          <p class="text-sm font-semibold text-muted">{{ subject.name }}</p>
         </div>
       </header>
 
@@ -256,6 +274,26 @@ const ago = (t) => {
       </section>
 
       <section class="card mt-4 space-y-4 p-5">
+        <div v-if="sources.length > 1">
+          <p class="label">Din ce document</p>
+          <SourcePicker v-model="pickedSources" :sources="sources" />
+        </div>
+
+        <div>
+          <p class="label">Tipul grilelor</p>
+          <div class="grid grid-cols-3 gap-2">
+            <button class="btn flex-col gap-0 px-1 py-2 text-sm" :class="prefs.qtype === 'all' ? 'btn-blue' : 'btn-white'" @click="prefs.qtype = 'all'">
+              Amestecate<span class="text-[10px] font-bold normal-case opacity-80">{{ typeCounts.all }}</span>
+            </button>
+            <button class="btn flex-col gap-0 px-1 py-2 text-sm" :class="prefs.qtype === 'single' ? 'btn-blue' : 'btn-white'" :disabled="!typeCounts.single" @click="prefs.qtype = 'single'">
+              Simplu<span class="text-[10px] font-bold normal-case opacity-80">un răspuns · {{ typeCounts.single }}</span>
+            </button>
+            <button class="btn flex-col gap-0 px-1 py-2 text-sm" :class="prefs.qtype === 'multi' ? 'btn-blue' : 'btn-white'" :disabled="!typeCounts.multi" @click="prefs.qtype = 'multi'">
+              Multiplu<span class="text-[10px] font-bold normal-case opacity-80">mai multe · {{ typeCounts.multi }}</span>
+            </button>
+          </div>
+        </div>
+
         <div>
           <p class="label">Câte grile</p>
           <div class="grid grid-cols-4 gap-2">
@@ -281,7 +319,7 @@ const ago = (t) => {
           </div>
         </div>
 
-        <div v-if="topics.length && !cursId">
+        <div v-if="topics.length && stetoOn">
           <p class="label">Subiect <span class="font-semibold text-muted">(opțional)</span></p>
           <div class="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
             <button
@@ -296,10 +334,6 @@ const ago = (t) => {
           </div>
         </div>
 
-        <div v-if="!cursId">
-          <p class="label">Sursa</p>
-          <SourceChips :counts="counts" />
-        </div>
 
         <label class="flex items-center gap-3">
           <input v-model="store.timerOn" type="checkbox" class="h-6 w-6 accent-sky-600" />
@@ -313,7 +347,8 @@ const ago = (t) => {
       </section>
 
       <div class="flex-1"></div>
-      <button class="btn btn-blue mt-6 w-full" :disabled="!plannedCount" @click="startNew">
+      <p class="mt-4 text-center text-xs font-bold text-muted">Din: {{ sourceSummary }}{{ prefs.qtype === 'single' ? ' · doar complement simplu' : prefs.qtype === 'multi' ? ' · doar complement multiplu' : '' }}</p>
+      <button class="btn btn-blue mt-2 w-full" :disabled="!plannedCount" @click="startNew">
         {{ plannedCount ? `Începe · ${plannedCount} ${plannedCount === 1 ? 'grilă' : 'grile'}` : 'Nu sunt grile pentru alegerea asta' }}
       </button>
     </template>
@@ -344,6 +379,8 @@ const ago = (t) => {
         <div class="mt-5 mb-2 flex items-center gap-2">
           <p class="flex-1 text-sm font-extrabold text-muted">
             {{ subject.emoji }} {{ subject.name }} · Întrebarea {{ index + 1 }} din {{ questions.length }}
+          
+            <span v-if="current.courseId" class="mt-0.5 block truncate text-xs font-bold text-brand-700">{{ store.sourceLabel(store.sourceKeyOf(current)) }}</span>
           </p>
           <button
             class="px-2 text-2xl leading-none"

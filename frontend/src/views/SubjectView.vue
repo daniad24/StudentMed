@@ -5,7 +5,7 @@ import { useAppStore, RECOMMEND_VOTES, SKILL_LEVELS, today } from '../stores/app
 import { subjects } from '../data/mock'
 import BackButton from '../components/BackButton.vue'
 import MaterialItem from '../components/MaterialItem.vue'
-import SourceChips from '../components/SourceChips.vue'
+import SourcePicker from '../components/SourcePicker.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -38,12 +38,27 @@ const filterTests = {
 const countFor = (id) => allMaterials.value.filter(filterTests[id]).length
 const materials = computed(() => allMaterials.value.filter(filterTests[filter.value]))
 
-const origin = computed(() => store.sourceFilter)
-const counts = computed(() => store.originCounts(route.params.id))
-const stats = computed(() => store.cardStats(route.params.id, origin.value))
-const cards = computed(() => store.cardsFor(route.params.id, origin.value))
-const questionCount = computed(() => store.questionsFor(route.params.id, origin.value).length)
-const multiCount = computed(() => store.questionsFor(route.params.id, origin.value).filter((q) => q.type === 'multi').length)
+// Din ce document: Steto, fiecare curs încărcat, AI, ale mele. Aceeași alegere ca în quiz și în sesiunea de cartonașe.
+const prefs = store.quizPrefs
+const pickFor = (field) =>
+  computed({
+    get: () => prefs[field]?.[route.params.id] ?? null,
+    set: (v) => (prefs[field] = { ...(prefs[field] ?? {}), [route.params.id]: v }),
+  })
+const cardSources = computed(() => store.sourcesFor(route.params.id, 'cards'))
+const questionSources = computed(() => store.sourcesFor(route.params.id, 'questions'))
+const pickedCardSources = pickFor('cardSources')
+const pickedQuestionSources = pickFor('sources')
+const inPick = (picked, kind) => (x) => !picked.value?.length || picked.value.includes(store.sourceKeyOf(x, kind))
+const cards = computed(() => store.cardsFor(route.params.id).filter(inPick(pickedCardSources, 'cards')))
+const stats = computed(() => {
+  const due = new Set(store.dueCardsFor(route.params.id).map((c) => c.id))
+  return { total: cards.value.length, due: cards.value.filter((c) => due.has(c.id)).length, known: cards.value.filter((c) => (store.cardState[c.id]?.box ?? 0) >= 3).length }
+})
+const pickedQuestions = computed(() => store.questionsFor(route.params.id).filter(inPick(pickedQuestionSources, 'questions')))
+const questionCount = computed(() => pickedQuestions.value.length)
+const multiCount = computed(() => pickedQuestions.value.filter((q) => q.type === 'multi').length)
+const aiPicked = computed(() => pickedQuestions.value.some((q) => q.source === 'ai'))
 
 // --- Colocviu ---
 const plan = computed(() => store.examPlan(route.params.id))
@@ -156,7 +171,7 @@ const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
 
     <!-- Flashcards -->
     <section v-else-if="tab === 'flashcards'" class="space-y-3">
-      <SourceChips :counts="counts.cards" />
+      <SourcePicker v-if="cardSources.length > 1" v-model="pickedCardSources" :sources="cardSources" accent="brand" />
       <div class="card p-5">
         <div class="grid grid-cols-3 text-center">
           <div><p class="text-2xl font-black">{{ stats.total }}</p><p class="text-xs font-bold text-muted">total</p></div>
@@ -171,6 +186,7 @@ const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
       <div v-if="cards.length" class="space-y-2">
         <div v-for="c in cards" :key="c.id" class="card p-3">
           <span v-if="c.fromQuiz" class="chip mb-1 bg-violet-100 text-violet-700">din grilele greșite</span>
+          <span v-else-if="c.courseId" class="chip mb-1 bg-brand-100 text-brand-700">{{ store.sourceLabel('c:' + c.courseId) }}</span>
           <span v-else-if="c.ai" class="chip mb-1 bg-amber-100 text-amber-700">🤖 generat de AI</span>
           <p class="font-extrabold">{{ c.front }}</p>
           <p class="whitespace-pre-line text-sm font-semibold text-muted">{{ c.back }}</p>
@@ -252,14 +268,14 @@ const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
 
     <!-- Grile -->
     <section v-else class="space-y-3">
-      <SourceChips :counts="counts.questions" />
+      <SourcePicker v-if="questionSources.length > 1" v-model="pickedQuestionSources" :sources="questionSources" />
       <div class="card p-6 text-center">
         <p class="text-5xl">✅</p>
         <p class="mt-2 text-xl font-black">{{ questionCount }} grile disponibile</p>
         <p class="text-sm font-semibold text-muted">
-          {{ multiCount }} cu complement multiplu · alegi câte, ce fel și dacă vrei cronometru.
+          {{ questionCount - multiCount }} cu complement simplu · {{ multiCount }} cu complement multiplu. La început alegi tipul, câte și dacă vrei cronometru.
         </p>
-        <p v-if="origin === 'ai'" class="mt-2 text-xs font-bold text-amber-700">🤖 Grile generate de AI: pot conține greșeli, compară cu cursul.</p>
+        <p v-if="aiPicked" class="mt-2 text-xs font-bold text-amber-700">🤖 Grile generate de AI: pot conține greșeli, compară cu cursul.</p>
         <RouterLink v-if="questionCount" :to="`/pauza/${subject.id}`" class="btn btn-blue mt-4 w-full">{{ store.quizSessions[subject.id] ? '▶️ Continuă quiz-ul' : '⏱️ Începe quiz-ul' }}</RouterLink>
         <RouterLink v-if="questionCount" :to="`/simulare?materie=${subject.id}`" class="btn btn-white mt-2 w-full">🎓 Simulare de colocviu</RouterLink>
         <p v-else class="mt-3 text-sm font-bold text-muted">Nicio grilă în această categorie. Alege altă categorie sus.</p>

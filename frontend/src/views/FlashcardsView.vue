@@ -6,6 +6,7 @@ import { subjects } from '../data/mock'
 import BackButton from '../components/BackButton.vue'
 import ZoomImage from '../components/ZoomImage.vue'
 import ReportDialog from '../components/ReportDialog.vue'
+import SourcePicker from '../components/SourcePicker.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -22,17 +23,37 @@ const source = cursId
   ? store.missedToday.map((id) => store.allCards.find((c) => c.id === id)).filter(Boolean)
   : block
   ? block.cardIds.map((id) => store.allCards.find((c) => c.id === id)).filter(Boolean)
-  : route.query.toate ? store.cardsFor(subject.id, store.sourceFilter) : store.dueCardsFor(subject.id, store.sourceFilter)
+  : route.query.toate ? store.cardsFor(subject.id) : store.dueCardsFor(subject.id)
 const backTo = block ? '/tinta/plan' : cursId ? '/cursuri' : mixed ? '/' : `/materie/${subject.id}?tab=flashcards`
 const practice = ref(mixed) // repetare în aceeași zi: nu schimbă calendarul de repetiție
-const all = [...source].sort(() => Math.random() - 0.5)
-// Sesiune lungă: studentul alege câte cartonașe face acum (restul rămân pentru mai târziu).
+const shuffled = [...source].sort(() => Math.random() - 0.5)
+const free = !block && !mixed && !cursId // sesiune obișnuită pe materie: studentul alege sursa și câte
+
+// Din ce document (Steto, fiecare curs încărcat, AI, ale mele); alegerea se ține minte pe materie.
+const prefs = store.quizPrefs
+const order = (k) => (k === 'steto' ? 0 : k.startsWith('c:') ? 1 : k === 'ai' ? 2 : 3)
+const sources = computed(() => {
+  const counts = new Map()
+  for (const c of shuffled) counts.set(store.sourceKeyOf(c, 'cards'), (counts.get(store.sourceKeyOf(c, 'cards')) ?? 0) + 1)
+  return [...counts.entries()].map(([key, count]) => ({ key, count, label: store.sourceLabel(key) })).sort((a, b) => order(a.key) - order(b.key) || (store.courses[b.key.slice(2)]?.createdAt ?? 0) - (store.courses[a.key.slice(2)]?.createdAt ?? 0))
+})
+const pickedSources = computed({
+  get: () => prefs.cardSources?.[subject.id] ?? null,
+  set: (v) => (prefs.cardSources = { ...(prefs.cardSources ?? {}), [subject.id]: v }),
+})
+const all = computed(() => {
+  if (!free) return shuffled
+  const keys = (pickedSources.value ?? []).filter((k) => sources.value.some((s) => s.key === k))
+  return keys.length ? shuffled.filter((c) => keys.includes(store.sourceKeyOf(c, 'cards'))) : shuffled
+})
+
+// Sesiune lungă sau cartonașe din mai multe documente: studentul alege înainte.
 const BIG = 30
-const choosing = ref(!block && !mixed && all.length > BIG)
-const queue = ref(choosing.value ? [] : all)
+const choosing = ref(free && (shuffled.length > BIG || sources.value.length > 1))
+const queue = ref(choosing.value ? [] : all.value)
 const initialCount = ref(queue.value.length)
 function startWith(n) {
-  queue.value = n ? all.slice(0, n) : all
+  queue.value = n ? all.value.slice(0, n) : all.value
   initialCount.value = queue.value.length
   choosing.value = false
 }
@@ -107,13 +128,18 @@ function onReport(reason) {
     </header>
 
     <!-- Alegerea mărimii sesiunii -->
-    <div v-if="choosing" class="flex flex-1 flex-col items-center justify-center text-center">
-      <p class="text-6xl">🃏</p>
-      <h1 class="mt-3 text-2xl font-black">{{ all.length }} cartonașe de repetat</h1>
-      <p class="mt-1 text-sm font-semibold text-muted">Câte faci acum? Restul rămân la rând pentru altă dată.</p>
-      <div class="mt-6 grid w-full gap-2">
+    <div v-if="choosing" class="flex flex-1 flex-col text-center">
+      <p class="mt-4 text-5xl">🃏</p>
+      <h1 class="mt-2 text-2xl font-black">{{ all.length }} {{ all.length === 1 ? 'cartonaș' : 'cartonașe' }} de repetat</h1>
+      <p class="mt-1 text-sm font-semibold text-muted">{{ subject.emoji }} {{ subject.name }}</p>
+      <div v-if="sources.length > 1" class="mt-5 text-left">
+        <p class="label">Din ce document</p>
+        <SourcePicker v-model="pickedSources" :sources="sources" accent="brand" />
+      </div>
+      <p class="label mt-5 text-left">Câte faci acum? <span class="font-semibold text-muted">Restul rămân la rând.</span></p>
+      <div class="grid w-full gap-2">
         <button v-for="n in [10, 20, 50].filter((x) => x < all.length)" :key="n" class="btn btn-white w-full" @click="startWith(n)">{{ n }} cartonașe</button>
-        <button class="btn btn-primary w-full" @click="startWith(0)">Toate ({{ all.length }})</button>
+        <button class="btn btn-primary w-full" :disabled="!all.length" @click="startWith(0)">{{ all.length ? `Toate (${all.length})` : 'Nimic de repetat din sursa aleasă' }}</button>
       </div>
     </div>
 
@@ -132,6 +158,7 @@ function onReport(reason) {
         >
           <div class="flip-face card flex flex-col items-center justify-center p-6 text-center">
             <p class="text-xs font-black tracking-widest text-muted uppercase">Întrebare</p>
+            <span v-if="current.courseId" class="chip mt-2 max-w-full truncate bg-brand-100 text-brand-700">{{ store.sourceLabel('c:' + current.courseId) }}</span>
             <span v-if="current.ai" class="chip mt-2 bg-amber-100 text-amber-700">🤖 generat de AI · neverificat</span>
             <span v-if="current.fromQuiz" class="chip mt-2 bg-violet-100 text-violet-700">din grilele greșite</span>
             <img v-if="current.image" :src="current.image.src" :alt="current.image.alt" class="mt-3 max-h-56 w-full rounded-xl border-2 border-gray-200 bg-white object-contain" />

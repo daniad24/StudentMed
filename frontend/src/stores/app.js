@@ -101,7 +101,8 @@ export const useAppStore = defineStore('app', () => {
   const tourDone = ref(saved.tourDone ?? false) // turul de prezentare a fost văzut
   const tourOpen = ref(false)
   const timerOn = ref(saved.timerOn ?? true) // cronometru la grile și simulări (opțional)
-  const quizPrefs = ref({ size: 10, mode: 'mix', ...(saved.quizPrefs ?? {}) }) // size 0 = toate; mode mix | new | wrong
+  // size 0 = toate; mode mix | new | wrong | starred; qtype all | single | multi; sources: { materie: [surse alese] }
+  const quizPrefs = ref({ size: 10, mode: 'mix', qtype: 'all', sources: {}, ...(saved.quizPrefs ?? {}) })
   const quizSessions = ref(saved.quizSessions ?? {}) // quiz-uri lăsate la jumătate, pe materie
   const starred = ref(saved.starred ?? []) // grile marcate cu ⭐ pentru revăzut
   const courses = ref(saved.courses ?? {}) // cursurile încărcate de student: { id: { name, subjectId, createdAt } } (textul stă în IndexedDB)
@@ -302,6 +303,31 @@ export const useAppStore = defineStore('app', () => {
     for (const c of allCards.value) if (c.subjectId === subjectId) (out.cards.all++, out.cards[originOfCard(c)]++)
     for (const q of [...mock.questions, ...myQuestions.value]) if (q.subjectId === subjectId) (out.questions.all++, out.questions[originOfQuestion(q)]++)
     return out
+  }
+
+  // De unde vine o grilă sau un cartonaș, pentru alegerea „din ce document”:
+  // 'steto' | 'c:<id curs>' (generat din cursul încărcat) | 'ai' (generat fără curs) | 'mine'
+  function sourceKeyOf(x, kind = 'questions') {
+    if (x.courseId) return 'c:' + x.courseId
+    return kind === 'cards' ? originOfCard(x) : originOfQuestion(x)
+  }
+  function sourceLabel(key) {
+    if (key.startsWith('c:')) return `📘 ${courses.value[key.slice(2)]?.name ?? 'Curs șters'}`
+    return { steto: '✅ Steto', ai: '🤖 Generate AI (fără curs)', mine: '👤 Ale mele' }[key] ?? key
+  }
+  // Sursele disponibile într-o materie, cu numărul de elemente din fiecare (cursurile cele mai noi primele).
+  function sourcesFor(subjectId, kind = 'questions') {
+    const items = kind === 'cards' ? allCards.value.filter((c) => c.subjectId === subjectId) : [...mock.questions, ...myQuestions.value].filter((q) => q.subjectId === subjectId)
+    const counts = new Map()
+    for (const x of items) {
+      const k = sourceKeyOf(x, kind)
+      counts.set(k, (counts.get(k) ?? 0) + 1)
+    }
+    const order = (k) => (k === 'steto' ? 0 : k.startsWith('c:') ? 1 : k === 'ai' ? 2 : 3)
+    const created = (k) => courses.value[k.slice(2)]?.createdAt ?? 0
+    return [...counts.entries()]
+      .map(([key, count]) => ({ key, count, label: sourceLabel(key) }))
+      .sort((a, b) => order(a.key) - order(b.key) || created(b.key) - created(a.key))
   }
 
   // --- Grile ---
@@ -678,7 +704,7 @@ export const useAppStore = defineStore('app', () => {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
     examDates, caseProgress, skillStatus, myQuestions, addAiContent, aiCountFor, removeAiCourse, clearAiContent,
-    sourceFilter, timerOn, quizPrefs, quizSessions, starred, aiDensity, courses, registerCourse, renameCourse, forgetCourse, courseContent, saveFailed, toggleStar, missedToday, practiceCard, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
+    sourceFilter, timerOn, quizPrefs, quizSessions, starred, aiDensity, courses, sourceKeyOf, sourceLabel, sourcesFor, registerCourse, renameCourse, forgetCourse, courseContent, saveFailed, toggleStar, missedToday, practiceCard, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
     targetSession, topicsFor, buildPlan, buildCoursePlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,
     setExamDate, examPlan, upcomingExams, clinicalFor, finishCase, setSkillLevel, stagiuStats,

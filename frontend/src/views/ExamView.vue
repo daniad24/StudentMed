@@ -7,6 +7,7 @@ import { correctTexts, formatTime, isCorrectSelection, prepareQuestion, shuffle 
 import BackButton from '../components/BackButton.vue'
 import AppIcon from '../components/AppIcon.vue'
 import QuestionCard from '../components/QuestionCard.vue'
+import SourcePicker from '../components/SourcePicker.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -16,13 +17,31 @@ const store = useAppStore()
 // ?mod=rezidentiat preselectează capitolele de rezidențiat.
 const rezMode = route.query.mod === 'rezidentiat'
 const available = subjects
-  .map((s) => ({ ...s, count: store.questionsFor(s.id, store.sourceFilter).length }))
+  .map((s) => ({ ...s, count: store.questionsFor(s.id).length }))
   .filter((s) => s.count > 0 && (!rezMode || s.rez))
 // ?materie=<id> = simulare de colocviu doar din materia respectivă.
 const onlySubject = available.find((s) => s.id === route.query.materie)?.id
 const picked = ref(onlySubject ? [onlySubject] : available.map((s) => s.id))
 const size = ref(rezMode ? 50 : 30)
-const pool = computed(() => picked.value.flatMap((id) => store.questionsFor(id, store.sourceFilter)))
+// Sursa grilelor: la o singură materie alegi documentele (ca la quiz); la mai multe, Steto sau ale tale.
+const prefs = store.quizPrefs
+const single = computed(() => (picked.value.length === 1 ? picked.value[0] : null))
+const singleSources = computed(() => (single.value ? store.sourcesFor(single.value, 'questions') : []))
+const pickedSources = computed({
+  get: () => (single.value ? prefs.sources?.[single.value] ?? null : null),
+  set: (v) => (prefs.sources = { ...prefs.sources, [single.value]: v }),
+})
+const multiSource = ref('all') // all | steto | own
+const qtype = ref('all') // all | single | multi
+const bySource = computed(() =>
+  picked.value.flatMap((id) => store.questionsFor(id)).filter((q) => {
+    const key = store.sourceKeyOf(q)
+    if (single.value) return !pickedSources.value?.length || pickedSources.value.includes(key)
+    return multiSource.value === 'all' || (multiSource.value === 'steto') === (key === 'steto')
+  }),
+)
+const typeCounts = computed(() => ({ all: bySource.value.length, single: bySource.value.filter((q) => q.type !== 'multi').length, multi: bySource.value.filter((q) => q.type === 'multi').length }))
+const pool = computed(() => bySource.value.filter((q) => qtype.value === 'all' || (qtype.value === 'multi') === (q.type === 'multi')))
 const count = computed(() => (size.value ? Math.min(size.value, pool.value.length) : pool.value.length))
 
 function togglePick(id) {
@@ -123,6 +142,24 @@ const wrong = computed(() => results.value.filter((r) => !r.correct))
           >
             {{ s.emoji }} {{ s.name }} <span class="opacity-70">({{ s.count }})</span>
           </button>
+        </div>
+
+        <template v-if="single && singleSources.length > 1">
+          <h2 class="pt-2 font-black">Din ce document</h2>
+          <SourcePicker v-model="pickedSources" :sources="singleSources" accent="brand" />
+        </template>
+        <template v-else-if="!single">
+          <h2 class="pt-2 font-black">Sursa</h2>
+          <div class="grid grid-cols-3 gap-2">
+            <button v-for="o in [{ id: 'all', l: 'Toate' }, { id: 'steto', l: '✅ Steto' }, { id: 'own', l: '📘 Ale mele' }]" :key="o.id" class="btn px-1 py-2 text-sm" :class="multiSource === o.id ? 'btn-primary' : 'btn-white'" @click="multiSource = o.id">{{ o.l }}</button>
+          </div>
+        </template>
+
+        <h2 class="pt-2 font-black">Tipul grilelor</h2>
+        <div class="grid grid-cols-3 gap-2">
+          <button class="btn flex-col gap-0 px-1 py-2 text-sm" :class="qtype === 'all' ? 'btn-primary' : 'btn-white'" @click="qtype = 'all'">Amestecate<span class="text-[10px] font-bold normal-case opacity-80">{{ typeCounts.all }}</span></button>
+          <button class="btn flex-col gap-0 px-1 py-2 text-sm" :class="qtype === 'single' ? 'btn-primary' : 'btn-white'" :disabled="!typeCounts.single" @click="qtype = 'single'">Simplu<span class="text-[10px] font-bold normal-case opacity-80">{{ typeCounts.single }}</span></button>
+          <button class="btn flex-col gap-0 px-1 py-2 text-sm" :class="qtype === 'multi' ? 'btn-primary' : 'btn-white'" :disabled="!typeCounts.multi" @click="qtype = 'multi'">Multiplu<span class="text-[10px] font-bold normal-case opacity-80">{{ typeCounts.multi }}</span></button>
         </div>
 
         <h2 class="pt-2 font-black">Număr de grile</h2>
