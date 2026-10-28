@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { subjects, years } from '../data/mock'
-import { deleteCourse, listCourses, putCourse } from '../lib/courses'
+import { deleteCourse, deleteCourseImages, listCourses, putCourse } from '../lib/courses'
 import { PROMPT_VERSION, splitText } from '../lib/aiimport'
 import BackButton from '../components/BackButton.vue'
 import AppIcon from '../components/AppIcon.vue'
@@ -72,6 +72,7 @@ async function saveRename(c) {
 const deleting = ref(null)
 async function remove(c, withContent) {
   await deleteCourse(c.id)
+  if (withContent) await deleteCourseImages(c.id)
   store.forgetCourse(c.id, withContent)
   delete stored.value[c.id]
   deleting.value = null

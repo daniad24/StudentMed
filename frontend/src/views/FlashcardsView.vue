@@ -7,6 +7,7 @@ import BackButton from '../components/BackButton.vue'
 import ZoomImage from '../components/ZoomImage.vue'
 import ReportDialog from '../components/ReportDialog.vue'
 import SourcePicker from '../components/SourcePicker.vue'
+import { useImageUrl } from '../lib/storedImage'
 
 const route = useRoute()
 const router = useRouter()
@@ -70,6 +71,8 @@ const tally = computed(() => {
 const streakBefore = store.currentStreak
 
 const current = computed(() => queue.value[0])
+const imageUrl = useImageUrl(() => current.value?.image?.src)
+const backImageUrl = useImageUrl(() => current.value?.backImage?.src)
 const progress = computed(() => (initialCount.value ? (done.value / initialCount.value) * 100 : 100))
 const finished = computed(() => !current.value)
 watch(finished, (f) => {
@@ -161,13 +164,14 @@ function onReport(reason) {
             <span v-if="current.courseId" class="chip mt-2 max-w-full truncate bg-brand-100 text-brand-700">{{ store.sourceLabel('c:' + current.courseId) }}</span>
             <span v-if="current.ai" class="chip mt-2 bg-amber-100 text-amber-700">🤖 generat de AI · neverificat</span>
             <span v-if="current.fromQuiz" class="chip mt-2 bg-violet-100 text-violet-700">din grilele greșite</span>
-            <img v-if="current.image" :src="current.image.src" :alt="current.image.alt" class="mt-3 max-h-56 w-full rounded-xl border-2 border-gray-200 bg-white object-contain" />
+            <img v-if="current.image" :src="imageUrl" :alt="current.image.alt" class="mt-3 w-full rounded-xl border-2 border-gray-200 bg-white object-contain" :class="current.kind === 'image' ? 'max-h-80' : 'max-h-56'" />
             <p v-if="current.image?.credit" class="mt-1 text-[10px] font-semibold text-muted">Foto: {{ current.image.credit.author }} · {{ current.image.credit.license }}</p>
             <p class="mt-3 font-black leading-snug" :class="current.front.length > 90 || current.image ? 'text-lg' : 'text-2xl'">{{ current.front }}</p>
             <p class="mt-6 text-sm font-bold text-muted">Atinge ca să vezi răspunsul</p>
           </div>
           <div class="flip-face flip-back card flex flex-col items-center justify-center border-brand-200 bg-brand-50 p-6 text-center">
             <p class="text-xs font-black tracking-widest text-brand-700 uppercase">Răspuns</p>
+            <img v-if="current.backImage" :src="backImageUrl" :alt="current.backImage.alt" class="mt-3 max-h-64 w-full rounded-xl border-2 border-brand-200 bg-white object-contain" />
             <p class="mt-3 whitespace-pre-line font-black leading-snug text-brand-800" :class="current.back.length > 60 ? 'text-lg text-left' : 'text-2xl'">{{ current.back }}</p>
             <p v-if="current.note" class="mt-3 text-sm font-semibold text-muted">💡 {{ current.note }}</p>
           </div>

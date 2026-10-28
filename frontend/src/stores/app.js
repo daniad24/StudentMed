@@ -349,14 +349,38 @@ export const useAppStore = defineStore('app', () => {
     if (summary?.content) addMaterial({ type: 'summary', subjectId, title: summary.title || 'Rezumat generat de AI', content: summary.content, source: 'ai', ai: true, readMinutes: Math.max(1, Math.round(summary.content.split(/\s+/).length / 150)), ...tag })
   }
 
+  // Cartonașe și grile „Ce arată imaginea?” din slide-urile cu poze ale unui curs (o rulare nouă le înlocuiește).
+  // items: [{ index, title, imageKey, card: { front, back }, question | null }]
+  function addImageItems(courseId, subjectId, items) {
+    const notMine = (x) => !(x.courseId === courseId && x.kind === 'image')
+    myQuestions.value = myQuestions.value.filter(notMine)
+    myCards.value = myCards.value.filter(notMine)
+    const author = user.value?.name ?? 'Tu'
+    const base = { subjectId, courseId, kind: 'image', fromSource: true, author }
+    myCards.value.push(
+      ...items.map((it) => ({
+        id: `img-${courseId}-${it.index}`,
+        ...base,
+        front: it.card.front,
+        back: it.card.back,
+        image: { src: `idb:${it.imageKey}`, alt: 'Imagine din curs' },
+        ...(it.fullKey ? { backImage: { src: `idb:${it.fullKey}`, alt: 'Slide-ul întreg, cu notițele' } } : {}),
+      })),
+    )
+    myQuestions.value.push(
+      ...items.filter((it) => it.question).map((it) => ({ id: `imgq-${courseId}-${it.index}`, ...base, source: 'ai', ...it.question, image: { src: `idb:${it.imageKey}`, alt: 'Imagine din curs' } })),
+    )
+  }
+
   // Câte grile/cartonașe/rezumate există deja dintr-un curs anume.
   function aiCountFor(courseId) {
-    const has = (x) => x.courseId === courseId
+    const has = (x) => x.courseId === courseId && x.kind !== 'image'
     return myQuestions.value.filter(has).length + myCards.value.filter(has).length + myMaterials.value.filter(has).length
   }
 
-  function removeAiCourse(courseId) {
-    const keep = (x) => x.courseId !== courseId
+  // all = false păstrează cartonașele și grilele cu imagini (nu țin de generarea cu AI)
+  function removeAiCourse(courseId, all = false) {
+    const keep = (x) => x.courseId !== courseId || (!all && x.kind === 'image')
     myQuestions.value = myQuestions.value.filter(keep)
     myCards.value = myCards.value.filter(keep)
     myMaterials.value = myMaterials.value.filter(keep)
@@ -551,7 +575,7 @@ export const useAppStore = defineStore('app', () => {
     const rest = { ...courses.value }
     delete rest[id]
     courses.value = rest
-    if (alsoContent) removeAiCourse(id)
+    if (alsoContent) removeAiCourse(id, true)
   }
   // Tot ce s-a generat dintr-un curs, pentru cardul lui.
   function courseContent(courseId) {
@@ -711,7 +735,7 @@ export const useAppStore = defineStore('app', () => {
   return {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus, myQuestions, addAiContent, aiCountFor, removeAiCourse, clearAiContent,
+    examDates, caseProgress, skillStatus, myQuestions, addAiContent, addImageItems, aiCountFor, removeAiCourse, clearAiContent,
     sourceFilter, timerOn, quizPrefs, quizSessions, starred, aiDensity, courses, sourceKeyOf, sourceLabel, sourcesFor, registerCourse, moveCourse, renameCourse, forgetCourse, courseContent, saveFailed, toggleStar, missedToday, practiceCard, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
     targetSession, topicsFor, buildPlan, buildCoursePlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,

@@ -5,7 +5,9 @@ import { useAppStore } from '../stores/app'
 import { subjects, years } from '../data/mock'
 import { AI_IMPORT } from '../lib/flags'
 import { PROMPT_VERSION, buildPrompt, detectGrile, grileInChunk, isBoilerplatePage, keyForChunk, parseAiResponse, similarSets, splitText, wordSet } from '../lib/aiimport'
-import { deleteCourse, listCourses, newCourseId, putCourse } from '../lib/courses'
+import { deleteCourse, listCourses, newCourseId, putCourse, putImage } from '../lib/courses'
+import { buildImageItems, findImageSlides } from '../lib/imageSlides'
+import { shuffle } from '../lib/quiz'
 import { extractSlides } from '../lib/slides'
 import { MAX_MB, sizeError } from '../lib/limits'
 import { slideText, slidesToText } from '../lib/slidesText'
@@ -92,6 +94,7 @@ watch(subjectId, async (id) => {
 })
 
 function openCourse(c) {
+  hasFile.value = false
   course.value = c
   subjectId.value = c.subjectId
   text.value = c.text
@@ -314,6 +317,8 @@ async function onFile(e) {
     skippedPages.value = slides.length - kept.length
     loadedSlides = kept
     loadedFile = file
+    hasFile.value = true
+    img.value = { running: false, done: 0, total: 0, result: null, error: '' }
     scanned.value = kept.filter((sl) => sl.empty).map((sl) => sl.index)
     text.value = slidesToText(kept)
     part.value = 0
@@ -324,6 +329,37 @@ async function onFile(e) {
     fileError.value = err.message || 'Nu am putut citi fișierul.'
   } finally {
     reading.value = false
+  }
+}
+
+// --- Cartonașe și grile cu imaginile din curs (fără AI, totul în telefon) ---
+const hasFile = ref(false)
+const img = ref({ running: false, done: 0, total: 0, result: null, error: '' })
+let imgStop = false
+const stopImages = () => (imgStop = true)
+async function runImages() {
+  const c = course.value
+  if (!c || !loadedFile) return
+  img.value = { running: true, done: 0, total: 0, result: null, error: '' }
+  imgStop = false
+  try {
+    const found = await findImageSlides(loadedFile, loadedSlides, {
+      onProgress: (done, total) => (img.value = { ...img.value, done, total }),
+      shouldStop: () => imgStop,
+    })
+    const saved = []
+    for (const f of found) {
+      if (!(await putImage(`${c.id}:${f.index}`, f.blob))) continue
+      f.hasFull = f.full ? await putImage(`${c.id}:${f.index}:full`, f.full) : false
+      saved.push(f)
+    }
+    const items = buildImageItems(saved, shuffle).map((it) => ({ ...it, imageKey: `${c.id}:${it.index}`, fullKey: saved.find((f) => f.index === it.index)?.hasFull ? `${c.id}:${it.index}:full` : null }))
+    store.addImageItems(c.id, subjectId.value, items)
+    img.value = { ...img.value, result: { cards: items.length, questions: items.filter((i) => i.question).length } }
+  } catch (err) {
+    img.value = { ...img.value, error: err.message || 'Nu am putut citi imaginile.' }
+  } finally {
+    img.value = { ...img.value, running: false }
   }
 }
 
@@ -479,6 +515,25 @@ function again() {
           </div>
           <button v-else class="btn btn-blue w-full" @click="runOcr">📷 Citește paginile scanate</button>
           <p v-if="ocr.error" class="text-sm font-bold text-red-600">{{ ocr.error }}</p>
+        </div>
+        <div v-if="course && hasFile" class="space-y-2 rounded-xl bg-violet-50 p-3">
+          <p class="text-sm font-black text-violet-800">🩻 Cartonașe cu imaginile din curs</p>
+          <p class="text-xs font-semibold text-violet-800">Pentru slide-urile cu poze (radiografii, scheme, preparate): pe față imaginea fără titlu, pe spate titlul pus de profesor. Grilele „Ce arată imaginea?” au ca variante greșite alte titluri din curs. Fără AI, gratuit, rămâne în telefon.</p>
+          <div v-if="img.running" class="space-y-2">
+            <div class="h-3 overflow-hidden rounded-full bg-white">
+              <div class="h-full rounded-full bg-violet-500 transition-all" :style="{ width: `${(img.done / Math.max(img.total, 1)) * 100}%` }"></div>
+            </div>
+            <p class="text-sm font-bold text-violet-800">Slide {{ img.done }} din {{ img.total }}</p>
+            <button class="btn btn-white w-full" @click="stopImages">Oprește</button>
+          </div>
+          <template v-else-if="img.result">
+            <p class="text-sm font-bold text-violet-800">
+              {{ img.result.cards ? `Am făcut ${img.result.cards} cartonașe și ${img.result.questions} grile cu imagini.` : 'N-am găsit slide-uri cu imagini și titlu clar.' }}
+            </p>
+            <RouterLink v-if="img.result.cards" :to="`/flashcards/${subjectId}?curs=${course.id}`" class="btn btn-primary block w-full text-center">🃏 Repetă cu imaginile</RouterLink>
+          </template>
+          <button v-else class="btn btn-white w-full" @click="runImages">🩻 Fă cartonașe din imagini</button>
+          <p v-if="img.error" class="text-sm font-bold text-red-600">{{ img.error }}</p>
         </div>
         <p v-if="skippedPages" class="text-sm font-semibold text-muted">Am lăsat deoparte {{ skippedPages }} {{ skippedPages === 1 ? 'pagină administrativă' : 'pagini administrative' }} (drepturi de autor, titlu, cuprins).</p>
         <p class="rounded-xl bg-amber-50 px-3 py-2 text-xs font-bold text-amber-800">Folosește doar materiale pe care ai voie să le procesezi. Rezultatele rămân pe telefonul tău, dar textul se trimite la un serviciu de AI.</p>

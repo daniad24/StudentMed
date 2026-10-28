@@ -63,6 +63,23 @@ export async function openZip(file) {
   return {
     names: [...entries.keys()],
 
+    // Conținutul unei intrări, ca octeți (pentru pozele din prezentări).
+    async bytes(name) {
+      const e = entries.get(name)
+      if (!e) return null
+      if (e.flags & 1) throw new ZipError('arhivă criptată')
+      const head = await readRange(file, e.localOffset, e.localOffset + 30)
+      const hv = new DataView(head.buffer)
+      if (u32(hv, 0) !== SIG_LOCAL) throw new ZipError('not a zip')
+      const dataStart = e.localOffset + 30 + u16(hv, 26) + u16(hv, 28)
+      const raw = await readRange(file, dataStart, dataStart + e.csize)
+      if (e.method === 0) return raw
+      if (e.method === 8) return inflateSync(raw, { out: new Uint8Array(e.usize) })
+      throw new ZipError('metodă de compresie nesuportată')
+    },
+
+    size: (name) => entries.get(name)?.usize ?? 0,
+
     // 3. Citește și decomprimă o singură intrare, ca text UTF-8.
     async text(name) {
       const e = entries.get(name)
