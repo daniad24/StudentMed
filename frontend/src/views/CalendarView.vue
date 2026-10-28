@@ -133,8 +133,8 @@ function exportCalendar() {
           <button v-for="k in KINDS_EXAM" :key="k" class="chip border-2 py-1.5 text-sm" :class="editExam.kind === k ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-gray-200 bg-surface text-muted'" @click="editExam.kind = k">{{ k }}</button>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <label class="text-sm font-bold text-muted">Data<input v-model="editExam.date" type="date" class="input mt-1" /></label>
-          <label class="text-sm font-bold text-muted">Ora (opțional)<input v-model="editExam.time" type="time" class="input mt-1" /></label>
+          <label class="min-w-0 text-sm font-bold text-muted">Data<input v-model="editExam.date" type="date" :min="today()" class="input mt-1" /></label>
+          <label class="min-w-0 text-sm font-bold text-muted">Ora (opțional)<input v-model="editExam.time" type="time" class="input mt-1" /></label>
         </div>
         <input v-model="editExam.place" class="input" placeholder="Unde (sala, spitalul)" maxlength="80" />
         <div v-if="editExam.subjectId">
@@ -152,6 +152,7 @@ function exportCalendar() {
           </div>
           <p v-else class="text-sm font-semibold text-muted">Încă nu ai încărcat cursuri la materia asta. Le poți lega și mai târziu.</p>
         </div>
+        <p v-if="!editExam.subjectId || !editExam.date" class="text-xs font-bold text-amber-700">Alege materia și data ca să poți salva.</p>
         <textarea v-model="editExam.note" rows="2" class="input" placeholder="Notă (ce se cere, capitole, profesor)" maxlength="400"></textarea>
         <div class="grid grid-cols-2 gap-2">
           <button class="btn btn-white" @click="editExam = null">Renunță</button>
@@ -205,8 +206,8 @@ function exportCalendar() {
           <button v-for="(d, i) in DAYS" :key="d" class="chip border-2 py-1.5 text-sm" :class="Number(editClass.day) === i + 1 ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-gray-200 bg-surface text-muted'" @click="editClass.day = i + 1">{{ d.slice(0, 2) }}</button>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <label class="text-sm font-bold text-muted">De la<input v-model="editClass.start" type="time" class="input mt-1" /></label>
-          <label class="text-sm font-bold text-muted">Până la<input v-model="editClass.end" type="time" class="input mt-1" /></label>
+          <label class="min-w-0 text-sm font-bold text-muted">De la<input v-model="editClass.start" type="time" class="input mt-1" /></label>
+          <label class="min-w-0 text-sm font-bold text-muted">Până la<input v-model="editClass.end" type="time" class="input mt-1" /></label>
         </div>
         <select v-model="editClass.subjectId" class="input" aria-label="Materia">
           <option value="">Materia (opțional)…</option>

@@ -124,7 +124,7 @@ const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
         </button>
       </div>
       <div v-else class="flex flex-wrap items-center gap-2">
-        <input v-model="dateInput" type="date" :min="today()" class="input flex-1 py-2" aria-label="Data colocviului" />
+        <input v-model="dateInput" type="date" :min="today()" class="input min-w-0 flex-1 py-2" aria-label="Data colocviului" />
         <button class="btn btn-primary px-4 py-2" @click="saveDate">Salvează</button>
         <button v-if="plan" class="btn btn-white px-3 py-2" @click="dateInput = ''; saveDate()">Șterge</button>
       </div>
