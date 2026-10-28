@@ -34,12 +34,14 @@ export function splitText(text, size = CHUNK_CHARS) {
 // Le scoatem înainte de generare, altfel AI-ul face grile despre „cine a scris cartea”.
 const BOILERPLATE = /drepturile? de autor|material intern al|reproducere(a)? sau utilizare|copyright|toate drepturile rezervate|cuprins\b|isbn|descrierea cip|editura|tehnoredactare|coperta|referen[țt]i (științifici|stiintifici)|colectivul de autori|lista autorilor|sub redac[țt]ia|coordonator/i
 const PERSON_TITLE = /\b(prof\.?|conf\.?|[șs]ef de lucr[ăa]ri|asist\.?|lector|dr\.)\s/gi
-const TOC_LINE = /(\.{3,}|…{2,}|\s{2,})\s*\d{1,4}\s*$|\s\d{1,4}\s*$/
+const TOC_LINE = /(\.{3,}|…{2,}|\s{3,}|\t)\s*\d{1,4}\s*$|^(\d+(\.\d+)*\.?\s+)?[A-ZĂÂÎȘȚ][^.!?:]{3,90}\s\d{1,4}\s*$/
 
 export function isBoilerplatePage(pageText) {
   const t = pageText.trim()
   if (!t) return false
   const lines = t.split('\n').map((l) => l.trim()).filter(Boolean)
+  // o pagină cu grile (variante A–D la rând) e materie, chiar dacă rândurile se termină cu cifre
+  if (countGrile(t) >= 1) return false
   // cuprins: majoritatea rândurilor se termină cu un număr de pagină
   const tocLines = lines.filter((l) => TOC_LINE.test(l) && l.length < 160).length
   if (lines.length >= 5 && tocLines / lines.length >= 0.45) return true
