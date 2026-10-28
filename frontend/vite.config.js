@@ -46,6 +46,8 @@ export default defineConfig({
       },
       workbox: {
         navigateFallback: '/index.html',
+        // /api/… (de exemplu fișierul de calendar) trebuie să ajungă la server, nu la aplicație
+        navigateFallbackDenylist: [/^\/api\//],
         // tot conținutul medical e în pachetul principal (peste 2 MiB); îl păstrăm în cache ca aplicația să meargă și offline
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],

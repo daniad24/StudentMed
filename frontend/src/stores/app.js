@@ -36,6 +36,14 @@ export function addDays(date, days) {
 }
 
 // Luni din săptămâna curentă.
+// Săptămâna din an (ISO), pentru orele care se țin doar în săptămânile pare sau impare.
+export function isoWeek(d = new Date()) {
+  const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
+  const day = t.getUTCDay() || 7
+  t.setUTCDate(t.getUTCDate() + 4 - day)
+  return Math.ceil(((t - new Date(Date.UTC(t.getUTCFullYear(), 0, 1))) / 864e5 + 1) / 7)
+}
+
 export function weekStart() {
   const day = new Date(today() + 'T00:00:00Z').getUTCDay()
   return addDays(today(), -((day + 6) % 7))
@@ -64,7 +72,7 @@ const DEMO_RIVALS = [
 const KEYS = [
   'user', 'isAdmin', 'theme', 'streak', 'cardState', 'votes', 'recommendedOverrides', 'reports',
   'myMaterials', 'myCards', 'quizCards', 'quizHistory', 'examHistory', 'answerLog', 'activity', 'leaderboardOptIn',
-  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter', 'timerOn', 'quizPrefs', 'quizSessions', 'starred', 'missed', 'aiDensity', 'courses',
+  'examDates', 'caseProgress', 'skillStatus', 'myQuestions', 'tourDone', 'aiCode', 'sourceFilter', 'timerOn', 'quizPrefs', 'quizSessions', 'starred', 'missed', 'aiDensity', 'courses', 'exams', 'schedule',
 ]
 
 // Carnetul de abilități practice: nivelul atins pentru fiecare manevră/examinare.
@@ -94,7 +102,13 @@ export const useAppStore = defineStore('app', () => {
   const answerLog = ref(saved.answerLog ?? [])
   const activity = ref(saved.activity ?? {})
   const leaderboardOptIn = ref(saved.leaderboardOptIn ?? true)
-  const examDates = ref(saved.examDates ?? {}) // { subjectId: 'YYYY-MM-DD' }
+  const examDates = ref(saved.examDates ?? {}) // { subjectId: 'YYYY-MM-DD' } – cel mai apropiat examen pe materie (derivat din exams)
+  // Examenele studentului: { id, subjectId, kind, date, time, place, courseIds, note }
+  const exams = ref(
+    saved.exams ?? Object.entries(saved.examDates ?? {}).map(([subjectId, date]) => ({ id: 'ex' + subjectId, subjectId, kind: 'Colocviu', date, time: '', place: '', courseIds: [], note: '' })),
+  )
+  // Orarul săptămânal: { id, day (1 = luni … 7 = duminică), start, end, subjectId, title, kind, place, weeks: 'all' | 'odd' | 'even' }
+  const schedule = ref(saved.schedule ?? [])
   const caseProgress = ref(saved.caseProgress ?? {}) // { caseId: { date, ratings: ['yes'|'partial'|'no'] } }
   const skillStatus = ref(saved.skillStatus ?? {}) // { skillId: 0..3 }
   const myQuestions = ref(saved.myQuestions ?? []) // grile importate cu chatbotul (neverificate)
@@ -116,7 +130,7 @@ export const useAppStore = defineStore('app', () => {
   const refs = {
     user, isAdmin, theme, streak, cardState, votes, recommendedOverrides, reports,
     myMaterials, myCards, quizCards, quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter, timerOn, quizPrefs, quizSessions, starred, missed, aiDensity, courses,
+    examDates, caseProgress, skillStatus, myQuestions, tourDone, aiCode, sourceFilter, timerOn, quizPrefs, quizSessions, starred, missed, aiDensity, courses, exams, schedule,
   }
   watch(
     KEYS.map((k) => refs[k]),
@@ -470,12 +484,35 @@ export const useAppStore = defineStore('app', () => {
   ])
 
   // --- Colocvii ---
-  function setExamDate(subjectId, date) {
-    const next = { ...examDates.value }
-    if (date) next[subjectId] = date
-    else delete next[subjectId]
+  // Data afișată la materie = cel mai apropiat examen viitor din lista de examene.
+  function syncExamDates() {
+    const t = today()
+    const next = {}
+    for (const e of exams.value) if (e.date >= t && (!next[e.subjectId] || e.date < next[e.subjectId])) next[e.subjectId] = e.date
     examDates.value = next
   }
+  watch(exams, syncExamDates, { deep: true, immediate: true })
+
+  function saveExam(exam) {
+    const e = { kind: 'Colocviu', time: '', place: '', courseIds: [], note: '', ...exam, id: exam.id || 'ex' + Date.now().toString(36) }
+    exams.value = [...exams.value.filter((x) => x.id !== e.id), e]
+    return e
+  }
+  const removeExam = (id) => (exams.value = exams.value.filter((x) => x.id !== id))
+
+  // Din pagina materiei: data colocviului (actualizează cel mai apropiat examen al materiei sau creează unul).
+  function setExamDate(subjectId, date) {
+    const t = today()
+    const current = exams.value.filter((e) => e.subjectId === subjectId && e.date >= t).sort((a, b) => a.date.localeCompare(b.date))[0]
+    if (!date) return current && removeExam(current.id)
+    saveExam(current ? { ...current, date } : { subjectId, date })
+  }
+
+  function saveClass(entry) {
+    const c = { weeks: 'all', place: '', kind: 'Curs', ...entry, id: entry.id || 'cl' + Date.now().toString(36) }
+    schedule.value = [...schedule.value.filter((x) => x.id !== c.id), c]
+  }
+  const removeClass = (id) => (schedule.value = schedule.value.filter((x) => x.id !== id))
 
   // Câte zile mai sunt și câte grile pe zi ar trebui rezolvate ca să le treci pe toate o dată.
   function examPlan(subjectId) {
@@ -735,7 +772,7 @@ export const useAppStore = defineStore('app', () => {
   return {
     user, isAdmin, theme, streak, cardState, reports, myMaterials, myCards, quizCards,
     quizHistory, examHistory, answerLog, activity, leaderboardOptIn,
-    examDates, caseProgress, skillStatus, myQuestions, addAiContent, addImageItems, aiCountFor, removeAiCourse, clearAiContent,
+    examDates, exams, schedule, saveExam, removeExam, saveClass, removeClass, caseProgress, skillStatus, myQuestions, addAiContent, addImageItems, aiCountFor, removeAiCourse, clearAiContent,
     sourceFilter, timerOn, quizPrefs, quizSessions, starred, aiDensity, courses, sourceKeyOf, sourceLabel, sourcesFor, registerCourse, moveCourse, renameCourse, forgetCourse, courseContent, saveFailed, toggleStar, missedToday, practiceCard, courseStats, idsInTopics, lastAnswers, originCounts, exportData, importData, tourDone, tourOpen, startTour, finishTour, aiCode, setAiCode, clearAiCode,
     targetSession, topicsFor, buildPlan, buildCoursePlan, completeBlock, toggleBlock,
     login, logout, studyYear, setStudyYear,

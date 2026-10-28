@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { useAppStore, today, addDays } from '../stores/app'
+import { useAppStore, today, addDays, isoWeek } from '../stores/app'
 import { subjects } from '../data/mock'
 import AppIcon from '../components/AppIcon.vue'
 
@@ -55,6 +55,22 @@ const recommended = computed(() => {
 
 const subjectById = (id) => subjects.find((s) => s.id === id)
 const courseCount = computed(() => Object.keys(store.courses).length)
+
+// Azi: orele rămase din zi și cel mai apropiat examen
+const nowHM = () => new Date().toTimeString().slice(0, 5)
+const todayClasses = computed(() => {
+  const day = ((new Date().getDay() + 6) % 7) + 1
+  const odd = isoWeek() % 2 === 1
+  return store.schedule
+    .filter((c) => Number(c.day) === day && (c.weeks === 'all' || (c.weeks === 'odd') === odd) && (c.end || c.start) >= nowHM())
+    .sort((a, b) => a.start.localeCompare(b.start))
+})
+const nextExam = computed(() => {
+  const e = store.exams.filter((x) => x.date >= today()).sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || '')))[0]
+  if (!e) return null
+  const left = Math.round((new Date(e.date + 'T00:00:00') - new Date(today() + 'T00:00:00')) / 864e5)
+  return { ...e, left, subject: subjectById(e.subjectId) }
+})
 const unfinished = computed(() =>
   Object.entries(store.quizSessions)
     .map(([key, s]) => {
@@ -199,6 +215,26 @@ const unfinished = computed(() =>
         </div>
         <AppIcon name="forward" :size="28" />
       </div>
+    </RouterLink>
+
+    <!-- Azi: orar și examene -->
+    <RouterLink to="/calendar" class="card block space-y-1 p-4 transition-transform active:translate-y-[2px] slide-up">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">📅</span>
+        <p class="flex-1 font-black">{{ store.exams.length || store.schedule.length ? 'Azi și următorul examen' : 'Orarul și examenele tale' }}</p>
+        <AppIcon name="forward" class="text-muted" />
+      </div>
+      <template v-if="store.exams.length || store.schedule.length">
+        <p v-if="todayClasses.length" class="text-sm font-bold">
+          🕘 {{ todayClasses[0].start }} {{ todayClasses[0].kind }} {{ todayClasses[0].title }}<span v-if="todayClasses[0].place" class="text-muted"> · {{ todayClasses[0].place }}</span>
+          <span v-if="todayClasses.length > 1" class="text-muted"> · încă {{ todayClasses.length - 1 }}</span>
+        </p>
+        <p v-else-if="store.schedule.length" class="text-sm font-semibold text-muted">Nicio oră rămasă azi.</p>
+        <p v-if="nextExam" class="text-sm font-bold" :class="nextExam.left <= 3 ? 'text-orange-600' : 'text-brand-700'">
+          🎓 {{ nextExam.kind }} {{ nextExam.subject?.name }} · {{ nextExam.left === 0 ? 'azi' : nextExam.left === 1 ? 'mâine' : `în ${nextExam.left} zile` }}{{ nextExam.time ? `, ${nextExam.time}` : '' }}
+        </p>
+      </template>
+      <p v-else class="text-sm font-semibold text-muted">Pune orarul și datele examenelor, cu documentele din care înveți. Primești notificări în calendarul telefonului.</p>
     </RouterLink>
 
     <!-- Ce n-ai știut azi -->

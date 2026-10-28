@@ -87,7 +87,10 @@ Reguli:
 - „explanation” trebuie să fie în acord cu „answer”: toate variantele corecte apar în explicație, iar cele greșite nu. La grilele preluate fără explicație în text, scrie „Conform cheii din curs.”
 - Nu face două grile despre același lucru.
 - Fă aproximativ ${questions} grile noi și ${cards} cartonașe${summary ? ' și un rezumat al textului' : ''}. Acoperă toate ideile importante din text, una câte una, fără să repeți. Dacă textul nu are destul conținut, fă mai puține în loc să inventezi.
-- Grilele noi au exact 5 variante. Pot avea unul sau mai multe răspunsuri corecte (complement simplu sau multiplu, ca la examenele din facultate).
+- Grilele noi au exact 5 variante. Aproximativ jumătate au mai multe răspunsuri corecte (complement multiplu), restul unul singur, ca la examenele din facultate.
+- Grilele noi sunt de nivel colocviu, nu de recunoaștere a unei propoziții: verifică înțelegerea (comparații între entități din text, cauză–efect, „care NU este…”, legarea a două informații din părți diferite ale textului, aplicarea la o situație scurtă descrisă doar cu date din text).
+- Variantele greșite sunt plauzibile: termeni și confuzii din același capitol al textului, nu absurdități ușor de eliminat.
+- Când reformulezi, păstrează exact faptele din text (denumiri, cifre, relații, negații). Nu schimba sensul și nu generaliza ce e particular.
 - „answer” = indicii variantelor corecte, începând de la 0 (A = 0, B = 1, C = 2, D = 3, E = 4).
 - Cartonașele: „front” = întrebare scurtă, „back” = răspuns scurt.
 ${summary ? '- „summary” = rezumat în Markdown (titluri cu ##, liste scurte, termenii-cheie cu **bold**), 100–200 de cuvinte, doar din text, fără informații noi.\n' : ''}${avoidList}

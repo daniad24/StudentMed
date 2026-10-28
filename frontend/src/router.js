@@ -18,6 +18,7 @@ const routes = [
   { path: '/clasament', name: 'leaderboard', component: () => import('./views/LeaderboardView.vue') },
   { path: '/statistici', name: 'stats', component: () => import('./views/StatsView.vue') },
   { path: '/caz/:caseId', name: 'case', component: () => import('./views/CaseView.vue'), meta: { focus: true } },
+  { path: '/calendar', name: 'calendar', component: () => import('./views/CalendarView.vue') },
   { path: '/cursuri', name: 'courses', component: () => import('./views/CoursesView.vue') },
   { path: '/import', name: 'import', component: () => import('./views/ImportView.vue') },
   { path: '/import-ai', name: 'import-ai', component: () => import('./views/AiImportView.vue') },
