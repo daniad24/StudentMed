@@ -39,7 +39,7 @@ const sources = computed(() => {
   return [...counts.entries()].map(([key, count]) => ({ key, count, label: store.sourceLabel(key) })).sort((a, b) => order(a.key) - order(b.key) || (store.courses[b.key.slice(2)]?.createdAt ?? 0) - (store.courses[a.key.slice(2)]?.createdAt ?? 0))
 })
 const pickedSources = computed({
-  get: () => prefs.cardSources?.[subject.id] ?? null,
+  get: () => prefs.cardSources?.[subject.id] ?? (sources.value.some((s) => s.key === 'steto') && sources.value.length > 1 ? ['steto'] : null),
   set: (v) => (prefs.cardSources = { ...(prefs.cardSources ?? {}), [subject.id]: v }),
 })
 const all = computed(() => {
@@ -137,7 +137,7 @@ function onReport(reason) {
       <p class="mt-1 text-sm font-semibold text-muted">{{ subject.emoji }} {{ subject.name }}</p>
       <div v-if="sources.length > 1" class="mt-5 text-left">
         <p class="label">Din ce document</p>
-        <SourcePicker v-model="pickedSources" :sources="sources" accent="brand" />
+        <SourcePicker v-model="pickedSources" :sources="sources" accent="brand" :fresh="prefs.cardSources?.[subject.id] === undefined" />
       </div>
       <p class="label mt-5 text-left">Câte faci acum? <span class="font-semibold text-muted">Restul rămân la rând.</span></p>
       <div class="grid w-full gap-2">

@@ -48,12 +48,14 @@ export function isBoilerplatePage(pageText) {
   // liste de autori: multe titluri „Prof. Univ. Dr.” pe o pagină cu puțin altceva
   const people = (t.match(PERSON_TITLE) ?? []).length
   if (people >= 4 && people / Math.max(lines.length, 1) >= 0.25 && t.length < 4000) return true
+  // prefața / cuvântul înainte: pagina începe cu ele
+  if (/^[#\s]*(cuv[âa]nt(ul)? [îi]nainte|prefa[țt][ăa]|introducere la edi[țt]ie|mul[țt]umiri)/i.test(t.slice(0, 120))) return true
   // pagini scurte cu editură, ISBN, drepturi de autor
   return t.length < 2500 && BOILERPLATE.test(t)
 }
 
 // Grile și cartonașe despre carte, nu despre materie („cine e autorul capitolului…”, „la ce editură…”).
-const META_ITEM = /(^|[^a-zăâîșț])(autor(ul|ii|ilor)?|editur[aăi]|sub redac[țt]ia|coordonat|cuprins(ul)?|isbn|prefa[țt]|referen[țt]i|tehnoredact|tipograf|copyright|drepturi(le)? de autor|primul capitol|ultimul capitol|capitolul .{0,40}(se nume[șs]te|este intitulat))(?![a-zăâîșț])|în ce an a apărut|cine (a scris|este autorul|a redactat)/i
+const META_ITEM = /(^|[^a-zăâîșț])(autor(ul|ii|ilor)?|editur[aăi]|sub redac[țt]ia|coordonat\w*|cuprins(ul)?|isbn|prefa[țt]\w*|referen[țt]i|tehnoredact\w*|tipograf\w*|copyright|drepturi(le)? de autor|primul capitol|ultimul capitol|cuv[âa]ntul ([îi]nainte|introductiv)|prof\.? univ|decan\w*|rector\w*|func[țt]ie de conducere|capitol(ul)? \d+|ce capitol)(?![a-zăâîșț])|în ce an a apărut|cine (a scris|este autorul|a redactat|semneaz)/i
 export const isMetaItem = (text) => META_ITEM.test(text)
 
 // --- Cursuri care au deja grile (cu sau fără cheie de răspunsuri) ---

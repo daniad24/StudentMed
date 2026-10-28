@@ -7,6 +7,8 @@ const props = defineProps({
   sources: { type: Array, required: true }, // [{ key, label, count }]
   modelValue: { type: Array, default: null },
   accent: { type: String, default: 'sky' },
+  // alegerea e cea implicită (studentul n-a ales încă): prima atingere înseamnă „doar asta”
+  fresh: { type: Boolean, default: false },
 })
 const emit = defineEmits(['update:modelValue'])
 
@@ -17,7 +19,7 @@ const isOn = (key) => !isAll.value && valid.value.includes(key)
 
 function toggle(key) {
   // din „Toate”, prima apăsare înseamnă „doar asta”; apoi se pot adăuga și altele
-  const next = isAll.value ? [key] : isOn(key) ? valid.value.filter((k) => k !== key) : [...valid.value, key]
+  const next = isAll.value || (props.fresh && !isOn(key)) ? [key] : isOn(key) ? valid.value.filter((k) => k !== key) : [...valid.value, key]
   emit('update:modelValue', next.length && next.length < props.sources.length ? next : null)
 }
 const on = computed(() => (props.accent === 'brand' ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-sky-500 bg-sky-50 text-sky-700'))

@@ -86,12 +86,18 @@ const pct = (s) => (s.answered ? Math.round((s.correct / s.answered) * 100) : nu
     <header class="flex items-center gap-3 slide-up">
       <BackButton to="/" />
       <div>
-        <h1 class="text-2xl font-black">📚 Cursurile mele</h1>
-        <p class="text-sm font-semibold text-muted">PDF-urile și PPT-urile tale, transformate în grile, cartonașe și rezumate.</p>
+        <h1 class="text-2xl font-black">📂 Ale mele</h1>
+        <p class="text-sm font-semibold text-muted">Cursurile tale și tot ce faci din ele, separat de materia din aplicație.</p>
       </div>
     </header>
 
-    <RouterLink to="/import-ai" class="btn btn-primary block w-full text-center">➕ Încarcă un curs nou</RouterLink>
+    <div class="grid gap-2">
+      <RouterLink to="/import-ai" class="btn btn-primary block w-full text-center">➕ Încarcă un curs (PDF / PPTX)</RouterLink>
+      <div class="grid grid-cols-2 gap-2">
+        <RouterLink to="/adauga" class="btn btn-white px-2 py-2.5 text-center text-sm">✍️ Adaugă de mână</RouterLink>
+        <RouterLink to="/calendar" class="btn btn-white px-2 py-2.5 text-center text-sm">📅 Orar și examene</RouterLink>
+      </div>
+    </div>
 
     <div v-if="!list.length && !loading" class="card space-y-2 p-6 text-center">
       <p class="text-5xl">📄</p>

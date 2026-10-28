@@ -16,7 +16,7 @@ const STEPS = [
   { route: '/', target: 'cauta', title: 'Caută 🔍', text: 'Găsești rapid orice rezumat, grilă sau cartonaș după un cuvânt.' },
   { route: '/materii', target: 'ani', title: 'Materiile, pe ani 📚', text: 'Organizate după planul de învățământ UMF „Carol Davila”. Pagina se deschide direct pe anul tău.' },
   { route: '/materii', target: 'lista-materii', title: 'În fiecare materie', text: 'Rezumate verificate, cartonașe și grile. La materiile clinice ai și cazuri clinice pas cu pas și carnetul de stagiu.' },
-  { route: '/adauga', target: 'nav-adauga', title: 'Adaugă 📄', text: 'Pui rezumatele și cartonașele tale sau le generezi direct din PPT-ul ori PDF-ul cursului.' },
+  { route: '/cursuri', target: 'nav-adauga', title: 'Ale mele 📂', text: 'Spațiul tău, separat de materia din aplicație: cursurile tale (PDF, PPT) cu grilele, cartonașele și rezumatele făcute din ele, plus ce adaugi de mână.' },
   { route: '/profil', target: 'nav-profil', title: 'Profil 👤', text: 'Anul de studiu, tema luminoasă sau întunecată, insignele și backup-ul progresului. De aici poți relua oricând acest tur.' },
   { route: '/', title: 'Gata! 🍀', text: 'Începe cu ce ai nevoie azi. Spor la învățat!' },
 ]

@@ -208,7 +208,7 @@ const unfinished = computed(() =>
       <div class="flex items-center gap-4">
         <div class="text-5xl">📚</div>
         <div class="flex-1">
-          <p class="text-xl font-black">{{ courseCount ? 'Cursurile mele' : 'Încarcă primul tău curs' }}</p>
+          <p class="text-xl font-black">{{ courseCount ? '📂 Ale mele' : 'Încarcă primul tău curs' }}</p>
           <p class="text-sm font-semibold text-white/90">
             {{ courseCount ? `${courseCount} ${courseCount === 1 ? 'curs' : 'cursuri'} · grile, cartonașe și rezumate din PDF-urile și PPT-urile tale` : 'PDF sau PPT de la facultate → grile, cartonașe și rezumat, gata de învățat.' }}
           </p>

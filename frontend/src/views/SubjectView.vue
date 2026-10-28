@@ -42,9 +42,13 @@ const materials = computed(() => allMaterials.value.filter(filterTests[filter.va
 const prefs = store.quizPrefs
 const pickFor = (field) =>
   computed({
-    get: () => prefs[field]?.[route.params.id] ?? null,
+    get: () => {
+      const list = field === 'cardSources' ? cardSources.value : questionSources.value
+      return prefs[field]?.[route.params.id] ?? (list.some((s) => s.key === 'steto') && list.length > 1 ? ['steto'] : null)
+    },
     set: (v) => (prefs[field] = { ...(prefs[field] ?? {}), [route.params.id]: v }),
   })
+const myCourses = computed(() => Object.values(store.courses).filter((c) => c.subjectId === route.params.id))
 const cardSources = computed(() => store.sourcesFor(route.params.id, 'cards'))
 const questionSources = computed(() => store.sourcesFor(route.params.id, 'questions'))
 const pickedCardSources = pickFor('cardSources')
@@ -94,6 +98,16 @@ const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
       <span class="flex h-12 w-12 items-center justify-center rounded-2xl border-2 text-2xl" :class="subject.color">{{ subject.emoji }}</span>
       <h1 class="text-2xl font-black leading-tight">{{ subject.name }}</h1>
     </header>
+
+    <!-- Materia ta la această materie: separat, în „Ale mele” -->
+    <RouterLink v-if="myCourses.length" to="/cursuri" class="card flex items-center gap-3 border-brand-300 p-3">
+      <span class="text-2xl">📂</span>
+      <span class="min-w-0 flex-1">
+        <span class="block font-extrabold">Materia ta: {{ myCourses.length }} {{ myCourses.length === 1 ? 'curs' : 'cursuri' }}</span>
+        <span class="block truncate text-sm font-semibold text-muted">{{ myCourses.map((c) => c.name).join(' · ') }}</span>
+      </span>
+      <span class="shrink-0 text-sm font-bold text-brand-600">Ale mele ›</span>
+    </RouterLink>
 
     <!-- Colocviu -->
     <section class="card p-3">
@@ -171,7 +185,7 @@ const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
 
     <!-- Flashcards -->
     <section v-else-if="tab === 'flashcards'" class="space-y-3">
-      <SourcePicker v-if="cardSources.length > 1" v-model="pickedCardSources" :sources="cardSources" accent="brand" />
+      <SourcePicker v-if="cardSources.length > 1" v-model="pickedCardSources" :sources="cardSources" accent="brand" :fresh="prefs.cardSources?.[route.params.id] === undefined" />
       <div class="card p-5">
         <div class="grid grid-cols-3 text-center">
           <div><p class="text-2xl font-black">{{ stats.total }}</p><p class="text-xs font-bold text-muted">total</p></div>
@@ -268,7 +282,7 @@ const levelOf = (skillId) => store.skillStatus[skillId] ?? 0
 
     <!-- Grile -->
     <section v-else class="space-y-3">
-      <SourcePicker v-if="questionSources.length > 1" v-model="pickedQuestionSources" :sources="questionSources" />
+      <SourcePicker v-if="questionSources.length > 1" v-model="pickedQuestionSources" :sources="questionSources" :fresh="prefs.sources?.[route.params.id] === undefined" />
       <div class="card p-6 text-center">
         <p class="text-5xl">✅</p>
         <p class="mt-2 text-xl font-black">{{ questionCount }} grile disponibile</p>

@@ -1,8 +1,13 @@
 <script setup>
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+// „Ale mele” rămâne aprins și pe paginile de încărcare și adăugare
+const alsoActive = (item) => item.also?.some((p) => route.path.startsWith(p))
 const items = [
   { to: '/', label: 'Acasă', icon: '🏠', exact: true, tour: 'nav-acasa' },
   { to: '/materii', label: 'Materii', icon: '📚', tour: 'nav-materii' },
-  { to: '/adauga', label: 'Adaugă', icon: '➕', tour: 'nav-adauga' },
+  { to: '/cursuri', label: 'Ale mele', icon: '📂', tour: 'nav-adauga', also: ['/import-ai', '/import', '/adauga'] },
   { to: '/tinta', label: 'Țintă', icon: '🎯', tour: 'nav-tinta' },
   { to: '/profil', label: 'Profil', icon: '👤', tour: 'nav-profil' },
 ]
@@ -15,6 +20,7 @@ const items = [
         <RouterLink
           :to="item.to"
           class="flex flex-col items-center gap-0.5 rounded-2xl py-1.5 text-[11px] font-extrabold text-muted transition-colors"
+          :class="alsoActive(item) && 'nav-active'"
           :active-class="item.exact ? '' : 'nav-active'"
           :exact-active-class="item.exact ? 'nav-active' : ''"
         >

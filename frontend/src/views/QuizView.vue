@@ -30,7 +30,8 @@ const sources = computed(() => store.sourcesFor(subject.id, 'questions'))
 const prefs = store.quizPrefs
 if (cursId) prefs.sources = { ...prefs.sources, [subject.id]: ['c:' + cursId] }
 const pickedSources = computed({
-  get: () => prefs.sources?.[subject.id] ?? null,
+  // implicit, în materie lucrezi pe materia din aplicație; cursurile tale le alegi aici sau din „Ale mele”
+  get: () => prefs.sources?.[subject.id] ?? (sources.value.some((s) => s.key === 'steto') && sources.value.length > 1 ? ['steto'] : null),
   set: (v) => (prefs.sources = { ...prefs.sources, [subject.id]: v }),
 })
 const activeSources = computed(() => {
@@ -276,7 +277,7 @@ const ago = (t) => {
       <section class="card mt-4 space-y-4 p-5">
         <div v-if="sources.length > 1">
           <p class="label">Din ce document</p>
-          <SourcePicker v-model="pickedSources" :sources="sources" />
+          <SourcePicker v-model="pickedSources" :sources="sources" :fresh="prefs.sources?.[subject.id] === undefined" />
         </div>
 
         <div>

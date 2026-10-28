@@ -681,7 +681,8 @@ function again() {
       </label>
 
       <div class="grid gap-2">
-        <button class="btn btn-primary w-full" :disabled="!keptQ.length && !keptC.length && !summaryOn" @click="save">Salvează {{ keptQ.length + keptC.length + (summaryOn ? 1 : 0) }} în {{ subjectName }}</button>
+        <button class="btn btn-primary w-full" :disabled="!keptQ.length && !keptC.length && !summaryOn" @click="save">Salvează {{ keptQ.length + keptC.length + (summaryOn ? 1 : 0) }} în {{ course ? `„${course.name}”` : subjectName }}</button>
+        <p v-if="course" class="text-center text-xs font-semibold text-muted">Le găsești în 📂 Ale mele, la cursul tău, separat de materia din aplicație.</p>
         <button class="btn btn-white w-full" @click="phase = 'edit'">Înapoi</button>
       </div>
     </template>
