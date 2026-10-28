@@ -8,6 +8,8 @@ import { PROMPT_VERSION, buildPrompt, detectGrile, grileInChunk, isBoilerplatePa
 import { deleteCourse, listCourses, newCourseId, putCourse, putImage } from '../lib/courses'
 import { buildImageItems, findImageSlides } from '../lib/imageSlides'
 import { shuffle } from '../lib/quiz'
+import { marked } from 'marked'
+import DOMPurify from 'dompurify'
 import { extractSlides } from '../lib/slides'
 import { MAX_MB, sizeError } from '../lib/limits'
 import { slideText, slidesToText } from '../lib/slidesText'
@@ -24,7 +26,9 @@ const subjectName = computed(() => subject.value?.name ?? 'Medicină')
 
 const text = ref('')
 const part = ref(0)
-const parts = computed(() => splitText(text.value))
+// Paginile de început de carte (autori, editură, cuprins) nu ajung la AI, nici la cursurile salvate înainte de filtru.
+const contentText = computed(() => text.value.split(/\n{2,}/).filter((p) => !isBoilerplatePage(p)).join('\n\n'))
+const parts = computed(() => splitText(contentText.value))
 const prompt = computed(() => (parts.value.length ? buildPrompt({ subjectName: subjectName.value, text: parts.value[part.value] ?? parts.value[0] }) : ''))
 const copied = ref(false)
 const reading = ref(false)
@@ -41,7 +45,7 @@ let wakeLock = null
 
 // Pentru AI folosim bucăți mai mari decât pentru chatbot (AI-ul primește mult text deodată).
 const AI_CHUNK = 12000
-const aiChunks = computed(() => splitText(text.value, AI_CHUNK))
+const aiChunks = computed(() => splitText(contentText.value, AI_CHUNK))
 
 // --- Cursurile tale (păstrate în telefon) ---
 const courses = ref([])
@@ -279,7 +283,8 @@ const estimate = computed(() => {
     return { q: t.q + p.q, c: t.c + p.c, ready: t.ready + p.ready }
   }, { q: 0, c: 0, ready: 0 })
 })
-const generateWithAi = () => generateChunks([parts.value[part.value] ?? parts.value[0]], perFor)
+// încercarea rapidă: prima parte cu materie din curs (aceeași împărțire ca la tot cursul)
+const generateWithAi = () => (aiChunks.value.length ? generateChunks([aiChunks.value[0]], perFor, [0]) : generateChunks([parts.value[0]], perFor))
 const allIdx = () => aiChunks.value.map((_, i) => i)
 const generateAll = () => generateChunks(aiChunks.value, perFor, allIdx(), course.value?.gen ? 'replace' : '')
 // „Încă un set”: cursul are deja grile generate cu regulile de acum
@@ -426,6 +431,7 @@ const keptC = computed(() => result.value?.cards.filter((c) => c.keep) ?? [])
 const qShown = ref(60)
 const cShown = ref(60)
 const keepSummary = ref(true)
+const summaryHtml = computed(() => DOMPurify.sanitize(marked.parse(result.value?.summary ?? '')))
 const summaryTitle = ref('')
 const summaryOn = computed(() => !!result.value?.summary && keepSummary.value)
 
@@ -542,7 +548,7 @@ function again() {
           <button class="shrink-0 text-sm font-bold text-brand-600" @click="text = ''; course = null">Șterge</button>
         </div>
         <textarea v-else v-model="text" rows="6" class="input" placeholder="…sau lipește aici textul din curs" @input="onTextInput"></textarea>
-        <p v-if="parts.length > 1" class="text-sm font-semibold text-muted">
+        <p v-if="parts.length > 1 && !store.aiCode" class="text-sm font-semibold text-muted">
           Textul e lung, așa că îl împărțim în {{ parts.length }} părți ca să încapă într-un chatbot gratuit.
         </p>
       </section>
@@ -587,7 +593,7 @@ function again() {
         <button v-else class="btn w-full" :class="(missingParts.length && missingParts.length < aiChunks.length) || canExtra ? 'btn-white' : 'btn-primary'" :disabled="generating" @click="aiChunks.length > 1 || course ? generateAll() : generateWithAi()">
           {{ generating ? '⏳ Generez… (până la un minut)' : course?.gen ? `🔁 Generează din nou tot cursul (${aiChunks.length} ${aiChunks.length === 1 ? 'parte' : 'părți'})` : aiChunks.length > 1 ? `✨ Generează din tot cursul (${aiChunks.length} părți)` : '✨ Generează grile și cartonașe' }}
         </button>
-        <button v-if="aiChunks.length > 1 && !generating" class="btn btn-white w-full text-sm" @click="generateWithAi">Doar partea {{ part + 1 }} (încercare rapidă)</button>
+        <button v-if="aiChunks.length > 1 && !generating" class="btn btn-white w-full text-sm" @click="generateWithAi">Doar prima parte (încercare rapidă)</button>
         <p v-if="aiChunks.length > 1" class="text-xs font-semibold text-muted">Tot cursul = {{ aiChunks.length }} apeluri, cam {{ Math.ceil(aiChunks.length / 3) }}–{{ Math.ceil(aiChunks.length / 3) * 2 }} minute. La final alegi ce păstrezi; grilele fără citat din text sunt omise.</p>
       </section>
       <p v-else-if="prompt" class="rounded-xl bg-gray-100 px-3 py-2 text-sm font-semibold text-muted">
@@ -630,7 +636,7 @@ function again() {
             <input v-model="keepSummary" type="checkbox" class="h-5 w-5 accent-brand-600" /> Salvează rezumatul în Materiale
           </label>
           <input v-model="summaryTitle" class="w-full rounded-xl border-2 border-gray-200 px-3 py-2 text-sm font-bold" :placeholder="`Rezumat AI – ${subjectName}`" />
-          <p class="max-h-48 overflow-y-auto whitespace-pre-line text-sm font-semibold text-muted">{{ result.summary }}</p>
+          <div class="prose-med max-h-64 overflow-y-auto text-sm" v-html="summaryHtml"></div>
         </div>
       </section>
 

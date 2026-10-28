@@ -30,16 +30,54 @@ export function splitText(text, size = CHUNK_CHARS) {
   return parts
 }
 
-// Pagini care nu conțin materie: note de drepturi de autor, titlu, cuprins. Le scoatem înainte de generare.
-const BOILERPLATE = /drepturile? de autor|material intern al|reproducere(a)? sau utilizare|copyright|toate drepturile rezervate|cuprins\b/i
+// Pagini care nu conțin materie: drepturi de autor, pagina de titlu, autori, editură, cuprins.
+// Le scoatem înainte de generare, altfel AI-ul face grile despre „cine a scris cartea”.
+const BOILERPLATE = /drepturile? de autor|material intern al|reproducere(a)? sau utilizare|copyright|toate drepturile rezervate|cuprins\b|isbn|descrierea cip|editura|tehnoredactare|coperta|referen[țt]i (științifici|stiintifici)|colectivul de autori|lista autorilor|sub redac[țt]ia|coordonator/i
+const PERSON_TITLE = /\b(prof\.?|conf\.?|[șs]ef de lucr[ăa]ri|asist\.?|lector|dr\.)\s/gi
+const TOC_LINE = /(\.{3,}|…{2,}|\s{2,})\s*\d{1,4}\s*$|\s\d{1,4}\s*$/
+
 export function isBoilerplatePage(pageText) {
   const t = pageText.trim()
-  return t.length < 1500 && BOILERPLATE.test(t)
+  if (!t) return false
+  const lines = t.split('\n').map((l) => l.trim()).filter(Boolean)
+  // cuprins: majoritatea rândurilor se termină cu un număr de pagină
+  const tocLines = lines.filter((l) => TOC_LINE.test(l) && l.length < 160).length
+  if (lines.length >= 5 && tocLines / lines.length >= 0.45) return true
+  // liste de autori: multe titluri „Prof. Univ. Dr.” pe o pagină cu puțin altceva
+  const people = (t.match(PERSON_TITLE) ?? []).length
+  if (people >= 4 && people / Math.max(lines.length, 1) >= 0.25 && t.length < 4000) return true
+  // pagini scurte cu editură, ISBN, drepturi de autor
+  return t.length < 2500 && BOILERPLATE.test(t)
 }
+
+// Grile și cartonașe despre carte, nu despre materie („cine e autorul capitolului…”, „la ce editură…”).
+const META_ITEM = /(^|[^a-zăâîșț])(autor(ul|ii|ilor)?|editur[aăi]|sub redac[țt]ia|coordonat|cuprins(ul)?|isbn|prefa[țt]|referen[țt]i|tehnoredact|tipograf|copyright|drepturi(le)? de autor|primul capitol|ultimul capitol|capitolul .{0,40}(se nume[șs]te|este intitulat))(?![a-zăâîșț])|în ce an a apărut|cine (a scris|este autorul|a redactat)/i
+export const isMetaItem = (text) => META_ITEM.test(text)
 
 // --- Cursuri care au deja grile (cu sau fără cheie de răspunsuri) ---
 // Variante de tipul „A. …”, „b) …” la început de rând.
 const OPTION_LINE = /^\s*(?:[-–•]\s*)?[A-Ea-e]\s*[.)]\s+\S/
+const OPTION_LETTER = /^\s*(?:[-–•]\s*)?([A-Ea-e])\s*[.)]\s+\S/
+
+// O grilă = cel puțin 4 variante la rând, în ordine (A, B, C, D…). Enumerările obișnuite („a) … b) …”) din text
+// au de obicei mai puține sau nu ajung la D, deci nu le confundăm cu grile.
+export function countGrile(text) {
+  let count = 0
+  let expect = 0
+  for (const l of text.split('\n')) {
+    const m = l.match(OPTION_LETTER)
+    if (!m) {
+      if (l.trim()) expect = 0
+      continue
+    }
+    const idx = 'abcde'.indexOf(m[1].toLowerCase())
+    if (idx === expect) {
+      expect++
+      if (expect === 4) count++
+    } else expect = idx === 0 ? 1 : 0
+  }
+  return count
+}
 // Enunț numerotat: „12. …” sau „12) …”
 const NUMBERED = /^\s*(?:[-–•]\s*)?(\d{1,3})\s*[.)]\s+\S/
 
@@ -58,7 +96,7 @@ export function detectGrile(text) {
     if (pairs.length && rest.length <= 12) for (const m of pairs) key[Number(m[1])] = m[2].replace(/[^A-E]/g, '').split('').join(', ')
   }
   const keyCount = Object.keys(key).length
-  return { hasGrile: optionLines >= 8, key: keyCount >= 5 ? key : {}, optionLines }
+  return { hasGrile: countGrile(text) >= 3, key: keyCount >= 5 ? key : {}, optionLines }
 }
 
 // Cheia pentru grilele care apar într-o bucată (numerele enunțurilor din ea), ca AI-ul să o aibă chiar dacă e la final de curs.
@@ -70,7 +108,7 @@ export function keyForChunk(chunk, key) {
 }
 
 // Câte grile gata făcute (cu variante) sunt într-o bucată, aproximativ.
-export const grileInChunk = (chunk) => Math.round(chunk.split('\n').filter((l) => OPTION_LINE.test(l)).length / 5)
+export const grileInChunk = (chunk) => countGrile(chunk)
 
 export function buildPrompt({ subjectName, text, questions = 8, cards = 8, summary = true, key = '', avoid = [] }) {
   const avoidList = avoid.length ? `\nAI FĂCUT DEJA aceste grile din același curs. NU le repeta și nu reformula aceeași idee; caută alte informații din text, încă neacoperite:\n${avoid.map((a) => `- ${a}`).join('\n')}\n` : ''
@@ -79,7 +117,7 @@ export function buildPrompt({ subjectName, text, questions = 8, cards = 8, summa
 Reguli:
 - Folosește DOAR informațiile din text. Nu adăuga nimic din cunoștințele tale și nu inventa.
 - Nu pune doze, valori numerice sau praguri decât dacă apar clar în text.
-- Ignoră părțile administrative din text (note despre drepturi de autor, pagina de titlu, autori, cuprins, bibliografie, mulțumiri) și nu face întrebări despre ele.
+- Ignoră părțile administrative din text (drepturi de autor, pagina de titlu, autori, editură, cuprins, prefață, bibliografie, mulțumiri). NU face grile, cartonașe sau rezumat despre carte (cine a scris-o, editura, ce capitole are); doar despre materia medicală. Dacă textul nu conține materie medicală, răspunde cu liste goale.
 - GRILE GATA FĂCUTE: dacă textul conține deja grile (enunț + variante A–E), preia-le pe TOATE, exact cum sunt scrise (enunț și variante neschimbate), cu „origin”: "curs". Răspunsul corect îl iei DOAR din text: din cheia de răspunsuri, din „răspuns corect: …” sau din variantele marcate. Nu schimba, nu completa și nu „corecta” nimic. Dacă pentru o grilă nu există răspunsul în text, nu o include. Grilele preluate nu intră în numărul cerut mai jos.
 - Grilele noi, făcute de tine, au „origin”: "nou".
 - Răspunsurile corecte trebuie să rezulte direct din text. Nu marca drept corectă o variantă care nu e susținută de text, chiar dacă ți se pare adevărată.
@@ -212,6 +250,7 @@ export function parseAiResponse(raw, sourceText = '') {
     if (new Set(options).size !== n) return skipped.push(`Grila ${i + 1}: variante identice`)
     if (!answer.length || answer.length >= n || answer.some((a) => !Number.isInteger(a) || a < 0 || a >= n))
       return skipped.push(`Grila ${i + 1}: răspunsuri corecte invalide`)
+    if (isMetaItem(text)) return skipped.push(`Grila ${i + 1}: despre carte, nu despre materie`)
     if (flatSource && !quoteInText(str(q.evidence), flatSource)) return skipped.push(`Grila ${i + 1}: răspunsul nu e susținut de un citat din text`)
     questions.push({ text, options, answer: answer.sort(), type: answer.length > 1 ? 'multi' : 'single', explanation: str(q.explanation), fromSource, keep: true })
   })
@@ -220,6 +259,7 @@ export function parseAiResponse(raw, sourceText = '') {
     const front = str(c?.front)
     const back = str(c?.back)
     if (!front || !back) return skipped.push(`Cartonașul ${i + 1}: gol`)
+    if (isMetaItem(front)) return skipped.push(`Cartonașul ${i + 1}: despre carte, nu despre materie`)
     cards.push({ front, back, keep: true })
   })
   if (!questions.length && !cards.length) throw new Error(skipped[0] ?? 'Răspunsul nu conține grile sau cartonașe.')
